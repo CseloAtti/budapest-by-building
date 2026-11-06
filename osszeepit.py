@@ -138,6 +138,8 @@ def main():
                     f_, v, _ = valasztott
                     pr[m] = v
                     stat[m][f_] += 1
+                    if m == "tervezo":
+                        pr["tervezo_forras"] = f_
                     if m == "ev":
                         pr["ev_forras"] = osm_ev_forras if f_ == "osm" else f_
                     elif m == "szintek":
@@ -146,6 +148,8 @@ def main():
                     # szintek: az OSM-értéket külön is megőrizzük
                 else:
                     pr.pop(m, None)
+                    if m == "tervezo":
+                        pr.pop("tervezo_forras", None)
                     if m == "ev":
                         pr["ev_forras"] = None
             osm_szint = next((v for f_, v, _ in jel["szintek"] if f_ == "osm"), None)

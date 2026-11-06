@@ -30,6 +30,9 @@
     <label><input type="checkbox" id="kiemel">
       Lechner-épületek kiemelése<br>
       <small>a többi épület halványabb lesz</small></label>
+    <label><input type="checkbox" id="vedett">
+      Védett épületek kiemelése<br>
+      <small>műemlék, helyi védelem; a többi épület szürke lesz</small></label>
     <label><input type="checkbox" id="kozeli">
       Közeli találatok magentával<br>
       <small>a Lechner-pont nem esett az épületbe, ellenőrizendő</small></label>
@@ -71,7 +74,7 @@
             type: "raster",
             tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
             tileSize: 256,
-            attribution: "© OpenStreetMap közreműködők | Építési adatok: OpenStreetMap, Lechner Tudásközpont (Köztünk élő építészet)"
+            attribution: "© OpenStreetMap közreműködők | Épületadatok: OpenStreetMap, EUBUCCO, Wikidata, Lechner Tudásközpont, műemlékjegyzék, Főv. Kgy. 54/1993. rendelet, Belváros-Lipótváros településképi kézikönyve"
           }
         },
         layers: [{ id: "alap", type: "raster", source: "osm" }]
@@ -112,18 +115,24 @@
     });
 
     // --- kapcsolók ---
+    const VEDETT = ["any", ["has", "vedettseg"], ["has", "vedettseg_helyi"]];
+    const NEM_VEDETT_SZIN = "#d0d0d0";
+
     function frissitStilus() {
       const kiemel = document.getElementById("kiemel").checked;
       const kozeliJelol = document.getElementById("kozeli").checked;
+      const vedettKiemel = document.getElementById("vedett").checked;
       terkep.setPaintProperty("epuletek-alap", "fill-extrusion-opacity", kiemel ? 0.3 : 0.9);
-      terkep.setPaintProperty("epuletek-kozeli", "fill-extrusion-color",
-        kozeliJelol ? KOZELI_SZIN : EV_SZINEK);
+      RETEGEK.forEach((id) => {
+        const alap = (id === "epuletek-kozeli" && kozeliJelol) ? KOZELI_SZIN : EV_SZINEK;
+        terkep.setPaintProperty(id, "fill-extrusion-color",
+          vedettKiemel ? ["case", VEDETT, alap, NEM_VEDETT_SZIN] : alap);
+      });
     }
-    document.getElementById("kiemel").addEventListener("change", () => {
-      if (terkep.getLayer("epuletek-alap")) frissitStilus();
-    });
-    document.getElementById("kozeli").addEventListener("change", () => {
-      if (terkep.getLayer("epuletek-alap")) frissitStilus();
+    ["kiemel", "kozeli", "vedett"].forEach((id) => {
+      document.getElementById(id).addEventListener("change", () => {
+        if (terkep.getLayer("epuletek-alap")) frissitStilus();
+      });
     });
 
     // --- popup ---
@@ -133,11 +142,59 @@
       return div.innerHTML;
     }
 
+    const FORRAS_NEVEK = {
+      kezi: "kézi javítás",
+      osm: "OpenStreetMap",
+      lechner: "Lechner Tudásközpont",
+      lechner_kozeli: "Lechner Tudásközpont, közeli találat (ellenőrizendő)",
+      muemlek: "műemlékjegyzék",
+      helyi_vedelem: "fővárosi helyi védelmi lista (2001)",
+      wikidata: "Wikidata",
+      wikidata_kozeli: "Wikidata, közeli találat (ellenőrizendő)",
+      eubucco: "EUBUCCO",
+      szintterkep: "kerületi szintszám-térkép"
+    };
+    const VEDETTSEG_NEVEK = {
+      M: "műemlék", MJ: "műemlék jellegű", VK: "városképi jelentőségű",
+      MK: "műemléki környezet", MJT: "műemléki jelentőségű terület"
+    };
+
     function evForras(p) {
       if (!p.ev) return "";
-      if (p.ev_forras === "lechner") return "Lechner Tudásközpont";
-      if (p.ev_forras === "lechner_kozeli") return "Lechner Tudásközpont, közeli találat (ellenőrizendő)";
-      return "OpenStreetMap" + (p.ev_forras ? " (" + p.ev_forras + ")" : "");
+      if (p.ev_forras === "osm" || !FORRAS_NEVEK[p.ev_forras]) {
+        return "OpenStreetMap" + (p.ev_forras && p.ev_forras !== "osm" ? " (" + p.ev_forras + ")" : "");
+      }
+      return FORRAS_NEVEK[p.ev_forras];
+    }
+
+    function magassagSor(p) {
+      const m = Math.round(p.magassag) + " m";
+      switch (p.magassag_forras) {
+        case "height": return `Magasság: ${m} <small>(OpenStreetMap, megadott érték)</small><br>`;
+        case "eubucco_becsles": {
+          const sav = (p.eubucco_magassag_min != null && p.eubucco_magassag_max != null)
+            ? `, becslési sáv ${Math.round(p.eubucco_magassag_min)}–${Math.round(p.eubucco_magassag_max)} m` : "";
+          return `Magasság: ${m} <small>(EUBUCCO, gépi tanulással becsült${sav})</small><br>`;
+        }
+        case "eubucco_forras": return `Magasság: ${m} <small>(EUBUCCO, forrásadatból)</small><br>`;
+        case "szintszam": return `Magasság: ${m} <small>(szintszámból számolt, 3 m/szint)</small><br>`;
+        case "szintterkep": return `Magasság: ${m} <small>(szintszám-térképből számolt, 3 m/szint)</small><br>`;
+        default: return `Magasság: ${m} <small>(alapértelmezett, nincs adat)</small><br>`;
+      }
+    }
+
+    function szintSor(p) {
+      if (!p.szintek) return "";
+      let sor = `Szintszám: ${biztonsagos(p.szintek)} <small>(${biztonsagos(FORRAS_NEVEK[p.szintek_forras] || p.szintek_forras || "")})</small>`;
+      if (p.szint_eltero && p.szintek_osm) sor += ` <small>OSM: ${biztonsagos(p.szintek_osm)}</small>`;
+      return sor + "<br>";
+    }
+
+    function vedettsegSor(p) {
+      const reszek = [];
+      if (p.vedettseg) reszek.push(VEDETTSEG_NEVEK[p.vedettseg] || p.vedettseg);
+      if (p.vedettseg_helyi) reszek.push(p.vedettseg_helyi);
+      return reszek.length ? `Védettség: ${biztonsagos(reszek.join(", "))}<br>` : "";
     }
 
     function popupHtml(p) {
@@ -146,8 +203,19 @@
       html += `Építési év: ${p.ev ? biztonsagos(p.ev) : "ismeretlen"}`;
       if (p.ev) html += ` <small>(${biztonsagos(evForras(p))})</small>`;
       html += "<br>";
-      html += `Magasság: ${Math.round(p.magassag)} m (${biztonsagos(p.magassag_forras)})<br>`;
+      if (p.tervezo) {
+        html += `Tervező: ${biztonsagos(p.tervezo)}`;
+        if (p.tervezo_forras) html += ` <small>(${biztonsagos(FORRAS_NEVEK[p.tervezo_forras] || p.tervezo_forras)})</small>`;
+        html += "<br>";
+      }
+      if (p.stilus) html += `Stílus: ${biztonsagos(p.stilus)}<br>`;
+      html += vedettsegSor(p);
+      html += szintSor(p);
+      html += magassagSor(p);
       html += `OSM-azonosító: ${biztonsagos((p.osm_tipus || "way") + " " + p.id)}`;
+      if (/^Q\d+$/.test(p.wikidata_id || "")) {
+        html += `<br><a href="https://www.wikidata.org/wiki/${p.wikidata_id}" target="_blank" rel="noopener">Wikidata: ${p.wikidata_id}</a>`;
+      }
       if (p.lechner_nev) {
         html += `<hr style="margin:6px 0">`;
         html += `<em>Lechner Tudásközpont</em><br>`;
