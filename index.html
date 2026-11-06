@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <title>Budapest, épületenként</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <style>
+    html, body, #terkep { margin: 0; height: 100%; font-family: sans-serif; }
+    #jelmagyarazat {
+      position: absolute; left: 10px; bottom: 30px;
+      background: white; padding: 10px 14px; border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); font-size: 13px;
+    }
+    #jelmagyarazat div { margin: 3px 0; }
+    #jelmagyarazat span {
+      display: inline-block; width: 14px; height: 14px;
+      margin-right: 6px; vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div id="terkep"></div>
+  <div id="jelmagyarazat">
+    <strong>Építési év</strong>
+    <div><span style="background:#7a1f1f"></span>1850 előtt</div>
+    <div><span style="background:#d9653b"></span>1850–1899</div>
+    <div><span style="background:#e8b04a"></span>1900–1944</div>
+    <div><span style="background:#6aa84f"></span>1945–1989</div>
+    <div><span style="background:#3d85c6"></span>1990 után</div>
+    <div><span style="background:#9aa0a6"></span>ismeretlen</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script>
+    const terkep = new maplibregl.Map({
+      container: "terkep",
+      style: {
+        version: 8,
+        sources: {
+          osm: {
+            type: "raster",
+            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            tileSize: 256,
+            attribution: "© OpenStreetMap közreműködők"
+          }
+        },
+        layers: [{ id: "alap", type: "raster", source: "osm" }]
+      },
+      center: [19.051, 47.5015],
+      zoom: 16,
+      pitch: 55,
+      bearing: -20
+    });
+    terkep.addControl(new maplibregl.NavigationControl());
+
+    terkep.on("load", () => {
+      terkep.addSource("epuletek", {
+        type: "geojson",
+        data: "data/belvaros_epuletek.geojson"
+      });
+
+      terkep.addLayer({
+        id: "epuletek-3d",
+        type: "fill-extrusion",
+        source: "epuletek",
+        paint: {
+          "fill-extrusion-height": ["get", "magassag"],
+          "fill-extrusion-opacity": 0.9,
+          "fill-extrusion-color": [
+            "step", ["to-number", ["get", "ev"], 0],
+            "#9aa0a6",
+            1, "#7a1f1f",
+            1850, "#d9653b",
+            1900, "#e8b04a",
+            1945, "#6aa84f",
+            1990, "#3d85c6"
+          ]
+        }
+      });
+    });
+
+    function biztonsagos(szoveg) {
+      const div = document.createElement("div");
+      div.textContent = szoveg;
+      return div.innerHTML;
+    }
+
+    terkep.on("click", "epuletek-3d", (e) => {
+      const p = e.features[0].properties;
+      const html = `
+        <strong>${biztonsagos(p.nev || "névtelen épület")}</strong><br>
+        Típus: ${biztonsagos(p.tipus || "?")}<br>
+        Építési év: ${p.ev ? p.ev : "ismeretlen"}<br>
+        Magasság: ${Math.round(p.magassag)} m (${biztonsagos(p.magassag_forras)})<br>
+        OSM-azonosító: ${p.id}`;
+      new maplibregl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(terkep);
+    });
+
+    terkep.on("mouseenter", "epuletek-3d", () => {
+      terkep.getCanvas().style.cursor = "pointer";
+    });
+    terkep.on("mouseleave", "epuletek-3d", () => {
+      terkep.getCanvas().style.cursor = "";
+    });
+  </script>
+</body>
+</html>
