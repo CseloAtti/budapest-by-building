@@ -1,6 +1,10 @@
 """Közös segédfüggvények a tény-tábla rendszerhez (ezt a fájlt nem kell futtatni)."""
 import csv
+import json
 import math
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 FEJLEC = ["osm_tipus", "id", "mezo", "ertek", "forras", "megjegyzes", "lat", "lon"]
@@ -98,3 +102,40 @@ def legkozelebbi_csucs_m(x, y, gyuru):
     kx = 111320 * math.cos(math.radians(y))
     ky = 110540
     return min(math.hypot((px - x) * kx, (py - y) * ky) for px, py in gyuru)
+
+
+def kliens_nev():
+    """A kéréseknél megadott kliensnév. Ha van data/kapcsolat.txt (csak a te gépeden, a git nem
+    viszi fel), annak tartalmát hozzáfűzi: a Wikimedia így nem kezeli névtelen robotként."""
+    nev = "budapest-by-building/1.0 (tanulasi projekt)"
+    ut = Path("data/kapcsolat.txt")
+    if ut.exists():
+        extra = ut.read_text(encoding="utf-8").strip()
+        if extra:
+            nev += " " + extra
+    return nev
+
+
+def http_json(url, fejlec=None, probak=6, alap_varakozas=60, timeout=120):
+    """JSON lekérése; 429/5xx hibánál vár (a szerver kérése szerint), majd újra próbálkozik."""
+    fejlec = dict(fejlec or {})
+    fejlec.setdefault("User-Agent", kliens_nev())
+    for p in range(1, probak + 1):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=fejlec), timeout=timeout) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as hiba:
+            if hiba.code not in (429, 500, 502, 503, 504) or p == probak:
+                raise
+            v = alap_varakozas
+            try:
+                v = max(v, int(hiba.headers.get("Retry-After", 0)) + 5)
+            except (TypeError, ValueError, AttributeError):
+                pass
+            print(f"  A szerver most lassít ({hiba.code}), {p}/{probak}. próba. Várok {v} másodpercet...")
+            time.sleep(v)
+        except urllib.error.URLError as hiba:
+            if p == probak:
+                raise
+            print(f"  Hálózati hiba ({hiba.reason}), {p}/{probak}. próba. Várok 30 másodpercet...")
+            time.sleep(30)
