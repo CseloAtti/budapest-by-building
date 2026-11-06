@@ -7,21 +7,35 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
   <style>
     html, body, #terkep { margin: 0; height: 100%; font-family: sans-serif; }
-    #jelmagyarazat {
-      position: absolute; left: 10px; bottom: 30px;
-      background: white; padding: 10px 14px; border-radius: 6px;
+    .panel {
+      position: absolute; background: white; padding: 10px 14px; border-radius: 6px;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); font-size: 13px;
     }
+    #jelmagyarazat { left: 10px; bottom: 30px; }
     #jelmagyarazat div { margin: 3px 0; }
     #jelmagyarazat span {
       display: inline-block; width: 14px; height: 14px;
       margin-right: 6px; vertical-align: middle;
     }
+    #kapcsolok { left: 10px; top: 10px; max-width: 260px; }
+    #kapcsolok label { display: block; margin: 4px 0; cursor: pointer; }
+    #kapcsolok small { color: #555; }
   </style>
 </head>
 <body>
   <div id="terkep"></div>
-  <div id="jelmagyarazat">
+
+  <div id="kapcsolok" class="panel">
+    <strong>Rétegek</strong>
+    <label><input type="checkbox" id="kiemel">
+      Lechner-épületek kiemelése<br>
+      <small>a többi épület halványabb lesz</small></label>
+    <label><input type="checkbox" id="kozeli">
+      Közeli találatok magentával<br>
+      <small>a Lechner-pont nem esett az épületbe, ellenőrizendő</small></label>
+  </div>
+
+  <div id="jelmagyarazat" class="panel">
     <strong>Építési év</strong>
     <div><span style="background:#7a1f1f"></span>1850 előtt</div>
     <div><span style="background:#d9653b"></span>1850–1899</div>
@@ -29,10 +43,25 @@
     <div><span style="background:#6aa84f"></span>1945–1989</div>
     <div><span style="background:#3d85c6"></span>1990 után</div>
     <div><span style="background:#9aa0a6"></span>ismeretlen</div>
+    <div><span style="background:#d4189c"></span>Lechner, közeli találat</div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script>
+    const ADATFAJL = "data/belvaros_epuletek_lechner.geojson";
+
+    const EV_SZINEK = [
+      "step", ["to-number", ["get", "ev"], 0],
+      "#9aa0a6",
+      1, "#7a1f1f",
+      1850, "#d9653b",
+      1900, "#e8b04a",
+      1945, "#6aa84f",
+      1990, "#3d85c6"
+    ];
+    const KOZELI_SZIN = "#d4189c";
+    const RETEGEK = ["epuletek-alap", "epuletek-lechner", "epuletek-kozeli"];
+
     const terkep = new maplibregl.Map({
       container: "terkep",
       style: {
@@ -42,7 +71,7 @@
             type: "raster",
             tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
             tileSize: 256,
-            attribution: "© OpenStreetMap közreműködők"
+            attribution: "© OpenStreetMap közreműködők | Építési adatok: OpenStreetMap, Lechner Tudásközpont (Köztünk élő építészet)"
           }
         },
         layers: [{ id: "alap", type: "raster", source: "osm" }]
@@ -54,54 +83,96 @@
     });
     terkep.addControl(new maplibregl.NavigationControl());
 
-    terkep.on("load", () => {
-      terkep.addSource("epuletek", {
-        type: "geojson",
-        data: "data/belvaros_epuletek.geojson"
-      });
-
+    function reteg(id, szuro, opacity) {
       terkep.addLayer({
-        id: "epuletek-3d",
+        id: id,
         type: "fill-extrusion",
         source: "epuletek",
+        filter: szuro,
         paint: {
           "fill-extrusion-height": ["get", "magassag"],
-          "fill-extrusion-opacity": 0.9,
-          "fill-extrusion-color": [
-            "step", ["to-number", ["get", "ev"], 0],
-            "#9aa0a6",
-            1, "#7a1f1f",
-            1850, "#d9653b",
-            1900, "#e8b04a",
-            1945, "#6aa84f",
-            1990, "#3d85c6"
-          ]
+          "fill-extrusion-opacity": opacity,
+          "fill-extrusion-color": EV_SZINEK
         }
       });
+    }
+
+    terkep.on("load", () => {
+      terkep.addSource("epuletek", { type: "geojson", data: ADATFAJL });
+
+      const lechnerVan = ["has", "lechner_nev"];
+      const kozeli = ["==", ["get", "lechner_illesztes"], "kozeli"];
+
+      // 1) minden épület, amelyhez nincs Lechner-adat
+      reteg("epuletek-alap", ["!", lechnerVan], 0.9);
+      // 2) Lechner-épületek, amelyeknek a pontja az épületbe esik
+      reteg("epuletek-lechner", ["all", lechnerVan, ["!", kozeli]], 1);
+      // 3) Lechner-épületek, amelyeket csak közelség alapján párosítottunk
+      reteg("epuletek-kozeli", ["all", lechnerVan, kozeli], 1);
     });
 
+    // --- kapcsolók ---
+    function frissitStilus() {
+      const kiemel = document.getElementById("kiemel").checked;
+      const kozeliJelol = document.getElementById("kozeli").checked;
+      terkep.setPaintProperty("epuletek-alap", "fill-extrusion-opacity", kiemel ? 0.3 : 0.9);
+      terkep.setPaintProperty("epuletek-kozeli", "fill-extrusion-color",
+        kozeliJelol ? KOZELI_SZIN : EV_SZINEK);
+    }
+    document.getElementById("kiemel").addEventListener("change", () => {
+      if (terkep.getLayer("epuletek-alap")) frissitStilus();
+    });
+    document.getElementById("kozeli").addEventListener("change", () => {
+      if (terkep.getLayer("epuletek-alap")) frissitStilus();
+    });
+
+    // --- popup ---
     function biztonsagos(szoveg) {
       const div = document.createElement("div");
-      div.textContent = szoveg;
+      div.textContent = String(szoveg);
       return div.innerHTML;
     }
 
-    terkep.on("click", "epuletek-3d", (e) => {
-      const p = e.features[0].properties;
-      const html = `
-        <strong>${biztonsagos(p.nev || "névtelen épület")}</strong><br>
-        Típus: ${biztonsagos(p.tipus || "?")}<br>
-        Építési év: ${p.ev ? p.ev : "ismeretlen"}<br>
-        Magasság: ${Math.round(p.magassag)} m (${biztonsagos(p.magassag_forras)})<br>
-        OSM-azonosító: ${p.id}`;
-      new maplibregl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(terkep);
+    function evForras(p) {
+      if (!p.ev) return "";
+      if (p.ev_forras === "lechner") return "Lechner Tudásközpont";
+      if (p.ev_forras === "lechner_kozeli") return "Lechner Tudásközpont, közeli találat (ellenőrizendő)";
+      return "OpenStreetMap" + (p.ev_forras ? " (" + p.ev_forras + ")" : "");
+    }
+
+    function popupHtml(p) {
+      let html = `<strong>${biztonsagos(p.nev || p.lechner_nev || "névtelen épület")}</strong><br>`;
+      html += `Típus: ${biztonsagos(p.tipus || "?")}<br>`;
+      html += `Építési év: ${p.ev ? biztonsagos(p.ev) : "ismeretlen"}`;
+      if (p.ev) html += ` <small>(${biztonsagos(evForras(p))})</small>`;
+      html += "<br>";
+      html += `Magasság: ${Math.round(p.magassag)} m (${biztonsagos(p.magassag_forras)})<br>`;
+      html += `OSM-azonosító: ${biztonsagos((p.osm_tipus || "way") + " " + p.id)}`;
+      if (p.lechner_nev) {
+        html += `<hr style="margin:6px 0">`;
+        html += `<em>Lechner Tudásközpont</em><br>`;
+        html += `Megnevezés: ${biztonsagos(p.lechner_nev)}<br>`;
+        if (p.lechner_epult) html += `Épült: ${biztonsagos(p.lechner_epult)}<br>`;
+        if (p.lechner_tervezo) html += `Tervező: ${biztonsagos(p.lechner_tervezo)}<br>`;
+        if (p.lechner_illesztes === "kozeli") {
+          html += `<small>A pont nem esik az épületbe, csak a közelébe, a párosítás bizonytalan.</small>`;
+        }
+      }
+      return html;
+    }
+
+    terkep.on("click", (e) => {
+      const talalatok = terkep.queryRenderedFeatures(e.point, { layers: RETEGEK });
+      if (!talalatok.length) return;
+      new maplibregl.Popup({ maxWidth: "320px" })
+        .setLngLat(e.lngLat)
+        .setHTML(popupHtml(talalatok[0].properties))
+        .addTo(terkep);
     });
 
-    terkep.on("mouseenter", "epuletek-3d", () => {
-      terkep.getCanvas().style.cursor = "pointer";
-    });
-    terkep.on("mouseleave", "epuletek-3d", () => {
-      terkep.getCanvas().style.cursor = "";
+    terkep.on("mousemove", (e) => {
+      const van = terkep.queryRenderedFeatures(e.point, { layers: RETEGEK }).length > 0;
+      terkep.getCanvas().style.cursor = van ? "pointer" : "";
     });
   </script>
 </body>

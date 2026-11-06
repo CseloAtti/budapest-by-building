@@ -4,21 +4,24 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections import Counter
 from pathlib import Path
 
+# Sorrend: a most túlterhelt overpass-api.de a végére került
 OVERPASS_URLS = [
-    "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
     "https://overpass.private.coffee/api/interpreter",
+    "https://overpass-api.de/api/interpreter",
 ]
 
 BBOX = "47.490,19.040,47.513,19.062"
 
-# Most "out tags geom": a körvonal koordinátáit is kérjük
 query = f"""
-[out:json][timeout:60];
+[out:json][timeout:180];
 way["building"]({BBOX});
 out tags geom;
+relation["building"]({BBOX});
+out body geom;
 """
 
 data = urllib.parse.urlencode({"data": query}).encode("utf-8")
@@ -34,10 +37,17 @@ def letolt():
                 headers={"User-Agent": "budapest-by-building-tanulas/0.1"},
             )
             try:
-                with urllib.request.urlopen(request, timeout=90) as response:
-                    return json.load(response)
+                with urllib.request.urlopen(request, timeout=200) as response:
+                    eredmeny = json.load(response)
             except (urllib.error.URLError, TimeoutError) as hiba:
                 print(f"  Nem sikerült: {hiba}")
+                continue
+            if eredmeny.get("remark"):
+                print("  A szerver figyelmeztet:", eredmeny["remark"])
+                continue
+            tipusok = Counter(e["type"] for e in eredmeny["elements"])
+            print("  Letöltött elemek:", dict(tipusok))
+            return eredmeny
         print("Minden szerver hibázott, 20 másodperc várakozás...")
         time.sleep(20)
     raise SystemExit("Nem sikerült letölteni. Próbáld meg később.")
@@ -78,24 +88,61 @@ def magassag(tags):
     return 15.0, "alapertelmezett"
 
 
-print("Letöltés folyamatban...")
-elemek = letolt()["elements"]
+def gyurukke_fuz(szakaszok):
+    """Szétdarabolt körvonal-szakaszokat fűz össze zárt gyűrűkké."""
+    szakaszok = [list(s) for s in szakaszok if len(s) >= 2]
+    gyuruk = []
+    while szakaszok:
+        gyuru = szakaszok.pop(0)
+        while gyuru[0] != gyuru[-1]:
+            for i, s in enumerate(szakaszok):
+                if s[0] == gyuru[-1]:
+                    gyuru.extend(s[1:])
+                elif s[-1] == gyuru[-1]:
+                    gyuru.extend(reversed(s[:-1]))
+                elif s[-1] == gyuru[0]:
+                    gyuru = s[:-1] + gyuru
+                elif s[0] == gyuru[0]:
+                    gyuru = list(reversed(s[1:])) + gyuru
+                else:
+                    continue
+                szakaszok.pop(i)
+                break
+            else:
+                break  # ez a gyűrű nem zárható be
+        if gyuru[0] == gyuru[-1] and len(gyuru) >= 4:
+            gyuruk.append(gyuru)
+    return gyuruk
 
-features = []
-for e in elemek:
-    pontok = e.get("geometry")
-    if not pontok or len(pontok) < 3:
-        continue
-    gyuru = [[p["lon"], p["lat"]] for p in pontok]
-    if gyuru[0] != gyuru[-1]:
-        gyuru.append(gyuru[0])
-    tags = e["tags"]
+
+def kozeppont(gyuru):
+    """A gyűrű pontjainak átlaga (közelítő középpont)."""
+    return [
+        sum(p[0] for p in gyuru) / len(gyuru),
+        sum(p[1] for p in gyuru) / len(gyuru),
+    ]
+
+
+def pont_gyuruben(pont, gyuru):
+    """Igaz, ha a pont a gyűrűn belül van."""
+    x, y = pont
+    bent = False
+    for (x1, y1), (x2, y2) in zip(gyuru, gyuru[1:]):
+        if (y1 > y) != (y2 > y):
+            if x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+                bent = not bent
+    return bent
+
+
+def feature_keszit(elem, koordinatak):
+    tags = elem["tags"]
     ev, ev_forras = evszam(tags)
     mag, mag_forras = magassag(tags)
-    features.append({
+    return {
         "type": "Feature",
         "properties": {
-            "id": e["id"],
+            "id": elem["id"],
+            "osm_tipus": elem["type"],
             "nev": tags.get("name"),
             "tipus": tags.get("building"),
             "szintek": szam(tags.get("building:levels")),
@@ -105,8 +152,53 @@ for e in elemek:
             "ev_forras": ev_forras,
             "wikidata": tags.get("wikidata"),
         },
-        "geometry": {"type": "Polygon", "coordinates": [gyuru]},
-    })
+        "geometry": {"type": "Polygon", "coordinates": koordinatak},
+    }
+
+
+print("Letöltés folyamatban...")
+elemek = letolt()["elements"]
+
+rel = [e for e in elemek if e["type"] == "relation"]
+print("Relation-ök tagokkal:", sum(1 for e in rel if e.get("members")), "/", len(rel))
+
+# Az összetett épületek tag-körvonalait nem rajzoljuk ki külön,
+# mert az épület egésze (az udvarral együtt) már megvan
+relacio_tagok = set()
+for e in elemek:
+    if e["type"] == "relation":
+        for m in e.get("members", []):
+            if m["type"] == "way":
+                relacio_tagok.add(m["ref"])
+
+features = []
+for e in elemek:
+    if e["type"] == "way":
+        if e["id"] in relacio_tagok:
+            continue
+        pontok = e.get("geometry")
+        if not pontok or len(pontok) < 3:
+            continue
+        gyuru = [[p["lon"], p["lat"]] for p in pontok]
+        if gyuru[0] != gyuru[-1]:
+            gyuru.append(gyuru[0])
+        features.append(feature_keszit(e, [gyuru]))
+
+    elif e["type"] == "relation":
+        kulso, belso = [], []
+        for m in e.get("members", []):
+            if m["type"] != "way" or not m.get("geometry"):
+                continue
+            vonal = [[p["lon"], p["lat"]] for p in m["geometry"]]
+            if m.get("role") == "inner":
+                belso.append(vonal)
+            else:
+                kulso.append(vonal)
+        kulso_gyuruk = gyurukke_fuz(kulso)
+        belso_gyuruk = gyurukke_fuz(belso)
+        for k in kulso_gyuruk:
+            lyukak = [b for b in belso_gyuruk if pont_gyuruben(kozeppont(b), k)]
+            features.append(feature_keszit(e, [k] + lyukak))
 
 geojson = {"type": "FeatureCollection", "features": features}
 Path("data").mkdir(exist_ok=True)
@@ -114,6 +206,9 @@ with open("data/belvaros_epuletek.geojson", "w", encoding="utf-8") as fajl:
     json.dump(geojson, fajl, ensure_ascii=False)
 
 print(f"Mentett épületek: {len(features)}")
+for tipus in ("way", "relation"):
+    db = sum(1 for ft in features if ft["properties"]["osm_tipus"] == tipus)
+    print(f"  OSM-típus '{tipus}': {db}")
 for forras in ("height", "szintszam", "alapertelmezett"):
     db = sum(1 for ft in features if ft["properties"]["magassag_forras"] == forras)
     print(f"  magasság forrása '{forras}': {db}")
