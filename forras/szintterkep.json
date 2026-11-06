@@ -1,0 +1,7513 @@
+{
+ "meta": {
+  "forras": "Budapest Főváros V. kerület Belváros-Lipótváros településképi arculati kézikönyve, épületmagasság-térkép (raszterkép, 622x1000 px)",
+  "megfeleltetes": "F+n = földszint + n emelet = n+1 szint; F = 1 szint; \"Egyedi magasság\" = nincs szintszám",
+  "mod": "A kép automatikus illesztése az OSM-épületkörvonalakhoz (3,0 m/pixel, forgatás nélkül), majd minden épület belsejében (kb. 2 m-rel összehúzva) a legenda-színek többségi szavazata.",
+  "kepx_meter": "x_m = 3.0*u - 164.0 ; y_m = 2642.2 - 3.0*v  (origó: 47.490 N, 19.0396 E)",
+  "kuszobok": {
+   "min_szavazat": 0.5,
+   "min_lefedes": 0.35,
+   "min_pixel": 8
+  },
+  "ellenorzes": "OSM building:levels-szel összevetve (620 épület): 72% pontos egyezés, 92% legfeljebb ±1 szint"
+ },
+ "epuletek": [
+  {
+   "osm_tipus": "relation",
+   "id": 11764,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.76,
+   "lefedes": 0.87,
+   "n": 2296
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11766,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.94,
+   "n": 5394
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11768,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.92,
+   "n": 1827
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11772,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.9,
+   "n": 1915
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11832,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.93,
+   "lefedes": 0.99,
+   "n": 7204
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11844,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.87,
+   "lefedes": 0.98,
+   "n": 3276
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11845,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.79,
+   "lefedes": 0.83,
+   "n": 2461
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11846,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.84,
+   "lefedes": 0.9,
+   "n": 1212
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11847,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.82,
+   "lefedes": 0.9,
+   "n": 2118
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11890,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.57,
+   "lefedes": 0.8,
+   "n": 1907
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11891,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.86,
+   "n": 1432
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11895,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.8,
+   "n": 1820
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11897,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.9,
+   "n": 1068
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11898,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.7,
+   "lefedes": 0.93,
+   "n": 4066
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11914,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.8,
+   "n": 1619
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11917,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.84,
+   "lefedes": 0.97,
+   "n": 1186
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11919,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.95,
+   "lefedes": 0.94,
+   "n": 3676
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12022,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.91,
+   "n": 3265
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12023,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.72,
+   "n": 1140
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12024,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 0.98,
+   "n": 5720
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12025,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.99,
+   "lefedes": 0.94,
+   "n": 914
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12029,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.96,
+   "lefedes": 0.79,
+   "n": 282
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12032,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.68,
+   "lefedes": 0.77,
+   "n": 619
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12034,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.71,
+   "lefedes": 0.84,
+   "n": 748
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12036,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.62,
+   "lefedes": 0.8,
+   "n": 361
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12039,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.66,
+   "lefedes": 0.72,
+   "n": 364
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12146,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.98,
+   "lefedes": 0.92,
+   "n": 928
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12697,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 0.78,
+   "lefedes": 0.94,
+   "n": 3982
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12939,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.97,
+   "n": 12312
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12942,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 2783
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12981,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.89,
+   "lefedes": 0.75,
+   "n": 201
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12982,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.94,
+   "n": 686
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12983,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.74,
+   "lefedes": 0.93,
+   "n": 941
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12984,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.87,
+   "lefedes": 1.0,
+   "n": 656
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12985,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.52,
+   "lefedes": 0.99,
+   "n": 546
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12986,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.58,
+   "lefedes": 0.61,
+   "n": 263
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 12987,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.89,
+   "lefedes": 0.97,
+   "n": 759
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 13035,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.8,
+   "lefedes": 0.94,
+   "n": 366
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 13038,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.59,
+   "lefedes": 0.85,
+   "n": 348
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 13062,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.98,
+   "n": 1029
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 13067,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.52,
+   "lefedes": 1.0,
+   "n": 281
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 14580,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.77,
+   "lefedes": 0.82,
+   "n": 1013
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 15839,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.74,
+   "lefedes": 0.93,
+   "n": 1423
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 15843,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.94,
+   "n": 1381
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18122,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.66,
+   "lefedes": 1.0,
+   "n": 604
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18135,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 0.99,
+   "n": 2330
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18147,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.97,
+   "n": 469
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18173,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.88,
+   "n": 2269
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18180,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.72,
+   "lefedes": 0.84,
+   "n": 1319
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18185,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.69,
+   "lefedes": 0.93,
+   "n": 1280
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 19232,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.89,
+   "n": 494
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 19239,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.98,
+   "lefedes": 0.93,
+   "n": 1566
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 19642,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.6,
+   "lefedes": 0.55,
+   "n": 107
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 19727,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.94,
+   "lefedes": 0.58,
+   "n": 85
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 541164,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 986
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936957,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.94,
+   "lefedes": 0.73,
+   "n": 678
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936958,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.52,
+   "lefedes": 0.97,
+   "n": 557
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936959,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.77,
+   "n": 331
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936980,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.51,
+   "lefedes": 0.73,
+   "n": 339
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936981,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.58,
+   "lefedes": 0.61,
+   "n": 247
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936983,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.81,
+   "lefedes": 0.98,
+   "n": 462
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936984,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.8,
+   "lefedes": 0.75,
+   "n": 547
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936985,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.79,
+   "n": 279
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936988,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.71,
+   "lefedes": 0.74,
+   "n": 270
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936990,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.94,
+   "n": 366
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936993,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.79,
+   "lefedes": 0.99,
+   "n": 234
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936994,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.98,
+   "n": 230
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936995,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.81,
+   "lefedes": 1.0,
+   "n": 489
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936997,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.89,
+   "lefedes": 0.98,
+   "n": 648
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 936998,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.86,
+   "n": 1369
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 937001,
+   "osztaly": "F+9",
+   "szint": 10,
+   "bizt": 0.89,
+   "lefedes": 0.96,
+   "n": 3267
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 937002,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.63,
+   "lefedes": 0.84,
+   "n": 203
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 937003,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.69,
+   "n": 197
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 937005,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.65,
+   "lefedes": 0.95,
+   "n": 392
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 937006,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.92,
+   "lefedes": 0.99,
+   "n": 354
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 937008,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.58,
+   "lefedes": 0.42,
+   "n": 77
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2054525,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.86,
+   "lefedes": 0.82,
+   "n": 332
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2202957,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.81,
+   "n": 582
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2203098,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.83,
+   "lefedes": 0.85,
+   "n": 447
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2203099,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.62,
+   "lefedes": 0.78,
+   "n": 359
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2203100,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.62,
+   "lefedes": 0.64,
+   "n": 407
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2225177,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.87,
+   "n": 891
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2225184,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.65,
+   "lefedes": 0.69,
+   "n": 239
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2225185,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.97,
+   "n": 1377
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2225187,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.84,
+   "n": 406
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2689935,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 249
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2689936,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.8,
+   "n": 470
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2689939,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.77,
+   "lefedes": 1.0,
+   "n": 337
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2689940,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 1.0,
+   "n": 536
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2689941,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.78,
+   "lefedes": 0.99,
+   "n": 599
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2693834,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.72,
+   "lefedes": 0.98,
+   "n": 486
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2693835,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.7,
+   "lefedes": 0.86,
+   "n": 237
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2693836,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.93,
+   "n": 308
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2693837,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.57,
+   "lefedes": 0.77,
+   "n": 360
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2693839,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.55,
+   "lefedes": 0.89,
+   "n": 265
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931012,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.95,
+   "lefedes": 0.83,
+   "n": 257
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931013,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.94,
+   "n": 586
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931014,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.71,
+   "lefedes": 0.69,
+   "n": 1415
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931015,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.87,
+   "lefedes": 0.89,
+   "n": 806
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931017,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.77,
+   "lefedes": 0.95,
+   "n": 525
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931018,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.83,
+   "lefedes": 0.88,
+   "n": 1888
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931019,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.6,
+   "lefedes": 0.82,
+   "n": 539
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931020,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.69,
+   "lefedes": 0.81,
+   "n": 499
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 2931021,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.85,
+   "n": 1208
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3019272,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.96,
+   "lefedes": 0.89,
+   "n": 157
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3019292,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.77,
+   "lefedes": 0.65,
+   "n": 109
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3019293,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.8,
+   "lefedes": 0.97,
+   "n": 297
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3019294,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.61,
+   "lefedes": 0.97,
+   "n": 270
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3020279,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.98,
+   "n": 456
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3020280,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.65,
+   "lefedes": 0.93,
+   "n": 326
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3020281,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.8,
+   "lefedes": 1.0,
+   "n": 644
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3020282,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.95,
+   "lefedes": 0.79,
+   "n": 468
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3020283,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.8,
+   "lefedes": 0.7,
+   "n": 252
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062921,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 584
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062922,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.98,
+   "n": 184
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062923,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.91,
+   "n": 907
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062925,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.74,
+   "lefedes": 0.99,
+   "n": 189
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062926,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.91,
+   "lefedes": 0.8,
+   "n": 582
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062928,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 1.0,
+   "n": 248
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062929,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.84,
+   "lefedes": 0.98,
+   "n": 283
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062931,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.91,
+   "lefedes": 0.95,
+   "n": 930
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062932,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.99,
+   "n": 306
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062933,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 0.96,
+   "n": 347
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062934,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.98,
+   "n": 305
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062935,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.87,
+   "lefedes": 1.0,
+   "n": 338
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062936,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.76,
+   "n": 547
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062937,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.93,
+   "lefedes": 1.0,
+   "n": 244
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3062938,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.71,
+   "n": 359
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076263,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.75,
+   "lefedes": 1.0,
+   "n": 195
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076265,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.89,
+   "lefedes": 0.53,
+   "n": 64
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076266,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.71,
+   "n": 311
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076285,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.99,
+   "lefedes": 0.92,
+   "n": 500
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076286,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.67,
+   "lefedes": 1.0,
+   "n": 240
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076287,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.97,
+   "n": 750
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076288,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.98,
+   "lefedes": 0.89,
+   "n": 823
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3076289,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.97,
+   "lefedes": 0.88,
+   "n": 1032
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3199085,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.96,
+   "lefedes": 0.99,
+   "n": 10635
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216821,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.92,
+   "n": 239
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216822,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.58,
+   "lefedes": 0.91,
+   "n": 348
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216823,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.86,
+   "n": 399
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216824,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.56,
+   "lefedes": 1.0,
+   "n": 278
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216825,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.86,
+   "n": 398
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216826,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.94,
+   "n": 264
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216827,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.58,
+   "lefedes": 0.84,
+   "n": 218
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3216828,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.98,
+   "lefedes": 0.96,
+   "n": 589
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217048,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.8,
+   "lefedes": 0.87,
+   "n": 1344
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217049,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 1.0,
+   "n": 365
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217050,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.75,
+   "lefedes": 0.7,
+   "n": 285
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217051,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 1.0,
+   "n": 630
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217052,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.84,
+   "lefedes": 0.89,
+   "n": 352
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217053,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.92,
+   "lefedes": 1.0,
+   "n": 960
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217054,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.79,
+   "lefedes": 0.96,
+   "n": 644
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217055,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.54,
+   "lefedes": 0.94,
+   "n": 319
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217056,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.84,
+   "lefedes": 1.0,
+   "n": 1424
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217057,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.55,
+   "lefedes": 0.93,
+   "n": 373
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3217058,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.88,
+   "lefedes": 0.99,
+   "n": 1510
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218136,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.75,
+   "n": 381
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218137,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.71,
+   "n": 190
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218138,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 0.94,
+   "n": 954
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218139,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.63,
+   "lefedes": 0.83,
+   "n": 458
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218182,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.97,
+   "lefedes": 0.7,
+   "n": 172
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218257,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.9,
+   "lefedes": 0.88,
+   "n": 239
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218258,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.73,
+   "lefedes": 0.8,
+   "n": 621
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218259,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.69,
+   "lefedes": 0.87,
+   "n": 310
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218260,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.79,
+   "lefedes": 0.84,
+   "n": 253
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218261,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.5,
+   "lefedes": 0.97,
+   "n": 301
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218262,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.62,
+   "lefedes": 0.78,
+   "n": 418
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218263,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.68,
+   "lefedes": 0.81,
+   "n": 265
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3218264,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.6,
+   "lefedes": 0.95,
+   "n": 380
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221452,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.84,
+   "n": 396
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221453,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.66,
+   "lefedes": 0.88,
+   "n": 703
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221454,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.92,
+   "lefedes": 0.9,
+   "n": 555
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221480,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.68,
+   "n": 341
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221481,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.55,
+   "lefedes": 0.7,
+   "n": 782
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221482,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.9,
+   "n": 855
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221483,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.88,
+   "n": 426
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221484,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.87,
+   "n": 470
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221536,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.89,
+   "n": 919
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221537,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.82,
+   "lefedes": 0.94,
+   "n": 900
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3221538,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.72,
+   "n": 373
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226302,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.95,
+   "n": 267
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226304,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.58,
+   "lefedes": 0.97,
+   "n": 367
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226305,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.85,
+   "lefedes": 0.71,
+   "n": 250
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226308,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.6,
+   "lefedes": 0.81,
+   "n": 233
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226309,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 0.94,
+   "n": 306
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226360,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.97,
+   "n": 580
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226361,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 0.94,
+   "n": 429
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226362,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.55,
+   "lefedes": 0.75,
+   "n": 264
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226363,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.78,
+   "lefedes": 0.78,
+   "n": 743
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226364,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.64,
+   "n": 248
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226365,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.6,
+   "lefedes": 0.83,
+   "n": 334
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226366,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.51,
+   "lefedes": 0.84,
+   "n": 605
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226367,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.51,
+   "lefedes": 0.62,
+   "n": 106
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226368,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.52,
+   "lefedes": 0.94,
+   "n": 466
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226369,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.95,
+   "n": 805
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3226370,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.5,
+   "lefedes": 0.54,
+   "n": 220
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3227995,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.68,
+   "lefedes": 1.0,
+   "n": 336
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3227996,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.66,
+   "lefedes": 0.95,
+   "n": 430
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3227997,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.69,
+   "lefedes": 0.97,
+   "n": 140
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3227998,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 0.93,
+   "n": 465
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3227999,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.94,
+   "n": 969
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3228037,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.92,
+   "n": 205
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3228038,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 540
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3228039,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 0.98,
+   "n": 1108
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251829,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.71,
+   "lefedes": 0.76,
+   "n": 376
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251832,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.66,
+   "lefedes": 0.94,
+   "n": 401
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251833,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.8,
+   "lefedes": 0.69,
+   "n": 191
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251834,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.52,
+   "lefedes": 0.91,
+   "n": 290
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251841,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.99,
+   "n": 528
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251842,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.88,
+   "n": 881
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251843,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 0.95,
+   "n": 411
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251844,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.77,
+   "lefedes": 0.91,
+   "n": 1028
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3251853,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.7,
+   "lefedes": 0.84,
+   "n": 793
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253934,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.98,
+   "lefedes": 0.95,
+   "n": 230
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253935,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 0.95,
+   "n": 692
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253936,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 1.0,
+   "n": 480
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253937,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.91,
+   "lefedes": 0.97,
+   "n": 652
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253938,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.68,
+   "lefedes": 1.0,
+   "n": 258
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253939,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.85,
+   "n": 984
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3253941,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.71,
+   "lefedes": 0.83,
+   "n": 614
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3257753,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.68,
+   "lefedes": 0.48,
+   "n": 145
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3257754,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.88,
+   "n": 173
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3257756,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.9,
+   "n": 523
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3259751,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.82,
+   "lefedes": 0.95,
+   "n": 640
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3259753,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.89,
+   "lefedes": 0.93,
+   "n": 1090
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3294993,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.79,
+   "lefedes": 0.86,
+   "n": 743
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3294995,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.51,
+   "lefedes": 0.97,
+   "n": 276
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3294999,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.7,
+   "lefedes": 0.5,
+   "n": 120
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295001,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.86,
+   "n": 564
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295010,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.84,
+   "n": 211
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295011,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.56,
+   "lefedes": 0.99,
+   "n": 162
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295012,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.99,
+   "n": 205
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295013,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.87,
+   "n": 166
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295073,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.78,
+   "lefedes": 0.98,
+   "n": 2648
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295076,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.72,
+   "lefedes": 0.8,
+   "n": 330
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3295078,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.85,
+   "n": 755
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3306961,
+   "osztaly": "F",
+   "szint": 1,
+   "bizt": 0.5,
+   "lefedes": 0.85,
+   "n": 394
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3306962,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.72,
+   "lefedes": 0.78,
+   "n": 383
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3309014,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.98,
+   "n": 1277
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3309016,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.5,
+   "lefedes": 0.86,
+   "n": 369
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3309017,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.82,
+   "n": 67
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3309026,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.62,
+   "n": 199
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3309027,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.52,
+   "lefedes": 0.64,
+   "n": 105
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314726,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 1.0,
+   "n": 833
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314727,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.97,
+   "n": 192
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314728,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 1.0,
+   "n": 226
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314729,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 1.0,
+   "n": 735
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314897,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.86,
+   "lefedes": 0.89,
+   "n": 622
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314898,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 0.95,
+   "n": 370
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314899,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.8,
+   "lefedes": 0.73,
+   "n": 628
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3314900,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.91,
+   "n": 547
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3318172,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.75,
+   "lefedes": 0.99,
+   "n": 268
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3318173,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.65,
+   "lefedes": 0.99,
+   "n": 137
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3318175,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.96,
+   "n": 214
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3318176,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.73,
+   "lefedes": 0.61,
+   "n": 184
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3318178,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.95,
+   "lefedes": 0.86,
+   "n": 401
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3321312,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.97,
+   "lefedes": 0.86,
+   "n": 189
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3321314,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.66,
+   "lefedes": 0.62,
+   "n": 92
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3321316,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.76,
+   "n": 424
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3333854,
+   "osztaly": "F+1",
+   "szint": 2,
+   "bizt": 0.61,
+   "lefedes": 0.87,
+   "n": 1939
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3333855,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.69,
+   "lefedes": 0.87,
+   "n": 111
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3333863,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.66,
+   "lefedes": 0.82,
+   "n": 220
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3348252,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.84,
+   "n": 1014
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3348276,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.62,
+   "lefedes": 1.0,
+   "n": 162
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3348277,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.81,
+   "lefedes": 0.5,
+   "n": 78
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3348278,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.76,
+   "lefedes": 0.82,
+   "n": 376
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3348279,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.88,
+   "lefedes": 0.72,
+   "n": 110
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3349874,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.78,
+   "lefedes": 1.0,
+   "n": 755
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3352876,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.85,
+   "lefedes": 0.95,
+   "n": 199
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3352877,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.7,
+   "lefedes": 0.86,
+   "n": 363
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3352881,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.69,
+   "lefedes": 0.94,
+   "n": 166
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3352882,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.66,
+   "lefedes": 0.87,
+   "n": 759
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3380433,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.55,
+   "lefedes": 0.66,
+   "n": 286
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403548,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.65,
+   "lefedes": 0.8,
+   "n": 471
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403551,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.55,
+   "lefedes": 0.81,
+   "n": 245
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403552,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.55,
+   "lefedes": 0.84,
+   "n": 496
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403553,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.61,
+   "lefedes": 0.77,
+   "n": 290
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403554,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.52,
+   "lefedes": 0.99,
+   "n": 566
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403555,
+   "osztaly": "F",
+   "szint": 1,
+   "bizt": 0.58,
+   "lefedes": 0.7,
+   "n": 341
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403556,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.57,
+   "lefedes": 0.99,
+   "n": 328
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403557,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.54,
+   "lefedes": 0.97,
+   "n": 381
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403558,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.63,
+   "lefedes": 0.72,
+   "n": 576
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403560,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.57,
+   "lefedes": 0.82,
+   "n": 218
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3403563,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.62,
+   "lefedes": 0.98,
+   "n": 299
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3430241,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.88,
+   "lefedes": 0.88,
+   "n": 117
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466722,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.69,
+   "lefedes": 1.0,
+   "n": 221
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466723,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 1.0,
+   "n": 261
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466724,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.71,
+   "n": 62
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466725,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.59,
+   "lefedes": 0.69,
+   "n": 122
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466726,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.77,
+   "lefedes": 0.97,
+   "n": 461
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466727,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.57,
+   "lefedes": 0.98,
+   "n": 197
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3466728,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.58,
+   "lefedes": 0.96,
+   "n": 440
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3472455,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.87,
+   "lefedes": 1.0,
+   "n": 684
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3472456,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.87,
+   "lefedes": 0.95,
+   "n": 264
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3472457,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 1.0,
+   "n": 425
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3472458,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.78,
+   "lefedes": 0.87,
+   "n": 379
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3472459,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.62,
+   "n": 153
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3515378,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.71,
+   "n": 410
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3515379,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.96,
+   "n": 412
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3515380,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.63,
+   "lefedes": 0.84,
+   "n": 507
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3515381,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.83,
+   "n": 505
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516299,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.53,
+   "lefedes": 0.7,
+   "n": 172
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516300,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.68,
+   "lefedes": 0.9,
+   "n": 508
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516301,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.73,
+   "lefedes": 0.84,
+   "n": 557
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516302,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.8,
+   "n": 598
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516303,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.8,
+   "lefedes": 0.82,
+   "n": 502
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516304,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.8,
+   "n": 454
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516305,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.78,
+   "lefedes": 0.79,
+   "n": 821
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516440,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.71,
+   "lefedes": 0.95,
+   "n": 645
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516441,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.71,
+   "lefedes": 0.9,
+   "n": 648
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516478,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 551
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516479,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.94,
+   "lefedes": 1.0,
+   "n": 757
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516480,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.97,
+   "lefedes": 0.72,
+   "n": 421
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516481,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.92,
+   "n": 666
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516528,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.85,
+   "n": 706
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516529,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 355
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516530,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.91,
+   "n": 1139
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516558,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.74,
+   "lefedes": 0.8,
+   "n": 640
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516566,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 1.0,
+   "n": 935
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516569,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.85,
+   "n": 888
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516580,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 1.0,
+   "n": 305
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516581,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.94,
+   "n": 437
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516582,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.78,
+   "lefedes": 0.71,
+   "n": 211
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516583,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.87,
+   "lefedes": 0.99,
+   "n": 361
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516584,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.99,
+   "n": 315
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516593,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.69,
+   "lefedes": 0.82,
+   "n": 830
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516752,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.56,
+   "lefedes": 0.82,
+   "n": 135
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516754,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.58,
+   "lefedes": 0.88,
+   "n": 212
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516755,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.56,
+   "lefedes": 0.84,
+   "n": 307
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516757,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.69,
+   "lefedes": 0.95,
+   "n": 140
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516760,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.63,
+   "lefedes": 0.95,
+   "n": 322
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516762,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.99,
+   "n": 570
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516765,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.75,
+   "n": 207
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516846,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.63,
+   "lefedes": 0.82,
+   "n": 243
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516847,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.84,
+   "n": 572
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516848,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.89,
+   "lefedes": 0.84,
+   "n": 463
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516849,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.92,
+   "lefedes": 0.85,
+   "n": 510
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516850,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.69,
+   "lefedes": 0.74,
+   "n": 267
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516891,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.84,
+   "lefedes": 0.85,
+   "n": 279
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516892,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.79,
+   "lefedes": 0.82,
+   "n": 620
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516893,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.87,
+   "lefedes": 0.76,
+   "n": 460
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516895,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.91,
+   "n": 731
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516896,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.76,
+   "lefedes": 0.89,
+   "n": 895
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3516897,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.92,
+   "n": 1135
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517735,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.8,
+   "n": 408
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517736,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.97,
+   "n": 453
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517742,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.7,
+   "lefedes": 0.84,
+   "n": 141
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517743,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.98,
+   "n": 371
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517744,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.6,
+   "lefedes": 0.82,
+   "n": 191
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517745,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.63,
+   "lefedes": 0.97,
+   "n": 351
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517746,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.76,
+   "n": 253
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517751,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.83,
+   "n": 215
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517752,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.83,
+   "n": 123
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517756,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.94,
+   "n": 778
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517757,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.99,
+   "n": 335
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517760,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 419
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517761,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 403
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517778,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.91,
+   "lefedes": 0.79,
+   "n": 331
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517780,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 356
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517781,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.97,
+   "n": 279
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517782,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.9,
+   "lefedes": 0.99,
+   "n": 471
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517786,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.81,
+   "lefedes": 0.95,
+   "n": 579
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517811,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.87,
+   "lefedes": 0.97,
+   "n": 509
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517812,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.74,
+   "lefedes": 0.99,
+   "n": 323
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517813,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.59,
+   "n": 176
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517814,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.73,
+   "n": 323
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517815,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.57,
+   "lefedes": 0.6,
+   "n": 232
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517816,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.56,
+   "lefedes": 0.95,
+   "n": 389
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517817,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.81,
+   "lefedes": 1.0,
+   "n": 361
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517818,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.98,
+   "n": 562
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517819,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 1.0,
+   "n": 381
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517820,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.82,
+   "lefedes": 0.76,
+   "n": 452
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517821,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.7,
+   "lefedes": 0.98,
+   "n": 386
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517822,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 1.0,
+   "n": 532
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517823,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.71,
+   "lefedes": 0.99,
+   "n": 380
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517824,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.62,
+   "n": 243
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517825,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.78,
+   "lefedes": 0.99,
+   "n": 395
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517829,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.84,
+   "lefedes": 1.0,
+   "n": 417
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517830,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.7,
+   "lefedes": 0.74,
+   "n": 772
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517831,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.97,
+   "n": 277
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517832,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.85,
+   "lefedes": 0.98,
+   "n": 281
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517833,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.48,
+   "n": 117
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517834,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 1.0,
+   "n": 577
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3517835,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.84,
+   "lefedes": 0.9,
+   "n": 263
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611678,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.51,
+   "lefedes": 0.77,
+   "n": 168
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611679,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.61,
+   "lefedes": 0.87,
+   "n": 125
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611680,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.51,
+   "lefedes": 0.92,
+   "n": 254
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611681,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.65,
+   "lefedes": 0.77,
+   "n": 92
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611683,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 194
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611684,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.97,
+   "n": 339
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611685,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.77,
+   "lefedes": 1.0,
+   "n": 318
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611686,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 222
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611687,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.99,
+   "n": 485
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 3611688,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.78,
+   "lefedes": 0.96,
+   "n": 455
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 4201280,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.92,
+   "lefedes": 0.87,
+   "n": 212
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 4201281,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.91,
+   "lefedes": 0.81,
+   "n": 325
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 4201282,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 234
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 4252399,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.83,
+   "n": 407
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 5149777,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.93,
+   "n": 828
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 5648000,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.89,
+   "n": 169
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 7700814,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.89,
+   "lefedes": 0.99,
+   "n": 4659
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 7700815,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.84,
+   "n": 1781
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 9758824,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.86,
+   "lefedes": 0.76,
+   "n": 146
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 10538114,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 0.87,
+   "n": 766
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 10538115,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 0.93,
+   "n": 550
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11220918,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.87,
+   "lefedes": 0.98,
+   "n": 677
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11620521,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.88,
+   "lefedes": 1.0,
+   "n": 1739
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11620522,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.66,
+   "lefedes": 0.99,
+   "n": 671
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11620523,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.74,
+   "lefedes": 0.99,
+   "n": 588
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11740452,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.86,
+   "lefedes": 1.0,
+   "n": 705
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11810566,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.84,
+   "lefedes": 0.95,
+   "n": 812
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11810567,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.92,
+   "lefedes": 0.82,
+   "n": 532
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11837374,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.75,
+   "lefedes": 0.76,
+   "n": 204
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 11848484,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.84,
+   "lefedes": 0.91,
+   "n": 435
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 14637669,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 374
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 14655571,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.75,
+   "lefedes": 0.91,
+   "n": 123
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 14655572,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.84,
+   "lefedes": 0.56,
+   "n": 211
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 15411097,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.89,
+   "n": 993
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 15787740,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.89,
+   "lefedes": 1.0,
+   "n": 416
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 15787741,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.94,
+   "lefedes": 1.0,
+   "n": 987
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 17089479,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 1.0,
+   "n": 521
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 17089480,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.83,
+   "n": 706
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 17338259,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.54,
+   "lefedes": 0.93,
+   "n": 856
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 17366691,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.67,
+   "lefedes": 0.77,
+   "n": 229
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 17706586,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.8,
+   "lefedes": 0.99,
+   "n": 261
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 18027476,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.91,
+   "lefedes": 1.0,
+   "n": 861
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 19423550,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 0.94,
+   "n": 980
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 20400701,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.79,
+   "n": 805
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 20593057,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.9,
+   "lefedes": 0.9,
+   "n": 3980
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 20995323,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.8,
+   "lefedes": 0.82,
+   "n": 450
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 20995324,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 1.0,
+   "n": 209
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 21048486,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.82,
+   "n": 419
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 21078808,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.8,
+   "lefedes": 1.0,
+   "n": 1907
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 21078809,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.86,
+   "lefedes": 0.98,
+   "n": 159
+  },
+  {
+   "osm_tipus": "relation",
+   "id": 21078974,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.9,
+   "lefedes": 0.93,
+   "n": 191
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24024226,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 0.54,
+   "lefedes": 0.91,
+   "n": 969
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24026328,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.9,
+   "lefedes": 0.98,
+   "n": 2495
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24038230,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.74,
+   "lefedes": 0.84,
+   "n": 2232
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24050409,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.84,
+   "lefedes": 0.92,
+   "n": 2954
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24051069,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.94,
+   "lefedes": 1.0,
+   "n": 1772
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24051070,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.74,
+   "lefedes": 0.89,
+   "n": 2177
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24051071,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.99,
+   "lefedes": 0.78,
+   "n": 877
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24052086,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.86,
+   "n": 271
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24052098,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 976
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24052914,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.66,
+   "lefedes": 0.84,
+   "n": 1218
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24053104,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.91,
+   "lefedes": 0.86,
+   "n": 858
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24054232,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.96,
+   "lefedes": 1.0,
+   "n": 2480
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24054280,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.9,
+   "lefedes": 0.99,
+   "n": 1565
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24054281,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 1.0,
+   "n": 333
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24123927,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.72,
+   "lefedes": 0.84,
+   "n": 326
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24126000,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.95,
+   "n": 852
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24130069,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.72,
+   "lefedes": 0.74,
+   "n": 461
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24144956,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 0.99,
+   "n": 396
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24157739,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.59,
+   "lefedes": 0.94,
+   "n": 490
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24321885,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.86,
+   "lefedes": 0.93,
+   "n": 1062
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24322299,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.96,
+   "lefedes": 0.99,
+   "n": 525
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24322702,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.98,
+   "n": 632
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24322704,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.89,
+   "lefedes": 1.0,
+   "n": 512
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24324019,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.74,
+   "lefedes": 0.85,
+   "n": 1328
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24324025,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.61,
+   "lefedes": 0.74,
+   "n": 1237
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24324325,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.98,
+   "lefedes": 0.97,
+   "n": 618
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24324326,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.95,
+   "lefedes": 0.97,
+   "n": 932
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24332420,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.67,
+   "lefedes": 0.95,
+   "n": 286
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24334370,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.93,
+   "n": 416
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24340879,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.69,
+   "lefedes": 0.65,
+   "n": 679
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24341129,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.61,
+   "lefedes": 0.78,
+   "n": 908
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24349391,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.76,
+   "lefedes": 0.95,
+   "n": 1095
+  },
+  {
+   "osm_tipus": "way",
+   "id": 24711190,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.91,
+   "lefedes": 0.89,
+   "n": 573
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25039922,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 1.0,
+   "n": 791
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25042160,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.86,
+   "lefedes": 0.97,
+   "n": 451
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25042465,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.69,
+   "lefedes": 0.84,
+   "n": 1020
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25047275,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.67,
+   "lefedes": 0.99,
+   "n": 140
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25049102,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.56,
+   "lefedes": 0.96,
+   "n": 399
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25290904,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.71,
+   "lefedes": 0.94,
+   "n": 273
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25302937,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.83,
+   "n": 101
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25354238,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.65,
+   "lefedes": 0.87,
+   "n": 243
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25354357,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.76,
+   "lefedes": 0.57,
+   "n": 89
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25354682,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.8,
+   "lefedes": 0.86,
+   "n": 156
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25354731,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.6,
+   "lefedes": 0.94,
+   "n": 618
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25355118,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.81,
+   "lefedes": 0.91,
+   "n": 216
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25355169,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.53,
+   "lefedes": 0.92,
+   "n": 49
+  },
+  {
+   "osm_tipus": "way",
+   "id": 25372266,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.79,
+   "lefedes": 0.87,
+   "n": 117
+  },
+  {
+   "osm_tipus": "way",
+   "id": 57716767,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.57,
+   "n": 823
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242224,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.72,
+   "lefedes": 0.75,
+   "n": 378
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242225,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.74,
+   "lefedes": 0.73,
+   "n": 474
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242252,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.58,
+   "lefedes": 1.0,
+   "n": 283
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242256,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.66,
+   "lefedes": 0.95,
+   "n": 140
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242276,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.56,
+   "lefedes": 0.98,
+   "n": 165
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242287,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.8,
+   "n": 111
+  },
+  {
+   "osm_tipus": "way",
+   "id": 60242322,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.94,
+   "lefedes": 0.98,
+   "n": 259
+  },
+  {
+   "osm_tipus": "way",
+   "id": 165214353,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.78,
+   "lefedes": 0.84,
+   "n": 2480
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166897884,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.89,
+   "n": 175
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166953717,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.82,
+   "lefedes": 0.92,
+   "n": 438
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166953718,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.84,
+   "lefedes": 0.98,
+   "n": 1335
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166953723,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.78,
+   "lefedes": 0.99,
+   "n": 1389
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166953976,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.96,
+   "n": 187
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166953980,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.78,
+   "lefedes": 0.92,
+   "n": 254
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166967801,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.83,
+   "lefedes": 0.98,
+   "n": 255
+  },
+  {
+   "osm_tipus": "way",
+   "id": 166967808,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.87,
+   "lefedes": 0.49,
+   "n": 91
+  },
+  {
+   "osm_tipus": "way",
+   "id": 191243451,
+   "osztaly": "F+9",
+   "szint": 10,
+   "bizt": 0.56,
+   "lefedes": 0.87,
+   "n": 3352
+  },
+  {
+   "osm_tipus": "way",
+   "id": 200188597,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.98,
+   "n": 219
+  },
+  {
+   "osm_tipus": "way",
+   "id": 200466612,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.59,
+   "lefedes": 1.0,
+   "n": 328
+  },
+  {
+   "osm_tipus": "way",
+   "id": 200466622,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.73,
+   "lefedes": 0.83,
+   "n": 86
+  },
+  {
+   "osm_tipus": "way",
+   "id": 219996627,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.92,
+   "lefedes": 0.69,
+   "n": 190
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650829,
+   "osztaly": "F",
+   "szint": 1,
+   "bizt": 0.78,
+   "lefedes": 0.86,
+   "n": 227
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650830,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.69,
+   "lefedes": 0.91,
+   "n": 1183
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650832,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.75,
+   "lefedes": 0.73,
+   "n": 209
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650837,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.79,
+   "lefedes": 0.96,
+   "n": 728
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650841,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 297
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650857,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.89,
+   "n": 283
+  },
+  {
+   "osm_tipus": "way",
+   "id": 221650862,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.8,
+   "lefedes": 0.74,
+   "n": 322
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211897,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 0.65,
+   "lefedes": 0.98,
+   "n": 576
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211901,
+   "osztaly": "F+9",
+   "szint": 10,
+   "bizt": 0.67,
+   "lefedes": 0.83,
+   "n": 390
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211905,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.88,
+   "n": 96
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211908,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.62,
+   "lefedes": 0.83,
+   "n": 141
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211913,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.97,
+   "lefedes": 0.92,
+   "n": 441
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211917,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.67,
+   "lefedes": 0.82,
+   "n": 126
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211926,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 1.0,
+   "n": 398
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211928,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.55,
+   "lefedes": 0.98,
+   "n": 110
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211930,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.76,
+   "lefedes": 0.87,
+   "n": 330
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211931,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.77,
+   "lefedes": 0.9,
+   "n": 233
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211933,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.54,
+   "lefedes": 0.83,
+   "n": 276
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211935,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 143
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211939,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.9,
+   "lefedes": 0.99,
+   "n": 371
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227211941,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 157
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214766,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.76,
+   "lefedes": 0.9,
+   "n": 342
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214767,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.61,
+   "lefedes": 0.69,
+   "n": 87
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214768,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.73,
+   "lefedes": 0.91,
+   "n": 165
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214769,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.91,
+   "lefedes": 0.91,
+   "n": 354
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214770,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.67,
+   "lefedes": 0.99,
+   "n": 173
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214771,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.89,
+   "lefedes": 0.87,
+   "n": 582
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214772,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.63,
+   "lefedes": 0.58,
+   "n": 177
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214773,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.77,
+   "lefedes": 0.93,
+   "n": 26
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214774,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.71,
+   "lefedes": 0.66,
+   "n": 42
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214775,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.66,
+   "lefedes": 1.0,
+   "n": 59
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214776,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.73,
+   "n": 184
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214777,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.91,
+   "lefedes": 1.0,
+   "n": 93
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214778,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.9,
+   "n": 208
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214779,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.78,
+   "lefedes": 0.8,
+   "n": 93
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214781,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.54,
+   "lefedes": 0.46,
+   "n": 50
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214782,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 133
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227214783,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.68,
+   "lefedes": 0.89,
+   "n": 123
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332930,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.96,
+   "n": 271
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332932,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.83,
+   "n": 266
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332934,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.82,
+   "lefedes": 0.98,
+   "n": 305
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332935,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.94,
+   "n": 476
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332938,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.87,
+   "lefedes": 0.99,
+   "n": 233
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332941,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 282
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332942,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.89,
+   "lefedes": 0.89,
+   "n": 260
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332943,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 76
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332946,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.76,
+   "lefedes": 0.98,
+   "n": 79
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332949,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.89,
+   "lefedes": 0.95,
+   "n": 218
+  },
+  {
+   "osm_tipus": "way",
+   "id": 227332950,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.92,
+   "n": 46
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228687716,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.72,
+   "n": 487
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228687718,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 470
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693174,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.99,
+   "n": 163
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693176,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.95,
+   "lefedes": 0.99,
+   "n": 223
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693186,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.91,
+   "lefedes": 0.62,
+   "n": 90
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693191,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.6,
+   "n": 146
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693192,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 237
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693196,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.95,
+   "lefedes": 1.0,
+   "n": 178
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693199,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.53,
+   "lefedes": 0.87,
+   "n": 131
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693200,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.97,
+   "lefedes": 0.74,
+   "n": 160
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693204,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.84,
+   "lefedes": 0.87,
+   "n": 130
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693207,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.68,
+   "lefedes": 0.7,
+   "n": 126
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693209,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.52,
+   "lefedes": 0.95,
+   "n": 187
+  },
+  {
+   "osm_tipus": "way",
+   "id": 228693211,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 1.0,
+   "n": 295
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439559,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.63,
+   "lefedes": 1.0,
+   "n": 89
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439561,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.86,
+   "lefedes": 1.0,
+   "n": 94
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439562,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 162
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439563,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.56,
+   "lefedes": 0.75,
+   "n": 203
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439565,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.53,
+   "lefedes": 1.0,
+   "n": 32
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439568,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.83,
+   "lefedes": 0.88,
+   "n": 98
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229439570,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.8,
+   "lefedes": 0.97,
+   "n": 93
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229442135,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.67,
+   "n": 143
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229442136,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.77,
+   "n": 137
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229442137,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.78,
+   "lefedes": 0.97,
+   "n": 232
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229442142,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.63,
+   "n": 161
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229442143,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.99,
+   "n": 191
+  },
+  {
+   "osm_tipus": "way",
+   "id": 229442146,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.9,
+   "lefedes": 0.69,
+   "n": 124
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238641854,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.69,
+   "lefedes": 0.94,
+   "n": 173
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238641872,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.65,
+   "lefedes": 0.97,
+   "n": 323
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238737184,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.9,
+   "lefedes": 0.99,
+   "n": 347
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238737185,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.5,
+   "lefedes": 0.95,
+   "n": 556
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238737186,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 424
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238738996,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.66,
+   "lefedes": 0.78,
+   "n": 261
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238896339,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.8,
+   "n": 666
+  },
+  {
+   "osm_tipus": "way",
+   "id": 238898872,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.77,
+   "n": 374
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239210075,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.85,
+   "lefedes": 0.65,
+   "n": 253
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239210079,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.73,
+   "lefedes": 0.78,
+   "n": 597
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239210083,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.59,
+   "lefedes": 0.94,
+   "n": 555
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239338243,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 0.87,
+   "lefedes": 1.0,
+   "n": 2489
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239338244,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.58,
+   "lefedes": 0.73,
+   "n": 517
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239339480,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.65,
+   "lefedes": 1.0,
+   "n": 397
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239339482,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.96,
+   "lefedes": 1.0,
+   "n": 1978
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239339498,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.51,
+   "lefedes": 0.96,
+   "n": 158
+  },
+  {
+   "osm_tipus": "way",
+   "id": 239339500,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.4,
+   "n": 62
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241001286,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.66,
+   "lefedes": 0.79,
+   "n": 447
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241001294,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.79,
+   "lefedes": 0.64,
+   "n": 477
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241012661,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.69,
+   "n": 403
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241128747,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.87,
+   "lefedes": 0.64,
+   "n": 106
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241128757,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.8,
+   "lefedes": 0.77,
+   "n": 137
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524003,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.89,
+   "lefedes": 0.97,
+   "n": 309
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524011,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.93,
+   "n": 94
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524013,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.96,
+   "n": 474
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524018,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.62,
+   "lefedes": 0.95,
+   "n": 146
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524022,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.69,
+   "lefedes": 0.84,
+   "n": 87
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524029,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.99,
+   "lefedes": 0.79,
+   "n": 224
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241524034,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.73,
+   "lefedes": 0.99,
+   "n": 251
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241719949,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.67,
+   "lefedes": 0.93,
+   "n": 114
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241719960,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.51,
+   "lefedes": 1.0,
+   "n": 135
+  },
+  {
+   "osm_tipus": "way",
+   "id": 241719965,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.64,
+   "lefedes": 0.78,
+   "n": 138
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243102049,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.67,
+   "n": 89
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243699780,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.92,
+   "n": 196
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243700548,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.64,
+   "lefedes": 0.49,
+   "n": 36
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243700555,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.6,
+   "lefedes": 0.52,
+   "n": 80
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243700560,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.82,
+   "lefedes": 0.7,
+   "n": 68
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243700564,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.86,
+   "n": 106
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243700567,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.79,
+   "lefedes": 0.99,
+   "n": 104
+  },
+  {
+   "osm_tipus": "way",
+   "id": 243704030,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.68,
+   "lefedes": 0.82,
+   "n": 255
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244577226,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 0.52,
+   "lefedes": 0.95,
+   "n": 737
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244577227,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 0.86,
+   "lefedes": 1.0,
+   "n": 113
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244577232,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.8,
+   "lefedes": 0.63,
+   "n": 300
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244577233,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.98,
+   "n": 240
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244577235,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.7,
+   "lefedes": 0.47,
+   "n": 175
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244577236,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.77,
+   "lefedes": 0.72,
+   "n": 229
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747423,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.81,
+   "n": 215
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747430,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.52,
+   "lefedes": 0.67,
+   "n": 86
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747434,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.86,
+   "n": 131
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747436,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.86,
+   "lefedes": 1.0,
+   "n": 78
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747440,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.72,
+   "n": 99
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747446,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.83,
+   "lefedes": 0.92,
+   "n": 121
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747455,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.7,
+   "lefedes": 0.64,
+   "n": 145
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747457,
+   "osztaly": "F",
+   "szint": 1,
+   "bizt": 0.88,
+   "lefedes": 0.95,
+   "n": 110
+  },
+  {
+   "osm_tipus": "way",
+   "id": 244747467,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.75,
+   "n": 38
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245165456,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.95,
+   "n": 901
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245165457,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.91,
+   "n": 255
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245170539,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.91,
+   "lefedes": 1.0,
+   "n": 330
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245181798,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.81,
+   "lefedes": 0.88,
+   "n": 623
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245448610,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.51,
+   "lefedes": 0.95,
+   "n": 181
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245448623,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.61,
+   "n": 43
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245448625,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.65,
+   "lefedes": 0.7,
+   "n": 189
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245448647,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.74,
+   "n": 25
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245448663,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.76,
+   "lefedes": 0.97,
+   "n": 278
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245448670,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.71,
+   "lefedes": 0.71,
+   "n": 197
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245721825,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.83,
+   "n": 236
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245721826,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.73,
+   "lefedes": 0.85,
+   "n": 467
+  },
+  {
+   "osm_tipus": "way",
+   "id": 245721877,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.92,
+   "n": 530
+  },
+  {
+   "osm_tipus": "way",
+   "id": 247082775,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.69,
+   "lefedes": 0.92,
+   "n": 167
+  },
+  {
+   "osm_tipus": "way",
+   "id": 247082777,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.87,
+   "n": 1524
+  },
+  {
+   "osm_tipus": "way",
+   "id": 247082779,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.72,
+   "lefedes": 0.88,
+   "n": 297
+  },
+  {
+   "osm_tipus": "way",
+   "id": 247082796,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.71,
+   "lefedes": 0.92,
+   "n": 97
+  },
+  {
+   "osm_tipus": "way",
+   "id": 247082811,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.75,
+   "lefedes": 0.87,
+   "n": 559
+  },
+  {
+   "osm_tipus": "way",
+   "id": 247082813,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.94,
+   "lefedes": 0.67,
+   "n": 31
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248705962,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.62,
+   "n": 33
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248705966,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.97,
+   "n": 216
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248706967,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.83,
+   "lefedes": 0.91,
+   "n": 86
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248706970,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.5,
+   "lefedes": 0.57,
+   "n": 110
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248706978,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.7,
+   "n": 141
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248706984,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.94,
+   "lefedes": 0.8,
+   "n": 217
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248706991,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.63,
+   "lefedes": 0.95,
+   "n": 190
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248922965,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.84,
+   "lefedes": 0.98,
+   "n": 542
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248922968,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 96
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248922985,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.77,
+   "lefedes": 0.99,
+   "n": 258
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248922986,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.88,
+   "n": 142
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248922988,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.68,
+   "lefedes": 0.93,
+   "n": 279
+  },
+  {
+   "osm_tipus": "way",
+   "id": 248922991,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.82,
+   "lefedes": 1.0,
+   "n": 119
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285086,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.93,
+   "n": 150
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285088,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.97,
+   "n": 173
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285093,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.7,
+   "lefedes": 0.98,
+   "n": 155
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285095,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.96,
+   "lefedes": 0.64,
+   "n": 180
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285113,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.94,
+   "n": 170
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285120,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.85,
+   "lefedes": 1.0,
+   "n": 706
+  },
+  {
+   "osm_tipus": "way",
+   "id": 249285123,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.98,
+   "lefedes": 0.98,
+   "n": 299
+  },
+  {
+   "osm_tipus": "way",
+   "id": 252018225,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.93,
+   "lefedes": 0.91,
+   "n": 107
+  },
+  {
+   "osm_tipus": "way",
+   "id": 252018231,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.6,
+   "n": 167
+  },
+  {
+   "osm_tipus": "way",
+   "id": 252018246,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.81,
+   "lefedes": 0.99,
+   "n": 547
+  },
+  {
+   "osm_tipus": "way",
+   "id": 254003779,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.7,
+   "lefedes": 0.94,
+   "n": 136
+  },
+  {
+   "osm_tipus": "way",
+   "id": 254003842,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.95,
+   "lefedes": 0.75,
+   "n": 43
+  },
+  {
+   "osm_tipus": "way",
+   "id": 254003892,
+   "osztaly": "F",
+   "szint": 1,
+   "bizt": 0.93,
+   "lefedes": 0.89,
+   "n": 215
+  },
+  {
+   "osm_tipus": "way",
+   "id": 254003907,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.97,
+   "lefedes": 0.9,
+   "n": 164
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056135,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.75,
+   "lefedes": 0.77,
+   "n": 488
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056136,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.72,
+   "lefedes": 1.0,
+   "n": 174
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056141,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.79,
+   "lefedes": 1.0,
+   "n": 121
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056156,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.78,
+   "n": 114
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056163,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.76,
+   "lefedes": 1.0,
+   "n": 263
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056167,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.72,
+   "lefedes": 0.85,
+   "n": 449
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056169,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.73,
+   "lefedes": 0.97,
+   "n": 143
+  },
+  {
+   "osm_tipus": "way",
+   "id": 256056170,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.72,
+   "lefedes": 0.77,
+   "n": 543
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289285,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.74,
+   "lefedes": 0.97,
+   "n": 446
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289286,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.52,
+   "lefedes": 0.91,
+   "n": 261
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289287,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.73,
+   "lefedes": 0.81,
+   "n": 176
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289289,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.71,
+   "lefedes": 0.82,
+   "n": 212
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289292,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 115
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289293,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.66,
+   "lefedes": 0.83,
+   "n": 173
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289295,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.6,
+   "n": 18
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289297,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 1.0,
+   "n": 404
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289300,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.97,
+   "n": 56
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289304,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.57,
+   "lefedes": 0.92,
+   "n": 166
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289308,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.63,
+   "lefedes": 0.92,
+   "n": 79
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289309,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.95,
+   "n": 92
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289311,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.57,
+   "lefedes": 0.99,
+   "n": 223
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289312,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.88,
+   "n": 113
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289313,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.94,
+   "n": 139
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289315,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.72,
+   "lefedes": 0.97,
+   "n": 144
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289317,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.58,
+   "lefedes": 0.87,
+   "n": 317
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289319,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.95,
+   "lefedes": 0.77,
+   "n": 168
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258289321,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.53,
+   "lefedes": 0.92,
+   "n": 135
+  },
+  {
+   "osm_tipus": "way",
+   "id": 258702168,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.68,
+   "lefedes": 1.0,
+   "n": 283
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261803610,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.86,
+   "n": 174
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261803611,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.57,
+   "n": 95
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261889902,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.68,
+   "lefedes": 0.99,
+   "n": 213
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261889904,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.75,
+   "lefedes": 0.92,
+   "n": 599
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261889905,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.64,
+   "lefedes": 0.52,
+   "n": 90
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261893539,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.93,
+   "lefedes": 1.0,
+   "n": 347
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261893543,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.8,
+   "lefedes": 0.94,
+   "n": 620
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261893546,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.92,
+   "lefedes": 1.0,
+   "n": 373
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261893551,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.64,
+   "lefedes": 0.97,
+   "n": 233
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261893553,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.95,
+   "lefedes": 1.0,
+   "n": 1044
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261896265,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.91,
+   "lefedes": 0.79,
+   "n": 172
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261896267,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.9,
+   "lefedes": 1.0,
+   "n": 442
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261896269,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.76,
+   "n": 61
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261896271,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.73,
+   "lefedes": 0.97,
+   "n": 119
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261896273,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.82,
+   "lefedes": 0.95,
+   "n": 361
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261896275,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.86,
+   "lefedes": 1.0,
+   "n": 138
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898061,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.95,
+   "lefedes": 0.96,
+   "n": 518
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898062,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.81,
+   "lefedes": 0.99,
+   "n": 1141
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898063,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.92,
+   "lefedes": 0.97,
+   "n": 266
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898378,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.72,
+   "lefedes": 0.85,
+   "n": 236
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898380,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.76,
+   "lefedes": 0.85,
+   "n": 351
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898382,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.76,
+   "lefedes": 0.82,
+   "n": 331
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261898517,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.72,
+   "lefedes": 0.93,
+   "n": 644
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261900532,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.55,
+   "lefedes": 0.97,
+   "n": 194
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261900535,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.7,
+   "lefedes": 0.99,
+   "n": 351
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261900962,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.7,
+   "lefedes": 0.87,
+   "n": 255
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261900963,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.63,
+   "lefedes": 0.77,
+   "n": 251
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261900964,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.62,
+   "lefedes": 0.79,
+   "n": 433
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261911722,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.51,
+   "lefedes": 0.96,
+   "n": 321
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912941,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.76,
+   "lefedes": 0.87,
+   "n": 261
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912942,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.66,
+   "lefedes": 0.81,
+   "n": 120
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912943,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.59,
+   "lefedes": 0.98,
+   "n": 90
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912944,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.98,
+   "n": 257
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912945,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.81,
+   "lefedes": 0.95,
+   "n": 183
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912946,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.8,
+   "n": 381
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912952,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.59,
+   "lefedes": 0.88,
+   "n": 135
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261912954,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.69,
+   "lefedes": 0.96,
+   "n": 140
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261914788,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.8,
+   "lefedes": 0.95,
+   "n": 233
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261914794,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.53,
+   "lefedes": 0.89,
+   "n": 68
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261987168,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.86,
+   "lefedes": 0.84,
+   "n": 218
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261987171,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.91,
+   "lefedes": 0.99,
+   "n": 269
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261987174,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.89,
+   "lefedes": 0.82,
+   "n": 458
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261987175,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.75,
+   "n": 190
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988340,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.75,
+   "lefedes": 0.98,
+   "n": 491
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988342,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.81,
+   "n": 326
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988343,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.81,
+   "lefedes": 1.0,
+   "n": 783
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988344,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 0.99,
+   "n": 335
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988345,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.98,
+   "n": 742
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988349,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.67,
+   "lefedes": 0.75,
+   "n": 379
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988350,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.36,
+   "n": 48
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261988352,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.4,
+   "n": 123
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261989303,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.89,
+   "n": 164
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261989304,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.82,
+   "lefedes": 0.86,
+   "n": 403
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261989306,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.93,
+   "lefedes": 0.87,
+   "n": 667
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261989308,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.72,
+   "lefedes": 0.99,
+   "n": 153
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990235,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.65,
+   "lefedes": 0.71,
+   "n": 138
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990236,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.89,
+   "lefedes": 0.98,
+   "n": 475
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990237,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.96,
+   "lefedes": 0.82,
+   "n": 545
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990238,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.85,
+   "n": 204
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990992,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.78,
+   "lefedes": 1.0,
+   "n": 142
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990993,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.73,
+   "lefedes": 0.97,
+   "n": 154
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990997,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.92,
+   "lefedes": 0.99,
+   "n": 174
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261990998,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.77,
+   "lefedes": 1.0,
+   "n": 543
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261991000,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 0.95,
+   "n": 147
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261991003,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.91,
+   "lefedes": 1.0,
+   "n": 152
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261994123,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.85,
+   "lefedes": 0.89,
+   "n": 532
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261994306,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.88,
+   "lefedes": 0.89,
+   "n": 443
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261994307,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.77,
+   "lefedes": 0.92,
+   "n": 489
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261994309,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.84,
+   "lefedes": 0.92,
+   "n": 427
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261995598,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.89,
+   "lefedes": 1.0,
+   "n": 768
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261996216,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.8,
+   "lefedes": 0.98,
+   "n": 591
+  },
+  {
+   "osm_tipus": "way",
+   "id": 261996220,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.99,
+   "lefedes": 0.96,
+   "n": 665
+  },
+  {
+   "osm_tipus": "way",
+   "id": 263530884,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.81,
+   "lefedes": 0.89,
+   "n": 83
+  },
+  {
+   "osm_tipus": "way",
+   "id": 263530886,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.9,
+   "n": 141
+  },
+  {
+   "osm_tipus": "way",
+   "id": 263530887,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.76,
+   "lefedes": 0.7,
+   "n": 121
+  },
+  {
+   "osm_tipus": "way",
+   "id": 263530900,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.69,
+   "lefedes": 0.82,
+   "n": 118
+  },
+  {
+   "osm_tipus": "way",
+   "id": 264564798,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.56,
+   "lefedes": 0.71,
+   "n": 536
+  },
+  {
+   "osm_tipus": "way",
+   "id": 264897674,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.98,
+   "n": 51
+  },
+  {
+   "osm_tipus": "way",
+   "id": 269870987,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 545
+  },
+  {
+   "osm_tipus": "way",
+   "id": 291450290,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 196
+  },
+  {
+   "osm_tipus": "way",
+   "id": 297286358,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.99,
+   "lefedes": 0.98,
+   "n": 270
+  },
+  {
+   "osm_tipus": "way",
+   "id": 303360160,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.77,
+   "lefedes": 1.0,
+   "n": 510
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310077888,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.67,
+   "lefedes": 0.58,
+   "n": 390
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575850,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.53,
+   "lefedes": 0.7,
+   "n": 70
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575851,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.57,
+   "lefedes": 0.85,
+   "n": 168
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575853,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.64,
+   "lefedes": 0.95,
+   "n": 269
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575854,
+   "osztaly": "F+8",
+   "szint": 9,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 135
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575855,
+   "osztaly": "F",
+   "szint": 1,
+   "bizt": 0.77,
+   "lefedes": 0.78,
+   "n": 111
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575856,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.6,
+   "lefedes": 0.95,
+   "n": 382
+  },
+  {
+   "osm_tipus": "way",
+   "id": 310575857,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.85,
+   "lefedes": 0.9,
+   "n": 360
+  },
+  {
+   "osm_tipus": "way",
+   "id": 313142471,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 519
+  },
+  {
+   "osm_tipus": "way",
+   "id": 319373301,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.75,
+   "lefedes": 1.0,
+   "n": 8
+  },
+  {
+   "osm_tipus": "way",
+   "id": 319373302,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.71,
+   "lefedes": 0.64,
+   "n": 42
+  },
+  {
+   "osm_tipus": "way",
+   "id": 335276667,
+   "osztaly": "Egyedi",
+   "szint": null,
+   "bizt": 0.52,
+   "lefedes": 0.57,
+   "n": 79
+  },
+  {
+   "osm_tipus": "way",
+   "id": 336705420,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.75,
+   "n": 156
+  },
+  {
+   "osm_tipus": "way",
+   "id": 336705423,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.82,
+   "n": 138
+  },
+  {
+   "osm_tipus": "way",
+   "id": 519696082,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.58,
+   "lefedes": 0.69,
+   "n": 1312
+  },
+  {
+   "osm_tipus": "way",
+   "id": 540140425,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.86,
+   "lefedes": 0.99,
+   "n": 160
+  },
+  {
+   "osm_tipus": "way",
+   "id": 621691705,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.76,
+   "lefedes": 0.98,
+   "n": 116
+  },
+  {
+   "osm_tipus": "way",
+   "id": 621691706,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.79,
+   "lefedes": 1.0,
+   "n": 227
+  },
+  {
+   "osm_tipus": "way",
+   "id": 621691707,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.83,
+   "lefedes": 0.97,
+   "n": 66
+  },
+  {
+   "osm_tipus": "way",
+   "id": 683657377,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 595
+  },
+  {
+   "osm_tipus": "way",
+   "id": 686815029,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 0.92,
+   "n": 188
+  },
+  {
+   "osm_tipus": "way",
+   "id": 686815032,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.88,
+   "lefedes": 1.0,
+   "n": 301
+  },
+  {
+   "osm_tipus": "way",
+   "id": 694349847,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.98,
+   "lefedes": 0.99,
+   "n": 190
+  },
+  {
+   "osm_tipus": "way",
+   "id": 759145543,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 0.8,
+   "lefedes": 0.76,
+   "n": 171
+  },
+  {
+   "osm_tipus": "way",
+   "id": 854935157,
+   "osztaly": "F+4",
+   "szint": 5,
+   "bizt": 0.76,
+   "lefedes": 0.63,
+   "n": 119
+  },
+  {
+   "osm_tipus": "way",
+   "id": 867116739,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.62,
+   "lefedes": 0.91,
+   "n": 100
+  },
+  {
+   "osm_tipus": "way",
+   "id": 867116740,
+   "osztaly": "F+6",
+   "szint": 7,
+   "bizt": 0.63,
+   "lefedes": 0.81,
+   "n": 127
+  },
+  {
+   "osm_tipus": "way",
+   "id": 914322827,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.76,
+   "n": 358
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1096291111,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.56,
+   "n": 25
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1214344425,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.97,
+   "n": 450
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1214344426,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.93,
+   "lefedes": 0.87,
+   "n": 450
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1264141084,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.95,
+   "n": 370
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1285215308,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.55,
+   "lefedes": 0.9,
+   "n": 4038
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1291257143,
+   "osztaly": "F+7",
+   "szint": 8,
+   "bizt": 0.9,
+   "lefedes": 0.98,
+   "n": 305
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1291257144,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.91,
+   "lefedes": 0.99,
+   "n": 375
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1419728554,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.96,
+   "lefedes": 0.84,
+   "n": 84
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1464425588,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 0.74,
+   "n": 350
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1474860348,
+   "osztaly": "F+2",
+   "szint": 3,
+   "bizt": 1.0,
+   "lefedes": 0.99,
+   "n": 447
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1495306978,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 0.77,
+   "lefedes": 0.41,
+   "n": 30
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1530362281,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.84,
+   "lefedes": 0.99,
+   "n": 183
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1530362284,
+   "osztaly": "F+3",
+   "szint": 4,
+   "bizt": 0.61,
+   "lefedes": 0.51,
+   "n": 56
+  },
+  {
+   "osm_tipus": "way",
+   "id": 1533591995,
+   "osztaly": "F+5",
+   "szint": 6,
+   "bizt": 1.0,
+   "lefedes": 1.0,
+   "n": 267
+  }
+ ]
+}

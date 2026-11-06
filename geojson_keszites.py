@@ -18,9 +18,9 @@ BBOX = "47.490,19.040,47.513,19.062"
 
 query = f"""
 [out:json][timeout:180];
-way["building"]({BBOX});
+way["building"]["building"!="roof"]({BBOX});
 out tags geom;
-relation["building"]({BBOX});
+relation["building"]["building"!="roof"]({BBOX});
 out body geom;
 """
 
