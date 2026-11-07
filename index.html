@@ -20,6 +20,13 @@
     #kapcsolok { left: 10px; top: 10px; max-width: 260px; }
     #kapcsolok label { display: block; margin: 4px 0; cursor: pointer; }
     #kapcsolok small { color: #555; }
+    #szerk-panel { margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; display: none; }
+    #szerk-panel button, .szerk-gomb, .szerk-urlap button { cursor: pointer; margin-top: 4px; }
+    .szerk-urlap label { display: block; margin: 4px 0; font-size: 12px; }
+    .szerk-urlap input { width: 95%; box-sizing: border-box; }
+    .szerk-uzenet { margin-top: 4px; font-size: 12px; }
+    .szerk-hiba { color: #b00020; }
+    .szerk-ok { color: #1b6e2d; }
   </style>
 </head>
 <body>
@@ -33,9 +40,18 @@
     <label><input type="checkbox" id="vedett">
       Védett épületek kiemelése<br>
       <small>műemlék, helyi védelem; a többi épület szürke lesz</small></label>
+    <label><input type="checkbox" id="wikipedia-kiemel">
+      Wikipédia-cikkel rendelkező épületek kiemelése<br>
+      <small>a többi épület szürke lesz</small></label>
     <label><input type="checkbox" id="kozeli">
       Közeli találatok magentával<br>
       <small>a Lechner-pont nem esett az épületbe, ellenőrizendő</small></label>
+    <div id="szerk-panel">
+      <strong>Szerkesztési mód</strong><br>
+      <small>Kattints egy épületre, és a popupban javíthatod az adatait.</small><br>
+      <button type="button" id="ujraepit">Térkép újraépítése a javításokkal</button>
+      <div id="ujraepit-uzenet" class="szerk-uzenet"></div>
+    </div>
   </div>
 
   <div id="jelmagyarazat" class="panel">
@@ -116,20 +132,27 @@
 
     // --- kapcsolók ---
     const VEDETT = ["any", ["has", "vedettseg"], ["has", "vedettseg_helyi"]];
+    const VAN_WIKIPEDIA = ["has", "wikipedia"];
     const NEM_VEDETT_SZIN = "#d0d0d0";
 
     function frissitStilus() {
       const kiemel = document.getElementById("kiemel").checked;
       const kozeliJelol = document.getElementById("kozeli").checked;
       const vedettKiemel = document.getElementById("vedett").checked;
+      const wikiKiemel = document.getElementById("wikipedia-kiemel").checked;
+      // a bekapcsolt kiemelések uniója: ami bármelyik feltételnek megfelel, megtartja a színét
+      const feltetelek = [];
+      if (vedettKiemel) feltetelek.push(VEDETT);
+      if (wikiKiemel) feltetelek.push(VAN_WIKIPEDIA);
+      const kiemelt = feltetelek.length === 1 ? feltetelek[0] : ["any"].concat(feltetelek);
       terkep.setPaintProperty("epuletek-alap", "fill-extrusion-opacity", kiemel ? 0.3 : 0.9);
       RETEGEK.forEach((id) => {
         const alap = (id === "epuletek-kozeli" && kozeliJelol) ? KOZELI_SZIN : EV_SZINEK;
         terkep.setPaintProperty(id, "fill-extrusion-color",
-          vedettKiemel ? ["case", VEDETT, alap, NEM_VEDETT_SZIN] : alap);
+          feltetelek.length ? ["case", kiemelt, alap, NEM_VEDETT_SZIN] : alap);
       });
     }
-    ["kiemel", "kozeli", "vedett"].forEach((id) => {
+    ["kiemel", "kozeli", "vedett", "wikipedia-kiemel"].forEach((id) => {
       document.getElementById(id).addEventListener("change", () => {
         if (terkep.getLayer("epuletek-alap")) frissitStilus();
       });
@@ -190,6 +213,16 @@
       return sor + "<br>";
     }
 
+    function wikipediaSor(p) {
+      const linkek = String(p.wikipedia || "").split("|").slice(0, 3).map((cikk) => {
+        const m = /^(hu|en):(.+)$/.exec(cikk.trim());
+        if (!m) return "";
+        const url = `https://${m[1]}.wikipedia.org/wiki/${encodeURIComponent(m[2].replace(/ /g, "_"))}`;
+        return `<a href="${url}" target="_blank" rel="noopener">${biztonsagos(m[2])}</a> <small>(Wikipédia, ${m[1]})</small>`;
+      }).filter(Boolean);
+      return linkek.length ? `Wikipédia: ${linkek.join("; ")}<br>` : "";
+    }
+
     function vedettsegSor(p) {
       const reszek = [];
       if (p.vedettseg) reszek.push(VEDETTSEG_NEVEK[p.vedettseg] || p.vedettseg);
@@ -210,6 +243,7 @@
       }
       if (p.stilus) html += `Stílus: ${biztonsagos(p.stilus)}<br>`;
       html += vedettsegSor(p);
+      html += wikipediaSor(p);
       html += szintSor(p);
       html += magassagSor(p);
       html += `OSM-azonosító: ${biztonsagos((p.osm_tipus || "way") + " " + p.id)}`;
@@ -226,16 +260,148 @@
           html += `<small>A pont nem esik az épületbe, csak a közelébe, a párosítás bizonytalan.</small>`;
         }
       }
+      if (szerkeszto) html += `<hr style="margin:6px 0"><button type="button" class="szerk-gomb">Szerkesztés</button>`;
       return html;
     }
+
+    // --- szerkesztési mód (csak a py szerkeszto_szerver.py mellett érhető el) ---
+    let szerkeszto = false;
+    fetch("/api/ping", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        szerkeszto = !!d.szerkeszto;
+        if (szerkeszto) document.getElementById("szerk-panel").style.display = "block";
+      })
+      .catch(() => {});
+
+    const SZERKESZTHETO = [
+      { mezo: "ev", cimke: "Építési év", tipus: "number" },
+      { mezo: "tervezo", cimke: "Tervező", tipus: "text" },
+      { mezo: "szintek", cimke: "Szintszám", tipus: "number" },
+      { mezo: "magassag", cimke: "Magasság (m)", tipus: "number" },
+      { mezo: "wikipedia", cimke: "Wikipédia-cikk (link vagy hu:Cím; több esetén | jel; üresen hagyva eltávolítja)", tipus: "text" }
+    ];
+
+    async function kuldes(url, adat) {
+      const r = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Szerkeszto": "1" },
+        body: JSON.stringify(adat)
+      });
+      let valasz = {};
+      try { valasz = await r.json(); } catch (e) { /* nem JSON */ }
+      if (!r.ok || !valasz.ok) throw new Error(valasz.hiba || "A mentés nem sikerült.");
+      return valasz;
+    }
+
+    function szerkesztoUrlap(popup, p) {
+      const urlap = document.createElement("div");
+      urlap.className = "szerk-urlap";
+      const cim = document.createElement("strong");
+      cim.textContent = "Szerkesztés: " + (p.nev || p.lechner_nev || (p.osm_tipus || "way") + " " + p.id);
+      urlap.appendChild(cim);
+      const mezok = {};
+      SZERKESZTHETO.forEach((m) => {
+        const lab = document.createElement("label");
+        lab.textContent = m.cimke;
+        const inp = document.createElement("input");
+        inp.type = m.tipus;
+        if (m.tipus === "number") inp.step = "any";
+        const eredeti = (p[m.mezo] === undefined || p[m.mezo] === null || p[m.mezo] === "")
+          ? "" : String(m.mezo === "magassag" ? Math.round(p[m.mezo]) : p[m.mezo]);
+        inp.value = eredeti;
+        lab.appendChild(inp);
+        urlap.appendChild(lab);
+        mezok[m.mezo] = { inp, eredeti };
+      });
+      const forrasLab = document.createElement("label");
+      forrasLab.textContent = "Forrás (kötelező)";
+      const forras = document.createElement("input");
+      forras.type = "text";
+      forras.placeholder = "pl. Időgép, 1944-es lakásív, hrsz. 24576";
+      forrasLab.appendChild(forras);
+      urlap.appendChild(forrasLab);
+
+      const mentes = document.createElement("button");
+      mentes.type = "button";
+      mentes.textContent = "Mentés";
+      const megse = document.createElement("button");
+      megse.type = "button";
+      megse.textContent = "Mégse";
+      megse.style.marginLeft = "6px";
+      const uzenet = document.createElement("div");
+      uzenet.className = "szerk-uzenet";
+      urlap.append(mentes, megse, uzenet);
+
+      megse.addEventListener("click", () => {
+        popup.setHTML(popupHtml(p));
+        szerkesztoGombBekotese(popup, p);
+      });
+      mentes.addEventListener("click", async () => {
+        const valtozott = SZERKESZTHETO.filter((m) => mezok[m.mezo].inp.value.trim() !== mezok[m.mezo].eredeti);
+        uzenet.className = "szerk-uzenet";
+        if (!valtozott.length) { uzenet.textContent = "Nem változtattál semmit."; return; }
+        if (!forras.value.trim()) {
+          uzenet.className = "szerk-uzenet szerk-hiba";
+          uzenet.textContent = "Add meg a forrást.";
+          return;
+        }
+        mentes.disabled = true;
+        try {
+          for (const m of valtozott) {
+            const ertek = mezok[m.mezo].inp.value.trim();
+            if (ertek === "" && m.mezo !== "wikipedia") throw new Error(`A(z) ${m.cimke} nem lehet üres (törlés nem támogatott).`);
+            await kuldes("/api/javitas", {
+              osm_tipus: p.osm_tipus || "way", id: p.id, mezo: m.mezo,
+              ertek: ertek === "" ? "-" : ertek, megjegyzes: forras.value.trim()
+            });
+            mezok[m.mezo].eredeti = ertek;
+          }
+          uzenet.className = "szerk-uzenet szerk-ok";
+          uzenet.textContent = `Mentve (${valtozott.length} mező). A térképen az újraépítés után látszik.`;
+        } catch (hiba) {
+          uzenet.className = "szerk-uzenet szerk-hiba";
+          uzenet.textContent = hiba.message;
+        } finally {
+          mentes.disabled = false;
+        }
+      });
+      popup.setDOMContent(urlap);
+    }
+
+    function szerkesztoGombBekotese(popup, p) {
+      const gomb = popup.getElement() && popup.getElement().querySelector(".szerk-gomb");
+      if (gomb) gomb.addEventListener("click", () => szerkesztoUrlap(popup, p));
+    }
+
+    document.getElementById("ujraepit").addEventListener("click", async () => {
+      const uzenet = document.getElementById("ujraepit-uzenet");
+      const gomb = document.getElementById("ujraepit");
+      gomb.disabled = true;
+      uzenet.className = "szerk-uzenet";
+      uzenet.textContent = "Újraépítés folyamatban...";
+      try {
+        await kuldes("/api/ujraepit", {});
+        terkep.getSource("epuletek").setData(ADATFAJL + "?t=" + Date.now());
+        uzenet.className = "szerk-uzenet szerk-ok";
+        uzenet.textContent = "Kész, a térkép frissült.";
+      } catch (hiba) {
+        uzenet.className = "szerk-uzenet szerk-hiba";
+        uzenet.textContent = hiba.message;
+      } finally {
+        gomb.disabled = false;
+      }
+    });
 
     terkep.on("click", (e) => {
       const talalatok = terkep.queryRenderedFeatures(e.point, { layers: RETEGEK });
       if (!talalatok.length) return;
-      new maplibregl.Popup({ maxWidth: "320px" })
+      const p = talalatok[0].properties;
+      const popup = new maplibregl.Popup({ maxWidth: "320px" })
         .setLngLat(e.lngLat)
-        .setHTML(popupHtml(talalatok[0].properties))
+        .setHTML(popupHtml(p))
         .addTo(terkep);
+      szerkesztoGombBekotese(popup, p);
     });
 
     terkep.on("mousemove", (e) => {

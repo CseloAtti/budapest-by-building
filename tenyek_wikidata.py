@@ -33,14 +33,25 @@ def lekeres(azonositok, props):
     ut = CACHE / nev
     if ut.exists():
         return json.loads(ut.read_text(encoding="utf-8"))
-    url = API + "?" + urllib.parse.urlencode({
-        "action": "wbgetentities", "ids": "|".join(azonositok), "props": props,
-        "languages": "hu|en", "format": "json"})
+    params = {"action": "wbgetentities", "ids": "|".join(azonositok), "props": props,
+              "languages": "hu|en", "format": "json"}
+    if "sitelinks" in props:
+        params["sitefilter"] = "huwiki|enwiki"
+    url = API + "?" + urllib.parse.urlencode(params)
     adat = http_json(url)
     CACHE.mkdir(parents=True, exist_ok=True)
     ut.write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
     time.sleep(SZUNET_MP)
     return adat
+
+
+def wikipedia_cikk(entitas):
+    """A Wikipedia-cikk, ha van: 'hu:Cím' (előnyben) vagy 'en:Cím'."""
+    s = (entitas or {}).get("sitelinks", {})
+    for kulcs_, nyelv in (("huwiki", "hu"), ("enwiki", "en")):
+        if kulcs_ in s and s[kulcs_].get("title"):
+            return f"{nyelv}:{s[kulcs_]['title']}"
+    return None
 
 
 def csomagokban(lista, n):
@@ -91,7 +102,7 @@ def main():
 
     entitasok = {}
     for cs in csomagokban(qidok, CSOMAG):
-        entitasok.update(lekeres(cs, "claims|labels").get("entities", {}))
+        entitasok.update(lekeres(cs, "claims|labels|sitelinks").get("entities", {}))
     print(f"Letöltött elemek: {len(entitasok)}")
 
     # az építészek és stílusok nevei
@@ -116,6 +127,8 @@ def main():
             t, i = k
             if cimke(e):
                 sorok.append((t, i, "wikidata_nev", cimke(e), W, q))
+            if wikipedia_cikk(e):
+                sorok.append((t, i, "wikipedia", wikipedia_cikk(e), W, q))
             ev = ev_a_claimekbol(cl)
             if ev:
                 sorok.append((t, i, "ev", ev, W, f"{q}: P571"))

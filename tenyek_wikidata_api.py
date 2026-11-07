@@ -14,7 +14,8 @@ import urllib.request
 from pathlib import Path
 
 from kozos import http_json, kulcs, legkozelebbi_csucs_m, pont_barmelyikben, poligonok, tenyek_irasa
-from tenyek_wikidata import API, CACHE, KLIENS, SZUNET_MP, cimke, csomagokban, elemek_id, ev_a_claimekbol, lekeres
+from tenyek_wikidata import (API, CACHE, KLIENS, SZUNET_MP, cimke, csomagokban, elemek_id,
+                             ev_a_claimekbol, lekeres, wikipedia_cikk)
 
 OSM = "data/belvaros_epuletek.geojson"
 KIMENET = "data/tenyek/wikidata_terulet.csv"
@@ -88,7 +89,7 @@ def main():
     # 2) az elemek adatai
     entitasok = {}
     for cs in csomagokban(sorted(talalatok), 50):
-        entitasok.update(lekeres(cs, "claims|labels").get("entities", {}))
+        entitasok.update(lekeres(cs, "claims|labels|sitelinks").get("entities", {}))
 
     # 3) csak épületek, építési évvel
     jeloltek = {}
@@ -147,6 +148,8 @@ def main():
         sorok.append((t, i, "wikidata_id", q, mod, ""))
         if cimke(e):
             sorok.append((t, i, "wikidata_nev", cimke(e), mod, q))
+        if wikipedia_cikk(e):
+            sorok.append((t, i, "wikipedia", wikipedia_cikk(e), mod, q))
         sorok.append((t, i, "ev", ev_a_claimekbol(cl), mod, f"{q}: P571"))
         epitesz = [nevek.get(x) for x in elemek_id(cl, "P84") if nevek.get(x)]
         if epitesz:

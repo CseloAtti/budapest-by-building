@@ -123,7 +123,8 @@ def main():
             for m in ("ev", "tervezo", "szintek"):
                 valasztott = None
                 for forras in pri[m]:
-                    for f_, v, megj in jel[m]:
+                    # a kézi javításnál a legutoljára beírt érték győz
+                    for f_, v, megj in (reversed(jel[m]) if forras == "kezi" else jel[m]):
                         if f_ == forras:
                             valasztott = (f_, v, megj)
                             break
@@ -169,7 +170,7 @@ def main():
             jel["magassag"].append(("alapertelmezett", pri["alapertelmezett_magassag"], ""))
             valasztott = None
             for forras in pri["magassag"]:
-                for f_, v, megj in jel["magassag"]:
+                for f_, v, megj in (reversed(jel["magassag"]) if forras == "kezi" else jel["magassag"]):
                     if f_ == forras:
                         valasztott = (f_, v)
                         break
@@ -189,11 +190,16 @@ def main():
             for mezo, vals in tn.items():
                 if mezo in DONTO_MEZOK:
                     continue
-                pr[mezo] = vals[-1][1]
-            for mezo, vals in tn.items():          # a kézi javítás az egyéb mezőknél is győz
                 kezi = [x for x in vals if x[0] == "kezi"]
-                if kezi and mezo not in DONTO_MEZOK:
+                if kezi:                            # a kézi javítás az egyéb mezőknél is győz
                     pr[mezo] = kezi[-1][1]
+                elif mezo == "wikipedia":           # több forrás cikkei egyesítve (legfeljebb 3)
+                    egyedi = list(dict.fromkeys(str(x[1]) for x in vals))
+                    pr[mezo] = "|".join(egyedi[:3])
+                else:
+                    pr[mezo] = vals[-1][1]
+                if pr.get(mezo) in ("-", ""):       # '-' = a kézi javítás eltávolítja a mezőt
+                    pr.pop(mezo, None)
 
     with open(KIMENET, "w", encoding="utf-8") as f:
         json.dump(gj, f, ensure_ascii=False)

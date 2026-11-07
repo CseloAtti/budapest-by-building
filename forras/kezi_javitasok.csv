@@ -1,1 +1,19 @@
 ﻿osm_tipus;id;mezo;ertek;forras;megjegyzes;lat;lon
+way;24053205;ev;1984;kezi;https://hu.wikipedia.org/wiki/Sk%C3%A1la_Metr%C3%B3;;
+way;24053205;tervezo;Kővári György;kezi;https://hu.wikipedia.org/wiki/Sk%C3%A1la_Metr%C3%B3;;
+way;24053205;szintek;8;kezi;https://hu.wikipedia.org/wiki/Sk%C3%A1la_Metr%C3%B3;;
+way;24053205;magassag;28;kezi;https://hu.wikipedia.org/wiki/Sk%C3%A1la_Metr%C3%B3;;
+relation;11772;wikipedia;hu:Magyar Tudományos Akadémia;kezi;wikipedia;;
+way;24050409;wikipedia;hu:InterContinental Budapest Hotel;kezi;Wikipedia;;
+relation;20593057;wikipedia;hu:Szent István-bazilika (Budapest);kezi;Wikipedia;;
+relation;13062;wikipedia;-;kezi;wikipedia;;
+way;24000390;wikipedia;hu:Magyar Állami Operaház;kezi;-;;
+way;24321885;ev;1300;kezi;-;;
+way;57716767;tervezo;Nyiri István;kezi;-;;
+way;57716767;ev;1951;kezi;-;;
+way;57716767;ev;1949;kezi;-;;
+way;57716767;wikipedia;hu:Erzsébet tér autóbusz-pályaudvar;kezi;-;;
+way;24051069;ev;1918;kezi;-;;
+way;24051069;ev;1918;kezi;-;;
+way;24051069;tervezo;Tőry Emil, Pogány Móric;kezi;-;;
+relation;11844;wikipedia;hu:Magyar Nemzeti Bank;kezi;-;;
