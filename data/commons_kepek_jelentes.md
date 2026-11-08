@@ -1,0 +1,67 @@
+# Commons-fotók az épületekhez
+
+- Commons-fájl a területen: 16432
+- épület fotóval: 294 (cím alapján: 231, név alapján: 63)
+
+## Példák az ellenőrzéshez (mód; épület; fájl)
+
+- nev; Rác-fürdő; https://commons.wikimedia.org/wiki/File:Rác_Gyógyfürdő,_Budapest_02.jpg
+- nev; Országos Idegennyelvű Könyvtár; https://commons.wikimedia.org/wiki/File:Orszagos_Idegennyelvu_Konyvtar_olvasoterem_20220601.jpg
+- nev; relation:3259753; https://commons.wikimedia.org/wiki/File:Budapest,_Szent_Mihály-templom_Nepomuki_Szent_János-szobra_2023_01.jpg
+- nev; Belvárosi Szent Mihály-templom; https://commons.wikimedia.org/wiki/File:Budapest,_belvárosi_Szent_Mihály-templom_Jézus_Szíve-mellékoltára_2023_02.jpg
+- cim; Lakóház; https://commons.wikimedia.org/wiki/File:Váci_utca_52,_Budapest_(37578086815).jpg
+- cim; way:248705966; https://commons.wikimedia.org/wiki/File:Budapest,_Szerb_utca_17-19,_4.jpg
+- nev; relation:15839; https://commons.wikimedia.org/wiki/File:Budapest,_Egyetem_tér,_Eötvös_Loránd_Tudományegyetem,_7.jpg
+- nev; relation:15843; https://commons.wikimedia.org/wiki/File:Központi_Papnevelő_Intézet,_Teréz_Anya,_2016_Budapest.jpg
+- cim; way:247082811; https://commons.wikimedia.org/wiki/File:Károlyi_utca_19,_Budapest_(38438683701).jpg
+- nev; Egyetemi Kisboldogasszony-templom; https://commons.wikimedia.org/wiki/File:ELTE,_Üvegkockák_(Bojti_András),_Kisboldogasszony-templom,_2018_Belváros-Lipótváros.jpg
+- cim; relation:7933513; https://commons.wikimedia.org/wiki/File:Döbrentei_utca_15_-_az_1838-as_árvíz_szintjelzése.jpg
+- cim; way:250256468; https://commons.wikimedia.org/wiki/File:Döbrentei_utca_9_bejárat_lépcsők_02.jpg
+- cim; relation:19235592; https://commons.wikimedia.org/wiki/File:Tóth_István_emléktáblája_I_kerület_Döbrentei_utca_6.jpg
+- nev; Alexandriai Szent Katalin-templom; https://commons.wikimedia.org/wiki/File:Alexandriai_Szent_Katalin-templom_(1).jpg
+- cim; way:250255768; https://commons.wikimedia.org/wiki/File:Tabán,_Attila_út_1.,_3._(Attila_körút_46.,_48.)._Háttérben_a_Döbrentei_utca._Fortepan_52111.jpg
+- cim; way:250256469; https://commons.wikimedia.org/wiki/File:Apród_utca_10.jpg
+- nev; Ybl Budai Kreatív Ház; https://commons.wikimedia.org/wiki/File:Apród_utca_az_Ybl_Miklós_tér_felé_nézve,_háttérben_a_Várkert_Kioszk._Fortepan_55600.jpg
+- nev; relation:6392860; https://commons.wikimedia.org/wiki/File:A_Semmelweis_Orvostörténeti_Múzeum_épülete.jpg
+- nev; Szarvas-ház; https://commons.wikimedia.org/wiki/File:Szarvas-ház_1914.jpg
+- nev; Nagy rondella; https://commons.wikimedia.org/wiki/File:Kilátás_a_Déli_nagy_rondella_alatti_sétányról_az_Alexandriai_Szent_Katalin-plébániatemplom_és_a_Gellért-hegy_felé._Fortepan_101755.jpg
+- nev; Buzogány-torony; https://commons.wikimedia.org/wiki/File:Budai_Várnegyed,_Növényzet_a_Buzogány-torony_udvarán.JPG
+- nev; Piarista központ; https://commons.wikimedia.org/wiki/File:Budapest_-_Piarista_Gimnázium.jpg
+- cim; way:248922968; https://commons.wikimedia.org/wiki/File:Budapest_Március_15._tér_2_és_3._-_Fortepan_103686.jpg
+- nev; Belvárosi Nagyboldogasszony-templom; https://commons.wikimedia.org/wiki/File:Belvárosi_plébániatemplom_-_panoramio.jpg
+- cim; Millennium Center üzletház; https://commons.wikimedia.org/wiki/File:Vasudvar,_Piarista_utca_4,_2017_Budapest.jpg
+- cim; La Prima Fashion Hotel; https://commons.wikimedia.org/wiki/File:Staffenberg-bérház,_Sameer_és_Zuhair,_Piarista_utca_6,_2017_Budapest.jpg
+- cim; relation:3227995; https://commons.wikimedia.org/wiki/File:Budapešť,_régi_posta_utca_04.jpg
+- cim; relation:3349874; https://commons.wikimedia.org/wiki/File:Budapešť,_régi_posta_utca_03.jpg
+- nev; Marriott; https://commons.wikimedia.org/wiki/File:Budapest_-_Marriott_Hotel_(24564834208).jpg
+- cim; way:166953718; https://commons.wikimedia.org/wiki/File:Borsody_László_plaque_(Budapest-05_Váci_u_38).jpg
+- cim; way:227211939; https://commons.wikimedia.org/wiki/File:Váci_u._26_-_Budapest,_Inner_City,_1056_Hungary_-_panoramio_(19).jpg
+- cim; way:256056170; https://commons.wikimedia.org/wiki/File:Dr._Balázs_György_(1926-2013)_emléktáblája,_Váci_utca_25,_2017_Budapest.jpg
+- nev; relation:2225184; https://commons.wikimedia.org/wiki/File:Budapest,_house_6-7_Március_15._tér_(Mátyás_Pince_Étterem).jpg
+- cim; Kardetter-ház; https://commons.wikimedia.org/wiki/File:Apáczai_Csere_János_utca_7._szám_(9).jpg
+- cim; relation:2225177; https://commons.wikimedia.org/wiki/File:Körfolyosó,_Belgrád_rakpart_27,_2017_Budapest100.jpg
+- nev; Kárpátia Udvar; https://commons.wikimedia.org/wiki/File:Budapest_-_Nereidák_Kútja_(37724038174).jpg
+- cim; Belvárosi Ferences templom; https://commons.wikimedia.org/wiki/File:Antall_József_(id)_emléktáblája_Ferenciek_tere_9.jpg
+- cim; relation:3020282; https://commons.wikimedia.org/wiki/File:Budapest_V._kerület,_Kossuth_Lajos_u_2_-_panoramio_-_Mister_No.jpg
+- cim; Párizsi udvar; https://commons.wikimedia.org/wiki/File:Ferenciek_tere_11,_2019_Belváros-Lipótváros.jpg
+- cim; relation:2225185; https://commons.wikimedia.org/wiki/File:Budapest_V._Ferenciek_tere_2.jpg
+- nev; ELTE Egyetemi Könyvtár; https://commons.wikimedia.org/wiki/File:Eotvos_Lorand_Tudomanyegyetem,_Egyetemi_konyvtar_P2290440-lev-1000.jpg
+- nev; Klotild-palota; https://commons.wikimedia.org/wiki/File:Klotild_palota_-_panoramio_-_Mister_No.jpg
+- nev; Centrál Irodaház; https://commons.wikimedia.org/wiki/File:Budapest,_house_9_Károlyi_utca_(Centrál_Kávéház).jpg
+- cim; relation:3020281; https://commons.wikimedia.org/wiki/File:Fountain_in_the_courtyard_of_Petőfi_Sándor_utca_3,_Budapest.jpg
+- cim; relation:3076288; https://commons.wikimedia.org/wiki/File:Kossuth_Lajos_utca_4,_atlants,_2017_Budapest_(38438724011).jpg
+- nev; Klotild-palota; https://commons.wikimedia.org/wiki/File:Klotild_palota_-_panoramio.jpg
+- cim; way:247082796; https://commons.wikimedia.org/wiki/File:Apartment_building_Cukor_utca_4.jpg
+- cim; relation:3076285; https://commons.wikimedia.org/wiki/File:Budapest_-_Kossuth_Lajos_útca_10-16_(38438733351).jpg
+- cim; relation:3318176; https://commons.wikimedia.org/wiki/File:Budapest_Váci_Utca_42_1056_Hungary.jpg
+- cim; way:303360160; https://commons.wikimedia.org/wiki/File:Charles_XII_of_Sweden_-_V._kerület,_Váci_u._43.,_Budapest_(2).jpg
+- cim; way:258289311; https://commons.wikimedia.org/wiki/File:Budapest,_Múzeum_körút,_15,_homlokzat.jpg
+- cim; relation:3309016; https://commons.wikimedia.org/wiki/File:Aczél_Bertalan_stolperstein_(Budapest-05_Reáltanoda_u_19).jpg
+- cim; Fechtig báró háza; https://commons.wikimedia.org/wiki/File:Budapest,_Bródy_Sándor_utca_2.jpg
+- cim; way:258289300; https://commons.wikimedia.org/wiki/File:Magyar_utca_30_és_gázcsőcsere,_2018_Belváros-Lipótváros.jpg
+- cim; Jászai Mari Színészház; https://commons.wikimedia.org/wiki/File:Magyar_utca_34,_2018_Belváros-Lipótváros.jpg
+- cim; way:258289302; https://commons.wikimedia.org/wiki/File:Magyar_utca_36,_2018_Belváros-Lipótváros.jpg
+- cim; way:219936433; https://commons.wikimedia.org/wiki/File:Budapest,_Rákóczi_út_4_-_panoramio.jpg
+- cim; relation:3403553; https://commons.wikimedia.org/wiki/File:Henszlmann_Imre_utca_7_(Jablonszky_Ferenc,_Vas_József,_1897),_2018_Belváros-Lipótváros.jpg
+- cim; relation:1957490; https://commons.wikimedia.org/wiki/File:Rákóczi_út_7.,_a_Stern-bérház_díszítő_szobrai,_2017-08-08_Budapest_(26662551459).jpg
+- nev; relation:2908382; https://commons.wikimedia.org/wiki/File:Belvárosi_Színház,_Budapest,_Hungary_-_panoramio_(16).jpg

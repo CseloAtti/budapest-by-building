@@ -22,6 +22,10 @@ way["building"]["building"!="roof"]({BBOX});
 out tags geom;
 relation["building"]["building"!="roof"]({BBOX});
 out body geom;
+way["building:part"]["building:part"!="roof"]({BBOX});
+out tags geom;
+relation["building:part"]["building:part"!="roof"]({BBOX});
+out body geom;
 """
 
 data = urllib.parse.urlencode({"data": query}).encode("utf-8")
@@ -134,6 +138,20 @@ def pont_gyuruben(pont, gyuru):
     return bent
 
 
+def resz_e(tags):
+    """Igaz, ha az elem csak épületrész (building:part), nem önálló épületkörvonal."""
+    return "building" not in tags and "building:part" in tags
+
+
+def lebego_e(tags):
+    """Az alapjától elemelt rész (kiugró, áthidaló stb.): ezt nem tudjuk helyesen kirajzolni."""
+    for cimke in ("min_height", "building:min_level", "min_level"):
+        v = szam(tags.get(cimke))
+        if v:
+            return True
+    return False
+
+
 def feature_keszit(elem, koordinatak):
     tags = elem["tags"]
     ev, ev_forras = evszam(tags)
@@ -144,7 +162,8 @@ def feature_keszit(elem, koordinatak):
             "id": elem["id"],
             "osm_tipus": elem["type"],
             "nev": tags.get("name"),
-            "tipus": tags.get("building"),
+            "tipus": tags.get("building") or tags.get("building:part"),
+            "resz": resz_e(tags),
             "szintek": szam(tags.get("building:levels")),
             "magassag": mag,
             "magassag_forras": mag_forras,
@@ -172,7 +191,18 @@ for e in elemek:
                 relacio_tagok.add(m["ref"])
 
 features = []
+reszek = []
+latott = set()
+lebego = 0
 for e in elemek:
+    kulcs_ = (e["type"], e["id"])
+    if kulcs_ in latott:          # az épület és az épületrész lekérdezése is visszaadhatja
+        continue
+    latott.add(kulcs_)
+    if resz_e(e.get("tags", {})) and lebego_e(e["tags"]):
+        lebego += 1
+        continue
+    cel = reszek if resz_e(e.get("tags", {})) else features
     if e["type"] == "way":
         if e["id"] in relacio_tagok:
             continue
@@ -182,7 +212,7 @@ for e in elemek:
         gyuru = [[p["lon"], p["lat"]] for p in pontok]
         if gyuru[0] != gyuru[-1]:
             gyuru.append(gyuru[0])
-        features.append(feature_keszit(e, [gyuru]))
+        cel.append(feature_keszit(e, [gyuru]))
 
     elif e["type"] == "relation":
         kulso, belso = [], []
@@ -198,13 +228,18 @@ for e in elemek:
         belso_gyuruk = gyurukke_fuz(belso)
         for k in kulso_gyuruk:
             lyukak = [b for b in belso_gyuruk if pont_gyuruben(kozeppont(b), k)]
-            features.append(feature_keszit(e, [k] + lyukak))
+            cel.append(feature_keszit(e, [k] + lyukak))
 
 geojson = {"type": "FeatureCollection", "features": features}
 Path("data").mkdir(exist_ok=True)
 with open("data/belvaros_epuletek.geojson", "w", encoding="utf-8") as fajl:
     json.dump(geojson, fajl, ensure_ascii=False)
 
+with open("data/belvaros_reszek.geojson", "w", encoding="utf-8") as fajl:
+    json.dump({"type": "FeatureCollection", "features": reszek}, fajl, ensure_ascii=False)
+print(f"Mentett épületrészek (building:part): {len(reszek)}  -> data/belvaros_reszek.geojson")
+if lebego:
+    print(f"  kihagyva {lebego} elemelt rész (min_height / min_level)")
 print(f"Mentett épületek: {len(features)}")
 for tipus in ("way", "relation"):
     db = sum(1 for ft in features if ft["properties"]["osm_tipus"] == tipus)

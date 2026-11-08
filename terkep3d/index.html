@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <title>Budapest, épületenként (3D)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<aside id="panel" class="panel">
+  <div class="panel-top">
+    <strong id="cim" data-t="cim"></strong>
+    <span id="nyelv"><button type="button" data-nyelv="hu">HU</button> <button type="button" data-nyelv="en">EN</button></span>
+  </div>
+  <div class="modes">
+    <button type="button" data-mod="0" data-t="mod_korszak"></button>
+    <button type="button" data-mod="1" data-t="mod_szint"></button>
+  </div>
+  <div id="legend"></div>
+  <div id="szintlegend" hidden><i class="ramp"></i><span data-t="szint_kicsi"></span> <span class="vege" data-t="szint_nagy"></span></div>
+  <hr>
+  <strong data-t="kiemel"></strong>
+  <label><input type="checkbox" id="vedett"> <span data-t="vedett"></span></label>
+  <label><input type="checkbox" id="wikipedia"> <span data-t="wiki"></span></label>
+  <label><input type="checkbox" id="lechner"> <span data-t="lechner"></span></label>
+  <hr>
+  <small id="szerk"><a href="../index.html" data-t="terkep_link"></a></small>
+  <br><small style="color:#5d6266">Domborzat: NASA SRTM · Adatok: OpenStreetMap, E-Örökség</small>
+</aside>
+
+<div class="tally" aria-live="polite">
+  <span id="year" class="tally-year">&nbsp;</span>
+  <span class="tally-count"><span id="count">0</span> <span data-t="epulet"></span></span>
+</div>
+
+<div id="kartya" class="kartya" hidden></div>
+<p class="howto" data-t="howto"></p>
+
+<footer class="timeline">
+  <button id="play" class="play" aria-label="Play">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path id="play-icon" d="M4 2.5v11l9-5.5z"/></svg>
+  </button>
+  <canvas id="hist"></canvas>
+</footer>
+
+<div id="loading" class="loading"><span data-t="betoltes"></span> <span id="progress">0</span>%</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

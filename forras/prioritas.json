@@ -1,9 +1,41 @@
 {
   "_magyarazat": "Mezonként a forrásoknak az a sorrendje, hogy melyik győz (elöl a legerősebb). A forrás neve a tény-táblák 'forras' oszlopából jön. A 'kezi' a forras/kezi_javitasok.csv fájlból, az 'osm' és 'osm_height' az OpenStreetMapből, a 'szintbol' a szintszámból számolt magasság.",
-  "ev":       ["kezi", "osm", "lechner", "lechner_kozeli", "muemlek", "helyi_vedelem", "wikidata", "wikidata_kozeli", "eubucco"],
-  "szintek":  ["kezi", "szintterkep", "osm", "muemlek"],
-  "tervezo":  ["kezi", "lechner", "lechner_kozeli", "muemlek", "helyi_vedelem", "wikidata", "wikidata_kozeli"],
-  "magassag": ["kezi", "osm_height", "eubucco_forras", "eubucco_becsles", "szintbol", "alapertelmezett"],
+  "ev": [
+    "kezi",
+    "osm",
+    "lechner",
+    "lechner_kozeli",
+    "muemlek",
+    "oeny",
+    "helyi_vedelem",
+    "wikidata",
+    "wikidata_kozeli",
+    "eubucco"
+  ],
+  "szintek": [
+    "kezi",
+    "szintterkep",
+    "osm",
+    "muemlek"
+  ],
+  "tervezo": [
+    "kezi",
+    "lechner",
+    "lechner_kozeli",
+    "muemlek",
+    "oeny",
+    "helyi_vedelem",
+    "wikidata",
+    "wikidata_kozeli"
+  ],
+  "magassag": [
+    "kezi",
+    "osm_height",
+    "eubucco_forras",
+    "eubucco_becsles",
+    "szintbol",
+    "alapertelmezett"
+  ],
   "meter_szintenkent": 3.0,
   "alapertelmezett_magassag": 15.0,
   "ev_tolerancia": 2

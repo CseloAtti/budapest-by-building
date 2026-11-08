@@ -1,0 +1,5429 @@
+{
+"forras": "Budapest műemlékjegyzék (könyv), a V., VI., VII. kerület részlete; csak tényszerű adatok",
+"bejegyzesek": [
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15430,
+"cim": "Bástya u.",
+"hrsz": null,
+"alt_cimek": [
+"(Kálvin tér, Ferenczy u., Múzeum körút)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15304,
+"cim": "Akadémia utca 1.",
+"hrsz": "24576",
+"alt_cimek": [
+"(Vigyázó Ferenc utca 2.)"
+],
+"emelet": 4,
+"stilus": "klasszicista",
+"evek": [
+[
+1835,
+1835
+]
+],
+"tervezo": "Zitterbarth Mátyás"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15305,
+"cim": "Akadémia utca 3.",
+"hrsz": "24571",
+"alt_cimek": [
+"(Arany János utca 3-5.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1836,
+1836
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15306,
+"cim": "Alkotmány utca 4.",
+"hrsz": "24900",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [
+[
+1913,
+1913
+]
+],
+"tervezo": "Vidor Emil"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15307,
+"cim": "Alkotmány utca 8.",
+"hrsz": "24907",
+"alt_cimek": [
+"(Szemere utca 6.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1899,
+1899
+]
+],
+"tervezo": "Meinig Artúr és Pártos Gyula"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15308,
+"cim": "Alpári Gyula utca 3.",
+"hrsz": "24548",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1836,
+1836
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15309,
+"cim": "Alpári Gyula utca 6.",
+"hrsz": "24542",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1846,
+1846
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15310,
+"cim": "Alpári Gyula utca 9.",
+"hrsz": "24630",
+"alt_cimek": [
+"(Szent István tér 2.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1855,
+1857
+]
+],
+"tervezo": "Wieser Ferenc"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15311,
+"cim": "Alpári Gyula utca 13.",
+"hrsz": "24628",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "kora eklektikus",
+"evek": [
+[
+1861,
+1861
+]
+],
+"tervezo": "Zofahl Lőrinc"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15312,
+"cim": "Apáczai Csere János utca 3.",
+"hrsz": "24398",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1811,
+1811
+]
+],
+"tervezo": "Hofrichter Jó­ zsef"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15901,
+"cim": "Apáczai Csere János utca 5.",
+"hrsz": "24397",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1813,
+1813
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15313,
+"cim": "Apáczai Csere János utca 7.",
+"hrsz": "24396",
+"alt_cimek": [
+"(Türr István utca 3.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1820,
+1820
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15314,
+"cim": "Arany János utca 7.",
+"hrsz": "24573",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1835,
+1835
+]
+],
+"tervezo": "Zofahl Lőrinc"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15315,
+"cim": "Arany János utca 15.",
+"hrsz": "24582",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1812,
+1820
+],
+[
+1842,
+1842
+]
+],
+"tervezo": "Kasselik Fidél"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15316,
+"cim": "Arany János utca 16.",
+"hrsz": "24753",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1845,
+1846
+]
+],
+"tervezo": "Gerster Károly"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15317,
+"cim": "Arany János utca 32.",
+"hrsz": "24766",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15318,
+"cim": "Arany János utca 34.",
+"hrsz": "24774",
+"alt_cimek": [
+"(Vadász utca 2.)"
+],
+"emelet": 2,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1800,
+1800
+],
+[
+1836,
+1836
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15321,
+"cim": "Bajcsy-Zsilinszky út 18.",
+"hrsz": "24634",
+"alt_cimek": [
+"(Szent István tér 16.)"
+],
+"emelet": 3,
+"stilus": "kora eklektikus",
+"evek": [
+[
+1871,
+1871
+]
+],
+"tervezo": "Gottgeb Antal"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15320,
+"cim": "Bajcsy-Zsilinszky út 16.",
+"hrsz": "24552",
+"alt_cimek": [
+"(Szent István tér 1.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1852,
+1854
+]
+],
+"tervezo": "Kasselik Ferenc"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15322,
+"cim": "Bajcsy-Zsilinszky út 20.",
+"hrsz": "24635",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "kora eklektikus",
+"evek": [
+[
+1870,
+1870
+]
+],
+"tervezo": "Lohr Antal"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15323,
+"cim": "Bajcsy-Zsilinszky út 22.",
+"hrsz": "24636",
+"alt_cimek": [],
+"emelet": 4,
+"stilus": "romantikus",
+"evek": [
+[
+1856,
+1857
+],
+[
+1869,
+1870
+],
+[
+1921,
+1921
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15324,
+"cim": "Bástya utca 27-29.",
+"hrsz": "24088",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15325,
+"cim": "Bástya utca 33.",
+"hrsz": "24086",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15326,
+"cim": "Báthory utca 20.",
+"hrsz": "24852",
+"alt_cimek": [
+"(Vadász utca 38.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1891,
+1892
+]
+],
+"tervezo": "Illés Gyula"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15327,
+"cim": "Beloiannisz utca 7-9.",
+"hrsz": "24692 1/2",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": null,
+"evek": [
+[
+1872,
+1872
+]
+],
+"tervezo": "Ybl Miklós"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15330,
+"cim": "Cukor utca 4.",
+"hrsz": "24018",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1935,
+1935
+]
+],
+"tervezo": "Kiss Tibor"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15331,
+"cim": "Deák Ferenc tér Földalatti Múzeum. (A milleniumi Földalatti vasút felhagyott sza­ kasza.)",
+"hrsz": null,
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15332,
+"cim": "Deák Ferenc tér 2.",
+"hrsz": "24446",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1913,
+1913
+]
+],
+"tervezo": "Pogány Móric"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15333,
+"cim": "Deák Ferenc tér 4.",
+"hrsz": "24361",
+"alt_cimek": [
+"(Bárczy István utca 10.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1811,
+1811
+],
+[
+1822,
+1822
+],
+[
+1854,
+1854
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15334,
+"cim": "Deák Ferenc tér 5.",
+"hrsz": "24360",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "klasszicista",
+"evek": [
+[
+1799,
+1809
+],
+[
+1836,
+1836
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15335,
+"cim": "Deák Ferenc utca 17.",
+"hrsz": "24424",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15336,
+"cim": "Deák Ferenc utca 21.",
+"hrsz": "24442",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1845,
+1845
+],
+[
+1846,
+1846
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15337,
+"cim": "Dorottya utca 3.",
+"hrsz": "24471",
+"alt_cimek": [
+"(Szende Pál utca 5.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1860,
+1860
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15338,
+"cim": "Dorottya utca 4.",
+"hrsz": "24475",
+"alt_cimek": [
+"(Szende Pál utca 3., Apáczai Csere János utca 13.)"
+],
+"emelet": 3,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1872,
+1872
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15339,
+"cim": "Dorottya utca 6.",
+"hrsz": "24487",
+"alt_cimek": [
+"(Szende Pál utca 4., Apáczai Csere János utca 15.)"
+],
+"emelet": 3,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15340,
+"cim": "Dorottya utca 11.",
+"hrsz": "24483",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1822,
+1822
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15341,
+"cim": "Egyetem tér 1-3.",
+"hrsz": "24037",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "barokk",
+"evek": [
+[
+1722,
+1742
+]
+],
+"tervezo": "Mayerhoffer András"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15342,
+"cim": "Engels tér",
+"hrsz": "24456",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1880,
+1883
+],
+[
+1957,
+1958
+]
+],
+"tervezo": "Brestyánszky Béla"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15344,
+"cim": "Engels tér",
+"hrsz": "24456",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1948,
+1949
+]
+],
+"tervezo": "Nyíri István"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15343,
+"cim": "Engels tér 1.",
+"hrsz": "24463",
+"alt_cimek": [
+"(József Attila utca 9.)"
+],
+"emelet": 3,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1848,
+1848
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15345,
+"cim": "Eötvös Loránd utca 2.",
+"hrsz": "24013",
+"alt_cimek": [
+"(Cukor utca 7., Veres Pálné utca 18.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1841,
+1841
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15346,
+"cim": "Eötvös Loránd utca 5-7.",
+"hrsz": "24036",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "barokk",
+"evek": [
+[
+1715,
+1744
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15347,
+"cim": "Fehérhajó utca 5.",
+"hrsz": "24365",
+"alt_cimek": [
+"(Bárczy István utca 4.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+]
+],
+"tervezo": "íves homlokzattal"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15348,
+"cim": "Felszabadulás tér Néreidák kútja, klasszicista, Feszi Mihály és Uhrl Ferenc.",
+"hrsz": null,
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15349,
+"cim": "Felszabadulás tér 4.",
+"hrsz": "24305",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1914,
+1914
+]
+],
+"tervezo": "Alpár Ignác"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15350,
+"cim": "Felszabadulás tér 5.",
+"hrsz": "24303",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1909,
+1909
+]
+],
+"tervezo": "Schmahl Henrik"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15351,
+"cim": "Ferenczy István utca 5.",
+"hrsz": "24132",
+"alt_cimek": [
+"(Magyar utca 16.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15353,
+"cim": "Ferenczy István utca 12.",
+"hrsz": "24175",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1810,
+1810
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15354,
+"cim": "Ferenczy István utca 28.",
+"hrsz": "24216",
+"alt_cimek": [
+"(Múzeum körút 11.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15355,
+"cim": "Guszev utca 3.",
+"hrsz": "24534",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1853,
+1854
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15356,
+"cim": "Guszev utca 12.",
+"hrsz": "24604",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1819,
+1819
+]
+],
+"tervezo": "Düttrich József"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15357,
+"cim": "Guszev utca 15.",
+"hrsz": "24616",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1861,
+1861
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15358,
+"cim": "Guszev utca 17.",
+"hrsz": "24615",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1861,
+1861
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15359,
+"cim": "Honvéd utca 28-30.",
+"hrsz": "24970",
+"alt_cimek": [
+"(Markó utca 12., Stollár Béla utca 11.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1839,
+1841
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15360,
+"cim": "Irányi utca 7.",
+"hrsz": "23877",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+]
+],
+"tervezo": "Kasselik Ferenc"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15361,
+"cim": "József Attila utca 6.",
+"hrsz": "24513",
+"alt_cimek": [
+"(Münnich Ferenc utca 2.)"
+],
+"emelet": 5,
+"stilus": "klasszicista",
+"evek": [
+[
+1822,
+1822
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15362,
+"cim": "József Attila utca 16.",
+"hrsz": "24531",
+"alt_cimek": [
+"(Október 6. utca 1.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1790,
+1790
+],
+[
+1807,
+1810
+],
+[
+1838,
+1839
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15363,
+"cim": "József nádor tér 1.",
+"hrsz": "24481/1",
+"alt_cimek": [
+"(József Attila utca 5.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1824,
+1824
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15364,
+"cim": "József nádor tér 5-6.",
+"hrsz": "24470",
+"alt_cimek": [],
+"emelet": 4,
+"stilus": "romantikus",
+"evek": [
+[
+1860,
+1861
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15365,
+"cim": "József nádor tér 7.",
+"hrsz": "24469",
+"alt_cimek": [
+"(Harmincad utca 2.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1833,
+1833
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15328,
+"cim": "Kálvin tér 1.",
+"hrsz": "24084",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15329,
+"cim": "Kálvin tér 5.",
+"hrsz": "24080",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1806,
+1808
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15366,
+"cim": "Károlyi Mihály utca 2.",
+"hrsz": "24187",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "romantikus",
+"evek": [
+[
+1727,
+1743
+],
+[
+1858,
+1863
+]
+],
+"tervezo": "barokk."
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15367,
+"cim": "Károlyi Mihály utca 10.",
+"hrsz": "24186",
+"alt_cimek": [
+"(Reáltanoda utca 2.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1873,
+1876
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15368,
+"cim": "Károlyi Mihály utca 12.",
+"hrsz": "24178",
+"alt_cimek": [
+"(Reáltanoda utca 1-3.)"
+],
+"emelet": 3,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1860,
+1867
+]
+],
+"tervezo": "Ybl Miklós"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15369,
+"cim": "Károlyi Mihály utca 16.",
+"hrsz": "24165",
+"alt_cimek": [
+"(Ferenczy István utca 1., Henszlmann Imre utca 2.)"
+],
+"emelet": 1,
+"stilus": "klasszicista",
+"evek": [
+[
+1832,
+1832
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MK",
+"torzsszam": 15370,
+"cim": "Károlyi Mihály utca A Károlyi-palota környezete.",
+"hrsz": null,
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15371,
+"cim": "Kecskeméti utca 1.",
+"hrsz": "24114",
+"alt_cimek": [
+"(Egyetem tér 4., Királyi Pál utca 2.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1867,
+1867
+]
+],
+"tervezo": "Pan József"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15902,
+"cim": "Kecskeméti utca 3.",
+"hrsz": "24113",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "kora eklektikus",
+"evek": [
+[
+1875,
+1876
+]
+],
+"tervezo": "Steindl Imre"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15372,
+"cim": "Kecskeméti utca 7.",
+"hrsz": "24109",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "kora eklektikus",
+"evek": [
+[
+1868,
+1868
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15373,
+"cim": "Királyi Pál utca 13/B",
+"hrsz": "24062/3",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15374,
+"cim": "Királyi Pál utca 18.",
+"hrsz": "24090",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15891,
+"cim": "Királyi Pál utca 18.",
+"hrsz": "24090",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15375,
+"cim": "Kossuth Lajos tér 1-3.",
+"hrsz": "",
+"alt_cimek": [
+"(Széchenyi rakpart 11.)"
+],
+"emelet": null,
+"stilus": "neogótikus",
+"evek": [
+[
+1884,
+1904
+]
+],
+"tervezo": "Steindl Imre"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15376,
+"cim": "Kossuth Lajos tér 11.",
+"hrsz": "24891",
+"alt_cimek": [
+"(Alkotmány utca 1., Báthory utca 2-4., Kozma Ferenc utca 2.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1895,
+1895
+]
+],
+"tervezo": "Bukovics Gyula"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15377,
+"cim": "Kossuth Lajos tér 12.",
+"hrsz": "24898",
+"alt_cimek": [
+"(Alkotmány utca 2., László Jenő utca 2., Szalay utca 1.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1896,
+1897
+]
+],
+"tervezo": "Hauszmann Alajos"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15378,
+"cim": "Kossuth Lajos utca 3.",
+"hrsz": "24189/1",
+"alt_cimek": [
+"(Szép utca 1.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1816,
+1816
+],
+[
+1851,
+1851
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15379,
+"cim": "Kristóf tér 7-8.",
+"hrsz": "24411",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1910,
+1910
+],
+[
+1836,
+1836
+],
+[
+1837,
+1837
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15380,
+"cim": "Lengyel Gyula utca 3.",
+"hrsz": "24769",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1847,
+1848
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15381,
+"cim": "Magyar utca 11.",
+"hrsz": "24169",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1858,
+1858
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15382,
+"cim": "Magyar utca 20.",
+"hrsz": "24134",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15383,
+"cim": "Magyar utca 24.",
+"hrsz": "24136",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15384,
+"cim": "Magyar utca 25.",
+"hrsz": "24153",
+"alt_cimek": [],
+"emelet": 1,
+"stilus": "romantikus",
+"evek": [
+[
+1847,
+1847
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15385,
+"cim": "Magyar utca 31-33.",
+"hrsz": "24150",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1838,
+1838
+]
+],
+"tervezo": "Pollack Ágost"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15386,
+"cim": "Magyar utca 36.",
+"hrsz": "24142",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15387,
+"cim": "Magyar utca 42.",
+"hrsz": "24144",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1864,
+1864
+],
+[
+1960,
+1960
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15388,
+"cim": "Magyar utca 52.",
+"hrsz": "24148",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15389,
+"cim": "Margit-híd Gouin Ernest és társa, 1872-76. A szigeti szárnyhíd 1899-1900-ban épült.",
+"hrsz": null,
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15390,
+"cim": "Markó utca 9-11.",
+"hrsz": "24932-24933",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1926,
+1931
+],
+[
+1913,
+1918
+]
+],
+"tervezo": "Györgyi Dénes és Román Ernő"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15392,
+"cim": "Martinelli tér 3.",
+"hrsz": "24372",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [
+[
+1906,
+1906
+]
+],
+"tervezo": "Böhm Henrik és Hegedűs Ármin"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15393,
+"cim": "Martinelli tér 5.",
+"hrsz": "24376",
+"alt_cimek": [],
+"emelet": 6,
+"stilus": null,
+"evek": [
+[
+1910,
+1911
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15394,
+"cim": "Martinelli tér 7.",
+"hrsz": "24355",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "eklektikus",
+"evek": [
+[
+1725,
+1732
+],
+[
+1871,
+1871
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15395,
+"cim": "Március 15. tér",
+"hrsz": "24314",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15396,
+"cim": "Március 15. tér",
+"hrsz": "24311",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "barokk",
+"evek": [
+[
+1725,
+1739
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MK",
+"torzsszam": 15397,
+"cim": "Március 15. tér",
+"hrsz": null,
+"alt_cimek": [
+"(Pesti Barnabás u., Irányi u., Galamb u.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15398,
+"cim": "Március 15. tér",
+"hrsz": "24311",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15399,
+"cim": "Mérleg utca 9.",
+"hrsz": "24508",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1839,
+1839
+],
+[
+1852,
+1852
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15400,
+"cim": "Mérleg utca 11.",
+"hrsz": "24507",
+"alt_cimek": [
+"(Hild tér 4.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15401,
+"cim": "Molnár utca 14.",
+"hrsz": "23886",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1870,
+1870
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15402,
+"cim": "Molnár utca 31.",
+"hrsz": "23833",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "klasszicista",
+"evek": [
+[
+1862,
+1862
+]
+],
+"tervezo": "Hild János"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15403,
+"cim": "Múzeum körút 5.",
+"hrsz": "24219",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1850,
+1850
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15404,
+"cim": "Múzeum körút 7.",
+"hrsz": "24218",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": null,
+"evek": [
+[
+1852,
+1852
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15405,
+"cim": "Múzeum körút 9.",
+"hrsz": "24217",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15406,
+"cim": "Múzeum körút 19.",
+"hrsz": "24217",
+"alt_cimek": [
+"(Magyar utca 26.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15407,
+"cim": "Múzeum körút 21.",
+"hrsz": "24126",
+"alt_cimek": [
+"(Magyar u. 28-30.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1863,
+1863
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15408,
+"cim": "Múzeum körút 23-25.",
+"hrsz": "24125",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15409,
+"cim": "Múzeum körút 29.",
+"hrsz": "24123",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15410,
+"cim": "Múzeum körút 31-33.",
+"hrsz": "24121, 24122",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15411,
+"cim": "Münnich Ferenc utca 3.",
+"hrsz": "24509",
+"alt_cimek": [
+"(Mérleg utca 7.)"
+],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1820,
+1820
+],
+[
+1861,
+1861
+],
+[
+1861,
+1861
+]
+],
+"tervezo": "Brein Ignác"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15412,
+"cim": "Münnich Ferenc utca 5.",
+"hrsz": "24522",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1839,
+1840
+],
+[
+1901,
+1902
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15413,
+"cim": "Münnich Ferenc utca 6.",
+"hrsz": "24517",
+"alt_cimek": [
+"(Mérleg utca 8.)"
+],
+"emelet": 5,
+"stilus": null,
+"evek": [
+[
+1912,
+1913
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15414,
+"cim": "Münnich Ferenc utca 7.",
+"hrsz": "24521",
+"alt_cimek": [
+"(Zrínyi utca 7.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1830,
+1830
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15415,
+"cim": "Münnich Ferenc utca 9.",
+"hrsz": "24587",
+"alt_cimek": [
+"(Zrínyi utca 8.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1820,
+1820
+],
+[
+1826,
+1827
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15416,
+"cim": "Münnich Ferenc utca 12.",
+"hrsz": "24561",
+"alt_cimek": [
+"(Zrínyi utca 6.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1834,
+1834
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15417,
+"cim": "Münnich Ferenc utca 18.",
+"hrsz": "24575",
+"alt_cimek": [
+"(Arany János utca 11.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1853,
+1853
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15418,
+"cim": "Münnich Ferenc utca 19.",
+"hrsz": "24581",
+"alt_cimek": [
+"(Arany János utca 13.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1861,
+1861
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15419,
+"cim": "Münnich Ferenc utca 20.",
+"hrsz": "24658",
+"alt_cimek": [
+"(Arany János utca 12.)"
+],
+"emelet": 4,
+"stilus": "romantikus",
+"evek": [
+[
+1850,
+1852
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15420,
+"cim": "Münnich Ferenc utca 22.",
+"hrsz": "24659",
+"alt_cimek": [
+"(Széchenyi utca 9.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1846,
+1848
+],
+[
+1864,
+1864
+]
+],
+"tervezo": "majd Frohner-szálló) Feszl-Gerster-Kauser"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15421,
+"cim": "Münnich Ferenc utca 30.",
+"hrsz": "24689",
+"alt_cimek": [
+"(Belloiannisz utca 15.)"
+],
+"emelet": 3,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1845,
+1846
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15422,
+"cim": "Münnich Ferenc utca 32.",
+"hrsz": "24702",
+"alt_cimek": [
+"(Beloiannisz utca 14.)"
+],
+"emelet": null,
+"stilus": "eklektikus",
+"evek": [
+[
+1863,
+1863
+]
+],
+"tervezo": "Wagner János"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15423,
+"cim": "Nagy Ignác utca 2.",
+"hrsz": "24911",
+"alt_cimek": [
+"(Alkotmány utca 12.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1890,
+1890
+]
+],
+"tervezo": "Pecz Samu"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15424,
+"cim": "Október 6. utca 3.",
+"hrsz": "24530",
+"alt_cimek": [
+"(Guszev utca 4.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15425,
+"cim": "Október 6. utca 5.",
+"hrsz": "24529",
+"alt_cimek": [
+"(Guszev utca 6.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1820,
+1820
+],
+[
+1845,
+1845
+]
+],
+"tervezo": "két utcára néző homlokzattal. Pollack Mihály"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15426,
+"cim": "Október 6. utca 7.",
+"hrsz": "24528",
+"alt_cimek": [
+"(Guszev utca 8., Zrínyi utca 13.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1830,
+1832
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15427,
+"cim": "Október 6. utca 22.",
+"hrsz": "24585",
+"alt_cimek": [
+"(Arany János utca 17.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1812,
+1812
+]
+],
+"tervezo": "Kasselik Fidél"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15428,
+"cim": "Párisi utca 6.",
+"hrsz": "24349",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1944,
+1944
+]
+],
+"tervezo": "Gerlóczy Gedeon"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15429,
+"cim": "Pesti Barnabás utca 2.",
+"hrsz": "24327/4",
+"alt_cimek": [
+"(Galamb utca 1.)"
+],
+"emelet": 1,
+"stilus": "barokk",
+"evek": [
+[
+1744,
+1744
+]
+],
+"tervezo": "Mayerhoffer András"
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15431,
+"cim": "Petőfi Sándor utca 3.",
+"hrsz": "24288",
+"alt_cimek": [
+"(Városház utca 6.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1832,
+1832
+],
+[
+1835,
+1836
+],
+[
+1847,
+1847
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15432,
+"cim": "Petőfi Sándor utca 13-15.",
+"hrsz": "24353",
+"alt_cimek": [
+"(Párisi utca 8., Városház utca 18.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1871,
+1871
+]
+],
+"tervezo": "Koch Henrik"
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15433,
+"cim": "Petőfi tér 2/B",
+"hrsz": "24322/4",
+"alt_cimek": [
+"(Galamb utca 4/B)"
+],
+"emelet": null,
+"stilus": "copf",
+"evek": [
+[
+1794,
+1801
+],
+[
+1872,
+1874
+]
+],
+"tervezo": "Jung József"
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15434,
+"cim": "Reáltanoda utca 17.",
+"hrsz": "24183",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1859,
+1859
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15435,
+"cim": "Reáltanoda utca 19.",
+"hrsz": "24184",
+"alt_cimek": [
+"(Magyar utca 9.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1847,
+1847
+]
+],
+"tervezo": "Wagner János"
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15436,
+"cim": "Régiposta utca 4.",
+"hrsz": "24392",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1843,
+1843
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": null,
+"torzsszam": 15437,
+"cim": "Régiposta utca 13.",
+"hrsz": "24337",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "modern",
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15438,
+"cim": "Régiposta utca 15.",
+"hrsz": "24338",
+"alt_cimek": [
+"(Váci utca 13.)"
+],
+"emelet": 3,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1804,
+1806
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15439,
+"cim": "Roosevelt tér 5.",
+"hrsz": "24515",
+"alt_cimek": [
+"(Mérleg utca 2., Zrínyi utca 1.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1907,
+1907
+]
+],
+"tervezo": "Quittner Zsigmond és Vágó József"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15440,
+"cim": "Roosevelt tér 9.",
+"hrsz": "24569",
+"alt_cimek": [
+"(Akadémia utca 2., Széchenyi rakpart 1.)"
+],
+"emelet": 2,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1862,
+1864
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15441,
+"cim": "Rosenberg házaspár utca 4.",
+"hrsz": "24744",
+"alt_cimek": [
+"(Kiss Ernő utca 4., Perczel Mór utca 3.)"
+],
+"emelet": 4,
+"stilus": "szecessziós",
+"evek": [
+[
+1900,
+1900
+]
+],
+"tervezo": "Baumgarten Sándor"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15442,
+"cim": "Rosenberg házaspár utca 5.",
+"hrsz": "24783",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1854,
+1855
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15443,
+"cim": "Rosenberg házaspár utca 27.",
+"hrsz": "24860",
+"alt_cimek": [
+"(Kálmán utca 12.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15444,
+"cim": "Semmelweis utca 1.",
+"hrsz": "24250/1",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1896,
+1896
+]
+],
+"tervezo": "Czigler Győző"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15445,
+"cim": "Semmelweiss utca 1-3.",
+"hrsz": "24250",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15446,
+"cim": "Semmelweiss utca 9.",
+"hrsz": "24247",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15447,
+"cim": "Semmelweiss utca 12.",
+"hrsz": "24275",
+"alt_cimek": [
+"(Vitkovics Mihály utca 14.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1838,
+1839
+]
+],
+"tervezo": "Kasselik Ferenc"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15448,
+"cim": "Semmelweiss utca 13.",
+"hrsz": "24245",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15449,
+"cim": "Semmelweiss utca 15.",
+"hrsz": "24244",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15450,
+"cim": "Steindl Imre utca 10.",
+"hrsz": "24686",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1862,
+1862
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15451,
+"cim": "Sütő utca 1.",
+"hrsz": "24362",
+"alt_cimek": [
+"(Bárczy István utca 6-8.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1863,
+1864
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15455,
+"cim": "Szabadsajtó út 5.",
+"hrsz": "23996",
+"alt_cimek": [
+"(Felszabadulás tér 2., Duna utca 6., Váci utca 36.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1899,
+1899
+]
+],
+"tervezo": "Giergl Kálmán és Korb Flóris"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15456,
+"cim": "Szabadsajtó út 6.",
+"hrsz": "24309",
+"alt_cimek": [
+"(Felszabadulás tér 3., Kígyó utca 5., Váci utca 34.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1899,
+1899
+]
+],
+"tervezo": "Giergl Kálmán és Korb Flóris"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15453,
+"cim": "Szabadság tér 5-6.",
+"hrsz": "24758, 24759",
+"alt_cimek": [
+"(Guszev utca 28., Október 6. utca 23.)"
+],
+"emelet": null,
+"stilus": "modern",
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15454,
+"cim": "Szabadság tér 8-9.",
+"hrsz": "24746",
+"alt_cimek": [
+"(Kiss Ernő utca 1., Rosenberg házaspár utca 2.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1905,
+1905
+]
+],
+"tervezo": "Alpár Ignác"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15452,
+"cim": "Szabadság-híd Feketeházy János, Czekelius Aurél és Nagy Virgil, 1894-96.",
+"hrsz": null,
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15457,
+"cim": "Szent István tér",
+"hrsz": "24544",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "klasszicista",
+"evek": [
+[
+1851,
+1867
+],
+[
+1867,
+1889
+],
+[
+1889,
+1905
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15458,
+"cim": "Szent István tér 13-14.",
+"hrsz": "24631, 24632",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "kora eklektikus",
+"evek": [
+[
+1861,
+1863
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15838,
+"cim": "Szent István tér 15.",
+"hrsz": "",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1868,
+1868
+]
+],
+"tervezo": "Schusbek Pál"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15459,
+"cim": "Szerb utca 4.",
+"hrsz": "23968, 23970",
+"alt_cimek": [
+"(Veres Pálné utca 23.)"
+],
+"emelet": null,
+"stilus": "barokk",
+"evek": [
+[
+1688,
+1688
+],
+[
+1733,
+1733
+]
+],
+"tervezo": "barokk"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15460,
+"cim": "Szerb utca 21-23.",
+"hrsz": "24040, 24041",
+"alt_cimek": [
+"(Királyi Pál utca 1-3.)"
+],
+"emelet": 2,
+"stilus": "barokk",
+"evek": [
+[
+1733,
+1733
+],
+[
+1782,
+1782
+],
+[
+1847,
+1847
+]
+],
+"tervezo": "egykori klarissza-kolostor"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15461,
+"cim": "Szép utca 3.",
+"hrsz": "24190",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "modern",
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15462,
+"cim": "Szép utca 4.",
+"hrsz": "24194",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "eklektikus",
+"evek": [
+[
+1875,
+1875
+]
+],
+"tervezo": "Baumgartner Alajos"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15463,
+"cim": "Szép utca 6.",
+"hrsz": "24193",
+"alt_cimek": [
+"(Reáltanoda utca 6.)"
+],
+"emelet": null,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1817,
+1817
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15464,
+"cim": "Tanács körút 6.",
+"hrsz": "24228",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15465,
+"cim": "Tanács körút 8.",
+"hrsz": "24229",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1863,
+1863
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15466,
+"cim": "Tanács körút 24.",
+"hrsz": "24237",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15467,
+"cim": "Tanács körút 26.",
+"hrsz": "24238",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15468,
+"cim": "Tolbuhin körút 2.",
+"hrsz": "23929",
+"alt_cimek": [
+"(Dimitrov tér 6., Só utca 1.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15469,
+"cim": "Tolbuhin körút 6.",
+"hrsz": "23932/1",
+"alt_cimek": [
+"(Só utca 5., Veres Pálné utca 39—41.)"
+],
+"emelet": 2,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1854,
+1854
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15470,
+"cim": "Tolbuhin körút 16.",
+"hrsz": "24076",
+"alt_cimek": [
+"(Királyi Pál utca 15.)"
+],
+"emelet": 2,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1862,
+1862
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15471,
+"cim": "Vadász utca 17.",
+"hrsz": "24852",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1860,
+1860
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15472,
+"cim": "Váci utca 4.",
+"hrsz": "24410",
+"alt_cimek": [
+"(Kristóf tér 9.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15473,
+"cim": "Váci utca 9.",
+"hrsz": "24386",
+"alt_cimek": [
+"(Aranykéz utca 5.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15474,
+"cim": "Váci utca 10.",
+"hrsz": "24379",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1800,
+1800
+],
+[
+1840,
+1840
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15475,
+"cim": "Váci utca 11/A",
+"hrsz": "24387",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1888,
+1889
+]
+],
+"tervezo": "Lechner Ödön"
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15476,
+"cim": "Váci utca 47.",
+"hrsz": "23881",
+"alt_cimek": [
+"(Nyáry Pál utca 2.)"
+],
+"emelet": null,
+"stilus": "barokk",
+"evek": [
+[
+1783,
+1783
+],
+[
+1747,
+1749
+]
+],
+"tervezo": "("
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15477,
+"cim": "Váci utca 47.",
+"hrsz": "23881",
+"alt_cimek": [
+"(Nyáry Pál utca 2., Molnár utca 6.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1784,
+1784
+],
+[
+1716,
+1747
+],
+[
+1787,
+1787
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15478,
+"cim": "Váci utca 50.",
+"hrsz": "23966",
+"alt_cimek": [
+"(Nyáry Pál utca 7.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15479,
+"cim": "Váci utca 51.",
+"hrsz": "23891",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1876,
+1876
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15480,
+"cim": "Váci utca 55.",
+"hrsz": "23893",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1847,
+1847
+]
+],
+"tervezo": "Diescher János"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15481,
+"cim": "Váci utca 57.",
+"hrsz": "23894",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1848,
+1849
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15482,
+"cim": "Váci utca 59.",
+"hrsz": "23895",
+"alt_cimek": [
+"(Sörház utca 8.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15483,
+"cim": "Váci utca 62-64.",
+"hrsz": "23961",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1870,
+1875
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15484,
+"cim": "Váci utca 66.",
+"hrsz": "23960",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1874,
+1874
+]
+],
+"tervezo": "Weber Antal"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15485,
+"cim": "Váci utca 76.",
+"hrsz": "23948",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1861,
+1861
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15486,
+"cim": "Városház utca 7.",
+"hrsz": "24268",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1838,
+1841
+],
+[
+1829,
+1832
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15487,
+"cim": "Városház utca 9-11.",
+"hrsz": "24357",
+"alt_cimek": [
+"(Bárczy István utca 1-5., Gerlóczy utca 2-6., Tanács körút 28-30.)"
+],
+"emelet": 3,
+"stilus": "barokk",
+"evek": [
+[
+1727,
+1735
+]
+],
+"tervezo": "Fortunato Prati és Hölbing János"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15488,
+"cim": "Veres Pálné utca 13.",
+"hrsz": "23974",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1873,
+1873
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15489,
+"cim": "Veres Pálné utca 15/A, B",
+"hrsz": "23973, 23974",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1868,
+1868
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15490,
+"cim": "Veres Pálné utca 21.",
+"hrsz": "23971",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1842,
+1842
+],
+[
+1870,
+1870
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15491,
+"cim": "Veres Pálné utca 24.",
+"hrsz": "24030",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1775,
+1781
+],
+[
+1870,
+1870
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15492,
+"cim": "Veres Pálné utca 32.",
+"hrsz": "24034",
+"alt_cimek": [
+"(Szerb utca 6.)"
+],
+"emelet": 1,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1804,
+1804
+],
+[
+1815,
+1815
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15493,
+"cim": "Veres Pálné utca 35.",
+"hrsz": "23944",
+"alt_cimek": [
+"(Szarka utca 9.)"
+],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1868,
+1868
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15494,
+"cim": "Vigadó tér 2.",
+"hrsz": "24429",
+"alt_cimek": [
+"(Deák Ferenc utca 2-4., Vigadó utca 1-3.)"
+],
+"emelet": null,
+"stilus": "romantikus",
+"evek": [
+[
+1859,
+1864
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15495,
+"cim": "Vigyázó Ferenc utca 3.",
+"hrsz": "24564",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+],
+[
+1841,
+1841
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15496,
+"cim": "Vigyázó Ferenc utca 4.",
+"hrsz": "24577",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "M",
+"torzsszam": 15497,
+"cim": "Vitkovics Mihály utca 12.",
+"hrsz": "24276",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1800,
+1800
+]
+],
+"tervezo": "copf homlokzattal"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15498,
+"cim": "Vörösmarty tér 3.",
+"hrsz": "24433",
+"alt_cimek": [
+"(Deák Ferenc utca 8.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1911,
+1911
+]
+],
+"tervezo": "Giergl Kálmán és Korb Flóris"
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15499,
+"cim": "Vörösmarty tér 4.",
+"hrsz": "24434",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "VK",
+"torzsszam": 15500,
+"cim": "Vörösmarty tér 5.",
+"hrsz": "24435",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1939,
+1939
+]
+],
+"tervezo": "Kotsis Endre"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15501,
+"cim": "Vörösmarty tér 6.",
+"hrsz": "24436",
+"alt_cimek": [
+"(Harmincad utca 1.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1844,
+1844
+]
+],
+"tervezo": null
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15502,
+"cim": "Zrínyi utca 4.",
+"hrsz": "24560",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1834,
+1834
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"vedettseg": "MJ",
+"torzsszam": 15503,
+"cim": "Zrínyi utca 9.",
+"hrsz": "24523",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1837,
+1837
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15504,
+"cim": "Bajcsy-Zsilinszky út 17.",
+"hrsz": "29218/19",
+"alt_cimek": [
+"(Lázár utca 1.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1862,
+1862
+]
+],
+"tervezo": "Ybl Miklós"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15505,
+"cim": "Bajcsy-Zsilinszky út 55.",
+"hrsz": "28913",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1860,
+1862
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15506,
+"cim": "Bajza utca 41.",
+"hrsz": "28845",
+"alt_cimek": [
+"(Kmetty utca 26., Munkácsy Mihály utca 18., Szondy utca 71., „Epres­ kert”)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1744,
+1749
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15507,
+"cim": "Dessewfy utca 21.",
+"hrsz": "29121",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1853,
+1853
+]
+],
+"tervezo": "Limburszky József"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15508,
+"cim": "Eötvös utca 7.",
+"hrsz": "29452",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1878,
+1878
+]
+],
+"tervezo": "Bobula János"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15509,
+"cim": "Eötvös utca 11 /A",
+"hrsz": "29454",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1875,
+1875
+]
+],
+"tervezo": "Weber Antal"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15510,
+"cim": "Eötvös utca 11/B",
+"hrsz": "29454",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1875,
+1877
+]
+],
+"tervezo": "Weber Antal"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15511,
+"cim": "Gorkij fasor 12.",
+"hrsz": "29609",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Unger Emil"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15512,
+"cim": "Hajós utca 7.",
+"hrsz": "29080",
+"alt_cimek": [],
+"emelet": 4,
+"stilus": "eklektikus",
+"evek": [
+[
+1886,
+1886
+]
+],
+"tervezo": "Ybl Miklós"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15513,
+"cim": "Hajós utca 9.",
+"hrsz": "29081",
+"alt_cimek": [],
+"emelet": 4,
+"stilus": "eklektikus",
+"evek": [
+[
+1886,
+1886
+]
+],
+"tervezo": "Ybl Miklós"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15514,
+"cim": "Hegedű utca 1/B",
+"hrsz": "29399",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1845,
+1845
+]
+],
+"tervezo": "Kasselik Ferenc"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15515,
+"cim": "Hegedű utca 3.",
+"hrsz": "29398",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1854,
+1854
+]
+],
+"tervezo": "Pan József"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15516,
+"cim": "Izabella utca 94.",
+"hrsz": "28672",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "szecessziós",
+"evek": [
+[
+1895,
+1897
+]
+],
+"tervezo": "Spiegel Frigyes"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15517,
+"cim": "Káldy Gyula utca 6.",
+"hrsz": "29278",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1867,
+1868
+]
+],
+"tervezo": "Lohr János"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15518,
+"cim": "Lenin körút 67.",
+"hrsz": "29423",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1884,
+1884
+]
+],
+"tervezo": "Hauszmann Alajos"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15519,
+"cim": "Lenin körút 109-111.",
+"hrsz": "28224",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1874,
+1877
+]
+],
+"tervezo": "W. A. de Serres"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15520,
+"cim": "Liszt Ferenc tér 7.",
+"hrsz": "29404",
+"alt_cimek": [
+"(Majakovszkij utca 62.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1860,
+1860
+]
+],
+"tervezo": "Zofahl Lőrinc"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15521,
+"cim": "Liszt Ferenc tér 8.",
+"hrsz": "29406",
+"alt_cimek": [
+"(Majakovszkij utca 64., Szófia utca 1.)"
+],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [
+[
+1904,
+1907
+]
+],
+"tervezo": "Giergl Kálmán és Korb Flór is"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15522,
+"cim": "Majakovszkij utca 12.",
+"hrsz": "29272",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1812,
+1812
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15523,
+"cim": "Majakovszkij utca 20.",
+"hrsz": "29276",
+"alt_cimek": [
+"(Káldy Gyula utca 2.)"
+],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+],
+[
+1867,
+1867
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15524,
+"cim": "Majakovszkij utca 28.",
+"hrsz": "29288",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1863,
+1863
+],
+[
+1868,
+1868
+]
+],
+"tervezo": "Pan József"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15525,
+"cim": "Majakovszkij utca 36.",
+"hrsz": "29312",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1846,
+1847
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15526,
+"cim": "Nagymező utca",
+"hrsz": "29365",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1801,
+1811
+],
+[
+1871,
+1871
+]
+],
+"tervezo": "Kasselik Fidél"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15527,
+"cim": "Nagymező utca 6.",
+"hrsz": "29355",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1860,
+1860
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "VK",
+"torzsszam": 15528,
+"cim": "Nagymező utca 8.",
+"hrsz": "",
+"alt_cimek": [],
+"emelet": 5,
+"stilus": "szecessziós",
+"evek": [
+[
+1912,
+1912
+]
+],
+"tervezo": "Fodor Gyula."
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15529,
+"cim": "Nagymező utca 12.",
+"hrsz": "29362",
+"alt_cimek": [
+"(Paulay Ede utca 51.)"
+],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1854,
+1854
+]
+],
+"tervezo": "Wieser Ferenc"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15530,
+"cim": "Nagymező utca 14.",
+"hrsz": "29338",
+"alt_cimek": [
+"(Paulay Ede utca 48.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1830,
+1830
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MK",
+"torzsszam": 15531,
+"cim": "Népköztársaság útja környezete",
+"hrsz": null,
+"alt_cimek": [
+"(Bajcsy-Zsilinszky út, Kodály körönd stb.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15532,
+"cim": "Népköztársaság útja 3.",
+"hrsz": "",
+"alt_cimek": [
+"(Paulay Ede utca 4.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1884,
+1886
+]
+],
+"tervezo": "Czigler Győző"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15533,
+"cim": "Népköztársaság útja 7.",
+"hrsz": "29249",
+"alt_cimek": [],
+"emelet": 4,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1882
+]
+],
+"tervezo": "Quittner Zsigmond"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15534,
+"cim": "Népköztársaság útja 8.",
+"hrsz": null,
+"alt_cimek": [
+"(Káldy Gyula utca 13., Révay utca 11.)"
+],
+"emelet": 4,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Feszty Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15535,
+"cim": "Népköztársaság útja 9.",
+"hrsz": "29250",
+"alt_cimek": [
+"(Káldy Gyula utca 12.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1882
+]
+],
+"tervezo": "Kallina Mór"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15536,
+"cim": "Népköztársaság útja 10.",
+"hrsz": "",
+"alt_cimek": [
+"(Dobó utca 2., Révay utca 13-15.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1884,
+1884
+]
+],
+"tervezo": "Feszty Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15537,
+"cim": "Népköztársaság útja 11.",
+"hrsz": "29303",
+"alt_cimek": [
+"(Káldy Gyula utca 11.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1883,
+1884
+]
+],
+"tervezo": "Freund Vilmos"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15538,
+"cim": "Népköztársaság útja 12.",
+"hrsz": "29237",
+"alt_cimek": [
+"(Dobó utca 1., Révay utca 17.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1884,
+1884
+]
+],
+"tervezo": "Quittner Zsigmond"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15539,
+"cim": "Népköztársaság útja 19.",
+"hrsz": "29307",
+"alt_cimek": [
+"(Székely Mihály utca 18.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Freund Vilmos"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15540,
+"cim": "Népköztársaság útja 20.",
+"hrsz": "29233",
+"alt_cimek": [
+"(Dalszínház utca 6., Révay utca 25-27.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Freund Vilmos"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15541,
+"cim": "Népköztársaság útja 21.",
+"hrsz": "29327",
+"alt_cimek": [
+"(Székely Mihály utca 13., Paulay Ede utca 30.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1883,
+1883
+]
+],
+"tervezo": "Freund Vilmos"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15542,
+"cim": "Népköztársaság útja 22.",
+"hrsz": "29209",
+"alt_cimek": [
+"(Dalszínház utca 3-9., Hajós utca 4-10., Lázár utca 19.)"
+],
+"emelet": null,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1875,
+1884
+]
+],
+"tervezo": "Ybl Miklós"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15543,
+"cim": "Népköztársaság útja 23.",
+"hrsz": "29328",
+"alt_cimek": [
+"(Dalszínház utca 4.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1882
+]
+],
+"tervezo": "Freund Vilmos"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15544,
+"cim": "Népköztársaság útja 25.",
+"hrsz": "29330",
+"alt_cimek": [
+"(Dalszínház utca 1., Hajós utca 2., Paulay Ede utca 38—40.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1883,
+1886
+]
+],
+"tervezo": "Lechner Ödön és Pártos Gyula"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15545,
+"cim": "Népköztársaság útja 28.",
+"hrsz": "29077",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1882
+]
+],
+"tervezo": "Schmahl Henrik"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15546,
+"cim": "Népköztársaság útja 33.",
+"hrsz": "29337",
+"alt_cimek": [
+"(Nagymező utca 16.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1875,
+1875
+]
+],
+"tervezo": "Weber Antal"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15547,
+"cim": "Népköztársaság útja 39.",
+"hrsz": "29380",
+"alt_cimek": [
+"(Paulay Ede utca 54.)"
+],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [
+[
+1882,
+1882
+],
+[
+1909,
+1909
+]
+],
+"tervezo": "ma Divatcsarnok. Petschacher Gusztáv"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15548,
+"cim": "Népköztársaság útja 45.",
+"hrsz": "29383",
+"alt_cimek": [
+"(Liszt Ferenc tér 1.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1878,
+1878
+]
+],
+"tervezo": "Bukovich Gyula"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15549,
+"cim": "Népköztársaság útja 47.",
+"hrsz": "29412",
+"alt_cimek": [
+"(Liszt Ferenc tér 12.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15550,
+"cim": "Népköztársaság útja 52.",
+"hrsz": "28866",
+"alt_cimek": [
+"(Eötvös utca 18.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1883,
+1886
+]
+],
+"tervezo": "Schmahl Henrik"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15551,
+"cim": "Népköztársaság útja 53.",
+"hrsz": "29425",
+"alt_cimek": [
+"(Eötvös utca 16.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1883
+]
+],
+"tervezo": "Pucher József"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15553,
+"cim": "Népköztársaság útja 57.",
+"hrsz": "29457",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1892,
+1892
+]
+],
+"tervezo": "Petschacher Gusztáv"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15552,
+"cim": "Népköztársaság útja 54-58.",
+"hrsz": "28818-28820",
+"alt_cimek": [
+"(Csengery utca 52., Eötvös utca 17.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Lee építész"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15554,
+"cim": "Népköztársaság útja 59.",
+"hrsz": "29458",
+"alt_cimek": [
+"(Csengery utca 50.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1882
+]
+],
+"tervezo": "Kallina Mór"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15555,
+"cim": "Népköztársaság útja 61.",
+"hrsz": "29456",
+"alt_cimek": [
+"(Csengery utca 35.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15556,
+"cim": "Népköztársaság útja 63-65.",
+"hrsz": "29466",
+"alt_cimek": [
+"(Hunyadi tér 13-14., Vörösmarty utca 26-28.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Petschacher Gusztáv"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15557,
+"cim": "Népköztársaság útja 67.",
+"hrsz": "29498",
+"alt_cimek": [
+"(Vörösmarty utca 35.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1877,
+1879
+]
+],
+"tervezo": "Láng Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15558,
+"cim": "Népköztársaság útja 68.",
+"hrsz": "28718",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1878,
+1878
+]
+],
+"tervezo": "Bobula János"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15559,
+"cim": "Népköztársaság útja 69.",
+"hrsz": "29499",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "neoreneszánsz",
+"evek": [
+[
+1875,
+1877
+]
+],
+"tervezo": "Láng Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15560,
+"cim": "Népköztársaság útja 71.",
+"hrsz": "29500-29501",
+"alt_cimek": [
+"(Izabella utca 56-58.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1875,
+1875
+]
+],
+"tervezo": "Rausche Lajos"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15561,
+"cim": "Népköztársaság útja 72.",
+"hrsz": "28662",
+"alt_cimek": [
+"(Izabella utca 59.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": "Feszty Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15562,
+"cim": "Népköztársaság útja 78.",
+"hrsz": "28618",
+"alt_cimek": [
+"(Rózsa Ferenc utca 67.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1878,
+1878
+]
+],
+"tervezo": "Feszty Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15563,
+"cim": "Népköztársaság útja 80.",
+"hrsz": "28614",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1876,
+1876
+]
+],
+"tervezo": "Preisz és Kirchenbaum"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15564,
+"cim": "Népköztársaság útja 81.",
+"hrsz": "29536",
+"alt_cimek": [
+"(Szív utca 22.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1881,
+1882
+]
+],
+"tervezo": "Hübner Nándor"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15565,
+"cim": "Népköztársaság útja 84.",
+"hrsz": "28612",
+"alt_cimek": [
+"(Szív utca 24.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1876,
+1876
+]
+],
+"tervezo": "Feszty Adolf"
+},
+{
+"ker": "VI",
+"vedettseg": "M",
+"torzsszam": 15566,
+"cim": "Népköztársaság útja 88-90.",
+"hrsz": "28553",
+"alt_cimek": [
+"(Aradi utca 47-51., Szinyei Merse utca 2.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1882
+]
+],
+"tervezo": "Petschacher Gusztáv"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15567,
+"cim": "Népköztársaság útja 92-94.",
+"hrsz": "28470",
+"alt_cimek": [
+"(Aradi utca 53-55., Szinyei Merse utca 1.)"
+],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1883,
+1883
+]
+],
+"tervezo": "Hübner Nándor"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15568,
+"cim": "Népköztársaság útja 96.",
+"hrsz": "28468/2",
+"alt_cimek": [
+"(Aradi utca 59.)"
+],
+"emelet": 2,
+"stilus": "eklektikus",
+"evek": [
+[
+1880,
+1880
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15569,
+"cim": "Népköztársaság útja 98.",
+"hrsz": "28466",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "eklektikus",
+"evek": [
+[
+1882,
+1882
+]
+],
+"tervezo": "Petschacher Gusztáv"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15570,
+"cim": "Paulay Ede utca 5.",
+"hrsz": "29262",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1834,
+1834
+]
+],
+"tervezo": "Kasselik Ferenc"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15571,
+"cim": "Paulay Ede utca 14.",
+"hrsz": "29302",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1845,
+1845
+]
+],
+"tervezo": "Diescher József"
+},
+{
+"ker": "VI",
+"vedettseg": "VK",
+"torzsszam": 15572,
+"cim": "Paulay Ede utca 33.",
+"hrsz": "29321",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1860,
+1862
+]
+],
+"tervezo": "Wieser Ferenc"
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15573,
+"cim": "Vasvári Pál utca 6.",
+"hrsz": "29316",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1860,
+1860
+]
+],
+"tervezo": null
+},
+{
+"ker": "VI",
+"vedettseg": "MJ",
+"torzsszam": 15574,
+"cim": "Vasvári Pál utca 8.",
+"hrsz": "29317",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "romantikus",
+"evek": [
+[
+1860,
+1860
+]
+],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": null,
+"torzsszam": 15575,
+"cim": "Alsóerdősor u. 7.",
+"hrsz": "33591",
+"alt_cimek": [
+"(Dohány utca 79., Rózsák tere 2., Péterfy Sándor utca 2.)"
+],
+"emelet": null,
+"stilus": "késő klasszicista",
+"evek": [
+[
+1845,
+1845
+],
+[
+1866,
+1866
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15576,
+"cim": "Csányi utca 8.",
+"hrsz": "34112",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+]
+],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15577,
+"cim": "Dob utca 3.",
+"hrsz": "34228",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1852,
+1852
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15578,
+"cim": "Dob utca 4.",
+"hrsz": "34220",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1830,
+1830
+]
+],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15579,
+"cim": "Dob utca 35.",
+"hrsz": "34267",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "szecessziós",
+"evek": [
+[
+1910,
+1910
+]
+],
+"tervezo": "Löffler Sándor és Béla"
+},
+{
+"ker": "VII",
+"vedettseg": "VK",
+"torzsszam": 15580,
+"cim": "Dob utca 75-81.",
+"hrsz": "33893 *",
+"alt_cimek": [
+"(Hársfa utca 47., Csengery utca 14-16.)"
+],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "M",
+"torzsszam": 15581,
+"cim": "Dohány utca 8.",
+"hrsz": "34515",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "romantikus",
+"evek": [
+[
+1854,
+1859
+]
+],
+"tervezo": "Ludwig Förster"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15582,
+"cim": "Dohány utca 10.",
+"hrsz": "34514",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1844,
+1844
+],
+[
+1870,
+1870
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "VK",
+"torzsszam": 15583,
+"cim": "Dohány utca 12-14.",
+"hrsz": "34513",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1911,
+1913
+]
+],
+"tervezo": "Jónás Dávid és Zsigmond"
+},
+{
+"ker": "VII",
+"vedettseg": "VK",
+"torzsszam": 15584,
+"cim": "Dohány utca 22-24.",
+"hrsz": "34496",
+"alt_cimek": [
+"(Síp utca 3.)"
+],
+"emelet": 5,
+"stilus": null,
+"evek": [
+[
+1907,
+1907
+]
+],
+"tervezo": "Vágó László és József"
+},
+{
+"ker": "VII",
+"vedettseg": "M",
+"torzsszam": 15585,
+"cim": "Gorkij fasor 5-7.",
+"hrsz": "33509/1",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [
+[
+1911,
+1913
+]
+],
+"tervezo": "Árkay Aladár"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15586,
+"cim": "Holló utca 4.",
+"hrsz": "34190",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1835,
+1835
+],
+[
+1868,
+1868
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15587,
+"cim": "Holló utca 15.",
+"hrsz": "34180",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1840,
+1840
+],
+[
+1862,
+1862
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15906,
+"cim": "Kazinczy u. 21.",
+"hrsz": "34262",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15588,
+"cim": "Kazinczy utca 29-31.",
+"hrsz": "34265",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "szecessziós",
+"evek": [
+[
+1910,
+1912
+]
+],
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15589,
+"cim": "Lenin körút 9-11.",
+"hrsz": "33669",
+"alt_cimek": [
+"(Dohány utca 51-53., Osvát utca 10-12.)"
+],
+"emelet": 4,
+"stilus": "eklektikus",
+"evek": [
+[
+1891,
+1895
+]
+],
+"tervezo": "Hauszmann Alajos"
+},
+{
+"ker": "VII",
+"vedettseg": "VK",
+"torzsszam": 15590,
+"cim": "Madách Imre tér 1-7.",
+"hrsz": "34213, 34214, 34215",
+"alt_cimek": [
+"(Asbóth utca 14-24., Majakovszkij utca 1/A-C, Tanács körút 13-25.)"
+],
+"emelet": 9,
+"stilus": null,
+"evek": [
+[
+1938,
+1938
+]
+],
+"tervezo": "Wálder Gyula"
+},
+{
+"ker": "VII",
+"vedettseg": "M",
+"torzsszam": 15591,
+"cim": "Majakovszkij utca 9.",
+"hrsz": "34202",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "copf",
+"evek": [
+[
+1810,
+1810
+]
+],
+"tervezo": "Brein Fülöp"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15592,
+"cim": "Majakovszkij utca 11.",
+"hrsz": "34201/2",
+"alt_cimek": [],
+"emelet": 3,
+"stilus": "klasszicista",
+"evek": [
+[
+1812,
+1812
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15593,
+"cim": "Majakovszkij utca 15.",
+"hrsz": "34184",
+"alt_cimek": [
+"(Holló utca 16.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1848,
+1853
+]
+],
+"tervezo": "Pollack Ágoston"
+},
+{
+"ker": "VII",
+"vedettseg": "M",
+"torzsszam": 15594,
+"cim": "Majakovszkij utca 21.",
+"hrsz": "34164",
+"alt_cimek": [
+"(Kazinczy utca 56.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1833,
+1833
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "VII",
+"vedettseg": "M",
+"torzsszam": 15595,
+"cim": "Majakovszkij utca 25.",
+"hrsz": "34140",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "kora klasszicista",
+"evek": [
+[
+1810,
+1810
+]
+],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15596,
+"cim": "Majakovszkij utca 29.",
+"hrsz": "34138",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1843,
+1843
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "M",
+"torzsszam": 15597,
+"cim": "Majakovszkij utca 47.",
+"hrsz": "34115",
+"alt_cimek": [
+"(Csányi utca 12-14.)"
+],
+"emelet": 3,
+"stilus": "romantikus",
+"evek": [
+[
+1847,
+1849
+]
+],
+"tervezo": "Brein Ferenc"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15598,
+"cim": "Majakovszkij utca 49.",
+"hrsz": "34101",
+"alt_cimek": [
+"(Csányi utca 13.)"
+],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1850,
+1850
+]
+],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15599,
+"cim": "Majakovszkij utca 55.",
+"hrsz": "34085",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1842,
+1842
+]
+],
+"tervezo": "Hild József"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15600,
+"cim": "Majakovszkij utca 57.",
+"hrsz": "34084",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1850,
+1850
+]
+],
+"tervezo": null
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15903,
+"cim": "Nefelejcs u. 26.",
+"hrsz": "33150",
+"alt_cimek": [],
+"emelet": null,
+"stilus": null,
+"evek": [
+[
+1910,
+1944
+]
+],
+"tervezo": "Róth Miksa üvegfestőmüvész lakása és műterme volt"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15601,
+"cim": "Rákóczi út 18.",
+"hrsz": "34533",
+"alt_cimek": [
+"(Kazinczy utca 2., Dohány utca 25.)"
+],
+"emelet": 6,
+"stilus": null,
+"evek": [
+[
+1911,
+1911
+]
+],
+"tervezo": "Lajta Béla"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15602,
+"cim": "Rottenbiller utca 50.",
+"hrsz": "33824",
+"alt_cimek": [
+"(Dob utca 111.)"
+],
+"emelet": null,
+"stilus": "romantikus",
+"evek": [
+[
+1870,
+1872
+]
+],
+"tervezo": "Vassél Ala­ jos"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15603,
+"cim": "Rumbach Sebestyén utca 9.",
+"hrsz": "34198",
+"alt_cimek": [],
+"emelet": 2,
+"stilus": "klasszicista",
+"evek": [
+[
+1819,
+1819
+],
+[
+1847,
+1847
+]
+],
+"tervezo": "Pollack Mihály"
+},
+{
+"ker": "VII",
+"vedettseg": "MJ",
+"torzsszam": 15604,
+"cim": "Rumbach Sebestyén utca 11-13.",
+"hrsz": "34199",
+"alt_cimek": [],
+"emelet": null,
+"stilus": "romantikus",
+"evek": [
+[
+1872,
+1872
+]
+],
+"tervezo": "Ottó Wagner"
+}
+]
+}

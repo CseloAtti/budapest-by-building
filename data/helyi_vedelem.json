@@ -1,0 +1,1833 @@
+{
+"forras": "Budapest Főváros Közgyűlésének 54/1993. (1994. II. 1.) rendelete, melléklet, 2001. VI. 1-jei állapot; csak tényszerű adatok",
+"bejegyzesek": [
+{
+"ker": "V",
+"cim": "Alkotmány utca 10.",
+"alt_cimek": [
+"Szemere utca 7."
+],
+"hrsz": "24908",
+"megnevezes": "Redlich-ház",
+"ev": 1898,
+"ev_kezdet": 1898,
+"ev_korul": false,
+"tervezo": "Alpár Ignác"
+},
+{
+"ker": "V",
+"cim": "Aulich utca 3.",
+"alt_cimek": [],
+"hrsz": "24734",
+"megnevezes": "Walkó-ház",
+"ev": 1901,
+"ev_kezdet": 1901,
+"ev_korul": false,
+"tervezo": "Körössy Albert Kálmán"
+},
+{
+"ker": "V",
+"cim": "Aulich utca 4–6.",
+"alt_cimek": [],
+"hrsz": "24731",
+"megnevezes": "Havas-ház",
+"ev": 1903,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Heidelberg–Jónás"
+},
+{
+"ker": "V",
+"cim": "Aulich utca 7.",
+"alt_cimek": [
+"Hold utca 10–12."
+],
+"hrsz": "24736",
+"megnevezes": "lakóház",
+"ev": 1905,
+"ev_kezdet": 1905,
+"ev_korul": true,
+"tervezo": "Quittner Zsigmond"
+},
+{
+"ker": "V",
+"cim": "Bajcsy-Zsilinszky út 78.",
+"alt_cimek": [],
+"hrsz": "24981",
+"megnevezes": "Légrády-nyomda",
+"ev": 1890,
+"ev_kezdet": 1890,
+"ev_korul": true,
+"tervezo": "Korb–Giergl"
+},
+{
+"ker": "V",
+"cim": "Bank utca 6.",
+"alt_cimek": [],
+"hrsz": "24791",
+"megnevezes": "lakóház",
+"ev": 1846,
+"ev_kezdet": 1846,
+"ev_korul": true,
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"cim": "Báthory utca 3.",
+"alt_cimek": [],
+"hrsz": "24723",
+"megnevezes": "lakóház",
+"ev": 1902,
+"ev_kezdet": 1902,
+"ev_korul": true,
+"tervezo": "Kármán és Ullmann"
+},
+{
+"ker": "V",
+"cim": "Báthory utca 5.",
+"alt_cimek": [
+"Honvéd utca 4."
+],
+"hrsz": "24724",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": "Alpár Ignác"
+},
+{
+"ker": "V",
+"cim": "Báthory utca 7.",
+"alt_cimek": [
+"Honvéd utca 5."
+],
+"hrsz": "24728",
+"megnevezes": "lakóház",
+"ev": 1905,
+"ev_kezdet": 1905,
+"ev_korul": true,
+"tervezo": "Révész Sámuel és Kollár József"
+},
+{
+"ker": "V",
+"cim": "Báthory utca 8.",
+"alt_cimek": [
+"Honvéd utca 7.",
+"Kálmán Imre utca 5."
+],
+"hrsz": "24879",
+"megnevezes": "lakóház",
+"ev": 1896,
+"ev_kezdet": 1896,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Báthory utca 9.",
+"alt_cimek": [],
+"hrsz": "24729",
+"megnevezes": "Dawidson-ház",
+"ev": 1903,
+"ev_kezdet": 1901,
+"ev_korul": false,
+"tervezo": "Vidor Emil"
+},
+{
+"ker": "V",
+"cim": "Bécsi utca 1–3.",
+"alt_cimek": [],
+"hrsz": "24417",
+"megnevezes": "Phőnix-biztosító épülete",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": "Quittner Zsigmond"
+},
+{
+"ker": "V",
+"cim": "Bécsi utca 10.",
+"alt_cimek": [
+"Harmincad utca 3."
+],
+"hrsz": "24437",
+"megnevezes": "Fischer-üzletház",
+"ev": 1912,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Kármán Géza Aladár és Ullmann Gyula"
+},
+{
+"ker": "V",
+"cim": "Cukor utca 6.",
+"alt_cimek": [
+"Papnövelde utca 4–6."
+],
+"hrsz": "24019",
+"megnevezes": "iskola",
+"ev": 1913,
+"ev_kezdet": 1911,
+"ev_korul": false,
+"tervezo": "Reichl Kálmán"
+},
+{
+"ker": "V",
+"cim": "Falk Miksa utca 13.",
+"alt_cimek": [
+"Balaton utca 8."
+],
+"hrsz": "25015",
+"megnevezes": "lakóház, szecessziós",
+"ev": 1909,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Fodor Gyula"
+},
+{
+"ker": "V",
+"cim": "Ferenciek tere 2.",
+"alt_cimek": [
+"Veres Pálné utca 2.",
+"Curia utca 2."
+],
+"hrsz": "23998",
+"megnevezes": "lakóépület",
+"ev": 1903,
+"ev_kezdet": 1901,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Harmincad utca 6.",
+"alt_cimek": [
+"Erzsébet tér 6."
+],
+"hrsz": "24458",
+"megnevezes": "egykori Hazai Bank Rt.",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": "Rainer Károly"
+},
+{
+"ker": "V",
+"cim": "Hercegprímás utca 21.",
+"alt_cimek": [],
+"hrsz": "24768",
+"megnevezes": "„Zoltán-ház” lakóház",
+"ev": 1847,
+"ev_kezdet": 1847,
+"ev_korul": false,
+"tervezo": "ifj. Zitterbarth Mátyás"
+},
+{
+"ker": "V",
+"cim": "Hold utca 6.",
+"alt_cimek": [
+"Perczel Mór utca 6."
+],
+"hrsz": "24738",
+"megnevezes": "lakóház",
+"ev": 1901,
+"ev_kezdet": 1900,
+"ev_korul": false,
+"tervezo": "Kármán–Ullmann"
+},
+{
+"ker": "V",
+"cim": "Hold utca 13.",
+"alt_cimek": [],
+"hrsz": "24807",
+"megnevezes": "Vásárcsarnok",
+"ev": 1897,
+"ev_kezdet": 1897,
+"ev_korul": false,
+"tervezo": "Czigler Győző"
+},
+{
+"ker": "V",
+"cim": "Honvéd utca 3.",
+"alt_cimek": [],
+"hrsz": "24727",
+"megnevezes": "lakóház",
+"ev": 1903,
+"ev_kezdet": 1903,
+"ev_korul": false,
+"tervezo": "Vidor Emil"
+},
+{
+"ker": "V",
+"cim": "József Attila utca 12.",
+"alt_cimek": [
+"Hild tér 6."
+],
+"hrsz": "24504",
+"megnevezes": "lakóház",
+"ev": 1939,
+"ev_kezdet": 1938,
+"ev_korul": false,
+"tervezo": "Medgyaszay István"
+},
+{
+"ker": "V",
+"cim": "Károlyi Mihály utca 9.",
+"alt_cimek": [
+"Cukor utca 2.",
+"Irányi utca 29."
+],
+"hrsz": "24017",
+"megnevezes": "volt Centrál Kávéház",
+"ev": 1882,
+"ev_kezdet": 1882,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Királyi Pál utca 12.",
+"alt_cimek": [
+"Képíró utca 2."
+],
+"hrsz": "24102",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Kristóf tér 6.",
+"alt_cimek": [],
+"hrsz": "24412",
+"megnevezes": "lakóház",
+"ev": 1910,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Kőrössy Albert–Kiss Géza"
+},
+{
+"ker": "V",
+"cim": "Markó utca 22–24.",
+"alt_cimek": [],
+"hrsz": "24978",
+"megnevezes": "Országos Mentőszolgálat",
+"ev": 1879,
+"ev_kezdet": 1879,
+"ev_korul": false,
+"tervezo": "Quittner Zsigmond"
+},
+{
+"ker": "V",
+"cim": "Múzeum körút 35.",
+"alt_cimek": [],
+"hrsz": "24120",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Nádor utca 26.",
+"alt_cimek": [
+"Steindl Imre utca 13."
+],
+"hrsz": "24673",
+"megnevezes": "lakóház",
+"ev": 1836,
+"ev_kezdet": 1831,
+"ev_korul": false,
+"tervezo": "Zitterbarth Mátyás–Hild József"
+},
+{
+"ker": "V",
+"cim": "Nádor utca 28.",
+"alt_cimek": [
+"Steindl Imre utca 14."
+],
+"hrsz": "24688",
+"megnevezes": "lakóház",
+"ev": 1843,
+"ev_kezdet": 1843,
+"ev_korul": false,
+"tervezo": "Hild József"
+},
+{
+"ker": "V",
+"cim": "Nagy Ignác utca 19/B",
+"alt_cimek": [],
+"hrsz": "25036",
+"megnevezes": "lakóház",
+"ev": 1891,
+"ev_kezdet": 1891,
+"ev_korul": true,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Október 6. utca 13.",
+"alt_cimek": [],
+"hrsz": "24 600",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Október 6. utca 16–18.",
+"alt_cimek": [],
+"hrsz": "24593",
+"megnevezes": "lakóház",
+"ev": 1912,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Székely Dezső"
+},
+{
+"ker": "V",
+"cim": "Reáltanoda utca 13–15.",
+"alt_cimek": [],
+"hrsz": "24181",
+"megnevezes": "lakóház",
+"ev": 1860,
+"ev_kezdet": 1860,
+"ev_korul": true,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Sas utca 9.",
+"alt_cimek": [],
+"hrsz": "24537",
+"megnevezes": "lakóépület",
+"ev": 1871,
+"ev_kezdet": 1871,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Sas utca 11.",
+"alt_cimek": [],
+"hrsz": "24538",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Sas utca 16.",
+"alt_cimek": [],
+"hrsz": "24606",
+"megnevezes": "lakóház",
+"ev": 1891,
+"ev_kezdet": 1890,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Sas utca 21.",
+"alt_cimek": [],
+"hrsz": "24613",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Szervita tér 2.",
+"alt_cimek": [],
+"hrsz": "24371",
+"megnevezes": "lakó- és üzletház",
+"ev": 1908,
+"ev_kezdet": 1908,
+"ev_korul": true,
+"tervezo": "Jónás Dávid és Zsigmond"
+},
+{
+"ker": "V",
+"cim": "Szép utca 5.",
+"alt_cimek": [],
+"hrsz": "24191",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "V",
+"cim": "Veres Pálné utca 27.",
+"alt_cimek": [],
+"hrsz": "23954",
+"megnevezes": "lakóház",
+"ev": 1940,
+"ev_kezdet": 1940,
+"ev_korul": true,
+"tervezo": "Gerle György"
+},
+{
+"ker": "V",
+"cim": "Veres Pálné utca 29.",
+"alt_cimek": [],
+"hrsz": "23953",
+"megnevezes": "lakóház",
+"ev": 1896,
+"ev_kezdet": 1896,
+"ev_korul": false,
+"tervezo": "Kiss István"
+},
+{
+"ker": "V",
+"cim": "Vitkovics Mihály utca 9.",
+"alt_cimek": [],
+"hrsz": "24270",
+"megnevezes": "Üzemi épület és lakóház",
+"ev": 1910,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Löllbach Kálmán"
+},
+{
+"ker": "VI",
+"cim": "Aradi utca 14.",
+"alt_cimek": [],
+"hrsz": "28808",
+"megnevezes": "egykori nyomdaépület, XIX. század vége",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Aradi utca 17.",
+"alt_cimek": [],
+"hrsz": "28813",
+"megnevezes": "lakóház",
+"ev": 1910,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Körössy Albert"
+},
+{
+"ker": "VI",
+"cim": "Aradi utca 57.",
+"alt_cimek": [],
+"hrsz": "28469",
+"megnevezes": "„Piatschek-ház”",
+"ev": 1908,
+"ev_kezdet": 1907,
+"ev_korul": false,
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VI",
+"cim": "Bajza utca 31.",
+"alt_cimek": [],
+"hrsz": "29635",
+"megnevezes": "villa",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": "Freund Vilmos, átépítés Kármán Géza Aladár és Ullmann Gyula"
+},
+{
+"ker": "VI",
+"cim": "Bajza utca 42.",
+"alt_cimek": [],
+"hrsz": "28412",
+"megnevezes": "„Léderer-ház”",
+"ev": 1902,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Bálint Zoltán és Jámbor Lajos"
+},
+{
+"ker": "VI",
+"cim": "Bajza utca 44.",
+"alt_cimek": [],
+"hrsz": "28411",
+"megnevezes": "„Baruch-ház”",
+"ev": 1898,
+"ev_kezdet": 1898,
+"ev_korul": false,
+"tervezo": "Bálint Zoltán és Jámbor Lajos"
+},
+{
+"ker": "VI",
+"cim": "Bajza utca 51.",
+"alt_cimek": [],
+"hrsz": "28332",
+"megnevezes": "Elemi iskola",
+"ev": 1916,
+"ev_kezdet": 1914,
+"ev_korul": false,
+"tervezo": "ifj. Ray Rezső"
+},
+{
+"ker": "VI",
+"cim": "Csengery utca 61.",
+"alt_cimek": [],
+"hrsz": "28748",
+"megnevezes": "„Jellinek-ház”",
+"ev": 1913,
+"ev_kezdet": 1913,
+"ev_korul": true,
+"tervezo": "Román Miklós és Ernő"
+},
+{
+"ker": "VI",
+"cim": "Csengery utca 76.",
+"alt_cimek": [],
+"hrsz": "28791",
+"megnevezes": "lakóház",
+"ev": 1900,
+"ev_kezdet": 1900,
+"ev_korul": false,
+"tervezo": "Komor Marcell és Jakab Dezső"
+},
+{
+"ker": "VI",
+"cim": "Dessewffy utca 8–10.",
+"alt_cimek": [
+"Hajós utca 28."
+],
+"hrsz": "29154",
+"megnevezes": "lakóház",
+"ev": 1895,
+"ev_kezdet": 1895,
+"ev_korul": false,
+"tervezo": "Sterk Izidor"
+},
+{
+"ker": "VI",
+"cim": "Dessewffy utca 13.",
+"alt_cimek": [],
+"hrsz": "29159",
+"megnevezes": "lakóház",
+"ev": 1920,
+"ev_kezdet": 1920,
+"ev_korul": false,
+"tervezo": "Himler Miksa"
+},
+{
+"ker": "VI",
+"cim": "Dessewffy utca 23.",
+"alt_cimek": [],
+"hrsz": "29120",
+"megnevezes": "lakóház",
+"ev": 1870,
+"ev_kezdet": 1870,
+"ev_korul": false,
+"tervezo": "orthodox izr. imaház"
+},
+{
+"ker": "VI",
+"cim": "Eötvös utca 29.",
+"alt_cimek": [],
+"hrsz": "28802",
+"megnevezes": "„Rosenfeld-ház”",
+"ev": 1911,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Málnai Béla és Haász Gyula"
+},
+{
+"ker": "VI",
+"cim": "Hajós utca 12.",
+"alt_cimek": [
+"Lázár utca 22."
+],
+"hrsz": "29197",
+"megnevezes": "lakóépület",
+"ev": 1890,
+"ev_kezdet": 1890,
+"ev_korul": false,
+"tervezo": "Roszlozsnik Lukács"
+},
+{
+"ker": "VI",
+"cim": "Hajós utca 16–18.",
+"alt_cimek": [],
+"hrsz": "29193",
+"megnevezes": "lakóház",
+"ev": 1912,
+"ev_kezdet": 1912,
+"ev_korul": true,
+"tervezo": "Freund Dezső"
+},
+{
+"ker": "VI",
+"cim": "Hajós utca 23.",
+"alt_cimek": [
+"Ó utca 23."
+],
+"hrsz": "29097",
+"megnevezes": "lakóház",
+"ev": 1892,
+"ev_kezdet": 1892,
+"ev_korul": false,
+"tervezo": "Millnich Alfréd"
+},
+{
+"ker": "VI",
+"cim": "Hajós utca 43.",
+"alt_cimek": [],
+"hrsz": "29135",
+"megnevezes": "Tlach és Keil lakó- és üzletház",
+"ev": 1905,
+"ev_kezdet": 1905,
+"ev_korul": true,
+"tervezo": "Fischer József"
+},
+{
+"ker": "VI",
+"cim": "Hunyadi tér 4–5.",
+"alt_cimek": [
+"Szófia utca 10–12.",
+"Eötvös utca 5."
+],
+"hrsz": "29451",
+"megnevezes": "VI. sz. Vásárcsarnok",
+"ev": 1897,
+"ev_kezdet": 1897,
+"ev_korul": false,
+"tervezo": "Alpár Ignácz"
+},
+{
+"ker": "VI",
+"cim": "Hunyadi tér 1.",
+"alt_cimek": [],
+"hrsz": "29460",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Izabella utca 94.",
+"alt_cimek": [],
+"hrsz": "28672",
+"megnevezes": "Lindenbaum-házak",
+"ev": 1897,
+"ev_kezdet": 1896,
+"ev_korul": false,
+"tervezo": "Spiegel Frigyes és Weinréb Fülöp"
+},
+{
+"ker": "VI",
+"cim": "Király utca 14.",
+"alt_cimek": [],
+"hrsz": "29273",
+"megnevezes": "lakóház",
+"ev": 1909,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Ágoston Emil"
+},
+{
+"ker": "VI",
+"cim": "Király utca 34.",
+"alt_cimek": [
+"Székely Mihály utca 1."
+],
+"hrsz": "29310",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Lázár utca 7–9.",
+"alt_cimek": [],
+"hrsz": "29215,",
+"megnevezes": "29214        ikerlakóház",
+"ev": 1911,
+"ev_kezdet": 1911,
+"ev_korul": true,
+"tervezo": "Freund Dezső"
+},
+{
+"ker": "VI",
+"cim": "Lázár utca 16.",
+"alt_cimek": [
+"Ó utca 15."
+],
+"hrsz": "29200",
+"megnevezes": "lakóépület",
+"ev": 1890,
+"ev_kezdet": 1890,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Lázár utca 20.",
+"alt_cimek": [],
+"hrsz": "29 198",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Lendvay utca 12.",
+"alt_cimek": [
+"Munkácsy Mihály utca 13."
+],
+"hrsz": "28315",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Lendvay utca 24.",
+"alt_cimek": [],
+"hrsz": "28258",
+"megnevezes": "villa",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Lendvay utca 28.",
+"alt_cimek": [
+"Dózsa György út 98."
+],
+"hrsz": "28256",
+"megnevezes": "„Groedel”-villa",
+"ev": 1901,
+"ev_kezdet": 1900,
+"ev_korul": false,
+"tervezo": "Kármán Géza Aladár és Ullmann Gyula"
+},
+{
+"ker": "VI",
+"cim": "Liszt Ferenc tér 2.",
+"alt_cimek": [
+"Paulay Ede utca 60."
+],
+"hrsz": "29384",
+"megnevezes": "lakóház",
+"ev": 1905,
+"ev_kezdet": 1905,
+"ev_korul": false,
+"tervezo": "Vidor Emil"
+},
+{
+"ker": "VI",
+"cim": "Lovag utca 12.",
+"alt_cimek": [],
+"hrsz": "28964",
+"megnevezes": "lakóépület",
+"ev": 1894,
+"ev_kezdet": 1894,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Mozsár utca 7.",
+"alt_cimek": [],
+"hrsz": "29063",
+"megnevezes": "lakóépület",
+"ev": 1904,
+"ev_kezdet": 1904,
+"ev_korul": false,
+"tervezo": "Herczog J. Ferenc műépítész"
+},
+{
+"ker": "VI",
+"cim": "Mozsár utca 12.",
+"alt_cimek": [],
+"hrsz": "29053",
+"megnevezes": "lakóépület",
+"ev": 1903,
+"ev_kezdet": 1903,
+"ev_korul": false,
+"tervezo": "Molnár Gyula"
+},
+{
+"ker": "VI",
+"cim": "Munkácsy Mihály utca 16.",
+"alt_cimek": [
+"Kmetty György utca 35."
+],
+"hrsz": "28351",
+"megnevezes": "„Hirsch”-villa",
+"ev": 1908,
+"ev_kezdet": 1908,
+"ev_korul": true,
+"tervezo": "Bálint Zoltán és Jámbor Lajos"
+},
+{
+"ker": "VI",
+"cim": "Munkácsy Mihály utca 19.",
+"alt_cimek": [],
+"hrsz": "28305",
+"megnevezes": "„Schiffer”-villa",
+"ev": 1912,
+"ev_kezdet": 1912,
+"ev_korul": false,
+"tervezo": "Vágó József"
+},
+{
+"ker": "VI",
+"cim": "Munkácsy Mihály utca 22.",
+"alt_cimek": [],
+"hrsz": "28336",
+"megnevezes": "villa",
+"ev": 1906,
+"ev_kezdet": 1906,
+"ev_korul": false,
+"tervezo": "Kovács Frigyes"
+},
+{
+"ker": "VI",
+"cim": "Munkácsy Mihály utca 23.",
+"alt_cimek": [
+"Szondy utca 73."
+],
+"hrsz": "28303",
+"megnevezes": "„Sonnenberg”-ház",
+"ev": 1904,
+"ev_kezdet": 1904,
+"ev_korul": false,
+"tervezo": "Kőrössy Albert"
+},
+{
+"ker": "VI",
+"cim": "Munkácsy Mihály utca 26–32.",
+"alt_cimek": [],
+"hrsz": "28334",
+"megnevezes": "gimnázium",
+"ev": 1908,
+"ev_kezdet": 1906,
+"ev_korul": false,
+"tervezo": "Kőrössy Albert"
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca",
+"alt_cimek": [],
+"hrsz": "(29363)",
+"megnevezes": "„Baetz-féle” nyilvános illemhely",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 1.",
+"alt_cimek": [
+"Pethő utca 2."
+],
+"hrsz": "29367",
+"megnevezes": "iskola",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 3.",
+"alt_cimek": [],
+"hrsz": "29373",
+"megnevezes": "lakóház",
+"ev": 1913,
+"ev_kezdet": 1913,
+"ev_korul": false,
+"tervezo": "Gyenes Lajos és Vajda Andor"
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 23.",
+"alt_cimek": [
+"Ó utca 33."
+],
+"hrsz": "29047",
+"megnevezes": "lakóépület",
+"ev": 1893,
+"ev_kezdet": 1893,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 25.",
+"alt_cimek": [
+"Ó utca 34."
+],
+"hrsz": "29028",
+"megnevezes": "lakóépület",
+"ev": 1893,
+"ev_kezdet": 1893,
+"ev_korul": false,
+"tervezo": "Schumann Antal"
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 45.",
+"alt_cimek": [],
+"hrsz": "28960",
+"megnevezes": "lakóépület",
+"ev": 1894,
+"ev_kezdet": 1894,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 52.",
+"alt_cimek": [],
+"hrsz": "29130",
+"megnevezes": "lakóépület",
+"ev": 1880,
+"ev_kezdet": 1880,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Nagymező utca 54–56.",
+"alt_cimek": [
+"Hajós utca 33–35."
+],
+"hrsz": "29131",
+"megnevezes": "Teréz Távbeszélőközpont",
+"ev": 1903,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Balázs Ernő"
+},
+{
+"ker": "VI",
+"cim": "Ó utca 12.",
+"alt_cimek": [],
+"hrsz": "29189",
+"megnevezes": "lakóház",
+"ev": 1886,
+"ev_kezdet": 1886,
+"ev_korul": false,
+"tervezo": "Hudek Antal"
+},
+{
+"ker": "VI",
+"cim": "Ó utca 38.",
+"alt_cimek": [],
+"hrsz": "29030",
+"megnevezes": "lakóépület",
+"ev": 1898,
+"ev_kezdet": 1898,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Ó utca 39.",
+"alt_cimek": [],
+"hrsz": "29044",
+"megnevezes": "lakóház",
+"ev": 1895,
+"ev_kezdet": 1895,
+"ev_korul": false,
+"tervezo": "Menisen Gyula"
+},
+{
+"ker": "VI",
+"cim": "Paulay Ede utca 16.",
+"alt_cimek": [],
+"hrsz": "29301",
+"megnevezes": "lakóépület",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Paulay Ede utca 35.",
+"alt_cimek": [],
+"hrsz": "29320",
+"megnevezes": "Parisiana mulató",
+"ev": 1909,
+"ev_kezdet": 1908,
+"ev_korul": false,
+"tervezo": "Lajta Béla"
+},
+{
+"ker": "VI",
+"cim": "Paulay Ede utca 37.",
+"alt_cimek": [],
+"hrsz": "29319",
+"megnevezes": "lakóház",
+"ev": 1902,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Heidelberg Sándor és Jónás Dávid"
+},
+{
+"ker": "VI",
+"cim": "Révay utca 14.",
+"alt_cimek": [],
+"hrsz": "29225",
+"megnevezes": "lakóház",
+"ev": 1890,
+"ev_kezdet": 1890,
+"ev_korul": true,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Rippl-Rónai utca 13.",
+"alt_cimek": [
+"Lendvay utca 21."
+],
+"hrsz": "28263",
+"megnevezes": "gr. Apponyi-ház",
+"ev": 1907,
+"ev_kezdet": 1907,
+"ev_korul": false,
+"tervezo": "Vidor Emil"
+},
+{
+"ker": "VI",
+"cim": "Székely Bertalan utca 2/B",
+"alt_cimek": [],
+"hrsz": "28457",
+"megnevezes": "lakóházak",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VI",
+"cim": "Székely Bertalan utca 2/C",
+"alt_cimek": [],
+"hrsz": "28456",
+"megnevezes": "lakóház",
+"ev": 1910,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VI",
+"cim": "Szondi utca 67.",
+"alt_cimek": [],
+"hrsz": "28394",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VI",
+"cim": "Szondi utca 75.",
+"alt_cimek": [],
+"hrsz": "28302",
+"megnevezes": "lakóház",
+"ev": 1906,
+"ev_kezdet": 1906,
+"ev_korul": false,
+"tervezo": "Kőrössy Albert"
+},
+{
+"ker": "VI",
+"cim": "Zichy Jenő utca 12.",
+"alt_cimek": [],
+"hrsz": "29172",
+"megnevezes": "lakóépület",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Akácfa utca 13.",
+"alt_cimek": [],
+"hrsz": "34392",
+"megnevezes": "lakóház",
+"ev": 1912,
+"ev_kezdet": 1912,
+"ev_korul": false,
+"tervezo": "Román Miklós és Ernő"
+},
+{
+"ker": "VII",
+"cim": "Akácfa utca 18.",
+"alt_cimek": [],
+"hrsz": "34405",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Akácfa utca 20.",
+"alt_cimek": [],
+"hrsz": "34406",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Akácfa utca 43.",
+"alt_cimek": [],
+"hrsz": "34331",
+"megnevezes": "lakóház",
+"ev": 1914,
+"ev_kezdet": 1914,
+"ev_korul": false,
+"tervezo": "Dömmerling Ödön"
+},
+{
+"ker": "VII",
+"cim": "Alsó erdősor utca 8.",
+"alt_cimek": [],
+"hrsz": "33603",
+"megnevezes": "„Steinhardt”-ház",
+"ev": 1907,
+"ev_kezdet": 1907,
+"ev_korul": true,
+"tervezo": "Fodor Gyula"
+},
+{
+"ker": "VII",
+"cim": "Barcsay utca 5.",
+"alt_cimek": [],
+"hrsz": "33 683",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Dob utca 5.",
+"alt_cimek": [
+"Rumbach Sebestyén utca 4."
+],
+"hrsz": "34229",
+"megnevezes": "lakóház",
+"ev": 1909,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Ágoston Emil"
+},
+{
+"ker": "VII",
+"cim": "Dob utca 7.",
+"alt_cimek": [
+"Rumbach Sebestyén utca 3."
+],
+"hrsz": "34231",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Dob utca 8.",
+"alt_cimek": [
+"Rumbach Sebestyén utca 6."
+],
+"hrsz": "34222",
+"megnevezes": "„Glücksman”-ház",
+"ev": 1913,
+"ev_kezdet": 1913,
+"ev_korul": false,
+"tervezo": "Román Miklós és Ernő"
+},
+{
+"ker": "VII",
+"cim": "Dob utca 53.",
+"alt_cimek": [],
+"hrsz": "34342",
+"megnevezes": "Schwartz-ház",
+"ev": 1905,
+"ev_kezdet": 1904,
+"ev_korul": false,
+"tervezo": "ifj. Nagy István"
+},
+{
+"ker": "VII",
+"cim": "Dob utca 85.",
+"alt_cimek": [],
+"hrsz": "33874",
+"megnevezes": "elemi iskola",
+"ev": 1906,
+"ev_kezdet": 1905,
+"ev_korul": false,
+"tervezo": "Hegedűs Ármin"
+},
+{
+"ker": "VII",
+"cim": "Dohány utca 3.",
+"alt_cimek": [
+"Rákóczi út 6."
+],
+"hrsz": "34526",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Dohány utca 22–24.",
+"alt_cimek": [
+"Síp utca 3."
+],
+"hrsz": "34496",
+"megnevezes": "„Árkád-bazár” és lakóház",
+"ev": 1909,
+"ev_kezdet": 1908,
+"ev_korul": false,
+"tervezo": "Vágó József és László"
+},
+{
+"ker": "VII",
+"cim": "Dohány utca 44.",
+"alt_cimek": [],
+"hrsz": "34442/2",
+"megnevezes": "Hungária fürdő",
+"ev": 1909,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Ágoston Emil"
+},
+{
+"ker": "VII",
+"cim": "Dózsa György út 64.",
+"alt_cimek": [],
+"hrsz": "33 343",
+"megnevezes": null,
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Hársfa utca 40.",
+"alt_cimek": [],
+"hrsz": "33915",
+"megnevezes": "Neumann-ház",
+"ev": 1906,
+"ev_kezdet": 1905,
+"ev_korul": false,
+"tervezo": "Málnai Béla"
+},
+{
+"ker": "VII",
+"cim": "Hernád utca 40.",
+"alt_cimek": [
+"Marek József utca 19."
+],
+"hrsz": "33271",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Hernád utca 42–46.",
+"alt_cimek": [
+"Marek József utca 20."
+],
+"hrsz": "33323",
+"megnevezes": "Székesfővárosi elemi iskola",
+"ev": 1911,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Kismarty-Lechner Jenő"
+},
+{
+"ker": "VII",
+"cim": "István utca 18.",
+"alt_cimek": [],
+"hrsz": "33277",
+"megnevezes": "lakóház",
+"ev": 1905,
+"ev_kezdet": 1905,
+"ev_korul": true,
+"tervezo": "Bán Dezső"
+},
+{
+"ker": "VII",
+"cim": "István utca 19.",
+"alt_cimek": [
+"Nefelejcs utca 35."
+],
+"hrsz": "33156",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "István utca 20.",
+"alt_cimek": [
+"Hernád utca 36–38."
+],
+"hrsz": "33276",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "István utca 49.",
+"alt_cimek": [],
+"hrsz": "33229",
+"megnevezes": "lakóház",
+"ev": 1904,
+"ev_kezdet": 1904,
+"ev_korul": false,
+"tervezo": "Kőrössy Albert"
+},
+{
+"ker": "VII",
+"cim": "Izabella utca 34.",
+"alt_cimek": [
+"Jósika utca 17."
+],
+"hrsz": "33946",
+"megnevezes": "lakóház",
+"ev": 1910,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VII",
+"cim": "Jósika utca 2.",
+"alt_cimek": [
+"Csengery utca 21."
+],
+"hrsz": "34022",
+"megnevezes": "„Bruchsteiner”-ház",
+"ev": 1903,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Sterk Izidor"
+},
+{
+"ker": "VII",
+"cim": "Jósika utca 25.",
+"alt_cimek": [],
+"hrsz": "33974",
+"megnevezes": "„Fischer”-ház",
+"ev": 1900,
+"ev_kezdet": 1900,
+"ev_korul": false,
+"tervezo": "Mezey Sándor"
+},
+{
+"ker": "VII",
+"cim": "Kazinczy utca 14.",
+"alt_cimek": [],
+"hrsz": "34448",
+"megnevezes": "klasszicista lakóház",
+"ev": 1860,
+"ev_kezdet": 1860,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Kazinczy utca 51.",
+"alt_cimek": [],
+"hrsz": "34158",
+"megnevezes": "lakóház",
+"ev": 1907,
+"ev_kezdet": 1907,
+"ev_korul": true,
+"tervezo": "Fodor Gyula"
+},
+{
+"ker": "VII",
+"cim": "Kertész utca 27.",
+"alt_cimek": [],
+"hrsz": "34350/2",
+"megnevezes": "Hajcsi-ház",
+"ev": 1906,
+"ev_kezdet": 1905,
+"ev_korul": false,
+"tervezo": "Karvaly Gyula"
+},
+{
+"ker": "VII",
+"cim": "Kertész utca 29.",
+"alt_cimek": [],
+"hrsz": "34351",
+"megnevezes": "lakóház",
+"ev": 1911,
+"ev_kezdet": 1911,
+"ev_korul": true,
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VII",
+"cim": "Kertész utca 33.",
+"alt_cimek": [
+"Dob utca 56–58."
+],
+"hrsz": "34076",
+"megnevezes": "lakóház",
+"ev": 1898,
+"ev_kezdet": 1898,
+"ev_korul": false,
+"tervezo": "Kőrössy Albert és Sebestyén Artúr"
+},
+{
+"ker": "VII",
+"cim": "Kertész utca 38–40.",
+"alt_cimek": [
+"Dob utca 54."
+],
+"hrsz": "34078",
+"megnevezes": "lakóépület",
+"ev": 1904,
+"ev_kezdet": 1904,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Király utca 1/D",
+"alt_cimek": [
+"Asbóth utca 19."
+],
+"hrsz": "34213/6",
+"megnevezes": "lakóház",
+"ev": 1938,
+"ev_kezdet": 1938,
+"ev_korul": false,
+"tervezo": "Martsekényi Imre"
+},
+{
+"ker": "VII",
+"cim": "Király utca 41.",
+"alt_cimek": [],
+"hrsz": "34117",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Marek József utca 31.",
+"alt_cimek": [],
+"hrsz": "33256",
+"megnevezes": "lakóház",
+"ev": 1911,
+"ev_kezdet": 1911,
+"ev_korul": false,
+"tervezo": "Komor Marcell–Jakab Dezső"
+},
+{
+"ker": "VII",
+"cim": "Marek József utca 35.",
+"alt_cimek": [],
+"hrsz": "33254",
+"megnevezes": "lakóház",
+"ev": 1896,
+"ev_kezdet": 1896,
+"ev_korul": false,
+"tervezo": "ifj. Nagy István"
+},
+{
+"ker": "VII",
+"cim": "Murányi utca 38.",
+"alt_cimek": [],
+"hrsz": "33328",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Nagydiófa utca 25.",
+"alt_cimek": [],
+"hrsz": "34284",
+"megnevezes": "„Horváth-ház”",
+"ev": 1907,
+"ev_kezdet": 1907,
+"ev_korul": false,
+"tervezo": "Lux Endre"
+},
+{
+"ker": "VII",
+"cim": "Nyár utca 10.",
+"alt_cimek": [],
+"hrsz": "34449",
+"megnevezes": "„Bánd-ház”",
+"ev": 1908,
+"ev_kezdet": 1908,
+"ev_korul": true,
+"tervezo": "Freund Dezső"
+},
+{
+"ker": "VII",
+"cim": "Nyár utca 22.",
+"alt_cimek": [],
+"hrsz": "34460",
+"megnevezes": "„Kopits-ház”",
+"ev": 1910,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Kopeczek György"
+},
+{
+"ker": "VII",
+"cim": "Péterfy Sándor utca 17.",
+"alt_cimek": [],
+"hrsz": "33114",
+"megnevezes": "lakóház",
+"ev": 1900,
+"ev_kezdet": 1900,
+"ev_korul": true,
+"tervezo": "Márkus Géza"
+},
+{
+"ker": "VII",
+"cim": "Rákóczi út 14.",
+"alt_cimek": [],
+"hrsz": "34531",
+"megnevezes": "társasház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Rottenbiller utca 23–25.",
+"alt_cimek": [],
+"hrsz": "33298",
+"megnevezes": "Állatorvos-tudományi Egyetem épületei",
+"ev": 1880,
+"ev_kezdet": 1880,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Rottenbiller utca 35.",
+"alt_cimek": [
+"Damjanich utca 1."
+],
+"hrsz": "33415",
+"megnevezes": "lakóház",
+"ev": 1920,
+"ev_kezdet": 1920,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Rózsa utca 35.",
+"alt_cimek": [],
+"hrsz": "33963",
+"megnevezes": "lakóépület",
+"ev": 1898,
+"ev_kezdet": 1898,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Síp utca 7.",
+"alt_cimek": [],
+"hrsz": "34498",
+"megnevezes": "„Goldscheider-ház” Román Miklós és",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": "Ernő"
+},
+{
+"ker": "VII",
+"cim": "Síp utca 16–18.",
+"alt_cimek": [
+"Wesselényi utca 14."
+],
+"hrsz": "34241",
+"megnevezes": "lakóház",
+"ev": 1902,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Vágó József és László"
+},
+{
+"ker": "VII",
+"cim": "Síp utca 17.",
+"alt_cimek": [],
+"hrsz": "34503",
+"megnevezes": "lakóház",
+"ev": 1908,
+"ev_kezdet": 1908,
+"ev_korul": false,
+"tervezo": "Löffler Béla és Sándor"
+},
+{
+"ker": "VII",
+"cim": "Síp utca 19.",
+"alt_cimek": [
+"Wesselényi utca 11."
+],
+"hrsz": "34504",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 15.",
+"alt_cimek": [
+"Kazinczy utca 15."
+],
+"hrsz": "34483",
+"megnevezes": "klasszicista lakóház",
+"ev": 1860,
+"ev_kezdet": 1860,
+"ev_korul": false,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 17.",
+"alt_cimek": [],
+"hrsz": "34482",
+"megnevezes": "Székesfővárosi Cipész Ipartestület",
+"ev": 1905,
+"ev_kezdet": 1905,
+"ev_korul": false,
+"tervezo": "székháza Kopeczek György"
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 18.",
+"alt_cimek": [
+"Kazinczy utca 22."
+],
+"hrsz": "34244",
+"megnevezes": "„Schiffer-ház”",
+"ev": 1908,
+"ev_kezdet": 1908,
+"ev_korul": false,
+"tervezo": "Schwarz Jenő és Horváth Antal"
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 24.",
+"alt_cimek": [
+"Nagydiófa utca 22–24."
+],
+"hrsz": "34280",
+"megnevezes": "lakóház",
+"ev": 1911,
+"ev_kezdet": 1910,
+"ev_korul": false,
+"tervezo": "Román Miklós és Ernő"
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 32.",
+"alt_cimek": [
+"Klauzál utca 27."
+],
+"hrsz": "34314",
+"megnevezes": "lakóház",
+"ev": 1909,
+"ev_kezdet": 1909,
+"ev_korul": false,
+"tervezo": "Ágoston Emil"
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 40.",
+"alt_cimek": [],
+"hrsz": "34335",
+"megnevezes": "„Lung-ház”",
+"ev": 1902,
+"ev_kezdet": 1902,
+"ev_korul": false,
+"tervezo": "Mellinger Artúr"
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 69.",
+"alt_cimek": [
+"Rózsa utca 14."
+],
+"hrsz": "33798",
+"megnevezes": "lakóház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+},
+{
+"ker": "VII",
+"cim": "Wesselényi utca 73.",
+"alt_cimek": [],
+"hrsz": "33812",
+"megnevezes": "egykori Ipartestületi Székház",
+"ev": null,
+"ev_kezdet": null,
+"ev_korul": null,
+"tervezo": null
+}
+]
+}

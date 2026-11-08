@@ -24,12 +24,30 @@ KEZI = Path("forras/kezi_javitasok.csv")
 FEJLEC = ["osm_tipus", "id", "mezo", "ertek", "forras", "megjegyzes", "lat", "lon"]
 SZAMOS = {"ev": (1000, 2100), "szintek": (1, 80), "magassag": (1, 500)}
 SZOVEGES = {"tervezo"}
+EGYSOROS = {"nev": 120}                      # az épület neve
+HOSSZU_SZOVEG = {"about": 1500}              # szabad szöveges leírás (több bekezdés is lehet)
+VEDETTSEG_KODOK = {"M", "MJ", "VK", "MK", "MJT"}   # műemlék, műemlék jellegű, városképi, műemléki környezet, műemléki jelentőségű terület
 ENGEDELYEZETT_ORIGIN = {f"http://localhost:{PORT}", f"http://127.0.0.1:{PORT}"}
 
 
 def tiszta_szoveg(x, max_hossz):
     x = " ".join(str(x).split())          # sortörések, tabok, dupla szóközök ki
     if not x or len(x) > max_hossz or re.search(r"[\x00-\x1f;]", str(x)):
+        return None
+    return x
+
+
+def szabad_szoveg(x, max_hossz, tobb_sor):
+    """Szabad szöveg: a vezérlőkarakterek (a sortörés kivételével) tiltottak; ';' megengedett (a CSV idézi)."""
+    x = str(x).replace("\r\n", "\n").replace("\r", "\n")
+    if tobb_sor:
+        sorok = [" ".join(s.split()) for s in x.split("\n")]
+        x = "\n".join(sorok).strip()
+        while "\n\n\n" in x:
+            x = x.replace("\n\n\n", "\n\n")
+    else:
+        x = " ".join(x.split())
+    if not x or len(x) > max_hossz or re.search(r"[\x00-\x09\x0b-\x1f\x7f<>]", x):
         return None
     return x
 
@@ -81,6 +99,24 @@ def ellenoriz(adat):
         if not lo <= v <= hi:
             return None, f"A(z) {mezo} értéke {lo} és {hi} között lehet."
         ertek = int(v) if v == int(v) else round(v, 1)
+    elif mezo in EGYSOROS or mezo in HOSSZU_SZOVEG:
+        if str(adat.get("ertek", "")).strip() == "-":
+            ertek = "-"
+        else:
+            hatar = EGYSOROS.get(mezo) or HOSSZU_SZOVEG[mezo]
+            ertek = szabad_szoveg(adat.get("ertek", ""), hatar, mezo in HOSSZU_SZOVEG)
+            if ertek is None:
+                return None, f"A(z) {mezo} értéke üres, legfeljebb {hatar} karakter lehet, és nem tartalmazhat < > jelet."
+    elif mezo == "vedettseg":
+        ertek = str(adat.get("ertek", "")).strip()
+        if ertek != "-" and ertek not in VEDETTSEG_KODOK:
+            return None, "A védettség csak M, MJ, VK, MK vagy MJT lehet (vagy '-' az eltávolításhoz)."
+    elif mezo == "muemlek_torzsszam":
+        ertek = str(adat.get("ertek", "")).strip()
+        if ertek != "-":
+            if not re.fullmatch(r"\d{1,6}", ertek):
+                return None, "A műemléki törzsszám 1–6 jegyű szám (vagy '-' az eltávolításhoz)."
+            ertek = int(ertek)
     elif mezo == "wikipedia":
         ertek = wikipedia_cikkek(adat.get("ertek", ""))
         if ertek is None:
@@ -126,7 +162,7 @@ class Kezelo(SimpleHTTPRequestHandler):
         self.wfile.write(torzs)
 
     def end_headers(self):
-        if self.path.split("?")[0].endswith((".geojson", ".json", ".html")):
+        if self.path.split("?")[0].endswith((".geojson", ".json", ".html", ".js", ".css", ".bin", ".png")):
             self.send_header("Cache-Control", "no-store")
         super().end_headers()
 
@@ -143,7 +179,7 @@ class Kezelo(SimpleHTTPRequestHandler):
         if not self._engedelyezett():
             return self._json(403, {"ok": False, "hiba": "Nem engedélyezett kérés."})
         hossz = int(self.headers.get("Content-Length") or 0)
-        if hossz > 10_000:
+        if hossz > 20_000:
             return self._json(413, {"ok": False, "hiba": "Túl nagy kérés."})
         try:
             adat = json.loads(self.rfile.read(hossz) or b"{}")
@@ -163,7 +199,17 @@ class Kezelo(SimpleHTTPRequestHandler):
                 return self._json(500, {"ok": False, "hiba": "Az újraépítés túl sokáig tartott."})
             if eredmeny.returncode != 0:
                 return self._json(500, {"ok": False, "hiba": (eredmeny.stderr or "")[-400:]})
-            return self._json(200, {"ok": True})
+            # a 3D nézet adatai is újra elkészülnek (ha ez hibázik, a 2D térkép attól még frissül)
+            harom_d = "ok"
+            try:
+                e3 = subprocess.run([sys.executable, "csempek_keszites.py"], capture_output=True, text=True,
+                                    encoding="utf-8", errors="replace", timeout=600)
+                if e3.returncode != 0:
+                    harom_d = "hiba: " + ((e3.stderr or e3.stdout or "")[-300:])
+            except (subprocess.TimeoutExpired, OSError) as hiba:
+                harom_d = f"hiba: {hiba}"
+            print(f"  3D adatok: {harom_d}")
+            return self._json(200, {"ok": True, "harom_d": harom_d})
         return self._json(404, {"ok": False, "hiba": "Ismeretlen kérés."})
 
     def log_message(self, fmt, *args):

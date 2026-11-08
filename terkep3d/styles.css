@@ -1,0 +1,83 @@
+/* A 3D nézet stílusa. Az elrendezés ötlete az amszterdami projektből való (alexbarakov/amsterdam-by-building, MIT). */
+:root {
+  --sky: #e4e8ea; --paper: #fff; --ink: #000; --muted: #5d6266; --rule: #cfd5d8;
+  --gutter: clamp(14px, 2.4vw, 32px);
+  font: 400 14px/1.5 "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--sky); color: var(--ink); overflow: hidden; }
+button { font: inherit; color: inherit; }
+#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+.panel { position: fixed; left: var(--gutter); top: var(--gutter); width: 250px; max-height: calc(100vh - 170px);
+  overflow-y: auto; background: rgba(255,255,255,.92); border-radius: 10px; padding: 12px 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.25); font-size: 13px; }
+.panel hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; }
+.panel label { display: flex; gap: 6px; margin: 4px 0; cursor: pointer; align-items: flex-start; }
+.panel-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+#nyelv button { cursor: pointer; border: 1px solid #bbb; background: none; padding: 1px 6px; font-size: 12px; }
+#nyelv button[aria-pressed="true"] { background: #222; color: #fff; border-color: #222; }
+.modes { display: flex; margin-bottom: 8px; }
+.modes button { flex: 1; cursor: pointer; border: 1px solid #222; background: none; padding: 4px 6px; }
+.modes button:first-child { border-radius: 6px 0 0 6px; }
+.modes button:last-child { border-radius: 0 6px 6px 0; border-left: 0; }
+.modes button[aria-pressed="true"] { background: #222; color: #fff; }
+#legend label { margin: 3px 0; }
+#legend i { width: 14px; height: 14px; border-radius: 3px; flex: none; margin-top: 2px; }
+#szintlegend .ramp { display: block; height: 10px; border-radius: 3px; margin-bottom: 4px;
+  background: linear-gradient(90deg, #dce3e6, #7da8bf, #2b5c8c, #0d1a40); }
+#szintlegend { color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; }
+#szintlegend .ramp { width: 100%; }
+#szintlegend .vege { margin-left: auto; }
+.panel a { color: inherit; }
+
+.tally { position: fixed; top: var(--gutter); right: var(--gutter); text-align: right; pointer-events: none; }
+.tally-year { display: block; font-size: clamp(40px, 5vw, 64px); font-weight: 800; letter-spacing: -.04em; line-height: .85; }
+.tally-count { color: var(--muted); }
+
+.timeline { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; gap: 14px;
+  padding: 0 var(--gutter) 10px; pointer-events: none; background: linear-gradient(transparent, rgba(228,232,234,.85) 60%); }
+.timeline > * { pointer-events: auto; }
+.timeline canvas { flex: 1; height: 96px; cursor: ew-resize; touch-action: none; }
+.play { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ink); color: var(--paper);
+  cursor: pointer; display: grid; place-items: center; margin-bottom: 22px; }
+.play svg { width: 16px; height: 16px; fill: currentColor; }
+.howto { position: fixed; right: var(--gutter); bottom: 112px; margin: 0; color: var(--muted); font-size: 12px; pointer-events: none; }
+.loading { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--muted); }
+
+/* a kártya: ugyanaz, mint a MapLibre-nézetben */
+.kartya { position: fixed; z-index: 10; width: 340px; max-height: calc(100vh - 24px); overflow-y: auto; background: #fff;
+  border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,.35); font-size: 13px; line-height: 1.4; pointer-events: none; }
+.kartya.rogzitett { pointer-events: auto; width: 400px; max-width: calc(100vw - 24px); }
+.kartya[hidden] { display: none; }
+.kartya-bezar { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.85); cursor: pointer; font-size: 18px; line-height: 1; }
+.kartya-fej { padding: 12px 16px; border-radius: 10px 10px 0 0; }
+.kartya-fej h3 { margin: 0 0 6px; font-size: 17px; line-height: 1.25; padding-right: 30px; }
+.kartya-fej .cim { margin: 0 0 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.kartya-fej .cim a { margin-left: auto; color: inherit; font-weight: 400; font-size: 12px; white-space: nowrap; }
+.kartya:not(.rogzitett) .cim a { display: none; }
+.kartya-fej .mikor { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.kartya-fej .ev { font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.kartya-fej .ev.kicsi { font-size: 22px; }
+.kartya-fej .korszak { opacity: .85; }
+.kartya section { padding: 10px 16px; border-top: 1px solid #e6e6e6; }
+.kartya h4 { margin: 0 0 6px; font-size: 12px; color: #666; }
+.kartya dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; }
+.kartya dt { color: #666; } .kartya dd { margin: 0; }
+.kartya .becsles { background: #fff6e8; color: #5a4300; }
+.kartya section.kep { padding: 0; }
+.kartya section.kep[hidden] { display: none; }
+.kartya section.kep img { display: block; width: 100%; max-height: 240px; object-fit: cover; }
+.kartya section.kep small { display: block; padding: 4px 16px 6px; color: #666; opacity: 1; }
+.kartya .wikikivonat div { margin-bottom: 4px; }
+.kartya .wikikivonat small { color: #666; opacity: 1; }
+.kartya .tipp { font-size: 11px; color: #666; margin: 0; padding: 6px 16px 10px; }
+.kartya small { color: inherit; opacity: .8; }
+.kartya a { color: inherit; }
+
+@media (max-width: 700px) {
+  .panel { width: 200px; font-size: 12px; max-height: 40vh; }
+  .howto { display: none; }
+  .timeline canvas { height: 76px; }
+}

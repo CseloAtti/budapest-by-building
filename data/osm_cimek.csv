@@ -1,0 +1,2305 @@
+﻿osm_tipus;id;utca;hazszam
+relation;11764;Széchenyi rakpart;19
+relation;11766;Alkotmány utca;2
+relation;11766;Kossuth Lajos tér;12
+relation;11768;Akadémia utca;18
+relation;11768;Akadémia utca;20
+relation;11768;Kossuth Lajos tér;4
+relation;11768;Széchenyi rakpart;9
+relation;11768;Zoltán utca;2-4
+relation;11772;Akadémia utca;2
+relation;11772;Széchenyi István tér;9
+relation;11832;Szabadság tér;17
+relation;11844;Szabadság tér;9
+relation;11845;Markó utca;16
+relation;11845;Nagy Ignác utca;10
+relation;11845;Stollár Béla utca;15
+relation;11845;Szemere utca;15
+relation;11846;Hold utca;4
+relation;11847;Széchenyi István tér;5-6
+relation;11890;Széchenyi rakpart;6
+relation;11891;Akadémia utca;6
+relation;11891;Széchenyi rakpart;3
+relation;11895;Dorottya utca;7
+relation;11895;József nádor tér;2
+relation;11895;József nádor tér;2-4
+relation;11895;József nádor tér;3
+relation;11895;József nádor tér;4
+relation;11897;Dorottya utca;1
+relation;11897;Vörösmarty tér;7
+relation;11897;Vörösmarty tér;7-8
+relation;11897;Vörösmarty tér;7-9
+relation;11897;Vörösmarty tér;8
+relation;11897;Vörösmarty tér;9
+relation;11898;József Attila utca;2
+relation;11898;József Attila utca;2-4
+relation;11898;József Attila utca;4
+relation;11898;József Attila utca;6
+relation;11898;Mérleg utca;3
+relation;11914;Akadémia utca;3
+relation;11917;Bajcsy-Zsilinszky út;42-46
+relation;11919;Falk Miksa utca;9-11
+relation;11919;Honvéd utca;28
+relation;12022;Markó utca;23-25
+relation;12022;Nagy Ignác utca;6-8
+relation;12022;Szalay utca;16
+relation;12022;Szemere utca;11
+relation;12023;Honvéd utca;19
+relation;12023;Szalay utca;10-14
+relation;12024;Alkotmány utca;14
+relation;12024;Bihari János utca;2
+relation;12024;Bihari János utca;8
+relation;12024;Markó utca;27
+relation;12024;Nagy Ignác utca;5-11
+relation;12025;Markó utca;29-31
+relation;12029;Alkotmány utca;5
+relation;12029;Honvéd utca;12
+relation;12032;Garibaldi utca;2
+relation;12032;Kossuth Lajos tér;5
+relation;12034;Szabadság tér;15
+relation;12036;Harmincad utca;6
+relation;12039;Hold utca;3-5
+relation;12146;Nádor utca;12
+relation;12146;Zrínyi utca;6
+relation;12697;Széchenyi István tér;7-8
+relation;12697;Zrínyi utca;2
+relation;12939;Bárczy István utca;1-3
+relation;12939;Gerlóczy utca;2
+relation;12939;Városház utca;11
+relation;12939;Városház utca;9
+relation;12939;Városház utca;9-11
+relation;12942;Semmelweis utca;6
+relation;12942;Városház utca;7
+relation;12944;Anker köz;1
+relation;12944;Anker köz;1-3
+relation;12944;Anker köz;3
+relation;12944;Bajcsy-Zsilinszky út;1
+relation;12944;Deák Ferenc tér;6
+relation;12981;Honvéd utca;3
+relation;12982;Hold utca;1
+relation;12983;Nádor utca;22
+relation;12983;Széchenyi utca;7-9
+relation;12984;Akadémia utca;15
+relation;12985;Steindl Imre utca;8
+relation;12986;Steindl Imre utca;12
+relation;12987;Nádor utca;28
+relation;13035;Arany János utca;14
+relation;13035;Nádor utca;21
+relation;13038;Vigyázó Ferenc utca;6
+relation;13039;Nádor utca;16
+relation;13062;Nádor utca;7
+relation;13062;Zrínyi utca;7
+relation;13067;Hercegprímás utca;8
+relation;13107;Sas utca;10
+relation;13107;Sas utca;12
+relation;14580;Duna utca;6
+relation;14580;Váci utca;36
+relation;18135;Petőfi Sándor utca;13-15
+relation;18135;Párizsi utca;8
+relation;18135;Városház utca;18
+relation;18173;Március 15. tér;4
+relation;18173;Piarista köz;1
+relation;18173;Piarista köz;2
+relation;18173;Piarista utca;1
+relation;18173;Váci utca;27
+relation;18173;Váci utca;29
+relation;18173;Váci utca;31
+relation;18173;Váci utca;33
+relation;18180;Reáltanoda utca;7
+relation;18185;Apáczai Csere János utca;9
+relation;18185;Deák Ferenc utca;1
+relation;18185;Türr István utca;6
+relation;18974;Andrássy út;25
+relation;19232;József nádor tér;5-6
+relation;19235;Piarista utca;4
+relation;19235;Váci utca;19-21
+relation;19239;Apáczai Csere János utca;15/1
+relation;19239;Apáczai Csere János utca;15/2
+relation;19239;Dorottya utca;6
+relation;19642;Vadász utca;14
+relation;19727;Harmincad utca;2
+relation;19727;József nádor tér;7
+relation;541164;Falk Miksa utca;2
+relation;541164;Kossuth Lajos tér;13-15
+relation;936957;József Attila utca;3
+relation;936957;József nádor tér;1
+relation;936958;Dorottya utca;13
+relation;936958;József Attila utca;1
+relation;936959;Dorottya utca;9
+relation;936960;Dorottya utca;11
+relation;936980;Erzsébet tér;1
+relation;936981;József Attila utca;7
+relation;936981;József nádor tér;12
+relation;936982;József nádor tér;11
+relation;936983;Erzsébet tér;2
+relation;936984;Erzsébet tér;3
+relation;936984;József nádor tér;10
+relation;936984;József nádor tér;10-11
+relation;936985;József nádor tér;9
+relation;936988;Erzsébet tér;5
+relation;936990;Harmincad utca;3
+relation;936993;Vörösmarty tér;4
+relation;936994;Bécsi utca;8
+relation;936995;Vörösmarty tér;3
+relation;936997;Dorottya utca;3
+relation;936997;Wekerle Sándor utca;5
+relation;936998;Apáczai Csere János utca;10
+relation;936998;Vigadó tér;3
+relation;936998;Wekerle Sándor utca;1
+relation;937001;Széchenyi István tér;2
+relation;937002;Dorottya utca;8
+relation;937003;Apáczai Csere János utca;17
+relation;937005;Mérleg utca;9
+relation;937006;Mérleg utca;11
+relation;937008;József Attila utca;10
+relation;1781502;Váci út;8
+relation;1781505;Váci út;10
+relation;1781506;Váci út;12
+relation;1781508;Katona József utca;13
+relation;1781511;Katona József utca;9-11
+relation;1783330;Paulay Ede utca;56
+relation;1783331;Andrássy út;43
+relation;1783332;Andrássy út;41
+relation;1786252;Kádár utca;5
+relation;1786253;Nyugati tér;4
+relation;1786254;Kádár utca;8
+relation;1786255;Szent István körút;24
+relation;1786255;Visegrádi utca;1
+relation;1786256;Szent István körút;28
+relation;1786257;Szent István körút;30
+relation;1786258;Visegrádi utca;3
+relation;1786259;Szent István körút;26
+relation;1786260;Kádár utca;10
+relation;1786261;Váci út;4
+relation;1786262;Kádár utca;6
+relation;1786263;Kádár utca;4
+relation;1786264;Nyugati tér;5
+relation;1786311;Szent István körút;22
+relation;1786311;Visegrádi utca;2
+relation;1786312;Visegrádi utca;6
+relation;1786313;Hegedűs Gyula utca;3
+relation;1786314;Ditrói Mór utca;3
+relation;1786314;Hegedűs Gyula utca;2
+relation;1786314;Vígszínház utca;2
+relation;1786315;Visegrádi utca;8
+relation;1786316;Hegedűs Gyula utca;5
+relation;1786318;Hegedűs Gyula utca;1
+relation;1786318;Szent István körút;18
+relation;1786319;Hegedűs Gyula utca;7
+relation;1786321;Visegrádi utca;4
+relation;1786322;Szent István körút;20
+relation;1786323;Visegrádi utca;10
+relation;1786324;Ditrói Mór utca;1
+relation;1786324;Szent István körút;16
+relation;1786325;Hegedűs Gyula utca;4
+relation;1786325;Vígszínház utca;1
+relation;1786326;Vígszínház utca;5
+relation;1788744;Szent István körút;6
+relation;1788745;Pannónia utca;4
+relation;1788746;Szent István körút;8
+relation;1788746;Tátra utca;2
+relation;1788748;Szent István körút;12
+relation;1788750;Szent István körút;10
+relation;1788750;Tátra utca;1
+relation;1791807;Jókai tér;7
+relation;1791808;Aradi utca;1
+relation;1791808;Jókai tér;8
+relation;1791810;Aradi utca;5
+relation;1791810;Teréz körút;22
+relation;1791814;Jókai tér;6
+relation;1791826;Andrássy út;35
+relation;1791828;Andrássy út;37
+relation;1957485;Bródy Sándor utca;4
+relation;1957486;Múzeum körút;4
+relation;1957486;Rákóczi út;5
+relation;1957488;Bródy Sándor utca;2
+relation;1957488;Múzeum körút;12
+relation;1957489;Múzeum körút;4/B
+relation;1957490;Rákóczi út;7
+relation;1957493;Múzeum körút;10
+relation;1957495;Múzeum körút;4/A
+relation;1961750;Múzeum körút;6-8
+relation;1964553;Kármán utca;1
+relation;1964553;Szobi utca;4
+relation;1964554;Eötvös utca;48
+relation;1964555;Kármán utca;2
+relation;1964555;Teréz körút;47
+relation;1964556;Eötvös utca;50
+relation;1964556;Podmaniczky utca;29
+relation;1964556;Podmaniczky utca;31
+relation;1964557;Kármán utca;4
+relation;1964557;Podmaniczky utca;27
+relation;1964558;Szobi utca;5
+relation;1964559;Eötvös utca;42
+relation;1964559;Szondi utca;14
+relation;1964706;Szondi utca;18
+relation;1964707;Csengery utca;84
+relation;1964708;Csengery utca;82
+relation;1964709;Csengery utca;86
+relation;1964710;Csengery utca;78
+relation;1964710;Szondi utca;20
+relation;1964711;Csengery utca;88
+relation;1964711;Podmaniczky utca;35
+relation;1964711;Podmaniczky utca;37
+relation;1967488;Eötvös utca;44
+relation;2054525;Arany János utca;22
+relation;2054525;Október 6. utca;21
+relation;2184348;Teréz körút;37
+relation;2184349;Teréz körút;29
+relation;2184350;Teréz körút;27
+relation;2184351;Szondi utca;5
+relation;2184351;Teréz körút;41
+relation;2184352;Teréz körút;31
+relation;2184353;Szondi utca;9
+relation;2184354;Eötvös utca;28
+relation;2184355;Eötvös utca;32
+relation;2184356;Eötvös utca;30
+relation;2184357;Teréz körút;33
+relation;2184358;Teréz körút;39
+relation;2184359;Teréz körút;35
+relation;2184360;Teréz körút;23
+relation;2184361;Eötvös utca;36
+relation;2184363;Szondi utca;11
+relation;2184364;Teréz körút;25
+relation;2184365;Eötvös utca;34
+relation;2189155;Vörösmarty utca;64
+relation;2189156;Csengery utca;71
+relation;2189157;Szondi utca;22
+relation;2189158;Csengery utca;67
+relation;2189159;Vörösmarty utca;62
+relation;2189161;Podmaniczky utca;43
+relation;2189161;Vörösmarty utca;68
+relation;2189163;Csengery utca;73
+relation;2189163;Podmaniczky utca;39
+relation;2189164;Szondi utca;24
+relation;2191612;Csengery utca;76
+relation;2191612;Szondi utca;17
+relation;2191613;Eötvös utca;35
+relation;2191614;Eötvös utca;39
+relation;2191614;Szondi utca;13
+relation;2191619;Eötvös utca;33
+relation;2191622;Eötvös utca;37
+relation;2191623;Eötvös utca;31
+relation;2194839;Eötvös utca;51
+relation;2194840;Teréz körút;45
+relation;2194841;Eötvös utca;46
+relation;2202957;Szent István körút;11
+relation;2203098;Szent István körút;7
+relation;2203099;Szent István körút;9
+relation;2203100;Honvéd utca;40
+relation;2225177;Belgrád rakpart;27
+relation;2225177;Molnár utca;1
+relation;2225184;Március 15. tér;7
+relation;2225185;Curia utca;4
+relation;2225185;Ferenciek tere;2
+relation;2225187;Ferenciek tere;5
+relation;2225187;Irányi utca;20
+relation;2513526;Vörösmarty utca;75
+relation;2513528;Podmaniczky utca;47
+relation;2531310;Jókai utca;25
+relation;2531310;Teréz körút;52
+relation;2531311;Jókai utca;21
+relation;2531311;Teréz körút;48
+relation;2531312;Jókai utca;27
+relation;2531312;Podmaniczky utca;23
+relation;2531312;Podmaniczky utca;25
+relation;2531312;Teréz körút;54
+relation;2531313;Jókai utca;23
+relation;2531313;Teréz körút;50
+relation;2531314;Jókai utca;31
+relation;2531314;Teréz körút;62
+relation;2531315;Jókai utca;29
+relation;2531315;Podmaniczky utca;20
+relation;2531315;Teréz körút;56
+relation;2531315;Teréz körút;56-60
+relation;2531315;Teréz körút;58
+relation;2531315;Teréz körút;60
+relation;2538731;Teréz körút;26
+relation;2538732;Jókai utca;15
+relation;2538732;Teréz körút;40
+relation;2538733;Andrássy út;32
+relation;2538733;Nagymező utca;15
+relation;2538734;Mozsár utca;9
+relation;2538735;Jókai utca;3
+relation;2538735;Teréz körút;28
+relation;2538736;Jókai tér;1
+relation;2538737;Jókai utca;13
+relation;2538737;Teréz körút;38
+relation;2538738;Mozsár utca;7
+relation;2538739;Jókai tér;3
+relation;2538740;Aradi utca;2
+relation;2538740;Teréz körút;24
+relation;2538741;Dessewffy utca;53
+relation;2538741;Jókai utca;11
+relation;2538741;Teréz körút;36
+relation;2538742;Jókai utca;9
+relation;2538742;Teréz körút;34
+relation;2538742;Zichy Jenő utca;48
+relation;2538743;Jókai utca;17
+relation;2538743;Teréz körút;42
+relation;2538743;Teréz körút;42-44
+relation;2538744;Mozsár utca;1
+relation;2538744;Nagymező utca;19
+relation;2538745;Jókai utca;5
+relation;2538745;Teréz körút;30
+relation;2538746;Aradi utca;2
+relation;2538746;Jókai utca;1
+relation;2682367;Nagymező utca;46-48
+relation;2689935;Kálmán Imre utca;23
+relation;2689936;Kálmán Imre utca;21
+relation;2689936;Vadász utca;35b
+relation;2689939;Báthory utca;24
+relation;2689940;Báthory utca;22
+relation;2689940;Vadász utca;35a
+relation;2689941;Bajcsy-Zsilinszky út;64
+relation;2689941;Kálmán Imre utca;27
+relation;2693834;Bajcsy-Zsilinszky út;66
+relation;2693834;Kálmán Imre utca;26
+relation;2693835;Alkotmány utca;29
+relation;2693836;Kálmán Imre utca;24
+relation;2693836;Kálmán Imre utca;26
+relation;2693837;Alkotmány utca;31
+relation;2693837;Bajcsy-Zsilinszky út;68
+relation;2693838;Alkotmány utca;27
+relation;2693839;Kálmán Imre utca;22
+relation;2907483;Dohány utca;3
+relation;2907483;Rákóczi út;6
+relation;2908382;Dohány utca;1/A
+relation;2908382;Dohány utca;1/a
+relation;2908382;Károly körút;3
+relation;2908382;Károly körút;3/A
+relation;2931012;Falk Miksa utca;17
+relation;2931013;Honvéd utca;38
+relation;2931014;Bajcsy-Zsilinszky út;78
+relation;2931015;Falk Miksa utca;21
+relation;2931015;Szent István körút;5
+relation;2931017;Bihari János utca;17
+relation;2931017;Szent István körút;29
+relation;2931018;Balaton utca;16
+relation;2931018;Honvéd utca;29
+relation;2931018;Szent István körút;13
+relation;2931019;Balassi Bálint utca;2
+relation;2931019;Kossuth Lajos tér;18
+relation;2931020;Balaton utca;8
+relation;2931020;Falk Miksa utca;13
+relation;2931021;Szemere utca;22
+relation;2931021;Szent István körút;15
+relation;3019272;Párizsi utca;3
+relation;3019292;Váci utca;8
+relation;3019293;Váci utca;10
+relation;3019294;Szervita tér;5
+relation;3020279;Városház utca;6
+relation;3020280;Városház utca;8
+relation;3020281;Petőfi Sándor utca;3
+relation;3020282;Kossuth Lajos utca;2/a
+relation;3020282;Petőfi Sándor utca;1
+relation;3020283;Kígyó utca;2
+relation;3020283;Váci utca;32
+relation;3062921;Bécsi utca;5
+relation;3062922;Semmelweis utca;9
+relation;3062923;Bécsi utca;1
+relation;3062923;Bécsi utca;1-3
+relation;3062923;Bécsi utca;3
+relation;3062923;Fehér Hajó utca;2-6
+relation;3062925;Semmelweis utca;23
+relation;3062926;Fehér Hajó utca;12-14
+relation;3062928;Károly körút;22-24
+relation;3062928;Károly körút;24
+relation;3062929;Károly körút;16
+relation;3062931;Sütő utca;2
+relation;3062932;Semmelweis utca;17
+relation;3062933;Deák Ferenc utca;21
+relation;3062934;Deák Ferenc utca;17
+relation;3062935;Károly körút;8
+relation;3062936;Gerlóczy utca;13
+relation;3062936;Károly körút;26
+relation;3062937;Károly körút;4
+relation;3062938;Fehér Hajó utca;8-10
+relation;3076263;Semmelweis utca;12
+relation;3076264;Vitkovics Mihály utca;12
+relation;3076265;Vitkovics Mihály utca;9
+relation;3076266;Gerlóczy utca;9
+relation;3076266;Semmelweis utca;14
+relation;3076285;Kossuth Lajos utca;14-16
+relation;3076286;Vármegye utca;11-13
+relation;3076287;Semmelweis utca;4
+relation;3076287;Vármegye utca;17
+relation;3076288;Kossuth Lajos utca;4
+relation;3076288;Városház utca;1
+relation;3076289;Kossuth Lajos utca;18
+relation;3076289;Semmelweis utca;2
+relation;3199085;Kossuth Lajos tér;1-3
+relation;3216821;Sas utca;5
+relation;3216822;Sas utca;3
+relation;3216823;József Attila utca;20
+relation;3216823;Sas utca;1
+relation;3216824;Szent István tér;3
+relation;3216825;Hercegprímás utca;4
+relation;3216826;Hercegprímás utca;6
+relation;3216827;Sas utca;9
+relation;3216828;Hercegprímás utca;3
+relation;3217048;Október 6. utca;7
+relation;3217048;Sas utca;8
+relation;3217048;Zrínyi utca;13
+relation;3217049;Mérleg utca;14
+relation;3217049;Október 6. utca;4
+relation;3217050;Október 6. utca;4
+relation;3217050;Október 6. utca;8
+relation;3217050;Zrínyi utca;11
+relation;3217051;József Attila utca;16
+relation;3217051;Október 6. utca;1
+relation;3217052;Mérleg utca;12
+relation;3217053;Mérleg utca;10
+relation;3217053;Nádor utca;5
+relation;3217054;József Attila utca;18
+relation;3217054;Sas utca;2
+relation;3217055;Október 6. utca;6
+relation;3217056;Október 6. utca;5
+relation;3217056;Sas utca;6
+relation;3217057;Zrínyi utca;9
+relation;3217058;Október 6. utca;3
+relation;3217058;Sas utca;4
+relation;3218136;Október 6. utca;10
+relation;3218136;Zrínyi utca;14
+relation;3218137;Zrínyi utca;12
+relation;3218138;Arany János utca;13
+relation;3218138;Nádor utca;19
+relation;3218139;Arany János utca;15
+relation;3218182;Nádor utca;8
+relation;3218257;Október 6. utca;13
+relation;3218258;Arany János utca;19
+relation;3218258;Október 6. utca;19
+relation;3218259;Október 6. utca;17
+relation;3218260;Október 6. utca;11
+relation;3218261;Sas utca;14
+relation;3218262;Sas utca;20-22
+relation;3218263;Október 6. utca;15
+relation;3218264;Október 6. utca;9
+relation;3218264;Zrínyi utca;16
+relation;3221452;Vigyázó Ferenc utca;3
+relation;3221453;Nádor utca;14
+relation;3221453;Vigyázó Ferenc utca;7
+relation;3221454;Zrínyi utca;4
+relation;3221480;Arany János utca;7
+relation;3221481;Akadémia utca;1
+relation;3221481;Vigyázó Ferenc utca;2
+relation;3221482;Nádor utca;18
+relation;3221483;Vigyázó Ferenc utca;4
+relation;3221484;Arany János utca;9
+relation;3221536;Akadémia utca;13
+relation;3221537;Tüköry utca;4
+relation;3221538;Akadémia utca;7
+relation;3226302;Hercegprímás utca;10
+relation;3226304;Sas utca;19
+relation;3226305;Sas utca;21
+relation;3226308;Hercegprímás utca;12
+relation;3226309;Sas utca;17
+relation;3226360;Bajcsy-Zsilinszky út;18
+relation;3226360;Szent István tér;16
+relation;3226361;Hercegprímás utca;9
+relation;3226361;Szent István tér;12
+relation;3226362;Arany János utca;27-29
+relation;3226362;Arany János utca;29
+relation;3226363;Bajcsy-Zsilinszky út;22
+relation;3226364;Arany János utca;27
+relation;3226364;Hercegprímás utca;15
+relation;3226365;Arany János utca;35
+relation;3226365;Bajcsy-Zsilinszky út;24
+relation;3226365;Podmaniczky Frigyes tér;1
+relation;3226366;Hercegprímás utca;13
+relation;3226367;Arany János utca;33
+relation;3226368;Bajcsy-Zsilinszky út;20
+relation;3226369;Hercegprímás utca;11
+relation;3226370;Arany János utca;31
+relation;3227995;Régi posta utca;4
+relation;3227996;Apáczai Csere János utca;5
+relation;3227997;Régi posta utca;6
+relation;3227998;Apáczai Csere János utca;3
+relation;3227999;Apáczai Csere János utca;7
+relation;3227999;Türr István utca;3
+relation;3228037;Türr István utca;9
+relation;3228037;Váci utca;5
+relation;3228038;Aranykéz utca;1
+relation;3228038;Régi posta utca;10
+relation;3228038;Váci utca;11/b
+relation;3228039;Aranykéz utca;5
+relation;3228039;Váci utca;9
+relation;3251829;Nádor utca;23
+relation;3251829;Szabadság tér;1
+relation;3251832;Arany János utca;20
+relation;3251832;Október 6. utca;24
+relation;3251833;Arany János utca;18
+relation;3251834;Arany János utca;16
+relation;3251835;Szabadság tér;3
+relation;3251841;Arany János utca;10
+relation;3251842;Széchenyi utca;7
+relation;3251842;Tüköry utca;5
+relation;3251843;Tüköry utca;3
+relation;3251844;Arany János utca;12
+relation;3251844;Nádor utca;20
+relation;3251853;Akadémia utca;8
+relation;3251853;Széchenyi utca;1
+relation;3251853;Széchenyi utca;1/a
+relation;3251853;Széchenyi utca;1/d
+relation;3253934;Podmaniczky Frigyes tér;4
+relation;3253935;Arany János utca;30
+relation;3253935;Hercegprímás utca;17
+relation;3253936;Bank utca;1
+relation;3253936;Hercegprímás utca;21
+relation;3253937;Arany János utca;32
+relation;3253938;Bank utca;3
+relation;3253939;Arany János utca;34
+relation;3253939;Podmaniczky Frigyes tér;2
+relation;3253939;Podmaniczky Frigyes tér;3
+relation;3253941;Hercegprímás utca;19
+relation;3257753;Múzeum körút;3
+relation;3257754;Múzeum körút;5
+relation;3257756;Magyar utca;8-10
+relation;3257756;Múzeum körút;7
+relation;3259751;Irányi utca;3
+relation;3259751;Molnár utca;4
+relation;3259753;Váci utca;47
+relation;3294993;Belgrád rakpart;26
+relation;3294993;Irányi utca;1
+relation;3294993;Molnár utca;3
+relation;3294995;Belgrád rakpart;23
+relation;3294999;Molnár utca;11
+relation;3295000;Belgrád rakpart;22
+relation;3295001;Belgrád rakpart;25
+relation;3295001;Molnár utca;5
+relation;3295010;Váci utca;51
+relation;3295011;Molnár utca;10
+relation;3295012;Molnár utca;12
+relation;3295013;Váci utca;55
+relation;3295073;Ferenciek tere;7-8
+relation;3295073;Ferenciek tere;9
+relation;3295073;Kossuth Lajos utca;1
+relation;3295076;Szép utca;5
+relation;3295078;Kossuth Lajos utca;3
+relation;3295078;Szép utca;1
+relation;3295078;Szép utca;1/b
+relation;3306961;Szép utca;6
+relation;3306962;Kossuth Lajos utca;7-9
+relation;3309014;Károlyi utca;12
+relation;3309016;Reáltanoda utca;19
+relation;3309017;Ferenczy István utca;24
+relation;3309017;Magyar utca;13
+relation;3309026;Reáltanoda utca;13-15
+relation;3309027;Reáltanoda utca;9
+relation;3314726;Bihari János utca;13
+relation;3314726;Stollár Béla utca;22
+relation;3314727;Nyugati tér;8
+relation;3314728;Bihari János utca;15
+relation;3314729;Nyugati tér;9
+relation;3314897;Alkotmány utca;16
+relation;3314898;Alkotmány utca;18
+relation;3314899;Bajcsy-Zsilinszky út;74
+relation;3314900;Bajcsy-Zsilinszky út;72
+relation;3318172;Váci utca;40
+relation;3318173;Irányi utca;15
+relation;3318175;Veres Pálné utca;5
+relation;3318176;Váci utca;42
+relation;3318178;Váci utca;46
+relation;3321312;Veres Pálné utca;12
+relation;3321314;Irányi utca;25
+relation;3321316;Papnövelde utca;2
+relation;3333854;Károlyi utca;16
+relation;3333855;Károlyi utca;11
+relation;3333855;Károlyi utca;11-15
+relation;3333863;Papnövelde utca;8
+relation;3348252;Szerb utca;21-23
+relation;3348276;Képíró utca;6
+relation;3348277;Kecskeméti utca;9
+relation;3348278;Kecskeméti utca;5
+relation;3348278;Királyi Pál utca;6
+relation;3348279;Kecskeméti utca;11
+relation;3349874;Galamb utca;6
+relation;3349874;Petőfi tér;3-5
+relation;3349874;Régi posta utca;1-3
+relation;3352876;Váci utca;52
+relation;3352877;Váci utca;56-58
+relation;3352882;Veres Pálné utca;17
+relation;3360095;Bem rakpart;4
+relation;3360095;Fő utca;7
+relation;3360095;Jégverem utca;2
+relation;3360096;Bem rakpart;1
+relation;3360096;Clark Ádám tér;1
+relation;3360096;Fő utca;1
+relation;3360098;Bem rakpart;6
+relation;3360098;Bem rakpart;6-7
+relation;3360126;Fő utca;6
+relation;3360127;Fő utca;4
+relation;3363212;Hadnagy utca;8-10
+relation;3363218;Döbrentei utca;16
+relation;3363262;Döbrentei utca;10
+relation;3363264;Döbrentei utca;8
+relation;3363266;Attila út;2
+relation;3363324;Szarvas tér;1
+relation;3363324;Váralja utca;49
+relation;3363325;Attila út;15
+relation;3363326;Attila út;21
+relation;3363327;Attila út;27
+relation;3380433;Veres Pálné utca;28
+relation;3403548;Henszlmann Imre utca;9
+relation;3403548;Magyar utca;21
+relation;3403551;Henszlmann Imre utca;3
+relation;3403552;Egyetem tér;5
+relation;3403552;Henszlmann Imre utca;1
+relation;3403553;Henszlmann Imre utca;7
+relation;3403554;Kecskeméti utca;8
+relation;3403555;Magyar utca;23
+relation;3403556;Kecskeméti utca;6
+relation;3403557;Kecskeméti utca;4
+relation;3403558;Kecskeméti utca;2
+relation;3403560;Henszlmann Imre utca;5
+relation;3403563;Magyar utca;27
+relation;3430241;Régi posta utca;7-9
+relation;3466722;Múzeum körút;37
+relation;3466723;Múzeum körút;39
+relation;3466724;Magyar utca;32
+relation;3466725;Múzeum körút;17
+relation;3466726;Magyar utca;44
+relation;3466726;Múzeum körút;35
+relation;3466727;Magyar utca;42
+relation;3466728;Ferenczy István utca;5
+relation;3466728;Múzeum körút;13
+relation;3472455;Báthory utca;20
+relation;3472455;Vadász utca;38
+relation;3472456;Báthory utca;18
+relation;3472457;Hold utca;25
+relation;3472457;Kálmán Imre utca;13
+relation;3472458;Báthory utca;16
+relation;3472458;Hold utca;23
+relation;3472459;Kálmán Imre utca;15
+relation;3476079;Király utca;43-45
+relation;3478259;Kis Diófa utca;10
+relation;3478260;Kazinczy utca;49
+relation;3478261;Király utca;19
+relation;3478262;Holló utca;15
+relation;3478263;Király utca;21
+relation;3478264;Dob utca;22
+relation;3478264;Holló utca;1
+relation;3478265;Dob utca;24
+relation;3478265;Kazinczy utca;38
+relation;3478338;Andrássy út;29
+relation;3478339;Andrássy út;31
+relation;3478340;Paulay Ede utca;44
+relation;3478341;Andrássy út;27
+relation;3478346;Andrássy út;23
+relation;3478347;Dalszínház utca;2
+relation;3478348;Andrássy út;21
+relation;3478348;Paulay Ede utca;32
+relation;3478350;Paulay Ede utca;25-27
+relation;3478351;Káldy Gyula utca;7
+relation;3478351;Paulay Ede utca;17
+relation;3478352;Király utca;28
+relation;3478402;Paulay Ede utca;18
+relation;3478403;Paulay Ede utca;22
+relation;3478403;Paulay Ede utca;22-24
+relation;3478404;Paulay Ede utca;18
+relation;3478404;Paulay Ede utca;20
+relation;3478405;Andrássy út;15
+relation;3478406;Paulay Ede utca;16
+relation;3478407;Andrássy út;13
+relation;3478408;Andrássy út;17
+relation;3478409;Andrássy út;19
+relation;3478510;Király utca;34
+relation;3478510;Székely Mihály utca;1
+relation;3478511;Paulay Ede utca;39
+relation;3478512;Vasvári Pál utca;8
+relation;3478513;Vasvári Pál utca;6
+relation;3478514;Székely Mihály utca;3
+relation;3478515;Paulay Ede utca;33
+relation;3479354;Dob utca;1
+relation;3479354;Károly körút;3/c
+relation;3479354;Károly körút;3c
+relation;3479355;Rumbach Sebestyén utca;2
+relation;3479355;Wesselényi utca;4
+relation;3480252;Dob utca;9
+relation;3480253;Síp utca;16-18
+relation;3480253;Wesselényi utca;14
+relation;3480482;Dohány utca;16-18
+relation;3480484;Síp utca;12
+relation;3480485;Síp utca;6
+relation;3482589;Anker köz;2-4
+relation;3482591;Paulay Ede utca;13
+relation;3482592;Király utca;20
+relation;3482593;Paulay Ede utca;15
+relation;3482595;Király utca;12
+relation;3482596;Király utca;14
+relation;3482599;Király utca;44
+relation;3482600;Paulay Ede utca;43
+relation;3482601;Nagymező utca;8
+relation;3482602;Vasvári Pál utca;7
+relation;3482603;Vasvári Pál utca;9
+relation;3482604;Paulay Ede utca;41
+relation;3482898;Király utca;7
+relation;3482898;Rumbach Sebestyén utca;19-21
+relation;3482899;Holló utca;16
+relation;3482899;Király utca;15
+relation;3482956;Dob utca;4
+relation;3482957;Dob utca;6
+relation;3482958;Dob utca;2
+relation;3482958;Károly körút;5
+relation;3483712;Dob utca;18
+relation;3483712;Dob utca;20
+relation;3483712;Holló utca;2
+relation;3483713;Dob utca;16
+relation;3483713;Király utca;13
+relation;3483714;Dob utca;16
+relation;3483714;Király utca;13
+relation;3483716;Rumbach Sebestyén utca;9
+relation;3483717;Dob utca;16
+relation;3483718;Rumbach Sebestyén utca;7
+relation;3508297;Zichy Jenő utca;34
+relation;3508298;Lázár utca;4
+relation;3508298;Ó utca;3
+relation;3508299;Bajcsy-Zsilinszky út;61
+relation;3508300;Jókai utca;30
+relation;3508300;Podmaniczky utca;21
+relation;3508301;Lázár utca;9
+relation;3508302;Jókai tér;10
+relation;3508302;Mozsár utca;10
+relation;3508303;Révay utca;14
+relation;3508304;Lovag utca;2
+relation;3508304;Lovag utca;4
+relation;3508304;Nagymező utca;43
+relation;3508305;Mozsár utca;4
+relation;3508306;Bajcsy-Zsilinszky út;29
+relation;3508307;Zichy Jenő utca;40
+relation;3508308;Jókai utca;36
+relation;3508309;Zichy Jenő utca;15
+relation;3508310;Dessewffy utca;43
+relation;3508311;Andrássy út;24
+relation;3508312;Lázár utca;16
+relation;3508312;Ó utca;15
+relation;3508313;Zichy Jenő utca;36
+relation;3508314;Podmaniczky utca;11
+relation;3508315;Lázár utca;12
+relation;3508315;Ó utca;11
+relation;3508316;Bajcsy-Zsilinszky út;35
+relation;3508317;Lovag utca;13
+relation;3508318;Weiner Leó utca;8
+relation;3508319;Podmaniczky utca;16
+relation;3508320;Weiner Leó utca;13
+relation;3508321;Podmaniczky utca;7
+relation;3508322;Zichy Jenő utca;38
+relation;3508323;Lázár utca;18
+relation;3508323;Ó utca;17
+relation;3508324;Ó utca;48
+relation;3508325;Jókai utca;28
+relation;3508325;Weiner Leó utca;22
+relation;3508326;Bajcsy-Zsilinszky út;33
+relation;3508327;Révay utca;24
+relation;3508328;Ó utca;41
+relation;3508330;Weiner Leó utca;11
+relation;3508331;Podmaniczky utca;14
+relation;3508332;Andrássy út;10
+relation;3508333;Dessewffy utca;35
+relation;3508334;Podmaniczky utca;13
+relation;3508335;Lázár utca;3
+relation;3508336;Zichy Jenő utca;47
+relation;3508337;Révay utca;22
+relation;3508338;Hajós utca;25
+relation;3508338;Zichy Jenő utca;21
+relation;3508338;Ó utca;22
+relation;3508339;Lovag utca;14
+relation;3508340;Dessewffy utca;5
+relation;3508341;Weiner Leó utca;6
+relation;3508342;Zichy Jenő utca;44
+relation;3508343;Andrássy út;12
+relation;3508344;Lázár utca;6
+relation;3508344;Ó utca;5
+relation;3508345;Bajcsy-Zsilinszky út;59
+relation;3508346;Révay utca;12
+relation;3508347;Zichy Jenő utca;41
+relation;3508349;Révay utca;10
+relation;3508350;Weiner Leó utca;3
+relation;3508352;Zichy Jenő utca;4
+relation;3508353;Ó utca;29
+relation;3508354;Dessewffy utca;3
+relation;3508355;Zichy Jenő utca;42
+relation;3508356;Andrássy út;26
+relation;3508357;Lázár utca;8
+relation;3508357;Ó utca;7
+relation;3508358;Bajcsy-Zsilinszky út;55
+relation;3508360;Zichy Jenő utca;39
+relation;3508361;Révay utca;8
+relation;3508362;Jókai utca;26
+relation;3508362;Weiner Leó utca;19
+relation;3508363;Andrássy út;6
+relation;3508364;Ó utca;27
+relation;3508365;Dessewffy utca;39
+relation;3508366;Andrássy út;28
+relation;3508367;Lázár utca;20
+relation;3508367;Ó utca;19
+relation;3508368;Podmaniczky utca;19
+relation;3508369;Dessewffy utca;26/b
+relation;3508370;Bajcsy-Zsilinszky út;31
+relation;3508371;Ó utca;40
+relation;3508372;Lovag utca;15
+relation;3508373;Lovag utca;7
+relation;3508374;Mozsár utca;14
+relation;3508375;Dessewffy utca;25-27
+relation;3508376;Weiner Leó utca;14
+relation;3508377;Podmaniczky utca;12
+relation;3508378;Jókai utca;10
+relation;3508378;Zichy Jenő utca;46
+relation;3508379;Jókai utca;16
+relation;3508380;Podmaniczky utca;9
+relation;3508381;Zichy Jenő utca;45
+relation;3508382;Lovag utca;3
+relation;3508383;Nagymező utca;25
+relation;3508383;Ó utca;34
+relation;3508384;Révay utca;20
+relation;3508385;Ó utca;38
+relation;3508386;Nagymező utca;37-39
+relation;3508387;Nagymező utca;52
+relation;3508388;Zichy Jenő utca;20
+relation;3508389;Weiner Leó utca;12
+relation;3508390;Lovag utca;16
+relation;3508391;Hajós utca;43
+relation;3508392;Podmaniczky utca;10
+relation;3508393;Ó utca;12
+relation;3508394;Jókai utca;12
+relation;3508395;Andrássy út;14
+relation;3508397;Bajcsy-Zsilinszky út;15/D
+relation;3508397;Révay köz;2
+relation;3508397;Révay köz;2-4
+relation;3508397;Révay köz;4
+relation;3508398;Lázár utca;5
+relation;3508399;Zichy Jenő utca;43
+relation;3508400;Zichy Jenő utca;23
+relation;3508401;Mozsár utca;6
+relation;3508402;Nagymező utca;49
+relation;3508402;Weiner Leó utca;2
+relation;3508403;Lovag utca;18
+relation;3508404;Bajcsy-Zsilinszky út;25
+relation;3508404;Bajcsy-Zsilinszky út;27
+relation;3508404;Zichy Jenő utca;2
+relation;3508405;Zichy Jenő utca;6
+relation;3508406;Jókai utca;40
+relation;3508407;Dessewffy utca;47
+relation;3508408;Nagymező utca;22-24
+relation;3508409;Andrássy út;16
+relation;3508410;Zichy Jenő utca;32
+relation;3508411;Podmaniczky utca;2
+relation;3508412;Weiner Leó utca;20
+relation;3508413;Lázár utca;7
+relation;3508414;Zichy Jenő utca;37
+relation;3508415;Révay köz;6
+relation;3508415;Révay utca;6
+relation;3508416;Nagymező utca;45
+relation;3508417;Weiner Leó utca;17
+relation;3508418;Bajcsy-Zsilinszky út;27
+relation;3508419;Podmaniczky utca;5
+relation;3508420;Dessewffy utca;41
+relation;3508421;Andrássy út;30
+relation;3508421;Nagymező utca;18
+relation;3508422;Lázár utca;14
+relation;3508422;Ó utca;13
+relation;3508423;Podmaniczky utca;15
+relation;3508424;Bajcsy-Zsilinszky út;43
+relation;3508425;Zichy Jenő utca;35
+relation;3508426;Weiner Leó utca;18
+relation;3508427;Weiner Leó utca;9
+relation;3508428;Podmaniczky utca;18
+relation;3508429;Weiner Leó utca;15
+relation;3508430;Andrássy út;2
+relation;3508430;Bajcsy-Zsilinszky út;13
+relation;3508430;Révay utca;1
+relation;3508431;Ó utca;46
+relation;3508432;Dessewffy utca;8-10
+relation;3508433;Dessewffy utca;30
+relation;3508434;Ó utca;36
+relation;3508435;Mozsár utca;12
+relation;3508436;Lovag utca;12
+relation;3508437;Zichy Jenő utca;5
+relation;3508437;Ó utca;6
+relation;3508437;Ó utca;6b
+relation;3508438;Andrássy út;8
+relation;3508439;Bajcsy-Zsilinszky út;63
+relation;3508439;Bajcsy-Zsilinszky út;65
+relation;3508440;Ó utca;42
+relation;3508441;Révay utca;16
+relation;3508443;Andrássy út;20
+relation;3508443;Andrássy út;22
+relation;3508443;Révay utca;25
+relation;3508444;Andrássy út;4
+relation;3508444;Révay utca;3
+relation;3508445;Mozsár utca;2
+relation;3508445;Nagymező utca;21
+relation;3515378;Falk Miksa utca;18-20
+relation;3515379;Balassi Bálint utca;21-23
+relation;3515380;Balassi Bálint utca;15-17
+relation;3515380;Stollár Béla utca;4
+relation;3515381;Falk Miksa utca;24-26
+relation;3516299;Falk Miksa utca;32
+relation;3516300;Balassi Bálint utca;27
+relation;3516301;Falk Miksa utca;34
+relation;3516301;Szent István körút;3
+relation;3516302;Falk Miksa utca;28
+relation;3516303;Balassi Bálint utca;25
+relation;3516303;Balaton utca;4
+relation;3516304;Falk Miksa utca;30
+relation;3516305;Jászai Mari tér;2
+relation;3516305;Szent István körút;1
+relation;3516440;Balassi Bálint utca;13
+relation;3516440;Balassi Bálint utca;9-11
+relation;3516440;Stollár Béla utca;3/a
+relation;3516440;Stollár Béla utca;3/b
+relation;3516441;Balassi Bálint utca;9-11
+relation;3516478;Falk Miksa utca;3
+relation;3516479;Honvéd utca;22
+relation;3516479;Honvéd utca;22/a
+relation;3516479;Honvéd utca;22/b
+relation;3516479;Markó utca;11
+relation;3516480;Falk Miksa utca;7
+relation;3516481;Falk Miksa utca;1
+relation;3516481;Szalay utca;2
+relation;3516528;Alkotmány utca;4
+relation;3516528;Vajkay utca;1
+relation;3516529;Honvéd utca;16
+relation;3516530;Honvéd utca;18
+relation;3516530;Szalay utca;3
+relation;3516558;Alkotmány utca;10
+relation;3516558;Szemere utca;7
+relation;3516566;Báthory utca;8
+relation;3516566;Honvéd utca;8, 1/2
+relation;3516566;Kálmán Imre utca;5
+relation;3516569;Báthory utca;12
+relation;3516569;Kálmán Imre utca;9
+relation;3516580;Alkotmány utca;21
+relation;3516581;Hold utca;29
+relation;3516582;Alkotmány utca;19
+relation;3516582;Bajcsy-Zsilinszky út;47
+relation;3516583;Hold utca;27
+relation;3516584;Kálmán Imre utca;16
+relation;3516593;Szent István körút;17
+relation;3516750;Bihari János utca;18
+relation;3516752;Szent István körút;25
+relation;3516754;Nagy Ignác utca;19/b
+relation;3516755;Stollár Béla utca;16
+relation;3516757;Nagy Ignác utca;19/a
+relation;3516758;Bihari János utca;18
+relation;3516758;Bihari János utca;20
+relation;3516760;Szent István körút;27
+relation;3516762;Szent István körút;23
+relation;3516763;Bihari János utca;16
+relation;3516765;Bihari János utca;22
+relation;3516846;Báthory utca;9
+relation;3516847;Szabadság tér;14
+relation;3516848;Aulich utca;8
+relation;3516849;Báthory utca;7
+relation;3516849;Honvéd utca;5
+relation;3516850;Aulich utca;4-6
+relation;3516891;Vécsey utca;3
+relation;3516892;Báthory utca;5
+relation;3516893;Báthory utca;1
+relation;3516893;Vécsey utca;5
+relation;3516895;Nádor utca;29
+relation;3516895;Zoltán utca;16
+relation;3516896;Szabadság tér;16
+relation;3516896;Zoltán utca;18
+relation;3516897;Nádor utca;31
+relation;3516897;Vécsey utca;4
+relation;3517735;Aulich utca;7
+relation;3517735;Hold utca;10
+relation;3517735;Hold utca;12
+relation;3517736;Hold utca;6
+relation;3517742;Nagysándor József utca;8
+relation;3517742;Vadász utca;21
+relation;3517743;Bajcsy-Zsilinszky út;50
+relation;3517744;Vadász utca;27
+relation;3517745;Bajcsy-Zsilinszky út;54
+relation;3517746;Bajcsy-Zsilinszky út;58
+relation;3517751;Vadász utca;15
+relation;3517752;Vadász utca;17
+relation;3517756;Vadász utca;16
+relation;3517757;Bank utca;4
+relation;3517760;Báthory utca;4
+relation;3517761;Báthory utca;6
+relation;3517778;Báthory utca;19
+relation;3517780;Vadász utca;32
+relation;3517781;Vadász utca;34
+relation;3517782;Hold utca;15
+relation;3517786;Garibaldi utca;1
+relation;3517811;Nádor utca;26
+relation;3517811;Steindl Imre utca;13
+relation;3517812;Steindl Imre utca;7
+relation;3517813;Steindl Imre utca;11
+relation;3517814;Széchenyi utca;8
+relation;3517815;Széchenyi utca;14
+relation;3517816;Széchenyi utca;10
+relation;3517817;Széchenyi utca;12
+relation;3517818;Nádor utca;24
+relation;3517818;Széchenyi utca;16
+relation;3517819;Steindl Imre utca;9
+relation;3517820;Akadémia utca;16
+relation;3517820;Zoltán utca;3
+relation;3517821;Zoltán utca;7
+relation;3517821;Zoltán utca;9
+relation;3517822;Nádor utca;30
+relation;3517823;Zoltán utca;11
+relation;3517824;Zoltán utca;13
+relation;3517825;Steindl Imre utca;10
+relation;3517829;Garibaldi utca;4
+relation;3517830;Garibaldi utca;6
+relation;3517830;Nádor utca;36
+relation;3517831;Zoltán utca;10
+relation;3517832;Zoltán utca;12
+relation;3517833;Garibaldi utca;7
+relation;3517834;Nádor utca;32
+relation;3517835;Garibaldi utca;5
+relation;3611678;Markó utca;1a
+relation;3611679;Balassi Bálint utca;2/b
+relation;3611680;Balassi Bálint utca;2
+relation;3611680;Markó utca;1/b
+relation;3611680;Markó utca;1b
+relation;3611681;Széchenyi rakpart;12/b
+relation;3611683;Falk Miksa utca;8
+relation;3611684;Balassi Bálint utca;7
+relation;3611685;Falk Miksa utca;4
+relation;3611686;Falk Miksa utca;6
+relation;3611687;Falk Miksa utca;10
+relation;3611687;Markó utca;3
+relation;3611688;Kossuth Lajos tér;16-17
+relation;4201280;Ferenciek tere;4
+relation;4201281;Curia utca;5
+relation;4201281;Ferenciek tere;3
+relation;4201282;Veres Pálné utca;4-6
+relation;4238044;Andrássy út;3
+relation;4238044;Paulay Ede utca;4
+relation;4238045;Andrássy út;7
+relation;4252399;Károlyi utca;9
+relation;5149777;Irányi utca;19-23
+relation;5149777;Veres Pálné utca;3
+relation;5648000;Duna utca;1
+relation;6392859;Ybl Miklós tér;2
+relation;6486918;Szent György tér;2
+relation;7700814;Alkotmány utca;1
+relation;7700814;Kossuth Lajos tér;11
+relation;7700815;Alkotmány utca;9-11
+relation;7700815;Honvéd utca;9
+relation;7700815;Kálmán Imre utca;4
+relation;7700815;Kálmán Imre utca;6
+relation;7700815;Szemere utca;4
+relation;7933513;Döbrentei utca;15
+relation;9758824;Szervita tér;4
+relation;9811130;Kresz Géza utca;17
+relation;10538114;Arany János utca;17
+relation;10538114;Október 6. utca;22
+relation;10538115;Nádor utca;17
+relation;11220918;Zoltán utca;6
+relation;11620521;Bajcsy-Zsilinszky út;14
+relation;11620521;Bajcsy-Zsilinszky út;16
+relation;11620521;Szent István tér;1
+relation;11620522;Hercegprímás utca;1
+relation;11620522;József Attila utca;24
+relation;11620523;Hercegprímás utca;7
+relation;11620523;Szent István tér;2
+relation;11740452;Párizsi utca;1
+relation;11740452;Váci utca;28
+relation;11810566;Báthory utca;14
+relation;11810566;Hold utca;16
+relation;11810566;Kálmán Imre utca;11
+relation;11810567;Báthory utca;15
+relation;11810567;Hold utca;21
+relation;11837374;Stollár Béla utca;18
+relation;11848484;Balaton utca;12
+relation;14637669;Aranykéz utca;3
+relation;14637669;Váci utca;11/a
+relation;14655571;Aranykéz utca;7
+relation;14655571;Türr István utca;7
+relation;14655572;Váci utca;7
+relation;15411097;Kossuth Lajos tér;10
+relation;15411097;Kossuth Lajos tér;9
+relation;15411097;Vértanúk tere;1
+relation;15787740;Alkotmány utca;3
+relation;15787741;Honvéd utca;10
+relation;15787741;Kálmán Imre utca;2
+relation;16459821;Deák Ferenc utca;7-9
+relation;16460314;Bem rakpart;2
+relation;16460314;Fő utca;3
+relation;16732602;Dohány utca;5/a
+relation;16732602;Dohány utca;5/b
+relation;16732602;Rákóczi út;8
+relation;16732602;Rákóczi út;8/A
+relation;16732602;Rákóczi út;8/B
+relation;16732602;Rákóczi út;8/a
+relation;17089479;Bajcsy-Zsilinszky út;62
+relation;17089480;Bajcsy-Zsilinszky út;76
+relation;17338259;Kecskeméti utca;14
+relation;17366691;Kálmán Imre utca;14
+relation;17436216;Rumbach Sebestyén utca;10
+relation;17436216;Rumbach Sebestyén utca;10/A
+relation;17706586;Károly körút;10
+relation;18027476;Kossuth Lajos utca;20
+relation;18027476;Semmelweis utca;1-3
+relation;18027476;Semmelweis utca;3
+relation;18726373;Vasvári Pál utca;3
+relation;19235592;Döbrentei utca;6
+relation;19423550;Szent István tér;15
+relation;20400701;Október 6. utca;16
+relation;20400701;Október 6. utca;16-18
+relation;20400701;Október 6. utca;18
+relation;20411227;Hajós utca;21
+relation;20411228;Hajós utca;13-15
+relation;20411228;Hajós utca;15
+relation;20418552;Nagymező utca;23
+relation;20418552;Ó utca;33
+relation;20419963;Zichy Jenő utca;7
+relation;20442280;Dessewffy utca;23
+relation;20445884;Bajcsy-Zsilinszky út;37
+relation;20446030;Hajós utca;39
+relation;20446031;Bajcsy-Zsilinszky út;39
+relation;20462927;Dessewffy utca;28
+relation;20462928;Lovag utca;9-11
+relation;20573250;Paulay Ede utca;52
+relation;20573252;Andrássy út;39
+relation;20579677;Nagymező utca;10
+relation;20593057;Szent István tér;1
+relation;20594489;Király utca;40
+relation;20594489;Vasvári Pál utca;2
+relation;20594489;Vasvári Pál utca;4
+relation;20597974;Székely Mihály utca;6
+relation;20602488;Király utca;10
+relation;20602488;Király utca;8
+relation;20602488;Király utca;8-10
+relation;20602488;Paulay Ede utca;3
+relation;20602489;Paulay Ede utca;7
+relation;20602489;Paulay Ede utca;7-9
+relation;20602490;Bajcsy-Zsilinszky út;3
+relation;20607242;Wesselényi utca;10
+relation;20607243;Wesselényi utca;8
+relation;20995323;Váci utca;2
+relation;20995323;Vörösmarty tér;2
+relation;20995324;Kristóf tér;6
+relation;21048486;Kígyó utca;4
+relation;21048486;Kígyó utca;4-6
+relation;21048486;Kígyó utca;6
+relation;21078808;Hold utca;13
+relation;21078808;Vadász utca;22-24
+relation;21078808;Vadász utca;24
+relation;21078809;Aulich utca;5
+relation;21078974;Falk Miksa utca;5
+way;24000268;Teréz körút;55
+way;24000390;Andrássy út;22
+way;24000485;Váci út;1
+way;24000485;Váci út;1-3
+way;24024226;Arany János utca;6-8
+way;24026328;Arany János utca;26-28
+way;24026328;Arany János utca;28
+way;24026328;Hercegprímás utca;22
+way;24026328;Szabadság tér;7
+way;24026328;Szabadság tér;7-8
+way;24038230;Vigadó tér;2
+way;24050409;Apáczai Csere János utca;12-14
+way;24051069;Erzsébet tér;9-10
+way;24051070;Deák Ferenc utca;12-14
+way;24051070;Erzsébet tér;7-8
+way;24051071;Hercegprímás utca;14-16
+way;24052086;Mérleg utca;6
+way;24052098;Zrínyi utca;5
+way;24052914;Szabadság tér;5-6
+way;24053104;Bajcsy-Zsilinszky út;52
+way;24053104;Vadász utca;23-25
+way;24053205;Nyugati tér;1
+way;24053205;Nyugati tér;1-2
+way;24054231;Szent István körút;14
+way;24054232;Balaton utca;7-11
+way;24054280;Markó utca;13-17
+way;24054281;Markó utca;17
+way;24123927;Honvéd utca;13-15
+way;24126000;Markó utca;22
+way;24126000;Markó utca;22-24
+way;24130069;Szabadság tér;10
+way;24130404;Hold utca;13
+way;24144956;Kálmán Imre utca;19
+way;24157739;Szent István tér;13-14
+way;24260437;Kossuth Lajos tér;6
+way;24260437;Kossuth Lajos tér;6-8
+way;24322299;Deák Ferenc tér;4
+way;24322702;Bárczy István utca;10
+way;24322702;Deák Ferenc tér;4
+way;24322702;Deák Ferenc tér;4-5
+way;24322704;Sütő utca;1
+way;24323125;Rákóczi út;1-3
+way;24324019;Váci utca;34
+way;24324025;Ferenciek tere;10
+way;24324025;Ferenciek tere;11
+way;24324025;Petőfi Sándor utca;2-4
+way;24324325;Ferenciek tere;9
+way;24324326;Ferenciek tere;6
+way;24332420;Kálmán Imre utca;1
+way;24334370;Hold utca;7
+way;24340879;Nádor utca;15
+way;24341129;Vigyázó Ferenc utca;8
+way;24349391;Bajcsy-Zsilinszky út;12
+way;24350553;Sas utca;13
+way;24350553;Szent István tér;11
+way;24350553;Szent István tér;7-9
+way;24350553;Szent István tér;9-11
+way;24350554;Sas utca;23
+way;25039922;Szemere utca;6
+way;25042160;Szervita tér;6
+way;25042465;Petőfi Sándor utca;17
+way;25042465;Petőfi Sándor utca;17-19
+way;25042465;Városház utca;20
+way;25047275;Vármegye utca;9
+way;25049102;Váci utca;45
+way;25049958;Váci utca;47/b
+way;25290872;Nagymező utca;44
+way;25290872;Zichy Jenő utca;28
+way;25290904;Vármegye utca;3-5
+way;25291053;Nagymező utca;20
+way;25302937;Károly körút;6
+way;25354357;Bihari János utca;5
+way;25354682;Vadász utca;12
+way;25354731;Vadász utca;11-13
+way;25355118;Október 6. utca;20
+way;25355169;Nagysándor József utca;4
+way;25366511;Vigadó tér;2-es ponton
+way;25367333;József nádor tér;8
+way;26469311;Attila út;11
+way;57716767;Erzsébet tér;11-13
+way;60242224;Mérleg utca;7
+way;60242225;József Attila utca;8
+way;60242252;Erzsébet tér;4
+way;60242256;Vörösmarty tér;5
+way;60242276;Harmincad utca;1
+way;60242276;Vörösmarty tér;6
+way;60242287;Harmincad utca;4
+way;60242322;József Attila utca;12
+way;132679257;Katona József utca;3
+way;132679285;Kresz Géza utca;13-15
+way;132971406;Borbély utca;5-7
+way;132971406;Borbély utca;7
+way;132971408;Kresz Géza utca;1
+way;132971408;Kádár utca;7
+way;132971411;Kresz Géza utca;6
+way;132971427;Kresz Géza utca;8
+way;132971429;Visegrádi utca;7/b
+way;132971434;Visegrádi utca;5/c
+way;132971453;Visegrádi utca;5/b
+way;132971455;Katona József utca;2/d
+way;132971455;Kresz Géza utca;10
+way;132971467;Katona József utca;2/e
+way;132971469;Váci út;6
+way;132971473;Kádár utca;13
+way;132971473;Visegrádi utca;5
+way;132975777;Hegedűs Gyula utca;6
+way;132975791;Katona József utca;4/b
+way;132975792;Vígszínház utca;3
+way;132975793;Katona József utca;4/B
+way;132975793;Visegrádi utca;12
+way;132975794;Hegedűs Gyula utca;9
+way;133322817;Nagymező utca;11
+way;133322821;Nagymező utca;9
+way;133322821;Paulay Ede utca;50
+way;133432864;Katona József utca;5
+way;135473487;Katona József utca;2/d
+way;135473488;Katona József utca;2/e
+way;135473489;Katona József utca;6
+way;144657676;Múzeum körút;4/C
+way;145114533;Szondi utca;6
+way;145114533;Teréz körút;43
+way;145114536;Podmaniczky utca;22
+way;145114536;Teréz körút;51
+way;145114556;Kármán utca;3
+way;145114556;Podmaniczky utca;29
+way;145114560;Szobi utca;3
+way;145130613;Eötvös utca;47
+way;145130614;Eötvös utca;45
+way;145130621;Eötvös utca;43
+way;145130625;Eötvös utca;53
+way;145130625;Podmaniczky utca;33
+way;145130648;Csengery utca;80
+way;149427303;Váci utca;44
+way;163679905;Eötvös utca;26/d
+way;163679926;Eötvös utca;38
+way;164070319;Csengery utca;69
+way;164070321;Podmaniczky utca;41
+way;164312590;Szondi utca;15
+way;164478294;Eiffel tér;55-57
+way;164478294;Teréz körút;53-55
+way;164478294;Teréz körút;55-57
+way;164478300;Teréz körút;53
+way;164626113;Eötvös utca;49
+way;164626114;Eötvös utca;41/b
+way;164626115;Eötvös utca;41/a
+way;164626115;Szondi utca;16
+way;165214353;Deák Ferenc utca;3-5
+way;165214353;Türr István utca;8
+way;165214353;Váci utca;1
+way;165214353;Váci utca;1-3
+way;165214353;Váci utca;3
+way;165376504;Nagymező utca;40
+way;166897867;Irányi utca;8
+way;166897884;Duna utca;3
+way;166897884;Váci utca;39
+way;166953717;Irányi utca;6
+way;166953717;Március 15. tér;7-8
+way;166953717;Március 15. tér;8
+way;166953718;Váci utca;38
+way;166953976;Curia utca;3
+way;166953976;Curia utca;5
+way;166953980;Veres Pálné utca;8
+way;166967801;Molnár utca;13
+way;166967806;Belgrád rakpart;24
+way;166967807;Molnár utca;9
+way;166967808;Molnár utca;7
+way;186633028;Podmaniczky utca;45
+way;186633028;Vörösmarty utca;77
+way;187541733;Csengery utca;65/b
+way;187925320;Jókai utca;19
+way;187925320;Teréz körút;46
+way;188329197;Andrássy út;40
+way;188329198;Nagymező utca;17
+way;188329200;Andrássy út;36
+way;188329202;Jókai tér;3
+way;188329203;Jókai utca;7
+way;188329203;Teréz körút;32
+way;188329203;Zichy Jenő utca;51
+way;188329204;Nagymező utca;17
+way;188329205;Andrássy út;34
+way;191243451;Apáczai Csere János utca;2
+way;191243451;Apáczai Csere János utca;4
+way;191243451;Apáczai Csere János utca;8
+way;191247905;Apáczai Csere János utca;4
+way;199755856;Dessewffy utca;14
+way;199755866;Bajcsy-Zsilinszky út;15
+way;199755866;Bajcsy-Zsilinszky út;15/A
+way;199755866;Bajcsy-Zsilinszky út;15/B
+way;199755866;Révay köz;1
+way;199755866;Révay utca;2
+way;199755866;Révay utca;4
+way;199755878;Bajcsy-Zsilinszky út;19/A
+way;199755878;Bajcsy-Zsilinszky út;19/a
+way;199756016;Jókai utca;20
+way;199756016;Lovag utca;21
+way;199756072;Dessewffy utca;32-34
+way;199756088;Hajós utca;30
+way;200188597;Kálmán Imre utca;25
+way;200466612;Kálmán Imre utca;20
+way;200466612;Vadász utca;37
+way;200466622;Alkotmány utca;25
+way;219936429;Károly körút;1
+way;219936431;Károly körút;1
+way;219936432;Dohány utca;1/b
+way;219936432;Dohány utca;1/c
+way;219936433;Rákóczi út;4
+way;219996627;Honvéd utca;8
+way;219996627;Kálmán Imre utca;3
+way;221650829;Balaton utca;10
+way;221650830;Honvéd tér;10
+way;221650830;Honvéd tér;10/a
+way;221650830;Honvéd tér;10/b
+way;221650830;Honvéd utca;27
+way;221650830;Szemere utca;16-18
+way;221650832;Falk Miksa utca;19
+way;221650837;Balaton utca;13
+way;221650837;Balaton utca;15
+way;221650837;Balaton utca;17
+way;221650837;Balaton utca;19
+way;221650841;Nyugati tér;6
+way;221650857;Falk Miksa utca;15
+way;221650862;Balaton utca;18
+way;223530620;Dohány utca;2
+way;227211897;Váci utca;20
+way;227211901;Váci utca;16
+way;227211905;Váci utca;18
+way;227211908;Váci utca;22
+way;227211911;Váci utca;24
+way;227211913;Petőfi Sándor utca;10
+way;227211913;Párizsi utca;3
+way;227211915;Párizsi utca;4
+way;227211917;Párizsi utca;6/a-b
+way;227211917;Párizsi utca;6/b
+way;227211922;Haris köz;4
+way;227211924;Párizsi utca;6/a
+way;227211926;Petőfi Sándor utca;18
+way;227211926;Régi posta utca;17-19
+way;227211926;Régi posta utca;19
+way;227211930;Haris köz;6
+way;227211930;Petőfi Sándor utca;8
+way;227211931;Haris köz;2
+way;227211931;Haris köz;2/a
+way;227211931;Váci utca;30
+way;227211933;Petőfi Sándor utca;12
+way;227211933;Párizsi utca;6b
+way;227211935;Petőfi Sándor utca;14
+way;227211939;Párizsi utca;2
+way;227211939;Váci utca;26
+way;227211941;Petőfi Sándor utca;16
+way;227214766;Petőfi Sándor utca;9
+way;227214766;Pilvax köz;2
+way;227214767;Régi posta utca;12
+way;227214768;Szervita tér;2
+way;227214769;Váci utca;12
+way;227214770;Kristóf tér;4
+way;227214771;Petőfi Sándor utca;11
+way;227214771;Párizsi utca;5
+way;227214772;Pilvax köz;4
+way;227214772;Városház utca;12
+way;227214772;Városház utca;14
+way;227214775;Régi posta utca;14
+way;227214776;Párizsi utca;9
+way;227214776;Városház utca;16
+way;227214777;Petőfi Sándor utca;20
+way;227214777;Régi posta utca;16
+way;227214778;Váci utca;14
+way;227214779;Kristóf tér;3
+way;227214781;Szervita tér;3
+way;227214782;Kristóf tér;1
+way;227214782;Kristóf tér;2
+way;227214782;Váci utca;6
+way;227214783;Párizsi utca;7
+way;227332930;Petőfi Sándor utca;7
+way;227332930;Pilvax köz;1
+way;227332930;Pilvax köz;1-3
+way;227332932;Pilvax köz;1-3
+way;227332932;Pilvax köz;3
+way;227332932;Városház utca;10
+way;227332934;Petőfi Sándor utca;5
+way;227332935;Petőfi Sándor utca;6
+way;227332936;Petőfi Sándor utca;6
+way;227332938;Kígyó utca;8
+way;227332941;Haris köz;5
+way;227332942;Kossuth Lajos utca;2/b
+way;227332942;Városház utca;2
+way;227332943;Haris köz;3
+way;227332946;Haris köz;1
+way;227332946;Haris köz;1/a
+way;227332949;Városház utca;4
+way;227332950;Haris köz;3
+way;228687696;Deák Ferenc utca;19
+way;228687716;Deák Ferenc utca;15
+way;228687718;Deák Ferenc tér;3
+way;228687718;Deák Ferenc utca;23
+way;228693174;Semmelweis utca;7
+way;228693176;Károly körút;20
+way;228693186;Károly körút;2
+way;228693191;Károly körút;12
+way;228693192;Károly körút;22
+way;228693196;Semmelweis utca;11
+way;228693199;Semmelweis utca;25
+way;228693200;Károly körút;14
+way;228693204;Semmelweis utca;13
+way;228693207;Semmelweis utca;5
+way;228693209;Semmelweis utca;15
+way;228693211;Károly körút;22
+way;228693211;Semmelweis utca;19
+way;229439559;Gerlóczy utca;5
+way;229439561;Semmelweis utca;8
+way;229439562;Vitkovics Mihály utca;3-5
+way;229439563;Semmelweis utca;10
+way;229439564;Gerlóczy utca;7
+way;229439564;Vitkovics Mihály utca;10
+way;229439565;Vitkovics Mihály utca;8
+way;229439568;Vitkovics Mihály utca;7
+way;229439570;Gerlóczy utca;1
+way;229442135;Kossuth Lajos utca;8
+way;229442136;Kossuth Lajos utca;10
+way;229442137;Vármegye utca;7
+way;229442142;Kossuth Lajos utca;6
+way;229442143;Városház utca;3
+way;229442143;Városház utca;5
+way;229442146;Kossuth Lajos utca;12
+way;229442150;Vármegye utca;15
+way;238641854;Sas utca;7
+way;238641855;Sas utca;11
+way;238641855;Szent István tér;6
+way;238641857;Szent István tér;4-5
+way;238641872;Hercegprímás utca;2
+way;238641872;József Attila utca;22
+way;238735592;Nádor utca;13
+way;238737184;Mérleg utca;4
+way;238737185;Zrínyi utca;3
+way;238737186;Nádor utca;6
+way;238738996;Sas utca;18
+way;238896339;Vigyázó Ferenc utca;5
+way;238898872;Akadémia utca;9
+way;239210075;Hercegprímás utca;18
+way;239210079;Arany János utca;23
+way;239210079;Sas utca;25
+way;239210083;Sas utca;15
+way;239338243;Aranykéz utca;4
+way;239338243;Aranykéz utca;4-6
+way;239338243;Aranykéz utca;6
+way;239338243;Türr István utca;5
+way;239338244;Apáczai Csere János utca;1
+way;239338244;Régi posta utca;2
+way;239339480;Bécsi utca;6
+way;239339480;Deák Ferenc utca;10
+way;239339482;Vigadó utca;7
+way;239339482;Vörösmarty tér;1
+way;239339498;Kristóf tér;7-8
+way;239339498;Kristóf tér;8
+way;239339500;Bécsi utca;2
+way;239339500;Kristóf tér;5
+way;239339500;Kristóf tér;6
+way;241001286;Szabadság tér;2
+way;241001294;Október 6. utca;26
+way;241012661;Arany János utca;1
+way;241128747;Bank utca;7
+way;241128747;Podmaniczky Frigyes tér;5
+way;241128757;Bank utca;5
+way;241524013;Kossuth Lajos utca;19-21
+way;241524013;Múzeum körút;1
+way;241524018;Múzeum körút;9
+way;241524022;Múzeum körút;1/b
+way;241524029;Magyar utca;12-14
+way;241524034;Ferenczy István utca;28
+way;241524034;Múzeum körút;11
+way;241719949;Irányi utca;7
+way;241719960;Irányi utca;9
+way;241719965;Irányi utca;5
+way;243102049;Kecskeméti utca;15
+way;243102049;Képíró utca;11
+way;243699780;Molnár utca;15
+way;243700548;Nyáry Pál utca;3
+way;243700555;Nyáry Pál utca;5
+way;243700555;Váci utca;49
+way;243700560;Nyáry Pál utca;1/b
+way;243700564;Váci utca;53
+way;243700567;Molnár utca;8
+way;243704030;Szép utca;3
+way;244577226;Kossuth Lajos utca;5
+way;244577226;Szép utca;2
+way;244577232;Kossuth Lajos utca;7-9
+way;244577233;Magyar utca;3
+way;244577235;Kossuth Lajos utca;13
+way;244577236;Kossuth Lajos utca;15
+way;244577238;Szép utca;4
+way;244577239;Reáltanoda utca;14
+way;244747423;Reáltanoda utca;5
+way;244747430;Ferenczy István utca;14
+way;244747434;Reáltanoda utca;17
+way;244747436;Ferenczy István utca;22
+way;244747440;Ferenczy István utca;16
+way;244747446;Ferenczy István utca;18
+way;244747449;Károlyi utca;14
+way;244747449;Károlyi utca;14/a
+way;244747449;Károlyi utca;14/b
+way;244747449;Károlyi utca;14/c
+way;244747455;Ferenczy István utca;12
+way;244747457;Ferenczy István utca;20
+way;244747462;Reáltanoda utca;11
+way;244747467;Magyar utca;11
+way;245170539;Nyugati tér;7
+way;245181798;Alkotmány utca;20
+way;245448610;Nyáry Pál utca;10
+way;245448623;Nyáry Pál utca;8
+way;245448625;Irányi utca;17
+way;245448647;Nyáry Pál utca;6
+way;245448663;Nyáry Pál utca;4
+way;245448663;Váci utca;48
+way;245448670;Veres Pálné utca;7
+way;245721825;Cukor utca;1
+way;245721825;Irányi utca;27
+way;245721826;Cukor utca;3
+way;245721826;Veres Pálné utca;14
+way;245721877;Cukor utca;5
+way;245721877;Veres Pálné utca;16
+way;246187226;Vigadó tér;5/A
+way;247082775;Károlyi utca;17
+way;247082777;Cukor utca;6
+way;247082777;Papnövelde utca;4-6
+way;247082796;Cukor utca;4
+way;247082811;Károlyi utca;19
+way;247082811;Papnövelde utca;10
+way;248705966;Szerb utca;17-19
+way;248706967;Képíró utca;8
+way;248706970;Királyi Pál utca;8
+way;248706978;Kecskeméti utca;7
+way;248706984;Kecskeméti utca;13
+way;248706984;Képíró utca;10
+way;248706991;Egyetem tér;4
+way;248706991;Kecskeméti utca;1
+way;248706991;Királyi Pál utca;2
+way;248922965;Petőfi tér;2
+way;248922968;Március 15. tér;2
+way;248922985;Petőfi tér;2
+way;248922986;Március 15. tér;3
+way;248922988;Március 15. tér;1
+way;248922991;Galamb utca;4
+way;249285086;Veres Pálné utca;13
+way;249285088;Veres Pálné utca;11
+way;249285093;Veres Pálné utca;15
+way;249285095;Váci utca;54
+way;249285113;Nyáry Pál utca;9
+way;249285120;Nyáry Pál utca;11
+way;249285120;Veres Pálné utca;9
+way;249285123;Nyáry Pál utca;7
+way;249285123;Váci utca;50
+way;249941127;Fő utca;5
+way;249941143;Bem rakpart;5
+way;249941143;Jégverem utca;1
+way;249941146;Bem rakpart;8
+way;249941149;Bem rakpart;3
+way;250074523;Lánchíd utca;5
+way;250074524;Lánchíd utca;11
+way;250074525;Lánchíd utca;13
+way;250074526;Lánchíd utca;23
+way;250074527;Lánchíd utca;15-17
+way;250074528;Lánchíd utca;7-9
+way;250074529;Lánchíd utca;19
+way;250255756;Döbrentei utca;24
+way;250255758;Döbrentei utca;22
+way;250255758;Várkert rakpart;16
+way;250255760;Várkert rakpart;17
+way;250255762;Döbrentei tér;1
+way;250255763;Döbrentei tér;2
+way;250255763;Döbrentei utca;26
+way;250255768;Attila út;1-3
+way;250256468;Döbrentei utca;9
+way;250256469;Apród utca;10
+way;250256587;Ybl Miklós tér;9
+way;250256589;Döbrentei utca;2-4
+way;250256589;Várkert rakpart;7
+way;250256590;Ybl Miklós tér;6
+way;250256593;Döbrentei utca;12
+way;250256593;Várkert rakpart;11
+way;250256595;Ybl Miklós tér;8
+way;250264027;Attila út;19
+way;250264032;Attila út;13
+way;250264032;Attila út;13/a
+way;250264056;Attila út;25
+way;252018225;Papnövelde utca;3
+way;252018231;Veres Pálné utca;26
+way;254003779;Magyar utca;31
+way;254003842;Magyar utca;29
+way;254003892;Magyar utca;25
+way;254003907;Magyar utca;33
+way;256056135;Váci utca;17
+way;256056136;Galamb utca;7
+way;256056141;Galamb utca;5
+way;256056156;Régi posta utca;11
+way;256056163;Galamb utca;3
+way;256056167;Galamb utca;9
+way;256056167;Régi posta utca;5
+way;256056169;Piarista utca;2
+way;256056170;Piarista utca;8
+way;256056170;Váci utca;25
+way;258289285;Múzeum körút;21
+way;258289286;Magyar utca;40
+way;258289287;Múzeum körút;19
+way;258289289;Múzeum körút;41
+way;258289292;Magyar utca;18
+way;258289293;Múzeum körút;23-25
+way;258289293;Múzeum körút;27
+way;258289295;Ferenczy István utca;5
+way;258289299;Magyar utca;38
+way;258289300;Magyar utca;30
+way;258289302;Magyar utca;36
+way;258289304;Múzeum körút;29
+way;258289306;Magyar utca;52
+way;258289308;Magyar utca;22
+way;258289309;Magyar utca;20
+way;258289311;Múzeum körút;13-15
+way;258289311;Múzeum körút;15
+way;258289312;Magyar utca;28
+way;258289313;Magyar utca;34
+way;258289315;Magyar utca;24
+way;258289317;Múzeum körút;31-33
+way;258289319;Múzeum körút;27
+way;258289321;Magyar utca;26
+way;258702168;Kálmán Imre utca;17
+way;258999341;Kis Diófa utca;13
+way;258999347;Király utca;41
+way;258999356;Kis Diófa utca;11
+way;258999359;Kis Diófa utca;9
+way;258999360;Király utca;39
+way;258999360;Kis Diófa utca;15
+way;259151975;Kis Diófa utca;8
+way;259151976;Kis Diófa utca;16
+way;259151977;Király utca;35-37
+way;259151982;Kazinczy utca;35
+way;259151983;Dob utca;32
+way;259151984;Kis Diófa utca;6
+way;259151986;Dob utca;38
+way;259151989;Kazinczy utca;55
+way;259151992;Kazinczy utca;51
+way;259151996;Király utca;29
+way;259151997;Kis Diófa utca;12
+way;259151998;Király utca;31
+way;259151999;Király utca;27
+way;259152000;Király utca;33
+way;259152001;Kazinczy utca;47
+way;259152004;Kazinczy utca;41
+way;259152005;Király utca;25
+way;259152168;Király utca;17
+way;259152172;Kazinczy utca;52
+way;259152172;Kazinczy utca;52/c
+way;259152173;Kazinczy utca;52
+way;259152173;Kazinczy utca;52/B
+way;259152257;Holló utca;3-9/a
+way;259152257;Holló utca;3-9/b
+way;259153145;Dob utca;31
+way;259153145;Dob utca;31/A
+way;259153805;Nagymező utca;3
+way;259153807;Paulay Ede utca;55
+way;259153808;Nagymező utca;7
+way;259153808;Paulay Ede utca;55
+way;259153809;Paulay Ede utca;57
+way;259154238;Paulay Ede utca;46
+way;259154240;Andrássy út;33
+way;259154240;Nagymező utca;16
+way;259154241;Paulay Ede utca;48
+way;259154245;Nagymező utca;14
+way;259154246;Paulay Ede utca;44
+way;259154247;Hajós utca;1
+way;259154562;Király utca;24
+way;259154563;Székely Mihály utca;4
+way;259154565;Székely Mihály utca;2
+way;259154566;Székely Mihály utca;12
+way;259154567;Székely Mihály utca;8
+way;259154568;Király utca;30
+way;259154569;Káldy Gyula utca;3
+way;259154571;Király utca;26
+way;259154572;Paulay Ede utca;21
+way;259154574;Király utca;30-32
+way;259154577;Székely Mihály utca;10
+way;259154578;Király utca;22
+way;259154578;Káldy Gyula utca;1
+way;259154579;Káldy Gyula utca;5
+way;259154580;Paulay Ede utca;19
+way;259160561;Paulay Ede utca;26
+way;259160562;Székely Mihály utca;16
+way;259160566;Paulay Ede utca;14
+way;259160567;Andrássy út;11
+way;259165329;Király utca;36
+way;259165330;Székely Mihály utca;7
+way;259165332;Paulay Ede utca;31
+way;259165332;Székely Mihály utca;11
+way;259165333;Király utca;38
+way;259165334;Paulay Ede utca;37
+way;259165337;Székely Mihály utca;9
+way;259165339;Paulay Ede utca;35
+way;259165341;Székely Mihály utca;5
+way;259229891;Dob utca;3
+way;259229893;Károly körút;3/b
+way;259229893;Wesselényi utca;2
+way;259229896;Dob utca;5
+way;259229896;Rumbach Sebestyén utca;4
+way;259291480;Dob utca;19
+way;259291480;Síp utca;29
+way;259291481;Dob utca;29
+way;259291484;Síp utca;21
+way;259291484;Wesselényi utca;16
+way;259291491;Dob utca;23
+way;259291492;Dob utca;25
+way;259291494;Dob utca;27
+way;259291496;Dob utca;21
+way;259293254;Dob utca;7
+way;259293254;Rumbach Sebestyén utca;3
+way;259293260;Rumbach Sebestyén utca;1
+way;259293260;Wesselényi utca;6
+way;259293261;Dob utca;15
+way;259293262;Dob utca;17
+way;259293262;Síp utca;24
+way;259293263;Síp utca;22
+way;259293264;Wesselényi utca;12
+way;259293265;Síp utca;20
+way;259293266;Dob utca;13
+way;259293269;Dob utca;11
+way;259308995;Wesselényi utca;7
+way;259308999;Wesselényi utca;9
+way;259309002;Dohány utca;10
+way;259309004;Dohány utca;12
+way;259309004;Dohány utca;12-14
+way;259309004;Dohány utca;14
+way;259309004;Dohány utca;16
+way;259493655;Paulay Ede utca;5
+way;259493660;Bajcsy-Zsilinszky út;5
+way;259493662;Király utca;6
+way;259493664;Király utca;16
+way;259493668;Paulay Ede utca;11
+way;259493669;Bajcsy-Zsilinszky út;9
+way;259493672;Káldy Gyula utca;4
+way;259493674;Paulay Ede utca;1
+way;259493675;Király utca;18
+way;259493676;Káldy Gyula utca;6
+way;259495636;Király utca;50
+way;259495637;Nagymező utca;6
+way;259495639;Nagymező utca;12
+way;259495641;Király utca;48
+way;259495652;Vasvári Pál utca;11
+way;259495656;Paulay Ede utca;45
+way;259495660;Vasvári Pál utca;5
+way;259495661;Paulay Ede utca;47
+way;259495663;Nagymező utca;4
+way;259495664;Vasvári Pál utca;5
+way;259495667;Király utca;42
+way;259495667;Vasvári Pál utca;1
+way;259495668;Király utca;46
+way;259504880;Wesselényi utca;11
+way;259517517;Madách Imre út;10
+way;259517517;Madách Imre út;12
+way;259517518;Madách Imre út;8
+way;259517519;Madách Imre út;13-14
+way;259517519;Madách Imre út;14
+way;259517520;Király utca;13
+way;259517521;Király utca;13
+way;259517522;Király utca;13
+way;259517523;Holló utca;12
+way;259517523;Holló utca;12-14
+way;259517524;Király utca;13
+way;259517525;Király utca;9
+way;259517526;Király utca;11
+way;259518682;Király utca;5
+way;259518682;Rumbach Sebestyén utca;20-22
+way;259518683;Károly körút;23
+way;259518683;Károly körút;25
+way;259518684;Asbóth utca;12
+way;259518684;Károly körút;11
+way;259518685;Asbóth utca;15
+way;259518685;Asbóth utca;17
+way;259518686;Asbóth utca;17
+way;259518686;Asbóth utca;19
+way;259518686;Király utca;1/d
+way;259518686;Király utca;1/e
+way;259518688;Asbóth utca;24
+way;259518688;Király utca;1
+way;259518688;Király utca;1/b
+way;259518688;Király utca;1b
+way;259518690;Károly körút;11
+way;259518692;Madách Imre út;1
+way;259518692;Madách Imre út;3
+way;259518692;Madách Imre út;5
+way;259518693;Rumbach Sebestyén utca;10
+way;259518694;Madách Imre tér;3
+way;259518694;Madách Imre tér;4
+way;259518694;Madách Imre tér;5
+way;259518694;Madách Imre tér;6
+way;259518694;Madách Imre út;4
+way;259518695;Rumbach Sebestyén utca;12
+way;259518696;Király utca;3
+way;259518697;Madách Imre tér;2
+way;259518699;Madách Imre út;2-6
+way;259518700;Asbóth utca;14
+way;259518702;Károly körút;13-15
+way;259518702;Madách Imre tér;1-3
+way;259518703;Dob utca;8
+way;259518703;Rumbach Sebestyén utca;6
+way;259518704;Károly körút;17-19
+way;259518704;Károly körút;21
+way;259518704;Madách Imre tér;7
+way;259518705;Madách Imre tér;2
+way;259555819;Rumbach Sebestyén utca;11-13
+way;259555822;Rumbach Sebestyén utca;15
+way;259555822;Rumbach Sebestyén utca;15/B
+way;259555822;Rumbach Sebestyén utca;15/a
+way;259555822;Rumbach Sebestyén utca;15/b
+way;259555824;Holló utca;6
+way;259555826;Madách Imre út;11
+way;259555826;Madách Imre út;9
+way;259555829;Dob utca;12
+way;259555831;Dob utca;10
+way;259555831;Rumbach Sebestyén utca;5
+way;259555832;Holló utca;10
+way;259555837;Rumbach Sebestyén utca;11
+way;259555837;Rumbach Sebestyén utca;11-13
+way;259555838;Dob utca;18
+way;259555839;Holló utca;8
+way;259555841;Dob utca;14
+way;259555841;Dob utca;16
+way;259555842;Madách Imre út;13
+way;259555844;Király utca;13
+way;259555845;Holló utca;4
+way;261301317;Andrássy út;44
+way;261301317;Jókai tér;4
+way;261301320;Dessewffy utca;38
+way;261301323;Nagymező utca;64
+way;261301325;Dessewffy utca;40
+way;261301327;Nagymező utca;58
+way;261301328;Lovag utca;19
+way;261301329;Zichy Jenő utca;27
+way;261301331;Nagymező utca;28
+way;261301331;Nagymező utca;28/a
+way;261301332;Zichy Jenő utca;3
+way;261301333;Jókai utca;18
+way;261301335;Bajcsy-Zsilinszky út;49
+way;261301337;Dessewffy utca;33
+way;261301337;Nagymező utca;35
+way;261301338;Weiner Leó utca;4
+way;261301341;Jókai utca;38
+way;261301342;Jókai utca;34
+way;261301343;Ó utca;14
+way;261301344;Dessewffy utca;36
+way;261301345;Ó utca;24
+way;261301345;Ó utca;24-26
+way;261301346;Podmaniczky utca;4
+way;261301347;Hajós utca;19
+way;261301348;Nagymező utca;33
+way;261301349;Hajós utca;33-35
+way;261301349;Nagymező utca;54-56
+way;261301351;Hajós utca;12
+way;261301353;Hajós utca;23
+way;261301353;Ó utca;23
+way;261301359;Bajcsy-Zsilinszky út;17
+way;261301359;Lázár utca;1
+way;261301364;Bajcsy-Zsilinszky út;21
+way;261301364;Ó utca;2
+way;261301365;Ó utca;4
+way;261301366;Zichy Jenő utca;12
+way;261301367;Dalszínház utca;8
+way;261301368;Bajcsy-Zsilinszky út;51
+way;261301370;Dalszínház utca;10
+way;261301372;Lovag utca;8
+way;261301373;Weiner Leó utca;10
+way;261301374;Ó utca;9
+way;261301378;Hajós utca;17
+way;261301380;Zichy Jenő utca;22
+way;261301381;Hajós utca;22
+way;261301381;Zichy Jenő utca;19
+way;261301382;Lovag utca;5
+way;261301383;Bajcsy-Zsilinszky köz;1
+way;261301383;Ó utca;1
+way;261301384;Lázár utca;10
+way;261301385;Dessewffy utca;24
+way;261301385;Nagymező utca;50
+way;261301386;Zichy Jenő utca;14
+way;261301387;Ó utca;25
+way;261301388;Nagymező utca;60
+way;261301389;Nagymező utca;42
+way;261301389;Zichy Jenő utca;31
+way;261301390;Dessewffy utca;49
+way;261301391;Mozsár utca;5
+way;261301393;Hajós utca;31
+way;261301396;Dessewffy utca;37
+way;261301397;Dessewffy utca;22
+way;261301398;Lovag utca;10
+way;261301399;Podmaniczky utca;3
+way;261301401;Ó utca;35
+way;261301402;Zichy Jenő utca;17
+way;261301403;Dessewffy utca;16
+way;261301404;Mozsár utca;3
+way;261301405;Mozsár utca;16
+way;261301406;Jókai tér;2
+way;261301408;Teréz körút;58
+way;261301409;Jókai utca;2
+way;261301410;Nagymező utca;47
+way;261301410;Weiner Leó utca;1
+way;261301411;Nagymező utca;53
+way;261301411;Podmaniczky utca;1-3
+way;261301412;Andrássy út;18
+way;261301413;Révay utca;18
+way;261301415;Jókai utca;14
+way;261301416;Weiner Leó utca;16
+way;261301417;Zichy Jenő utca;10
+way;261301418;Bajcsy-Zsilinszky út;23
+way;261301418;Zichy Jenő utca;1
+way;261301419;Jókai utca;22
+way;261301419;Lovag utca;22
+way;261301420;Hajós utca;26
+way;261301420;Hajós utca;26/A
+way;261301421;Nagymező utca;66
+way;261301422;Hajós utca;11
+way;261301423;Podmaniczky utca;8
+way;261301425;Zichy Jenő utca;29
+way;261301426;Dessewffy utca;16
+way;261301428;Bajcsy-Zsilinszky út;41
+way;261301429;Jókai utca;24
+way;261301430;Jókai utca;4
+way;261301430;Ó utca;51
+way;261301431;Dessewffy utca;13
+way;261301432;Hajós utca;16-18
+way;261301432;Ó utca;20
+way;261301434;Hajós utca;37
+way;261301436;Ó utca;16
+way;261301437;Jókai tér;9
+way;261301438;Hajós utca;14
+way;261301438;Ó utca;21
+way;261301439;Hajós utca;27
+way;261301439;Zichy Jenő utca;18
+way;261301441;Hajós utca;32
+way;261301442;Nagymező utca;62
+way;261301443;Nagymező utca;29
+way;261301443;Zichy Jenő utca;33
+way;261301444;Weiner Leó utca;5
+way;261301445;Hajós utca;26/b
+way;261301446;Bajcsy-Zsilinszky út;45
+way;261301446;Nagymező utca;70
+way;261301447;Dessewffy utca;21
+way;261301449;Bajcsy-Zsilinszky köz;3
+way;261301449;Lázár utca;2
+way;261301451;Ó utca;37
+way;261301453;Hajós utca;29
+way;261301454;Hajós utca;24
+way;261301454;Zichy Jenő utca;16
+way;261301455;Nagymező utca;27
+way;261301456;Ó utca;44
+way;261301458;Podmaniczky utca;17
+way;261301459;Nagymező utca;36
+way;261301459;Ó utca;31
+way;261301461;Lovag utca;20
+way;261301462;Lovag utca;6
+way;261301465;Lázár utca;11-13
+way;261301466;Dessewffy utca;6
+way;261301467;Nagymező utca;34
+way;261301468;Nagymező utca;26
+way;261301469;Ó utca;39
+way;261301471;Dessewffy utca;4
+way;261301472;Bajcsy-Zsilinszky út;53
+way;261301473;Lovag utca;17
+way;261301475;Dessewffy utca;45
+way;261301477;Mozsár utca;7
+way;261301477;Mozsár utca;8
+way;261301478;Hajós utca;41
+way;261301479;Nagymező utca;32
+way;261301480;Andrássy út;42
+way;261301481;Podmaniczky utca;6
+way;261301483;Andrássy út;38
+way;261301484;Hajós utca;7
+way;261301485;Nagymező utca;30
+way;261301486;Bajcsy-Zsilinszky út;57
+way;261301487;Dessewffy utca;15
+way;261301489;Bajcsy-Zsilinszky út;65
+way;261301491;Zichy Jenő utca;25
+way;261301493;Hajós utca;7
+way;261301493;Hajós utca;9
+way;261301494;Zichy Jenő utca;13
+way;261301503;Dessewffy utca;7-11
+way;261301541;Nagymező utca;49
+way;261301541;Nagymező utca;51
+way;261301556;Lovag utca;1
+way;261301556;Nagymező utca;41
+way;261301599;Jókai utca;6
+way;261301623;Zichy Jenő utca;32
+way;261301642;Nagymező utca;31
+way;261301642;Zichy Jenő utca;30
+way;261301670;Dessewffy utca;18-20
+way;261301672;Nagymező utca;38
+way;261803610;Falk Miksa utca;22
+way;261803611;Balassi Bálint utca;19
+way;261889902;Falk Miksa utca;14
+way;261889904;Falk Miksa utca;12
+way;261889904;Markó utca;4
+way;261889905;Falk Miksa utca;16
+way;261893539;Honvéd utca;20/A
+way;261893541;Falk Miksa utca;5
+way;261893543;Markó utca;7
+way;261893546;Markó utca;9
+way;261893550;Falk Miksa utca;3
+way;261893551;Szalay utca;4
+way;261893553;Honvéd utca;20
+way;261896265;Szemere utca;8
+way;261896267;Szalay utca;7
+way;261896267;Szalay utca;7/a
+way;261896267;Szemere utca;10
+way;261896271;Honvéd utca;17
+way;261896271;Honvéd utca;17/a
+way;261896273;Szalay utca;5/A
+way;261896273;Szalay utca;5/a
+way;261896275;Szalay utca;5/B
+way;261898061;Szemere utca;9
+way;261898062;Alkotmány utca;12
+way;261898062;Nagy Ignác utca;2-4
+way;261898062;Szalay utca;13
+way;261898063;Szalay utca;11
+way;261898378;Hold utca;18-20
+way;261898379;Kálmán Imre utca;8
+way;261898379;Szemere utca;3
+way;261898379;Szemere utca;5
+way;261898380;Alkotmány utca;15
+way;261898382;Kálmán Imre utca;10
+way;261898517;Báthory utca;10
+way;261898517;Kálmán Imre utca;7
+way;261900532;Vadász utca;42
+way;261900535;Alkotmány utca;23
+way;261900962;Szent István körút;19
+way;261900963;Szent István körút;21
+way;261900964;Balaton utca;22-24
+way;261900964;Nagy Ignác utca;18
+way;261911722;Nagy Ignác utca;21
+way;261912941;Szemere utca;17
+way;261912942;Stollár Béla utca;12/c
+way;261912943;Szemere utca;21
+way;261912944;Nagy Ignác utca;14
+way;261912945;Stollár Béla utca;14/b
+way;261912946;Nagy Ignác utca;16
+way;261912947;Szemere utca;19
+way;261912951;Balaton utca;23
+way;261912952;Balaton utca;25
+way;261912953;Szemere utca;23
+way;261912954;Balaton utca;27
+way;261914788;Báthory utca;3
+way;261987168;Hold utca;8
+way;261987170;Aulich utca;5
+way;261987171;Perczel Mór utca;4
+way;261987174;Aulich utca;1
+way;261987174;Perczel Mór utca;2
+way;261987175;Aulich utca;3
+way;261988340;Vadász utca;33
+way;261988342;Bajcsy-Zsilinszky út;56
+way;261988343;Bajcsy-Zsilinszky út;60
+way;261988343;Báthory utca;25
+way;261988344;Báthory utca;23
+way;261988345;Vadász utca;31
+way;261988349;Bajcsy-Zsilinszky út;48
+way;261988352;Vadász utca;29
+way;261989303;Nagysándor József utca;5
+way;261989303;Vadász utca;19
+way;261989304;Bajcsy-Zsilinszky út;36
+way;261989304;Bajcsy-Zsilinszky út;36-38
+way;261989306;Bajcsy-Zsilinszky út;34
+way;261989306;Vadász utca;9a
+way;261989306;Vadász utca;9b
+way;261989308;Bajcsy-Zsilinszky út;40
+way;261990235;Hold utca;3
+way;261990235;Hold utca;3-5
+way;261990235;Hold utca;5
+way;261990236;Bank utca;6
+way;261990236;Vadász utca;10
+way;261990237;Hold utca;9
+way;261990237;Nagysándor József utca;1
+way;261990238;Nagysándor József utca;3
+way;261990992;Báthory utca;17
+way;261990993;Hold utca;11
+way;261990993;Nagysándor József utca;2
+way;261990997;Vadász utca;26
+way;261990997;Vadász utca;28
+way;261990998;Hold utca;19
+way;261991000;Vadász utca;26
+way;261991003;Nagysándor József utca;6
+way;261991003;Vadász utca;20
+way;261994123;Akadémia utca;11
+way;261994306;Széchenyi rakpart;8
+way;261994307;Akadémia utca;14
+way;261994309;Széchenyi rakpart;7
+way;261995598;Akadémia utca;17
+way;261996216;Garibaldi utca;9
+way;261996216;Nádor utca;34
+way;261996220;Garibaldi utca;3
+way;261996220;Zoltán utca;8
+way;263530884;Kecskeméti utca;3
+way;263530884;Királyi Pál utca;4
+way;263530886;Veres Pálné utca;22
+way;263530887;Papnövelde utca;1
+way;263530900;Királyi Pál utca;10
+way;264564798;Sas utca;24
+way;264897674;Váci utca;60
+way;265972327;Károly körút;7
+way;265972334;Károly körút;9
+way;269870987;Balassi Bálint utca;1-5
+way;291450290;Gerlóczy utca;6
+way;292626390;Rumbach Sebestyén utca;14
+way;292626390;Rumbach Sebestyén utca;16
+way;292657413;Kazinczy utca;53
+way;293068529;Clark Ádám tér;1
+way;293068529;Fő utca;2
+way;297286358;Fehér Hajó utca;5
+way;303360160;Váci utca;43
+way;310077888;Nádor utca;11
+way;310078410;Október 6. utca;12
+way;310575850;Magyar utca;5
+way;310575851;Reáltanoda utca;18
+way;310575853;Reáltanoda utca;16
+way;310575855;Reáltanoda utca;12
+way;310575856;Kossuth Lajos utca;11
+way;310575857;Kossuth Lajos utca;17
+way;310575857;Magyar utca;1
+way;313142471;Irányi utca;18
+way;313142471;Veres Pálné utca;10
+way;315146137;Paulay Ede utca;8
+way;315146138;Andrássy út;5
+way;315146139;Andrássy út;9
+way;315146140;Andrássy út;1
+way;315146140;Bajcsy-Zsilinszky út;11
+way;315146140;Paulay Ede utca;2
+way;315146141;Paulay Ede utca;10
+way;315146142;Paulay Ede utca;6
+way;319373302;Reáltanoda utca;10
+way;336705420;Irányi utca;12
+way;336705420;Váci utca;41/b
+way;336705421;Váci utca;41/a
+way;336705422;Váci utca;41/a
+way;336705423;Irányi utca;10
+way;349894901;Kresz Géza utca;11
+way;356086291;Nagymező utca;68
+way;373273544;Kádár utca;9-11
+way;375466378;Ybl Miklós tér;2
+way;385832061;Dohány utca;2
+way;429676478;Ybl Miklós tér;2
+way;429676478;Ybl Miklós tér;2-6
+way;429676480;Ybl Miklós tér;2-6
+way;429676509;Ybl Miklós tér;6
+way;489382534;Király utca;11
+way;519696082;Bárczy István utca;2-4
+way;519696082;Fehér Hajó utca;8
+way;519696082;Szervita tér;8
+way;555780173;Döbrentei utca;18
+way;555780173;Döbrentei utca;20
+way;555780173;Várkert rakpart;15-16
+way;555782480;Döbrentei utca;17
+way;555788051;Döbrentei utca;11
+way;555788052;Döbrentei utca;13
+way;565825622;Paulay Ede utca;12
+way;579152807;Attila út;23
+way;579152810;Attila út;17
+way;621691705;Váci utca;15
+way;621691706;Régi posta utca;15
+way;621691706;Váci utca;13
+way;621691707;Régi posta utca;13
+way;683657377;Gerlóczy utca;4
+way;686815029;Váci utca;23
+way;686815032;Piarista utca;6
+way;689006277;Ó utca;43-49
+way;694349847;Károly körút;18
+way;705602236;Weiner Leó utca;7
+way;722611146;Zichy Jenő utca;11
+way;759145543;Sas utca;16
+way;759145545;Nádor utca;9
+way;759145545;Zrínyi utca;10
+way;759145545;Zrínyi utca;8-10
+way;762834282;Kossuth Lajos tér;1-3
+way;763736063;Asbóth utca;9
+way;837048366;Paulay Ede utca;49
+way;846974827;Hercegprímás utca;5
+way;850716643;Bajcsy-Zsilinszky köz;2
+way;850716643;Lázár utca;2/a
+way;851289995;Zichy Jenő utca;9
+way;851289995;Ó utca;10
+way;854935157;Aranykéz utca;2
+way;867116739;Stollár Béla utca;14/a
+way;867116740;Stollár Béla utca;12/b
+way;914322827;Vadász utca;30
+way;938284204;Múzeum körút;35
+way;1153259919;Petőfi tér;9
+way;1214344425;Szabadság tér;12
+way;1214344426;Szabadság tér;11
+way;1223971897;Károly körút;23
+way;1223971898;Károly körút;21
+way;1264141084;Kecskeméti utca;10-12
+way;1285215308;Apáczai Csere János utca;11
+way;1285215308;Apáczai Csere János utca;13
+way;1285215308;Dorottya utca;2
+way;1285215308;Dorottya utca;2-4
+way;1285215308;Dorottya utca;2/a
+way;1285215308;Dorottya utca;2/b
+way;1285215308;Dorottya utca;4
+way;1285215308;Vigadó tér;4-6
+way;1285215308;Vigadó utca;2
+way;1285215308;Vigadó utca;4
+way;1285215308;Vigadó utca;4-6
+way;1285215308;Vigadó utca;6
+way;1285215308;Wekerle Sándor utca;3
+way;1291257144;Gerlóczy utca;11
+way;1350940821;Múzeum körút;16
+way;1389922513;Attila út;13
+way;1419728554;Október 6. utca;14
+way;1456852539;Asbóth utca;20
+way;1456852539;Asbóth utca;22
+way;1464425588;Balassi Bálint utca;1-5
+way;1465042001;Kazinczy utca;42-46
+way;1469833559;Károly körút;13-15
+way;1495306980;Arany János utca;25
+way;1499150597;Bajcsy-Zsilinszky út;19/b
+way;1503111992;Hegedű utca;6
+way;1505837702;Bajcsy-Zsilinszky út;7
+way;1530362281;Váci utca;4
+way;1530362284;Kristóf tér;7
+way;1533591995;Váci utca;41/a
+way;1550441507;Rumbach Sebestyén utca;8

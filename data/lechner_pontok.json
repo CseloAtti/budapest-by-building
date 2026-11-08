@@ -1,0 +1,4689 @@
+[
+ {
+  "nev": "Abonyi Fábián-Berg kúria / Nagykőrösi út 10.",
+  "lat": 47.1861866,
+  "lon": 20.0006072,
+  "epult": "1786",
+  "ev_kezdet": 1786,
+  "ev_veg": 1786,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Abonyi Györe-kúria / Kécskei utca",
+  "lat": 47.1816148,
+  "lon": 20.0065055,
+  "epult": "1830 körül",
+  "ev_kezdet": 1830,
+  "ev_veg": 1830,
+  "ev_egyertelmu": false,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Abonyi katolikus templom / Kossuth Lajos tér 14.",
+  "lat": 47.188303,
+  "lon": 20.00694,
+  "epult": "1773–1785",
+  "ev_kezdet": 1773,
+  "ev_veg": 1785,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Abonyi Kossuth Vendégház / Újszászi út 1.",
+  "lat": 47.188681,
+  "lon": 20.006907,
+  "epult": "1749",
+  "ev_kezdet": 1749,
+  "ev_veg": 1749,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Abonyi magtár, Abonyi Lajos Múzeum / Vasút út 16.",
+  "lat": 47.1852769,
+  "lon": 20.0051186000001,
+  "epult": "XVIII. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "A Vasút utca 16. szám alatt áll Abony egyik legrégebbi épülete, egészen pontosan a XVIII. századból származó magtár, mely a Csák nemzetség megrendelésére épült. A barokk stílusú, füzérdíszes, kővázás kapuzattal és az egyik oldalán megtört ívű, félköríves záródású oromfallal rendelkező magtár 1967 novembere óta az Abonyi Lajos Falumúzeumnak ad otthont. Az 1980-as évek elején egy közel két évig húzódó felújításon esett át. 1983 augusztusa óta a múzeum a mai napig fogadja az elsősorban mezőgazdasági munkaeszközök, illetve az egykori céhek és kihalt mesterségekhez köthető tárgyak iránt érdeklődőket."
+ },
+ {
+  "nev": "Abonyi református templom / Báthori István utca 1.",
+  "lat": 47.187421,
+  "lon": 20.0059209999999,
+  "epult": "1786",
+  "ev_kezdet": 1786,
+  "ev_veg": 1786,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Abonyi Sívó-kúria / Hunyadi János utca 10.",
+  "lat": 47.186299,
+  "lon": 20.0067579,
+  "epult": "bizonytalan, 1842 és 1846 is szerepel a forrásokban",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "Szvacsina József"
+ },
+ {
+  "nev": "Abonyi Tallián–Lavatka-kúria / Jókai Mór utca 10.",
+  "lat": 47.1865754,
+  "lon": 20.0082762,
+  "epult": null,
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": null
+ },
+ {
+  "nev": "Abonyi városháza / Kossuth Lajos tér 1.",
+  "lat": 47.188677,
+  "lon": 20.004162,
+  "epult": "1904",
+  "ev_kezdet": 1904,
+  "ev_veg": 1904,
+  "ev_egyertelmu": true,
+  "tervezo": "Jablonszky Ferenc (1864–1945)"
+ },
+ {
+  "nev": "Abonyi Vigyázó kastély / Tószegi út",
+  "lat": 47.1800271,
+  "lon": 20.0175815,
+  "epult": "1830",
+  "ev_kezdet": 1830,
+  "ev_veg": 1830,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Abonyi Vigyázó-kúria / Tószegi és Székely Bertalan utca sarka",
+  "lat": 47.1788423,
+  "lon": 20.0176388,
+  "epult": "19. század első fele",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Abonyi zsinagóga / Deák Ferenc utca",
+  "lat": 47.1879166666667,
+  "lon": 20.0084444444444,
+  "epult": "1825",
+  "ev_kezdet": 1825,
+  "ev_veg": 1825,
+  "ev_egyertelmu": true,
+  "tervezo": "vélhetően Landherr András"
+ },
+ {
+  "nev": "Alagút utcai OTP lakóház / Alagút utca 3.",
+  "lat": 47.4971679,
+  "lon": 19.0334073,
+  "epult": "1963–1967",
+  "ev_kezdet": 1963,
+  "ev_veg": 1967,
+  "ev_egyertelmu": true,
+  "tervezo": "Boross Zoltán (1926– )"
+ },
+ {
+  "nev": "Albertfalvi Szent Mihály templom / Budapest, Bükköny u. 3",
+  "lat": 47.4474414,
+  "lon": 19.0355526,
+  "epult": "1940–1941",
+  "ev_kezdet": 1940,
+  "ev_veg": 1941,
+  "ev_egyertelmu": true,
+  "tervezo": "Kismarty-Lechner Jenő (1868–1962)"
+ },
+ {
+  "nev": "Adria Magyar Királyi Tengerhajózási Részvénytársaság egykori székháza / Budapest, Szabadság tér 16.",
+  "lat": 47.504738,
+  "lon": 19.049364,
+  "epult": "1900–1902",
+  "ev_kezdet": 1900,
+  "ev_veg": 1902,
+  "ev_egyertelmu": true,
+  "tervezo": "Meinig Artúr (1853–1904)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3516896,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Agorasztó-ház / Budapest, Kecskeméti u. 3.",
+  "lat": 47.4905593,
+  "lon": 19.0592811,
+  "epult": "1875–1876",
+  "ev_kezdet": 1875,
+  "ev_veg": 1876,
+  "ev_egyertelmu": true,
+  "tervezo": "Steindl Imre (1839–1902)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 263530884,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Ajkai templomdomb / Kossuth u. 2.",
+  "lat": 47.1075928,
+  "lon": 17.5602409000001,
+  "epult": "Evangélikus templom 1789",
+  "ev_kezdet": 1789,
+  "ev_veg": 1789,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Alsóörsi Nyárfás ABC / Camping u.",
+  "lat": 46.9767788,
+  "lon": 17.9567563000001,
+  "epult": "1978–1979",
+  "ev_kezdet": 1978,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "KERTI"
+ },
+ {
+  "nev": "Anker palota / Budapest, Deák Ferenc tér 6.",
+  "lat": 47.4975838,
+  "lon": 19.0553493,
+  "epult": "1908–1910",
+  "ev_kezdet": 1908,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "Alpár Ignác (1855–1928)",
+  "illesztes": null
+ },
+ {
+  "nev": "Arany Oroszlán Szálloda / Bonyhád",
+  "lat": 46.2996291,
+  "lon": 18.5304693,
+  "epult": "19. század eleje",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Astoria Szálló / Budapest, Kossuth Lajos u. 19.",
+  "lat": 47.4939454,
+  "lon": 19.0597686,
+  "epult": "1914",
+  "ev_kezdet": 1914,
+  "ev_veg": 1914,
+  "ev_egyertelmu": true,
+  "tervezo": "Hikisch Rezső (1876–1908), Ágoston Emil (1878–1921)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 241524022,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Attila út 35. / Budapest",
+  "lat": 47.49523,
+  "lon": 19.0370339,
+  "epult": "1912 (1914?)",
+  "ev_kezdet": 1912,
+  "ev_veg": 1914,
+  "ev_egyertelmu": false,
+  "tervezo": "Vágó László (1875-1933)"
+ },
+ {
+  "nev": "Attila út 57–59. / Budapest",
+  "lat": 47.4972938,
+  "lon": 19.0338786,
+  "epult": "1935–1939",
+  "ev_kezdet": 1935,
+  "ev_veg": 1939,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Endre (1897–1954)"
+ },
+ {
+  "nev": "Attila út 127. / Budapest",
+  "lat": 47.5033923,
+  "lon": 19.0260858,
+  "epult": "1933–1934",
+  "ev_kezdet": 1933,
+  "ev_veg": 1934,
+  "ev_egyertelmu": true,
+  "tervezo": "Major Máté (1904–1986), Detre Pál"
+ },
+ {
+  "nev": "Ádám-palota / Budapest, Bródy Sándor utca 4.",
+  "lat": 47.49203,
+  "lon": 19.0620039,
+  "epult": "1875–1876",
+  "ev_kezdet": 1875,
+  "ev_veg": 1876,
+  "ev_egyertelmu": true,
+  "tervezo": "Wéber Antal (1823–1889)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 1957485,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Állat- és Ásványtani Intézet – ma ELTE BTK / Budapest, Múzeum körút 4.",
+  "lat": 47.494094,
+  "lon": 19.0608768,
+  "epult": "1883–1885",
+  "ev_kezdet": 1883,
+  "ev_veg": 1885,
+  "ev_egyertelmu": true,
+  "tervezo": "Wéber Antal (1823–1889)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24323125,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Árkád Bazár / Budapest, Dohány u. 22.",
+  "lat": 47.4955477,
+  "lon": 19.0629133,
+  "epult": "1908–1909",
+  "ev_kezdet": 1908,
+  "ev_veg": 1909,
+  "ev_egyertelmu": true,
+  "tervezo": "Vágó József (1877–1947), Vágó László (1875–1933)",
+  "illesztes": null
+ },
+ {
+  "nev": "Árpád híd",
+  "lat": 47.5378602,
+  "lon": 19.0520952,
+  "epult": "1939–1950, 1984",
+  "ev_kezdet": 1939,
+  "ev_veg": 1950,
+  "ev_egyertelmu": true,
+  "tervezo": "Dr. Széchy Károly (1903–1972)"
+ },
+ {
+  "nev": "Átrium-mozi / Budapest, Margit krt. 55.",
+  "lat": 47.5108281,
+  "lon": 19.031072,
+  "epult": "1935",
+  "ev_kezdet": 1935,
+  "ev_veg": 1935,
+  "ev_egyertelmu": true,
+  "tervezo": "Kozma Lajos (1884–1948)"
+ },
+ {
+  "nev": "Badacsonyi Hableány étterem / Park utca 26.",
+  "lat": 46.7898094,
+  "lon": 17.5062676,
+  "epult": "1964",
+  "ev_kezdet": 1964,
+  "ev_veg": 1964,
+  "ev_egyertelmu": true,
+  "tervezo": "Raáb Ferenc (1882–1946)"
+ },
+ {
+  "nev": "Badacsonyi Poharazó / Badacsonytomaj, Park u. 18.",
+  "lat": 46.7890897,
+  "lon": 17.5054246,
+  "epult": "1957",
+  "ev_kezdet": 1957,
+  "ev_veg": 1957,
+  "ev_egyertelmu": true,
+  "tervezo": "Callmeyer Ferenc (1928–2020)"
+ },
+ {
+  "nev": "Badacsony üdülőközpontjának üzletei",
+  "lat": 46.7878129,
+  "lon": 17.5065241,
+  "epult": "1960-as évek",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": false,
+  "tervezo": "Callmeyer Ferenc (1928-2020)"
+ },
+ {
+  "nev": "Badacsonytomaji Tátika Étterem /",
+  "lat": 46.7883475,
+  "lon": 17.5071102,
+  "epult": "1962",
+  "ev_kezdet": 1962,
+  "ev_veg": 1962,
+  "ev_egyertelmu": true,
+  "tervezo": "Callmeyer Ferenc (1928– )"
+ },
+ {
+  "nev": "Bajai Belvárosi Szent Péter és Szent Pál-templom / Szent Imre tér",
+  "lat": 46.179767,
+  "lon": 18.9514285,
+  "epult": "1742-1765, rekonstrukció 1883, 1898, 1987",
+  "ev_kezdet": 1742,
+  "ev_veg": 1765,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Bajai Takarékpénztár / Deák Ferenc utca 1.",
+  "lat": 46.177016,
+  "lon": 18.9515819,
+  "epult": "1745, átalakítás 1864",
+  "ev_kezdet": 1745,
+  "ev_veg": 1745,
+  "ev_egyertelmu": true,
+  "tervezo": "Frey Lajos (1829-1877), Gerster Károly (1819-1867)"
+ },
+ {
+  "nev": "Bajai Türr István híd",
+  "lat": 46.1930458,
+  "lon": 18.9269259,
+  "epult": "1906-1908, újjáépítés 1947-1952 és 1961-1966, átépítés 1989 és 1999",
+  "ev_kezdet": 1906,
+  "ev_veg": 1908,
+  "ev_egyertelmu": true,
+  "tervezo": "Szikszay Gerő (1918-2011); Korányi Imre (1896-1989) és Sávoy Pál (1893-1968)"
+ },
+ {
+  "nev": "Balatonakali kemping / Balaton utca 8.",
+  "lat": 46.881085,
+  "lon": 17.755177,
+  "epult": "1970-es évek vége",
+  "ev_kezdet": 1970,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Balatoni építészet",
+  "lat": 46.8309902,
+  "lon": 17.7054501,
+  "epult": "1920–1944",
+  "ev_kezdet": 1920,
+  "ev_veg": 1944,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Balatoni Regionális Terv",
+  "lat": 46.8302679,
+  "lon": 17.7340438,
+  "epult": "1957–1968",
+  "ev_kezdet": 1957,
+  "ev_veg": 1968,
+  "ev_egyertelmu": true,
+  "tervezo": "VÁTI"
+ },
+ {
+  "nev": "Balatonalmádi bazársor",
+  "lat": 47.027014,
+  "lon": 18.012904,
+  "epult": "1960-as évek eleje",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": false,
+  "tervezo": "Tiry György"
+ },
+ {
+  "nev": "Balatonalmádi Loyolai Szent Ignác-templom / Balatonalmádi, Vörösberény, Veszprémi út 81.",
+  "lat": 47.0444402,
+  "lon": 18.0098403,
+  "epult": "1779, restaurálás 1966-1976",
+  "ev_kezdet": 1779,
+  "ev_veg": 1779,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Balatonalmádi MÁVAUT autóbusz pályaudvar / Jókai Mór utca",
+  "lat": 47.030379,
+  "lon": 18.014693,
+  "epult": "1976",
+  "ev_kezdet": 1976,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "Nyiri Mária"
+ },
+ {
+  "nev": "Balatonalmádi Pannónia étterem / Városház tér 4.",
+  "lat": 47.0293298,
+  "lon": 18.0160838,
+  "epult": "1964",
+  "ev_kezdet": 1964,
+  "ev_veg": 1964,
+  "ev_egyertelmu": true,
+  "tervezo": "Raáb Ferenc (1882–1946)"
+ },
+ {
+  "nev": "Balatonalmádi Szent Imre templom / Dr. Óvári Ferenc u. 26.",
+  "lat": 47.0267318,
+  "lon": 18.0098783999999,
+  "epult": "1930–1931",
+  "ev_kezdet": 1930,
+  "ev_veg": 1931,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Balatonboglári autóskemping",
+  "lat": 46.779803,
+  "lon": 17.6460389,
+  "epult": "1960-as évek vége",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Balatonboglár, Kotsis Iván nyaralója / Kodály Zoltán u. 1.",
+  "lat": 46.782519,
+  "lon": 17.660429,
+  "epult": "1923",
+  "ev_kezdet": 1923,
+  "ev_veg": 1923,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Iván (1889–1980)"
+ },
+ {
+  "nev": "Balatonfenyvesi Szent Erzsébet templom / Kölcsey Ferenc u. 79.",
+  "lat": 46.7177689,
+  "lon": 17.499239,
+  "epult": "1975–1977",
+  "ev_kezdet": 1975,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "Török Ferenc (1936– )"
+ },
+ {
+  "nev": "Balatonföldvári keleti strand épületei / Somogyi Béla utca",
+  "lat": 46.8579461,
+  "lon": 17.8889823,
+  "epult": "1960-as évek eleje",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": false,
+  "tervezo": "Vass Antal (1917-1988), Kopári Dénes"
+ },
+ {
+  "nev": "Balatonfüredi Építők üdülő / Szabadság utca",
+  "lat": 46.9575336,
+  "lon": 17.8985745,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Balatonfüredi Halászkert étterem / Zákonyi Ferenc utca 3.",
+  "lat": 46.9525332,
+  "lon": 17.8891358,
+  "epult": "1964",
+  "ev_kezdet": 1964,
+  "ev_veg": 1964,
+  "ev_egyertelmu": true,
+  "tervezo": "Kovách István –, Makovecz Imre (1935-2011)"
+ },
+ {
+  "nev": "Balatonfüredi kemping / Széchenyi István utca 24.",
+  "lat": 46.9461294,
+  "lon": 17.8765228,
+  "epult": "1960-as évek",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Balatonfüredi Vasas sportház / Zákonyi Ferenc utca 1.",
+  "lat": 46.953557,
+  "lon": 17.892936,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Balatonszepezdi Szent István király-templom",
+  "lat": 46.8521546,
+  "lon": 17.6641763,
+  "epult": "13. század, átalakítás: 1888",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Siófok-Balatonszéplak MÚOSZ-üdülő / Deák Ferenc sétány",
+  "lat": 46.9035949,
+  "lon": 18.0260559,
+  "epult": "1964-1965",
+  "ev_kezdet": 1964,
+  "ev_veg": 1965,
+  "ev_egyertelmu": true,
+  "tervezo": "Márton István"
+ },
+ {
+  "nev": "Balatonszőlősi református templom / Fő utca 49.",
+  "lat": 46.9654474,
+  "lon": 17.8241324,
+  "epult": "1330-1340, átalakítás: 1796, 1943, renoválás: 1978-1982",
+  "ev_kezdet": 1330,
+  "ev_veg": 1340,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Barnagi Szent Márton püspök-templom / Fő utca 90.",
+  "lat": 46.9800427,
+  "lon": 17.7495966,
+  "epult": "1844",
+  "ev_kezdet": 1844,
+  "ev_veg": 1844,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Bartók Béla út 40. / Budapest",
+  "lat": 47.478959,
+  "lon": 19.0506464,
+  "epult": "1898–1899",
+  "ev_kezdet": 1898,
+  "ev_veg": 1899,
+  "ev_egyertelmu": true,
+  "tervezo": "dr. Kismarty-Lechner Jenő (1878–1962)"
+ },
+ {
+  "nev": "Bartók Béla út 50. / Budapest",
+  "lat": 47.4782854,
+  "lon": 19.0492282,
+  "epult": "1911–1914",
+  "ev_kezdet": 1911,
+  "ev_veg": 1914,
+  "ev_egyertelmu": true,
+  "tervezo": "Málnai Béla (1878–1941) és Haász Gyula (1877–1951)"
+ },
+ {
+  "nev": "Bárány-kúria / Balatonboglár",
+  "lat": 46.7758104,
+  "lon": 17.6565586,
+  "epult": "1957",
+  "ev_kezdet": 1957,
+  "ev_veg": 1957,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Belvárosi Tűzőrség / Budapest, Gerlóczy u. 4.",
+  "lat": 47.496128,
+  "lon": 19.0569791,
+  "epult": "1926",
+  "ev_kezdet": 1926,
+  "ev_veg": 1926,
+  "ev_egyertelmu": true,
+  "tervezo": "Bierbauer (Borbíró) Virgil (1893–1956), Reichl Kálmán (1879–1926)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 291450290,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Belvárosi Szent Anna-plébániatemplom / Budapest, Szervita tér 6.",
+  "lat": 47.4952979,
+  "lon": 19.0536819,
+  "epult": "1717–1732, újjáépítés 1871–1874",
+  "ev_kezdet": 1717,
+  "ev_veg": 1732,
+  "ev_egyertelmu": true,
+  "tervezo": "Höbling János (1660–1736), Pauer János György (1692–1752), Diescher József (1811–1874)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 25042160,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Belvárosi Távbeszélő Központ / Budapest, Szervita tér 6.",
+  "lat": 47.4949917,
+  "lon": 19.0537144,
+  "epult": "1975–1976",
+  "ev_kezdet": 1975,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "Jeney Lajos (1933–2014), Bán Ferenc (1940–)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 25042465,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Bethlen Téri Színház / Budapest, Bethlen Gábor tér 3.",
+  "lat": 47.5041049,
+  "lon": 19.0792809,
+  "epult": "1929",
+  "ev_kezdet": 1929,
+  "ev_veg": 1929,
+  "ev_egyertelmu": true,
+  "tervezo": "Reiner Dezső"
+ },
+ {
+  "nev": "Békési Durkó utcai lakóház 1957-ben",
+  "lat": 46.767936,
+  "lon": 21.130028,
+  "epult": "1866",
+  "ev_kezdet": 1866,
+  "ev_veg": 1866,
+  "ev_egyertelmu": true,
+  "tervezo": "Csapó Gábor"
+ },
+ {
+  "nev": "Békéscsabai Jókai Színház / Andrássy út 1-3.",
+  "lat": 46.6799719,
+  "lon": 21.0975824,
+  "epult": "1879, átépítés 1912-1913, felújítás 1994",
+  "ev_kezdet": 1879,
+  "ev_veg": 1879,
+  "ev_egyertelmu": true,
+  "tervezo": "Halmay Andor; Spiegel Frigyes, Englerth Károly"
+ },
+ {
+  "nev": "Békéscsabai Páduai Szent Antal-templom / Széchenyi utca 3.",
+  "lat": 46.6814174,
+  "lon": 21.098187,
+  "epult": "1910",
+  "ev_kezdet": 1910,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "Hofhauser Antal (1857-1923)"
+ },
+ {
+  "nev": "Békési Gyógyfürdő / Békés, Kőrösi Csoma Sándor u. 6-14.",
+  "lat": 46.767512,
+  "lon": 21.1403719,
+  "epult": "1939",
+  "ev_kezdet": 1939,
+  "ev_veg": 1939,
+  "ev_egyertelmu": true,
+  "tervezo": "Govrik László (1893–1953)"
+ },
+ {
+  "nev": "Bimbó út 6. / Budapest",
+  "lat": 47.512643,
+  "lon": 19.029755,
+  "epult": "1940",
+  "ev_kezdet": 1940,
+  "ev_veg": 1940,
+  "ev_egyertelmu": true,
+  "tervezo": "Málnai Béla (1878–1941)"
+ },
+ {
+  "nev": "BME Goldmann menza / Budapest, Goldmann György tér 1.",
+  "lat": 47.4774703,
+  "lon": 19.0592556,
+  "epult": "1977–1983",
+  "ev_kezdet": 1977,
+  "ev_veg": 1983,
+  "ev_egyertelmu": true,
+  "tervezo": "Jurcsik Károly (1928–2009)"
+ },
+ {
+  "nev": "Bonyhádi lakóház / Bajcsy-Zsilinszky utca 18.",
+  "lat": 46.2995485,
+  "lon": 18.5263686,
+  "epult": "1870 körül",
+  "ev_kezdet": 1870,
+  "ev_veg": 1870,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Borsody-ház / Budapest, Arany János u. 16.",
+  "lat": 47.5021739,
+  "lon": 19.0496819,
+  "epult": "1845–46",
+  "ev_kezdet": 1845,
+  "ev_veg": 1846,
+  "ev_egyertelmu": true,
+  "tervezo": "Gerster Károly (1819–1867), ifj. Zitterbarth Mátyás (1803–1867)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3251834,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Broadway mozi / Belvárosi Színház/ Budapest, Károly körút 3/A",
+  "lat": 47.4955589,
+  "lon": 19.059576,
+  "epult": "1939",
+  "ev_kezdet": 1939,
+  "ev_veg": 1939,
+  "ev_egyertelmu": true,
+  "tervezo": "Domány Ferenc (1899–1939), Wellisch Tibor",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 2908382,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Budafoki evangélikus templom / Budapest, Játék u. 16.",
+  "lat": 47.4286101,
+  "lon": 19.039615,
+  "epult": "1935",
+  "ev_kezdet": 1935,
+  "ev_veg": 1935,
+  "ev_egyertelmu": true,
+  "tervezo": "Sándy Gyula (1868–1953)"
+ },
+ {
+  "nev": "Budafoki kísérleti lakótelep csúszószsalus házai / Magasház utca",
+  "lat": 47.4140216,
+  "lon": 19.0321961,
+  "epult": "1966–1975",
+  "ev_kezdet": 1966,
+  "ev_veg": 1975,
+  "ev_egyertelmu": true,
+  "tervezo": "Tenke Tibor (1924 – 1984), Jäger László, Thoma József (1922 – 2008)"
+ },
+ {
+  "nev": "Budai Ciszterci Szent Imre Gimnázium / Budapest, Villányi út 27.",
+  "lat": 47.4788697,
+  "lon": 19.0411905999999,
+  "epult": "1927–1929",
+  "ev_kezdet": 1927,
+  "ev_veg": 1929,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)"
+ },
+ {
+  "nev": "Budai Váralagút 1908 / Budapest, Alagút",
+  "lat": 47.4972867,
+  "lon": 19.0350476,
+  "epult": "1853–1856",
+  "ev_kezdet": 1853,
+  "ev_veg": 1856,
+  "ev_egyertelmu": true,
+  "tervezo": "Clark Ádám (1811–1866)"
+ },
+ {
+  "nev": "Budai Váralagút / Budapest",
+  "lat": 47.498186,
+  "lon": 19.0396800999999,
+  "epult": "1853–1858",
+  "ev_kezdet": 1853,
+  "ev_veg": 1858,
+  "ev_egyertelmu": true,
+  "tervezo": "William Tierney Clark (1783–1852) és Clark Ádám (1811–1866)",
+  "illesztes": null
+ },
+ {
+  "nev": "Budai Vigadó / Budapest, Corvin tér 8.",
+  "lat": 47.502984,
+  "lon": 19.0382,
+  "epult": "1898–1900",
+  "ev_kezdet": 1898,
+  "ev_veg": 1900,
+  "ev_egyertelmu": true,
+  "tervezo": "Kallina Mór (1844–1913) és Árkay Aladár (1868–1932)",
+  "illesztes": null
+ },
+ {
+  "nev": "Budaörsi Repülőtér / Budapest, Kőérberki u. 36.",
+  "lat": 47.4507221,
+  "lon": 18.9795645,
+  "epult": "1935–1937",
+  "ev_kezdet": 1935,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "Bierbauer (Borbíró) Virgil (1893–1956), Králik László (1897–[?])"
+ },
+ {
+  "nev": "Budapesti Corvinus Egyetem / Fővámpalota / Budapest, Fővám tér 8.",
+  "lat": 47.4862843,
+  "lon": 19.0582909,
+  "epult": "1870–74",
+  "ev_kezdet": 1870,
+  "ev_veg": 1874,
+  "ev_egyertelmu": true,
+  "tervezo": "Ybl Miklós (1814–1891)"
+ },
+ {
+  "nev": "Budapesti Forgalomirányító Központ / Szabó Ervin tér 2.",
+  "lat": 47.4889349,
+  "lon": 19.064085,
+  "epult": "1973-1977",
+  "ev_kezdet": 1973,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Budapesti Harisnyagyár / Budapest, Bogdáni út 1-3.",
+  "lat": 47.5498234,
+  "lon": 19.0451021,
+  "epult": "1923",
+  "ev_kezdet": 1923,
+  "ev_veg": 1923,
+  "ev_egyertelmu": true,
+  "tervezo": "n.a."
+ },
+ {
+  "nev": "Budavári Sikló / Budapest, Clark Ádám tér",
+  "lat": 47.4983167,
+  "lon": 19.0401732,
+  "epult": "1870",
+  "ev_kezdet": 1870,
+  "ev_veg": 1870,
+  "ev_egyertelmu": true,
+  "tervezo": "Juraszek Ödön, Wohlfahrt Henrik",
+  "illesztes": null
+ },
+ {
+  "nev": "Bukarest utcai autóbusz-pályaudvar ˛/ Budapest",
+  "lat": 47.4741015,
+  "lon": 19.0399466,
+  "epult": "1963",
+  "ev_kezdet": 1963,
+  "ev_veg": 1963,
+  "ev_egyertelmu": true,
+  "tervezo": "Félix Vilmos"
+ },
+ {
+  "nev": "Büki Gyógyfürdő/ Termál krt. 2.",
+  "lat": 47.3815887,
+  "lon": 16.7905945,
+  "epult": "1962",
+  "ev_kezdet": 1962,
+  "ev_veg": 1962,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Citadella Szálló / Budapest Citadella stny.",
+  "lat": 47.4869897,
+  "lon": 19.046548,
+  "epult": "1961",
+  "ev_kezdet": 1961,
+  "ev_veg": 1961,
+  "ev_egyertelmu": true,
+  "tervezo": "nincs információ"
+ },
+ {
+  "nev": "Csáky-Cziráky-palota / Budapest, Petőfi Sándor utca 1.",
+  "lat": 47.493422,
+  "lon": 19.055522,
+  "epult": "1895-1896",
+  "ev_kezdet": 1895,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "Fort Sándor, Föerk Ernő (1868-1934)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3020282,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Császár–Komjádi uszoda / Budapest, Árpád Fejedelem útja 8.",
+  "lat": 47.519642,
+  "lon": 19.0377060000001,
+  "epult": "1976",
+  "ev_kezdet": 1976,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "ALUTERV"
+ },
+ {
+  "nev": "Csepeli Posta / Budapest, Szent Imre tér 21.",
+  "lat": 47.432441,
+  "lon": 19.0690416,
+  "epult": "1949-1951",
+  "ev_kezdet": 1949,
+  "ev_veg": 1951,
+  "ev_egyertelmu": true,
+  "tervezo": "Nyiri István (1902-1955), Félix Vilmos"
+ },
+ {
+  "nev": "Csepeli Víztorony / Budapest, Kossuth Lajos u.",
+  "lat": 47.4214198,
+  "lon": 19.0673068,
+  "epult": "1980–84",
+  "ev_kezdet": 1980,
+  "ev_veg": 1984,
+  "ev_egyertelmu": true,
+  "tervezo": "nincs információ"
+ },
+ {
+  "nev": "Csillagvár / Balatonszentgyörgy",
+  "lat": 46.6761248,
+  "lon": 17.3090629,
+  "epult": "1819–1823",
+  "ev_kezdet": 1819,
+  "ev_veg": 1823,
+  "ev_egyertelmu": true,
+  "tervezo": "Kehr Vilmos és Polák Gottfried"
+ },
+ {
+  "nev": "Csokonai utcai víztorony / Budapest",
+  "lat": 47.496285,
+  "lon": 19.0723055,
+  "epult": "1895",
+  "ev_kezdet": 1895,
+  "ev_veg": 1895,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Csopaki strand / Örkény István sétány",
+  "lat": 46.9693931,
+  "lon": 17.9352805,
+  "epult": "1955, bővítés: 1965-1967; korszerűsítés: 1972-1973",
+  "ev_kezdet": 1955,
+  "ev_veg": 1955,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Dandár Fürdő / Budapest, Dandár u. 3.",
+  "lat": 47.47641,
+  "lon": 19.0709429999999,
+  "epult": "1929–1930",
+  "ev_kezdet": 1929,
+  "ev_veg": 1930,
+  "ev_egyertelmu": true,
+  "tervezo": "bizonytalan, egyes források szerint K. Császár Ferenc, máshol azonban Maróthy Kálmán (1886–1945) neve szerepel"
+ },
+ {
+  "nev": "Dayka-villa / Budapest, Benczúr utca 26.",
+  "lat": 47.5109564,
+  "lon": 19.07466,
+  "epult": "1913",
+  "ev_kezdet": 1913,
+  "ev_veg": 1913,
+  "ev_egyertelmu": true,
+  "tervezo": "Kőrössy Albert Kálmán (1869–1955)"
+ },
+ {
+  "nev": "Deák Téri Evangélikus Gimnázium / Budapest, Sütő u. 1.",
+  "lat": 47.496544,
+  "lon": 19.0541020000001,
+  "epult": "1863–64",
+  "ev_kezdet": 1863,
+  "ev_veg": 1864,
+  "ev_egyertelmu": true,
+  "tervezo": "Gerster Károly (1819–1867), Frey Lajos (1829–1877)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24322704,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Deák téri evangélikus templom / Budapest, Deák Ferenc tér 4.",
+  "lat": 47.496975,
+  "lon": 19.054367,
+  "epult": "1799–1808",
+  "ev_kezdet": 1799,
+  "ev_veg": 1808,
+  "ev_egyertelmu": true,
+  "tervezo": "Pollack Mihály (1773–1855)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24322702,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Debreceni Merkur-telep / Monostorpályi út - Rigó utca",
+  "lat": 47.5079164,
+  "lon": 21.646646,
+  "epult": "1977",
+  "ev_kezdet": 1977,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Debreceni Vasas üdülő / Palalgi út 5.",
+  "lat": 47.550524,
+  "lon": 21.630869,
+  "epult": "1966-68",
+  "ev_kezdet": 1966,
+  "ev_veg": 1968,
+  "ev_egyertelmu": true,
+  "tervezo": "Schmidt Tibor, Fésűs János"
+ },
+ {
+  "nev": "Déli pályaudvar / Krisztina körút 37.",
+  "lat": 47.5010701,
+  "lon": 19.0247586,
+  "epult": "1861, 1962, 1975",
+  "ev_kezdet": 1861,
+  "ev_veg": 1975,
+  "ev_egyertelmu": false,
+  "tervezo": "Karl von Etzel (1812–1865), Kővári György (1934–1982)"
+ },
+ {
+  "nev": "Derra-ház / Budapest, József Attila utca 16.",
+  "lat": 47.4991847,
+  "lon": 19.0516812999999,
+  "epult": "1839",
+  "ev_kezdet": 1839,
+  "ev_veg": 1839,
+  "ev_egyertelmu": true,
+  "tervezo": "Hild József (1789–1867)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3217051,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Diósgyőri lakótelep / Miskolc",
+  "lat": 48.1032889,
+  "lon": 20.686905,
+  "epult": "1973",
+  "ev_kezdet": 1973,
+  "ev_veg": 1973,
+  "ev_egyertelmu": true,
+  "tervezo": "Fekete Miklós, Dávidházy Péter"
+ },
+ {
+  "nev": "Dob utcai trafóház / Dob utca 10.",
+  "lat": 47.4972012,
+  "lon": 19.0597279,
+  "epult": "1965–1969",
+  "ev_kezdet": 1965,
+  "ev_veg": 1969,
+  "ev_egyertelmu": true,
+  "tervezo": "Léstyán Ernő (1925–1994)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 259555831,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Dohány utcai Zsinagóga / Budapest, Dohány utca 2.",
+  "lat": 47.495914,
+  "lon": 19.060061,
+  "epult": "1859",
+  "ev_kezdet": 1859,
+  "ev_veg": 1859,
+  "ev_egyertelmu": true,
+  "tervezo": "Ludwig Förster (1797–1863)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 385832061,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Domonkos rendi apácakolostor / Budapest, Margitsziget",
+  "lat": 47.528884,
+  "lon": 19.051061,
+  "epult": "13. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "nincs információ"
+ },
+ {
+  "nev": "Domus áruház / Róbert Károly körút 67.",
+  "lat": 47.525683,
+  "lon": 19.0770519,
+  "epult": "1974",
+  "ev_kezdet": 1974,
+  "ev_veg": 1974,
+  "ev_egyertelmu": true,
+  "tervezo": "Lázár Antal (1941–) és Reimholz Péter (1942–2009)"
+ },
+ {
+  "nev": "Dréher-palota / Budapest, Kossuth Lajos u. 6.",
+  "lat": 47.4936964,
+  "lon": 19.057051,
+  "epult": "1889",
+  "ev_kezdet": 1889,
+  "ev_veg": 1889,
+  "ev_egyertelmu": true,
+  "tervezo": "Hubert József (1846–1916), Móry Károly (1845–1921)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 229442142,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Dugattyús-ház / Budapest, Margit körút 15–17.",
+  "lat": 47.5135668,
+  "lon": 19.0349776,
+  "epult": "1937–38",
+  "ev_kezdet": 1937,
+  "ev_veg": 1938,
+  "ev_egyertelmu": true,
+  "tervezo": "Domány Ferenc (1899–1939), Hofstätter Béla (1891–1944)"
+ },
+ {
+  "nev": "Edelényi görögkatolikus templom/ Újtemplom út 2.",
+  "lat": 48.296022,
+  "lon": 20.738161,
+  "epult": "1975–1977",
+  "ev_kezdet": 1975,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "Török Ferenc (1936– )"
+ },
+ {
+  "nev": "Eger",
+  "lat": 47.9025348,
+  "lon": 20.3772284,
+  "epult": "1926–1932",
+  "ev_kezdet": 1926,
+  "ev_veg": 1932,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)"
+ },
+ {
+  "nev": "Egri Bazilika / Pyrker János tér 1.",
+  "lat": 47.8993289,
+  "lon": 20.3732305999999,
+  "epult": "1831–1836",
+  "ev_kezdet": 1831,
+  "ev_veg": 1836,
+  "ev_egyertelmu": true,
+  "tervezo": "Hild József (1789–1867)"
+ },
+ {
+  "nev": "Egri MÁVAUT autóbusz-állomás",
+  "lat": 47.900301,
+  "lon": 20.370969,
+  "epult": "1967",
+  "ev_kezdet": 1967,
+  "ev_veg": 1967,
+  "ev_egyertelmu": true,
+  "tervezo": "Dianóczki János (1928-1991)"
+ },
+ {
+  "nev": "Egri Szervita templom",
+  "lat": 47.9064777,
+  "lon": 20.3772413,
+  "epult": "18. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Egyesült Budapesti Fővárosi Takarékpénztár / Budapest, Dorottya–Wekerle Sándor–Apáczai Csere János utca",
+  "lat": 47.496995,
+  "lon": 19.04943,
+  "epult": "1872–1873",
+  "ev_kezdet": 1872,
+  "ev_veg": 1873,
+  "ev_egyertelmu": true,
+  "tervezo": "Wéber Antal (1823–1889)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 1285215308,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Egyetemi Könyvtár / Budapest, Ferenciek tere 6.",
+  "lat": 47.492433,
+  "lon": 19.0568218999999,
+  "epult": "1876",
+  "ev_kezdet": 1876,
+  "ev_veg": 1876,
+  "ev_egyertelmu": true,
+  "tervezo": "Szkalnitzky Antal (1836–1878) és ifj. Koch Henrik (1837–1889)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24324326,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "ELTE / Budapest, Múzeum körút 6–8.",
+  "lat": 47.4927511,
+  "lon": 19.0611249999999,
+  "epult": "1880–1882",
+  "ev_kezdet": 1880,
+  "ev_veg": 1882,
+  "ev_egyertelmu": true,
+  "tervezo": "Steindl Imre (1839–1902)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 1961750,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "ELTE Füvészkert Pálmaháza/ Budapest, Illés utca 25.",
+  "lat": 47.4838117,
+  "lon": 19.0855424,
+  "epult": "1856–1863",
+  "ev_kezdet": 1856,
+  "ev_veg": 1863,
+  "ev_egyertelmu": true,
+  "tervezo": "Diescher József (1811–1874)"
+ },
+ {
+  "nev": "Elek utca 10. / Budapest",
+  "lat": 47.48082,
+  "lon": 19.0322609,
+  "epult": "1910",
+  "ev_kezdet": 1910,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Eötvös utca 29. / Budapest",
+  "lat": 47.507753,
+  "lon": 19.0623101,
+  "epult": "1911",
+  "ev_kezdet": 1911,
+  "ev_veg": 1911,
+  "ev_egyertelmu": true,
+  "tervezo": "Málnai Béla (1878–1941) és Haász Gyula (1877–1951)",
+  "illesztes": null
+ },
+ {
+  "nev": "Erdődy-villa / Budapest, Andrássy út 104.",
+  "lat": 47.511562,
+  "lon": 19.072298,
+  "epult": "1877–1878",
+  "ev_kezdet": 1877,
+  "ev_veg": 1878,
+  "ev_egyertelmu": true,
+  "tervezo": "Wéber Antal (1823–1889)"
+ },
+ {
+  "nev": "Erzsébet híd / Budapest",
+  "lat": 47.4908824,
+  "lon": 19.0491978,
+  "epult": "1898–1903 és 1960–1965",
+  "ev_kezdet": 1898,
+  "ev_veg": 1903,
+  "ev_egyertelmu": true,
+  "tervezo": "eredeti híd Nagy Virgil (1859–1921), Czekelius Aurél (1844–1927), Beke József (1867-1940), Gálik István és Gottlieb Ferenc (1859-1919), az új hidat Sávoly Pál (1893–1968) készítette",
+  "illesztes": null
+ },
+ {
+  "nev": "Erzsébet-kilátó / Budapest",
+  "lat": 47.518283,
+  "lon": 18.9590177,
+  "epult": "1908–1910",
+  "ev_kezdet": 1908,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Erzsébet körút 22. / Budapest",
+  "lat": 47.4996269,
+  "lon": 19.0689949,
+  "epult": "1960",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": true,
+  "tervezo": "Jeney Lajos (1933–2014)"
+ },
+ {
+  "nev": "Esztergomi Bazilika / Szent István tér 1.",
+  "lat": 47.7990667,
+  "lon": 18.7365247,
+  "epult": "1822–1869",
+  "ev_kezdet": 1822,
+  "ev_veg": 1869,
+  "ev_egyertelmu": true,
+  "tervezo": "Kühnel Pál (1765–1824) és Hild József (1814–1867)"
+ },
+ {
+  "nev": "Érd alsó vasútállomás épülete",
+  "lat": 47.3796593,
+  "lon": 18.9235715,
+  "epult": "1976",
+  "ev_kezdet": 1976,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "Sipos Dénes"
+ },
+ {
+  "nev": "Fasori evangélikus templom / Budapest, Városligeti fasor 17.",
+  "lat": 47.5086959,
+  "lon": 19.0761064000001,
+  "epult": "1905",
+  "ev_kezdet": 1905,
+  "ev_veg": 1905,
+  "ev_egyertelmu": true,
+  "tervezo": "Pecz Samu (1854–1922)"
+ },
+ {
+  "nev": "Fasori református templom/ Budapest, Városligeti fasor 5.",
+  "lat": 47.507666,
+  "lon": 19.0735044,
+  "epult": "1911–1913",
+  "ev_kezdet": 1911,
+  "ev_veg": 1913,
+  "ev_egyertelmu": true,
+  "tervezo": "Árkay Aladár (1868–1932)"
+ },
+ {
+  "nev": "Fehérgyarmati buszpályaudvar / Móricz Zsigmond utca",
+  "lat": 47.989875,
+  "lon": 22.51575,
+  "epult": "1970-es évek",
+  "ev_kezdet": 1970,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "UVATERV"
+ },
+ {
+  "nev": "Fehérvári út 135–137. / Budapest",
+  "lat": 47.458513,
+  "lon": 19.0403309000001,
+  "epult": "1938–1939",
+  "ev_kezdet": 1938,
+  "ev_veg": 1939,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Iván (1889–1980)"
+ },
+ {
+  "nev": "Fehérvári úti vásárcsarnok / Budapest, Kőrösy József u. 7–9.",
+  "lat": 47.4744666,
+  "lon": 19.0475358,
+  "epult": "1977",
+  "ev_kezdet": 1977,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "Halmos György"
+ },
+ {
+  "nev": "Ferences templom és autóbusz-végállomás / Budapest, Pasaréti tér",
+  "lat": 47.523876,
+  "lon": 18.9930896,
+  "epult": "1934–1937",
+  "ev_kezdet": 1934,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "id. Rimanóczy Gyula (1903–1958)"
+ },
+ {
+  "nev": "Ferihegy 1-es Terminál",
+  "lat": 47.4398255,
+  "lon": 19.223953,
+  "epult": null,
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": null
+ },
+ {
+  "nev": "Fertődi Esterházy-kastély / Joseph Haydn utca 2.",
+  "lat": 47.6204767,
+  "lon": 16.8718409000001,
+  "epult": "az 1760-as években",
+  "ev_kezdet": 1760,
+  "ev_veg": 1760,
+  "ev_egyertelmu": false,
+  "tervezo": "Hefele Menyhért (1716–1794), Jacoby Miklós"
+ },
+ {
+  "nev": "Festetics-major és kiskastély / Fenékpuszta",
+  "lat": 46.7103024,
+  "lon": 17.2434045,
+  "epult": "1820",
+  "ev_kezdet": 1820,
+  "ev_veg": 1820,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Festetics-pince / Vonyarcvashegy",
+  "lat": 46.7676447,
+  "lon": 17.3081437,
+  "epult": "1820",
+  "ev_kezdet": 1820,
+  "ev_veg": 1820,
+  "ev_egyertelmu": true,
+  "tervezo": "Kehrn Vilmos"
+ },
+ {
+  "nev": "Főposta / Budapest, Városház u. 18.",
+  "lat": 47.4949477,
+  "lon": 19.0544583,
+  "epult": "1873",
+  "ev_kezdet": 1873,
+  "ev_veg": 1873,
+  "ev_egyertelmu": true,
+  "tervezo": "Szkalnitzky Antal (1836–1878) és ifj. Koch Henrik (1837–1889)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 18135,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Fővárosi Állat- és Növénykert / Budapest, Állatkerti krt. 6.",
+  "lat": 47.5178249,
+  "lon": 19.0777795,
+  "epult": "1909–1912",
+  "ev_kezdet": 1909,
+  "ev_veg": 1912,
+  "ev_egyertelmu": true,
+  "tervezo": "Kós Károly (1883–1977), Zrumeczky Dezső (1883–1917), Szkalnitzky Antal (1836–1878), ifj. Koch Henrik, Lohr Antal, Hauszmann Alajos (1847–1926), Neuschloss Kornél (1864–1935)"
+ },
+ {
+  "nev": "Fővárosi Állat- és Növénykert – Pálmaház / Budapest, Állatkerti krt. 6–12.",
+  "lat": 47.5189977,
+  "lon": 19.0776433,
+  "epult": "1909–1912",
+  "ev_kezdet": 1909,
+  "ev_veg": 1912,
+  "ev_egyertelmu": true,
+  "tervezo": "Végh Gyula"
+ },
+ {
+  "nev": "Fővárosi Szabó Ervin Könyvtár / Budapest, Szabó Ervin tér 1.",
+  "lat": 47.4894162,
+  "lon": 19.0645139000001,
+  "epult": "1887–1889",
+  "ev_kezdet": 1887,
+  "ev_veg": 1889,
+  "ev_egyertelmu": true,
+  "tervezo": "Meinig Artúr (1853–1904)"
+ },
+ {
+  "nev": "Ganz utca 11/a. / Budapest",
+  "lat": 47.511169,
+  "lon": 19.036752,
+  "epult": "1936",
+  "ev_kezdet": 1936,
+  "ev_veg": 1936,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Iván (1889–1980)"
+ },
+ {
+  "nev": "Gellért Fürdő / Budapest, Kelenhegyi út 4.",
+  "lat": 47.4837444,
+  "lon": 19.0516211,
+  "epult": "1918",
+  "ev_kezdet": 1918,
+  "ev_veg": 1918,
+  "ev_egyertelmu": true,
+  "tervezo": "Hegedűs Ármin (1869–1945), Sterk Izidor (1860–1935) és Sebestyén Artúr (1868–-1943)"
+ },
+ {
+  "nev": "Gelléri Andor Endre úti gimnázium / Budapest, Regele János u. 43–45.",
+  "lat": 47.521954,
+  "lon": 19.1619310999999,
+  "epult": "1958–1959",
+  "ev_kezdet": 1958,
+  "ev_veg": 1959,
+  "ev_egyertelmu": true,
+  "tervezo": "Jeney Lajos (1933–2014)"
+ },
+ {
+  "nev": "Georgia-ház / Budapest, Rákóczi út 4.",
+  "lat": 47.494663,
+  "lon": 19.0606451,
+  "epult": "1935",
+  "ev_kezdet": 1935,
+  "ev_veg": 1935,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 219936433,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Gerbeaud-cukrászda / Budapest, Vörösmarty tér 7–8.",
+  "lat": 47.4971905,
+  "lon": 19.0506047,
+  "epult": "1858–1862",
+  "ev_kezdet": 1858,
+  "ev_veg": 1862,
+  "ev_egyertelmu": true,
+  "tervezo": "Hild József (1789–1867)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 11897,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Girardi-ház / Budapest, Ferenciek tere 11.",
+  "lat": 47.493135,
+  "lon": 19.054274,
+  "epult": "1914-1917",
+  "ev_kezdet": 1914,
+  "ev_veg": 1917,
+  "ev_egyertelmu": true,
+  "tervezo": "Alpár Ignác (1855-1928)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 227332945,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Gödöllői Királyi Kastélypark",
+  "lat": 47.5960091,
+  "lon": 19.347578,
+  "epult": "az 1750-es évek",
+  "ev_kezdet": 1750,
+  "ev_veg": 1750,
+  "ev_egyertelmu": true,
+  "tervezo": "Mayerhoffer András (kastély)(1690–1771)"
+ },
+ {
+  "nev": "Gödöllői műteremházak / Körösfői Kriesch Aladár u. 34.",
+  "lat": 47.598163,
+  "lon": 19.3396725,
+  "epult": "1904–1906",
+  "ev_kezdet": 1904,
+  "ev_veg": 1906,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Gross-ház / Budapest, József nádor tér 1.",
+  "lat": 47.4984827,
+  "lon": 19.0496005,
+  "epult": "1824–1825",
+  "ev_kezdet": 1824,
+  "ev_veg": 1825,
+  "ev_egyertelmu": true,
+  "tervezo": "Hild József (1789–1867)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 936957,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Gyomai Kner-villa / Kossuth Lajos út 16.",
+  "lat": 46.936165,
+  "lon": 20.830272,
+  "epult": "1925",
+  "ev_kezdet": 1925,
+  "ev_veg": 1925,
+  "ev_egyertelmu": true,
+  "tervezo": "Kozma Lajos (1884–1948)"
+ },
+ {
+  "nev": "Gyöngyösi Orczy-kastély (Mátra Múzeum) / Kossuth Lajos utca 40.",
+  "lat": 47.7848002,
+  "lon": 19.9313261,
+  "epult": "1769–1770, klasszicista átalakítás: 1826, felújítás: 2005",
+  "ev_kezdet": 1769,
+  "ev_veg": 1770,
+  "ev_egyertelmu": true,
+  "tervezo": "n.a., klasszicista átalakítás: Zofahl Lőrinc (1791-1863), felújítás: Grafit 37 Építész Iroda Kft."
+ },
+ {
+  "nev": "Győri Baross Gábor Szakkollégium / Bem tér 20.",
+  "lat": 47.678481,
+  "lon": 17.635554,
+  "epult": "1962–1964",
+  "ev_kezdet": 1962,
+  "ev_veg": 1964,
+  "ev_egyertelmu": true,
+  "tervezo": "Hegedűs Ernő (1921–1990)"
+ },
+ {
+  "nev": "Győri Gyárvárosi római katolikus templom / Szondi u. 2.",
+  "lat": 47.692518,
+  "lon": 17.6566290000001,
+  "epult": "1928",
+  "ev_kezdet": 1928,
+  "ev_veg": 1928,
+  "ev_egyertelmu": true,
+  "tervezo": "Árkay Aladár (1868–1932)"
+ },
+ {
+  "nev": "Győri Nemzeti Színház / Czuczor Gergely u. 7.",
+  "lat": 47.6865463,
+  "lon": 17.6354403,
+  "epult": "1973–1978",
+  "ev_kezdet": 1973,
+  "ev_veg": 1978,
+  "ev_egyertelmu": true,
+  "tervezo": "Vincze Kálmán és Harmati János (Győri Tervező Vállalat)"
+ },
+ {
+  "nev": "Győri sátras uszoda / Töltésszer 2.",
+  "lat": 47.6903838,
+  "lon": 17.6252968,
+  "epult": "1977",
+  "ev_kezdet": 1977,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "Majoros Gábor"
+ },
+ {
+  "nev": "Győri Széchenyi híd",
+  "lat": 47.6934153,
+  "lon": 17.6402652,
+  "epult": "1979, átépítés 2008-2009",
+  "ev_kezdet": 1979,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Gyulakeszi Esterházy-kúria / Petőfi utca",
+  "lat": 46.8668347,
+  "lon": 17.4799571,
+  "epult": "18. század, átépítés: 19. század első fele",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Gyulai Várfürdő / Várkert u. 2.",
+  "lat": 46.6450986,
+  "lon": 21.2866744,
+  "epult": "1959",
+  "ev_kezdet": 1959,
+  "ev_veg": 1959,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Halászbástya / Budapest, Szentháromság tér",
+  "lat": 47.5021827,
+  "lon": 19.0347813,
+  "epult": "1899-1902",
+  "ev_kezdet": 1899,
+  "ev_veg": 1902,
+  "ev_egyertelmu": true,
+  "tervezo": "Schulek Frigyes (1841-1919)"
+ },
+ {
+  "nev": "Harkányi-bérház / Budapest, Váci utca 12.",
+  "lat": 47.494853,
+  "lon": 19.052138,
+  "epult": "1910–1912",
+  "ev_kezdet": 1910,
+  "ev_veg": 1912,
+  "ev_egyertelmu": true,
+  "tervezo": "Alpár Ignác (1855–1928)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 227214769,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Hegedűs-villa / Budapest, Orom utca 4.",
+  "lat": 47.4891663,
+  "lon": 19.0431366,
+  "epult": "1912-1914",
+  "ev_kezdet": 1912,
+  "ev_veg": 1914,
+  "ev_egyertelmu": true,
+  "tervezo": "K. Császár Ferenc"
+ },
+ {
+  "nev": "Hegyesdi harangház / Petőfi utca",
+  "lat": 46.915739,
+  "lon": 17.521494,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Hegyesdi kőhíd",
+  "lat": 46.91426,
+  "lon": 17.5242077,
+  "epult": "1800 körül",
+  "ev_kezdet": 1800,
+  "ev_veg": 1800,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Hegyeshalmi határátkelő IBUSZ várócsarnoka",
+  "lat": 47.9220041,
+  "lon": 17.1149551,
+  "epult": "1982",
+  "ev_kezdet": 1982,
+  "ev_veg": 1982,
+  "ev_egyertelmu": true,
+  "tervezo": "Horváth László (1939 - ), Hornicsek László (1923-2014)"
+ },
+ {
+  "nev": "Hild-villa / Budapest, Budakeszi út 38–40.",
+  "lat": 47.51936,
+  "lon": 18.9779149999999,
+  "epult": "1844",
+  "ev_kezdet": 1844,
+  "ev_veg": 1844,
+  "ev_egyertelmu": true,
+  "tervezo": "Hild József (1814–1867)"
+ },
+ {
+  "nev": "Hilton Szálloda / Budapest, Hess András tér 3.",
+  "lat": 47.5031267,
+  "lon": 19.0327775,
+  "epult": "1970",
+  "ev_kezdet": 1970,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "Pintér Béla (1925–1992), Sedlmayr János (1932–2004)"
+ },
+ {
+  "nev": "Hold utcai piac / Hold utca 13.",
+  "lat": 47.504828,
+  "lon": 19.0526494,
+  "epult": "1892–1896",
+  "ev_kezdet": 1892,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Győző (1850–1905)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24130404,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Hollókői parasztházak / Petőfi Sándor utca",
+  "lat": 47.9995664,
+  "lon": 19.5874984,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Hollókői Szent Márton-templom / Kossuth utca",
+  "lat": 47.9990499,
+  "lon": 19.588233,
+  "epult": "1889",
+  "ev_kezdet": 1889,
+  "ev_veg": 1889,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Hollókői Vár",
+  "lat": 47.9976444,
+  "lon": 19.58195,
+  "epult": "13. század vége",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Hódmezővásárhelyi autóbusz pályaudvar / Bocskai utca 5.",
+  "lat": 46.4156077,
+  "lon": 20.3277882,
+  "epult": "1979",
+  "ev_kezdet": 1979,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "Nyiri Mária"
+ },
+ {
+  "nev": "Hőgyészi Apponyi-kastély",
+  "lat": 46.498119,
+  "lon": 18.4175813,
+  "epult": "1722-33, restaurálás 1890, 2000-2010",
+  "ev_kezdet": 1722,
+  "ev_veg": 1733,
+  "ev_egyertelmu": true,
+  "tervezo": "eredeti ismeretlen; Ybl Miklós (1814-1891)"
+ },
+ {
+  "nev": "Hungária körúti felüljáró / Budapest",
+  "lat": 47.5193396,
+  "lon": 19.08791,
+  "epult": "1967–1987",
+  "ev_kezdet": 1967,
+  "ev_veg": 1987,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Hungária Nagyszálló / Budapest, Apáczai Csere János u. 6",
+  "lat": 47.4950469,
+  "lon": 19.0497868,
+  "epult": "1871",
+  "ev_kezdet": 1871,
+  "ev_veg": 1871,
+  "ev_egyertelmu": true,
+  "tervezo": "Szkalnitzky Antal (1836–1878) és ifj. Koch Henrik (1837–1889)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 18185,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Hunyadi téri vásárcsarnok / Szófia utca 12.",
+  "lat": 47.5053283,
+  "lon": 19.0666463,
+  "epult": "1897",
+  "ev_kezdet": 1897,
+  "ev_veg": 1897,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Győző (1850–1905)"
+ },
+ {
+  "nev": "Igazságügyi palota / Budapest, Kossuth Lajos tér 12.",
+  "lat": 47.5078323,
+  "lon": 19.0479627,
+  "epult": "1893–1896",
+  "ev_kezdet": 1893,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "Hauszmann Alajos (1847–1926)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 11766,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Istenhegyi Szent László plébánia / Budapest, Diana u. 15/a.",
+  "lat": 47.4997341,
+  "lon": 18.9940561999999,
+  "epult": "1886",
+  "ev_kezdet": 1886,
+  "ev_veg": 1886,
+  "ev_egyertelmu": true,
+  "tervezo": "Pfaff Ferenc (1851–1913)"
+ },
+ {
+  "nev": "József Attila utca 12. / Budapest",
+  "lat": 47.4989864,
+  "lon": 19.0507246,
+  "epult": "1939–1940",
+  "ev_kezdet": 1939,
+  "ev_veg": 1940,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 60242322,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Kanizsai utca 5. / Budapest",
+  "lat": 47.4725248,
+  "lon": 19.0445275,
+  "epult": "1936",
+  "ev_kezdet": 1936,
+  "ev_veg": 1936,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Iván (1889–1980)"
+ },
+ {
+  "nev": "Kapolcsi Ilona-malom",
+  "lat": 46.9402037,
+  "lon": 17.5865897,
+  "epult": "1800 körül",
+  "ev_kezdet": 1800,
+  "ev_veg": 1800,
+  "ev_egyertelmu": false,
+  "tervezo": "Veszterga György"
+ },
+ {
+  "nev": "Kapolcsi Kőszegi-malom / Petőfi utca",
+  "lat": 46.9549111,
+  "lon": 17.6067532,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Kaposvári vasútállomás / Baross Gábor u. 2.",
+  "lat": 46.3527651,
+  "lon": 17.7989158,
+  "epult": "1899",
+  "ev_kezdet": 1899,
+  "ev_veg": 1899,
+  "ev_egyertelmu": true,
+  "tervezo": "Pfaff Ferenc (1851–1913)"
+ },
+ {
+  "nev": "Károlyi–Csekonics palota / Budapest, Múzeum u. 17.",
+  "lat": 47.4904585,
+  "lon": 19.0653631,
+  "epult": "1881–1890",
+  "ev_kezdet": 1881,
+  "ev_veg": 1890,
+  "ev_egyertelmu": true,
+  "tervezo": "Meinig Artúr (1853–1904)"
+ },
+ {
+  "nev": "Kárpátia étterem / Budapest, Ferenciek tere 7.",
+  "lat": 47.4928238,
+  "lon": 19.0564565,
+  "epult": "1877",
+  "ev_kezdet": 1877,
+  "ev_veg": 1877,
+  "ev_egyertelmu": true,
+  "tervezo": "Frey Lajos (1823–1877), Kéler Napoleon (1845–1919)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3295073,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Keceli Nevelési Központ / Szabadság tér 17.",
+  "lat": 46.5233506,
+  "lon": 19.2539878,
+  "epult": "1977–1984",
+  "ev_kezdet": 1977,
+  "ev_veg": 1984,
+  "ev_egyertelmu": true,
+  "tervezo": "Jeney Lajos (1933–2014)"
+ },
+ {
+  "nev": "Kecskeméti Kodály Intézet / Kéttemplom köz 1.",
+  "lat": 46.9068329,
+  "lon": 19.6935355000001,
+  "epult": "1972–1975",
+  "ev_kezdet": 1972,
+  "ev_veg": 1975,
+  "ev_egyertelmu": true,
+  "tervezo": "Kerényi József (1939–2016)"
+ },
+ {
+  "nev": "Kecskeméti Naiv Művészek Múzeuma / Gáspár András utca 11.",
+  "lat": 46.9059605,
+  "lon": 19.6873631,
+  "epult": "1973–1976",
+  "ev_kezdet": 1973,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "Kerényi József (1939–2016)"
+ },
+ {
+  "nev": "Kecskeméti volt Nagyzsinagóga / Rákóczi út 2.",
+  "lat": 46.909017,
+  "lon": 19.69497,
+  "epult": "1965–1974",
+  "ev_kezdet": 1965,
+  "ev_veg": 1974,
+  "ev_egyertelmu": true,
+  "tervezo": "Kerényi József (1939–2016)"
+ },
+ {
+  "nev": "Keleti Pályaudvar / Budapest, Baross tér",
+  "lat": 47.5001481,
+  "lon": 19.0823268,
+  "epult": "1881–1884",
+  "ev_kezdet": 1881,
+  "ev_veg": 1884,
+  "ev_egyertelmu": true,
+  "tervezo": "Rochlitz Gyula (1825–1886)"
+ },
+ {
+  "nev": "Kelenföldi Erőmű kapcsolóháza / Budapest, Hengermalom út 60.",
+  "lat": 47.460978,
+  "lon": 19.054576,
+  "epult": "1930",
+  "ev_kezdet": 1930,
+  "ev_veg": 1930,
+  "ev_egyertelmu": true,
+  "tervezo": "Bierbauer (Borbíró) Virgil (1893–1956)"
+ },
+ {
+  "nev": "Kelenföldi városközpont / Tétényi út 63. – Etele út 55.",
+  "lat": 47.4639377,
+  "lon": 19.033375,
+  "epult": "1975–1979",
+  "ev_kezdet": 1975,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "Zilahy István (1917–1993) és Bada József (1935–2010)"
+ },
+ {
+  "nev": "Kék Golyó utca 10. / Budapest",
+  "lat": 47.5006446,
+  "lon": 19.0229095,
+  "epult": "1949–1950",
+  "ev_kezdet": 1949,
+  "ev_veg": 1950,
+  "ev_egyertelmu": true,
+  "tervezo": "Lauber László (1902–1953) és Nyíri István (1902–1955)"
+ },
+ {
+  "nev": "Keresztelő Szent János-templom / Gyöngyös",
+  "lat": 47.828598,
+  "lon": 19.970899,
+  "epult": "1766 -1767",
+  "ev_kezdet": 1766,
+  "ev_veg": 1767,
+  "ev_egyertelmu": true,
+  "tervezo": "Quadri Kristóf (–)"
+ },
+ {
+  "nev": "Kerkápoly-kúria / Kővágóörs",
+  "lat": 46.849134,
+  "lon": 17.6035306,
+  "epult": "18. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Keszthelyi Festetics-kastély / Kastély u. 1.",
+  "lat": 46.7707393,
+  "lon": 17.2423198,
+  "epult": "1745, majd nagyszabású felújítás 1883–1887 között",
+  "ev_kezdet": 1745,
+  "ev_veg": 1745,
+  "ev_egyertelmu": false,
+  "tervezo": "Hofstädter Kristóf (1717–1782), majd Rumpelmayer Viktor (1830–1885), Haas Gusztáv és Paschkis Miksa"
+ },
+ {
+  "nev": "Keszthelyi vasútállomás / Mártírok útja 8.",
+  "lat": 46.7584597,
+  "lon": 17.2459847,
+  "epult": "1903",
+  "ev_kezdet": 1903,
+  "ev_veg": 1903,
+  "ev_egyertelmu": true,
+  "tervezo": "Magyar Államvasutak"
+ },
+ {
+  "nev": "Kettős-Körös híd / Doboz",
+  "lat": 46.7254153,
+  "lon": 21.2198809,
+  "epult": "1979",
+  "ev_kezdet": 1979,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "Reviczky János (1925- )"
+ },
+ {
+  "nev": "Kisteleki szövetkezeti áruház / Petőfi utca 2.",
+  "lat": 46.4692848,
+  "lon": 19.9803988,
+  "epult": "1955",
+  "ev_kezdet": 1955,
+  "ev_veg": 1955,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Királyi Bérpalota/ Budapest, Ferenciek tere 2.",
+  "lat": 47.492694,
+  "lon": 19.0553219999999,
+  "epult": "1899",
+  "ev_kezdet": 1899,
+  "ev_veg": 1899,
+  "ev_egyertelmu": true,
+  "tervezo": "Giergl Kálmán (1863–1954), Korb Flóris (1860–1930)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 2225185,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Kisdörgicsei templomrom",
+  "lat": 46.9301162,
+  "lon": 17.7278724,
+  "epult": "12. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Klauzál téri vásárcsarnok / Akácfa utca 42–48.",
+  "lat": 47.5002456,
+  "lon": 19.0651795,
+  "epult": "1897",
+  "ev_kezdet": 1897,
+  "ev_veg": 1897,
+  "ev_egyertelmu": true,
+  "tervezo": "Fővárosi Mérnöki Hivatal"
+ },
+ {
+  "nev": "Klotild paloták / Budapest, Szabad sajtó út 5.",
+  "lat": 47.4925271,
+  "lon": 19.054354,
+  "epult": "1899–1902",
+  "ev_kezdet": 1899,
+  "ev_veg": 1902,
+  "ev_egyertelmu": true,
+  "tervezo": "Giergl Kálmán (1863–1954), Korb Flóris (1860–1930)",
+  "illesztes": null
+ },
+ {
+  "nev": "Kossuth Lajos Gimnázium / Budapest, Ady Endre u. 142.",
+  "lat": 47.4328673,
+  "lon": 19.1116988,
+  "epult": "1962–1963",
+  "ev_kezdet": 1962,
+  "ev_veg": 1963,
+  "ev_egyertelmu": true,
+  "tervezo": "Jeney Lajos (1933–2014)"
+ },
+ {
+  "nev": "Kölcsey Ferenc Gimnázium / Budapest, Munkácsy Mihály utca 26.",
+  "lat": 47.514801,
+  "lon": 19.070275,
+  "epult": "1906–1909",
+  "ev_kezdet": 1906,
+  "ev_veg": 1909,
+  "ev_egyertelmu": true,
+  "tervezo": "Kőrössy Albert Kálmán (1869–1955)"
+ },
+ {
+  "nev": "Kőris-hegyi lokátor",
+  "lat": 47.2941667,
+  "lon": 17.7547222,
+  "epult": "1976",
+  "ev_kezdet": 1976,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Köröstarcsai Kettős-Körös híd",
+  "lat": 46.8837664,
+  "lon": 21.0320782,
+  "epult": "1975-1977",
+  "ev_kezdet": 1975,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "Reviczky János (1925 -)"
+ },
+ {
+  "nev": "Központi Statisztikai Hivatal / Keleti Károly utca 5.",
+  "lat": 47.5117468,
+  "lon": 19.0308836,
+  "epult": "1896–1898",
+  "ev_kezdet": 1896,
+  "ev_veg": 1898,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Győző (1850–1905)"
+ },
+ {
+  "nev": "Központi Vásárcsarnok / Budapest, Vámház körút 1–3.",
+  "lat": 47.4873208,
+  "lon": 19.0584861,
+  "epult": "1897",
+  "ev_kezdet": 1897,
+  "ev_veg": 1897,
+  "ev_egyertelmu": true,
+  "tervezo": "Pecz Samu (1854–1922)"
+ },
+ {
+  "nev": "Kőrössy-villa / Budapest, Városligeti fasor 47.",
+  "lat": 47.5106495,
+  "lon": 19.0801925000001,
+  "epult": "1899–1900",
+  "ev_kezdet": 1899,
+  "ev_veg": 1900,
+  "ev_egyertelmu": true,
+  "tervezo": "Sebestyén Artúrral (1868–1943), Kőrössy Albert Kálmán (1869–1955)"
+ },
+ {
+  "nev": "Köveskáli református templom",
+  "lat": 46.8829797,
+  "lon": 17.6053122,
+  "epult": "1769, bővítés: 1825",
+  "ev_kezdet": 1769,
+  "ev_veg": 1769,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Kunadacsi Szent István templom / József Attila utca",
+  "lat": 46.9541303,
+  "lon": 19.2916648,
+  "epult": "1971–1974",
+  "ev_kezdet": 1971,
+  "ev_veg": 1974,
+  "ev_egyertelmu": true,
+  "tervezo": "Kerényi József (1939–2016)"
+ },
+ {
+  "nev": "Kunszentmártoni híd",
+  "lat": 46.8363738,
+  "lon": 20.2878163,
+  "epult": "1970-1975",
+  "ev_kezdet": 1970,
+  "ev_veg": 1975,
+  "ev_egyertelmu": true,
+  "tervezo": "Reviczky János (1925 - )"
+ },
+ {
+  "nev": "Külső-kelenföldi református templom / Ildikó tér 1.",
+  "lat": 47.4656768,
+  "lon": 19.0250842,
+  "epult": "1981",
+  "ev_kezdet": 1981,
+  "ev_veg": 1981,
+  "ev_egyertelmu": true,
+  "tervezo": "Szabó István (1914-1988)"
+ },
+ {
+  "nev": "Lajosmizsei Központi Általános Iskola",
+  "lat": 47.0268266,
+  "lon": 19.5597997,
+  "epult": "1930",
+  "ev_kezdet": 1930,
+  "ev_veg": 1930,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Lágymányosi Dohánygyár / Budapest, Budafoki út 59.",
+  "lat": 47.4752456,
+  "lon": 19.0522439,
+  "epult": "1908–1912",
+  "ev_kezdet": 1908,
+  "ev_veg": 1912,
+  "ev_egyertelmu": true,
+  "tervezo": "Zobel Lajos (1854–1926)"
+ },
+ {
+  "nev": "Láng Művelődési Központ / Budapest, Rozsnyay utca 3.",
+  "lat": 47.540731,
+  "lon": 19.0717666,
+  "epult": "1970",
+  "ev_kezdet": 1970,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "Tokár György (1933– )"
+ },
+ {
+  "nev": "Liget téri üzletház / Budapest, Liget tér 1.",
+  "lat": 47.482771,
+  "lon": 19.128923,
+  "epult": "1976",
+  "ev_kezdet": 1976,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "Miklós Balázs"
+ },
+ {
+  "nev": "Liszt Ferenc tér 3. / Budapest",
+  "lat": 47.5037054,
+  "lon": 19.0629715,
+  "epult": "1942–1944",
+  "ev_kezdet": 1942,
+  "ev_veg": 1944,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)",
+  "illesztes": null
+ },
+ {
+  "nev": "Liszt Ferenc tér 6. / Budapest",
+  "lat": 47.5032681,
+  "lon": 19.0636238,
+  "epult": "1958",
+  "ev_kezdet": 1958,
+  "ev_veg": 1958,
+  "ev_egyertelmu": true,
+  "tervezo": "Weichinger Károly (1893–1982)"
+ },
+ {
+  "nev": "Lloyd mozi / Budapest Jazz Club/ Budapest, Hollán Ernő utca 7.",
+  "lat": 47.51359,
+  "lon": 19.0498543,
+  "epult": "1937",
+  "ev_kezdet": 1937,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "Domány Ferenc (1899–1939), Hofstätter Béla (1891–1944)",
+  "illesztes": null
+ },
+ {
+  "nev": "Lovasberényi Cziráky-kastély / Vörösmarty utca",
+  "lat": 47.3133438,
+  "lon": 18.5448398,
+  "epult": "1699 / 1763-67 / 1780-as évek körül / 1804-09 / 1850-es évek",
+  "ev_kezdet": 1763,
+  "ev_veg": 1767,
+  "ev_egyertelmu": false,
+  "tervezo": "Rieder János, Rieder Jakab, Ybl Miklós (1814-1891)"
+ },
+ {
+  "nev": "Lyka-ház / Budapest, Párizsi utca 1.",
+  "lat": 47.493681,
+  "lon": 19.0532137,
+  "epult": "1875–1877",
+  "ev_kezdet": 1875,
+  "ev_veg": 1877,
+  "ev_egyertelmu": true,
+  "tervezo": "Steindl Imre (1839–1902)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 11740452,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Madách Színház / Budapest, Erzsébet krt. 29–33.",
+  "lat": 47.5011542,
+  "lon": 19.0684132,
+  "epult": "1961",
+  "ev_kezdet": 1961,
+  "ev_veg": 1961,
+  "ev_egyertelmu": true,
+  "tervezo": "Kaufmann Oszkár (1873–1956)"
+ },
+ {
+  "nev": "Madách tér / Budapest",
+  "lat": 47.4974899,
+  "lon": 19.0574125000001,
+  "epult": "1937–1938",
+  "ev_kezdet": 1937,
+  "ev_veg": 1938,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 259518694,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Magyar Állami Földtani Intézet / Budapest, Stefánia út 14.",
+  "lat": 47.5056719,
+  "lon": 19.0975241,
+  "epult": "1898–1899",
+  "ev_kezdet": 1898,
+  "ev_veg": 1899,
+  "ev_egyertelmu": true,
+  "tervezo": "Lechner Ödön (1845–1914)"
+ },
+ {
+  "nev": "Magyar Államkincstár (egykori 13. kerületi pártház) / Váci út 71.",
+  "lat": 47.5332409,
+  "lon": 19.067972,
+  "epult": "1975–1979",
+  "ev_kezdet": 1975,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "Pázmándi Margit (1930–1995)"
+ },
+ {
+  "nev": "Magyar Általános Takarékpénztár egykori székháza / Budapest, József Attila utca",
+  "lat": 47.4989695,
+  "lon": 19.0499062,
+  "epult": "1898",
+  "ev_kezdet": 1898,
+  "ev_veg": 1898,
+  "ev_egyertelmu": true,
+  "tervezo": "Meinig Artúr (1853–1904)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 60242225,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Magyar Nemzeti Levéltár / Budapest, Bécsi kapu tér 2–4.",
+  "lat": 47.5048232,
+  "lon": 19.0301863,
+  "epult": "1913–1923",
+  "ev_kezdet": 1913,
+  "ev_veg": 1923,
+  "ev_egyertelmu": true,
+  "tervezo": "Pecz Samu (1854–1922)"
+ },
+ {
+  "nev": "Magyar Tudományos Akadémia / Budapest, Széchenyi István tér 9.",
+  "lat": 47.501014,
+  "lon": 19.0465369999999,
+  "epult": "1862–1865",
+  "ev_kezdet": 1862,
+  "ev_veg": 1865,
+  "ev_egyertelmu": true,
+  "tervezo": "Friedrich August Stüler (1800–1865)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 11772,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Magyarok Nagyasszonya Templom / Budapest, Szenes Iván tér 10.",
+  "lat": 47.4797006,
+  "lon": 19.0943021,
+  "epult": "1929–1931",
+  "ev_kezdet": 1929,
+  "ev_veg": 1931,
+  "ev_egyertelmu": true,
+  "tervezo": "Dr. Kismarty-Lechner Jenő"
+ },
+ {
+  "nev": "Majki kamalduli remeteség",
+  "lat": 47.4969839,
+  "lon": 18.3378466,
+  "epult": "1753-1771",
+  "ev_kezdet": 1753,
+  "ev_veg": 1771,
+  "ev_egyertelmu": true,
+  "tervezo": "Franz Anton Pilgram, Fellner Jakab"
+ },
+ {
+  "nev": "Makói Maros-híd",
+  "lat": 46.2219071,
+  "lon": 20.4809265,
+  "epult": "1973-1974",
+  "ev_kezdet": 1973,
+  "ev_veg": 1974,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Margit körút 43-45. és 49. / Budapest",
+  "lat": 47.5112024,
+  "lon": 19.03221,
+  "epult": "1952–1960",
+  "ev_kezdet": 1952,
+  "ev_veg": 1960,
+  "ev_egyertelmu": true,
+  "tervezo": "Dúl Dezső (1925–2015), Fenyves Iván, Hontl Róbert , Hegyi Lajos"
+ },
+ {
+  "nev": "Margitszigeti tejcsarnok / Budapest, Margit-sziget, Zielinski Szilárd sétány",
+  "lat": 47.5298383,
+  "lon": 19.0507213,
+  "epult": "1922",
+  "ev_kezdet": 1922,
+  "ev_veg": 1922,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Iván (1889–1980)"
+ },
+ {
+  "nev": "Margitszigeti Víztorony / Budapest",
+  "lat": 47.5302624,
+  "lon": 19.0501881,
+  "epult": "1911",
+  "ev_kezdet": 1911,
+  "ev_veg": 1911,
+  "ev_egyertelmu": true,
+  "tervezo": "Zielinski Szilárd (1860–1924) és Ray Rezső (1876–1938)"
+ },
+ {
+  "nev": "Mámai templomrom / Balatonfűzfő",
+  "lat": 47.0595469,
+  "lon": 18.0469725,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Mencshelyi evangélikus templom / Kossuth Lajos utca 24.",
+  "lat": 46.9456899,
+  "lon": 17.7002025,
+  "epult": "12-13. század, felújítás: 1730-as évek, bővítés: 1790-es évek, 1810",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Ménesi út 44–48. / Budapest",
+  "lat": 47.4805014,
+  "lon": 19.0405553000001,
+  "epult": "1949–1950",
+  "ev_kezdet": 1949,
+  "ev_veg": 1950,
+  "ev_egyertelmu": true,
+  "tervezo": "Lauber László (1902–1953) és Szendrői Jenő (1913–2000)"
+ },
+ {
+  "nev": "Mészöly utca 4. / Budapest",
+  "lat": 47.4808173,
+  "lon": 19.050868,
+  "epult": "1910",
+  "ev_kezdet": 1910,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "dr. Kismarty-Lechner Jenő (1878–1962) és Warga László (1878–1952)"
+ },
+ {
+  "nev": "Mészöly utca 5. / Budapest",
+  "lat": 47.4811083,
+  "lon": 19.0506054,
+  "epult": "1933–1934",
+  "ev_kezdet": 1933,
+  "ev_veg": 1934,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Metalimpex-Konsumex székház / Budapest, Hungária körút 162.",
+  "lat": 47.514038,
+  "lon": 19.0947298999999,
+  "epult": "1978",
+  "ev_kezdet": 1978,
+  "ev_veg": 1978,
+  "ev_egyertelmu": true,
+  "tervezo": "Tolnay Lajos (1933– 2017), Herald László"
+ },
+ {
+  "nev": "Metropol Szálló / Budapest, Rákóczi út 58.",
+  "lat": 47.4978719,
+  "lon": 19.0724399000001,
+  "epult": "1896",
+  "ev_kezdet": 1896,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "bizonytalan, egyes források szerint Hudetz József"
+ },
+ {
+  "nev": "Mindszentkállai templomrom",
+  "lat": 46.8752606,
+  "lon": 17.549021,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Miskolci Avasi Református Templom / Papszer utca 14.",
+  "lat": 48.1012553,
+  "lon": 20.7788965,
+  "epult": "15. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Miskolci SZOT-székház / Mindszent tér",
+  "lat": 48.0990051,
+  "lon": 20.7850491,
+  "epult": "1959-1962",
+  "ev_kezdet": 1959,
+  "ev_veg": 1962,
+  "ev_egyertelmu": true,
+  "tervezo": "Vass Antal (1917-1988)"
+ },
+ {
+  "nev": "Monoszlói református templom / Templom utca 6.",
+  "lat": 46.9039771,
+  "lon": 17.6391501,
+  "epult": "12-13. század, felújítás 1745, átépítés 19. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Műegyetem CH épülete / Műegyetem rakpart 1.",
+  "lat": 47.4828038,
+  "lon": 19.0543583,
+  "epult": "1896–1898",
+  "ev_kezdet": 1896,
+  "ev_veg": 1898,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Győző (1850–1905)"
+ },
+ {
+  "nev": "Műegyetemi Központi Könyvtár / Budapest, Budafoki út 4–6.",
+  "lat": 47.4811674,
+  "lon": 19.0540888,
+  "epult": "1909",
+  "ev_kezdet": 1909,
+  "ev_veg": 1909,
+  "ev_egyertelmu": true,
+  "tervezo": "Pecz Samu (1854–1922)"
+ },
+ {
+  "nev": "Nagykanizsai MÁVAUT-pályaudvar",
+  "lat": 46.4408333,
+  "lon": 16.9866667,
+  "epult": "1971",
+  "ev_kezdet": 1971,
+  "ev_veg": 1971,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Nagykőrösi Szent László-templom / Szabadság tér 3.",
+  "lat": 47.034637,
+  "lon": 19.7823378,
+  "epult": "1782-1788",
+  "ev_kezdet": 1782,
+  "ev_veg": 1788,
+  "ev_egyertelmu": true,
+  "tervezo": "Fischer Boldizsár"
+ },
+ {
+  "nev": "Nagykőrösi Svájci Ház / Cifrakert",
+  "lat": 47.0333553,
+  "lon": 19.7825487,
+  "epult": "1872, felújítás 2017",
+  "ev_kezdet": 1872,
+  "ev_veg": 1872,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Nagyváradi Andrényi-féle vasáruház / Nagyvásártér 4–6.",
+  "lat": 47.0519236,
+  "lon": 21.9361613999999,
+  "epult": "1893",
+  "ev_kezdet": 1893,
+  "ev_veg": 1893,
+  "ev_egyertelmu": true,
+  "tervezo": "id. Rimanóczy Kálmán (1840–1908)"
+ },
+ {
+  "nev": "Nagyváradi Bazár / Fő u. 1.",
+  "lat": 47.0573528,
+  "lon": 21.931997,
+  "epult": "1900",
+  "ev_kezdet": 1900,
+  "ev_veg": 1900,
+  "ev_egyertelmu": true,
+  "tervezo": "id. Rimanóczy Kálmán (1840–1908)"
+ },
+ {
+  "nev": "Nagyváradi Rimanóczy Palota / Parcul Traian 1.",
+  "lat": 47.0579303,
+  "lon": 21.9335283,
+  "epult": "1905",
+  "ev_kezdet": 1905,
+  "ev_veg": 1905,
+  "ev_egyertelmu": true,
+  "tervezo": "ifj. Rimanóczy Kálmán (1870–1912)"
+ },
+ {
+  "nev": "Nagyváradi Rimanóczy Szálló és Gőzfürdő / Strada Libertății 8.",
+  "lat": 47.0559754,
+  "lon": 21.9309481,
+  "epult": "1892–1900",
+  "ev_kezdet": 1892,
+  "ev_veg": 1900,
+  "ev_egyertelmu": true,
+  "tervezo": "id. Rimanóczy Kálmán (1840–1908)"
+ },
+ {
+  "nev": "Nagyváradi neológ zsinagóga / Strada Independenței 8.",
+  "lat": 47.0549051,
+  "lon": 21.9323973,
+  "epult": "1878",
+  "ev_kezdet": 1878,
+  "ev_veg": 1878,
+  "ev_egyertelmu": true,
+  "tervezo": "a terveket Busch Dávid készítette, a kivitelező id. Rimanóczy Kálmán (1840-1908) volt"
+ },
+ {
+  "nev": "Nagyváradi Szigligeti Színház / Piaţa Ferdinand I 4–6.",
+  "lat": 47.056433,
+  "lon": 21.9296972,
+  "epult": "1899–1900",
+  "ev_kezdet": 1899,
+  "ev_veg": 1900,
+  "ev_egyertelmu": true,
+  "tervezo": "Ferdinand Fellner (1847–1916) és Hermann Helmer (1849–1919)"
+ },
+ {
+  "nev": "Nap-udvar / Budapest, Fadrusz utca 12.",
+  "lat": 47.475793,
+  "lon": 19.0433,
+  "epult": "1927–1928",
+  "ev_kezdet": 1927,
+  "ev_veg": 1928,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Napraforgó utca 2. / Budapest",
+  "lat": 47.526228,
+  "lon": 18.987228,
+  "epult": "1931",
+  "ev_kezdet": 1931,
+  "ev_veg": 1931,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)"
+ },
+ {
+  "nev": "Napraforgó utca 4. / Budapest",
+  "lat": 47.526399,
+  "lon": 18.9870559999999,
+  "epult": "1931",
+  "ev_kezdet": 1931,
+  "ev_veg": 1931,
+  "ev_egyertelmu": true,
+  "tervezo": "Bierbauer (Borbíró) Virgil (1893–1956)"
+ },
+ {
+  "nev": "Napraforgó utca 22. / Budapest",
+  "lat": 47.527784,
+  "lon": 18.9856991,
+  "epult": "1931",
+  "ev_kezdet": 1931,
+  "ev_veg": 1931,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)"
+ },
+ {
+  "nev": "Nemeshetési római katolikus templom / Vörösmarty u. 14.",
+  "lat": 46.801352,
+  "lon": 16.9124879999999,
+  "epult": "1974–76",
+  "ev_kezdet": 1974,
+  "ev_veg": 1976,
+  "ev_egyertelmu": true,
+  "tervezo": "Török Ferenc (1936– )"
+ },
+ {
+  "nev": "Nemzeti Múzeum / Budapest, Múzeum körút 14–16.",
+  "lat": 47.491056,
+  "lon": 19.0618306,
+  "epult": "1837–1846",
+  "ev_kezdet": 1837,
+  "ev_veg": 1846,
+  "ev_egyertelmu": true,
+  "tervezo": "Pollack Mihály (1773–1855)",
+  "illesztes": null
+ },
+ {
+  "nev": "New York-palota / Budapest, Erzsébet krt. 9.",
+  "lat": 47.4996336,
+  "lon": 19.0696049000001,
+  "epult": "1894",
+  "ev_kezdet": 1894,
+  "ev_veg": 1894,
+  "ev_egyertelmu": true,
+  "tervezo": "Hauszmann Alajos (1847–1926), Giergl Kálmán (1863–1954), Korb Flóris (1860–1930)"
+ },
+ {
+  "nev": "Népszínház utca 35. / Budapest",
+  "lat": 47.4943881,
+  "lon": 19.0778892000001,
+  "epult": "1911",
+  "ev_kezdet": 1911,
+  "ev_veg": 1911,
+  "ev_egyertelmu": true,
+  "tervezo": "Málnai Béla (1878–1941) és Haász Gyula (1877–1951)"
+ },
+ {
+  "nev": "Nyírbátori Római Katolikus Minorita Templom",
+  "lat": 47.8370123,
+  "lon": 22.1282532,
+  "epult": "1484",
+  "ev_kezdet": 1484,
+  "ev_veg": 1484,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Nyugati pályaudvar / Budapest, Teréz krt. 55.",
+  "lat": 47.5101438,
+  "lon": 19.0571348999999,
+  "epult": "1875–1877",
+  "ev_kezdet": 1875,
+  "ev_veg": 1877,
+  "ev_egyertelmu": true,
+  "tervezo": "August De Serres (1841–1900)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24000268,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Nyugati tér",
+  "lat": 47.5107114,
+  "lon": 19.0563448,
+  "epult": "1914",
+  "ev_kezdet": 1914,
+  "ev_veg": 1914,
+  "ev_egyertelmu": true,
+  "tervezo": "–",
+  "illesztes": null
+ },
+ {
+  "nev": "Nyugati téri felüljáró / Budapest, Nyugati tér",
+  "lat": 47.5104976,
+  "lon": 19.0556206,
+  "epult": "1979–1981",
+  "ev_kezdet": 1979,
+  "ev_veg": 1981,
+  "ev_egyertelmu": true,
+  "tervezo": "Wellner Péter",
+  "illesztes": null
+ },
+ {
+  "nev": "OKISZ-székház / Thököly út 58–60.",
+  "lat": 47.5058656,
+  "lon": 19.0910696,
+  "epult": null,
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": null
+ },
+ {
+  "nev": "Olof Palme-ház / Budapest, Olof Palme stny. 1.",
+  "lat": 47.511988,
+  "lon": 19.0880389,
+  "epult": "1885",
+  "ev_kezdet": 1885,
+  "ev_veg": 1885,
+  "ev_egyertelmu": true,
+  "tervezo": "Pfaff Ferenc (1851–1913)"
+ },
+ {
+  "nev": "Opera / Budapest, Andrássy út 22.",
+  "lat": 47.502462,
+  "lon": 19.058655,
+  "epult": "1875–1884",
+  "ev_kezdet": 1875,
+  "ev_veg": 1884,
+  "ev_egyertelmu": true,
+  "tervezo": "Ybl Miklós (1814–1891)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24000390,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Orlay utca 2/b. / Budapest",
+  "lat": 47.4820036,
+  "lon": 19.0516944999999,
+  "epult": "1909–1910",
+  "ev_kezdet": 1909,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Országos Villamos Teherelosztó / Budapest, Nándor utca 5.",
+  "lat": 47.5046776,
+  "lon": 19.0295529,
+  "epult": "1974–1979",
+  "ev_kezdet": 1974,
+  "ev_veg": 1979,
+  "ev_egyertelmu": true,
+  "tervezo": "Virág Csaba (1933–2015)"
+ },
+ {
+  "nev": "Országház / Budapest, Kossuth Lajos tér 1-3.",
+  "lat": 47.5074758,
+  "lon": 19.0466934,
+  "epult": "1885–1904",
+  "ev_kezdet": 1885,
+  "ev_veg": 1904,
+  "ev_egyertelmu": true,
+  "tervezo": "Steindl Imre (1839–1902)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3199085,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "OTI székház / Budapest, Fiumei út 19.",
+  "lat": 47.496066,
+  "lon": 19.0832757000001,
+  "epult": "1912–1930",
+  "ev_kezdet": 1912,
+  "ev_veg": 1930,
+  "ev_egyertelmu": true,
+  "tervezo": "Komor Marcell (1868–1944), Jakab Dezső (1864–1932)"
+ },
+ {
+  "nev": "Óbudai Árpád Gimnázium / Budapest, Nagyszombat utca 19.",
+  "lat": 47.53263,
+  "lon": 19.0377699000001,
+  "epult": "1938–1940",
+  "ev_kezdet": 1938,
+  "ev_veg": 1940,
+  "ev_egyertelmu": true,
+  "tervezo": "Hidasi Lajos–Papp Imre (1907–1965)"
+ },
+ {
+  "nev": "Óbudai Hajógyár / Budapest, Hajógyári-sziget",
+  "lat": 47.5420936,
+  "lon": 19.0487788,
+  "epult": "1835",
+  "ev_kezdet": 1835,
+  "ev_veg": 1835,
+  "ev_egyertelmu": true,
+  "tervezo": "Pietro Paleocapa (1788–1869)"
+ },
+ {
+  "nev": "Óbudai református parókia és imaház / Budapest, Kálvin köz 4.",
+  "lat": 47.5395524,
+  "lon": 19.0418345,
+  "epult": "1908–1909",
+  "ev_kezdet": 1908,
+  "ev_veg": 1909,
+  "ev_egyertelmu": true,
+  "tervezo": "Kós Károly (1883–1977)"
+ },
+ {
+  "nev": "Ösküi rotunda / Mecset utca",
+  "lat": 47.1585468,
+  "lon": 18.0724232,
+  "epult": "11. század első fele",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Ős-Budavára / Budapest, Városliget",
+  "lat": 47.5154367,
+  "lon": 19.0823507,
+  "epult": "1895–1896",
+  "ev_kezdet": 1895,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "Oskar Marmorek (1863–1909)"
+ },
+ {
+  "nev": "Paksi vasútállomás felvételi épülete",
+  "lat": 46.6067616,
+  "lon": 18.8529507,
+  "epult": "1978",
+  "ev_kezdet": 1978,
+  "ev_veg": 1978,
+  "ev_egyertelmu": true,
+  "tervezo": "Horváth László, Hornicsek László (1923-2014)"
+ },
+ {
+  "nev": "Palatinus Strand / Budapest, Soó Rezső sétány 1.",
+  "lat": 47.5279222,
+  "lon": 19.0471527,
+  "epult": "1919, 1937",
+  "ev_kezdet": 1919,
+  "ev_veg": 1937,
+  "ev_egyertelmu": false,
+  "tervezo": "Arvé Károly–Nagy Márton és Janáky István (1901–1966) – Masirevich György (1905–1989)"
+ },
+ {
+  "nev": "Pannónia utca 12. / Budapest",
+  "lat": 47.513508,
+  "lon": 19.051541,
+  "epult": "1927–1928",
+  "ev_kezdet": 1927,
+  "ev_veg": 1928,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)",
+  "illesztes": null
+ },
+ {
+  "nev": "Pálos kolostor / Budapest, Szent Gellért rkp. 1.",
+  "lat": 47.4854243,
+  "lon": 19.0518099,
+  "epult": "1932",
+  "ev_kezdet": 1932,
+  "ev_veg": 1932,
+  "ev_egyertelmu": true,
+  "tervezo": "Weichinger Károly (1893–1982)"
+ },
+ {
+  "nev": "Párizsi udvar / Budapest, Petőfi Sándor u. 2.",
+  "lat": 47.49335,
+  "lon": 19.0551369,
+  "epult": "1817, majd 1909–1913",
+  "ev_kezdet": 1817,
+  "ev_veg": 1817,
+  "ev_egyertelmu": false,
+  "tervezo": "Pollack Mihály (1773–1855), majd Schmahl Henrik (1846–1912) és Lipták Pál (1867–1926)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 12962,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Pécsi Hotel Kikelet / Málics Ottó u. 1.",
+  "lat": 46.0896752,
+  "lon": 18.2288466,
+  "epult": "1936–1937",
+  "ev_kezdet": 1936,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "Lauber László (1902–1953) és Nyíri István (1902–1955)"
+ },
+ {
+  "nev": "Pécsi Pálos templom / Hunyadi János u. 70.",
+  "lat": 46.0864276,
+  "lon": 18.2250729,
+  "epult": "1937",
+  "ev_kezdet": 1937,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "Weichinger Károly (1893–1982)"
+ },
+ {
+  "nev": "Pécsi Nemzeti Színház / Színház tér 1.",
+  "lat": 46.076111,
+  "lon": 18.231282,
+  "epult": "1893 – 1895",
+  "ev_kezdet": 1893,
+  "ev_veg": 1895,
+  "ev_egyertelmu": true,
+  "tervezo": "Lang Adolf (1848–1913)"
+ },
+ {
+  "nev": "Pécsi városháza / Széchenyi tér 1.",
+  "lat": 46.0758308,
+  "lon": 18.2288294,
+  "epult": "1907",
+  "ev_kezdet": 1907,
+  "ev_veg": 1907,
+  "ev_egyertelmu": true,
+  "tervezo": "Lang Adolf (1848–1913)"
+ },
+ {
+  "nev": "Pécsi zsinagóga / Fürdő u. 1.",
+  "lat": 46.0741493,
+  "lon": 18.2310966,
+  "epult": "1857",
+  "ev_kezdet": 1857,
+  "ev_veg": 1857,
+  "ev_egyertelmu": true,
+  "tervezo": "Gerster Károly (1819–1867), Kauser Lipót (1818–1877), Feszl Frigyes (1791–1860)"
+ },
+ {
+  "nev": "Pesti Hazai Első Takarékpénztár / Budapest, Deák Ferenc u. 3–5.",
+  "lat": 47.4954331,
+  "lon": 19.0501878,
+  "epult": "1911–1915",
+  "ev_kezdet": 1911,
+  "ev_veg": 1915,
+  "ev_egyertelmu": true,
+  "tervezo": "Alpár Ignác (1855–1928)",
+  "illesztes": null
+ },
+ {
+  "nev": "Pesti Hazai Első Takarékpénztár régi épülete / Budapest, Károlyi utca 12.",
+  "lat": 47.4920187,
+  "lon": 19.0572675999999,
+  "epult": "1866–1868–1884",
+  "ev_kezdet": 1866,
+  "ev_veg": 1868,
+  "ev_egyertelmu": true,
+  "tervezo": "Ybl Miklós (1814–1891)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3309014,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Pesti Hírlap budapesti székháza, ma Eiffel Palace / Budapest, Bajcsy-Zsilinszky út 78.",
+  "lat": 47.5093417,
+  "lon": 19.0548611,
+  "epult": "1893–1894",
+  "ev_kezdet": 1893,
+  "ev_veg": 1894,
+  "ev_egyertelmu": true,
+  "tervezo": "Giergl Kálmán (1863–1954), Korb Flóris (1860–1930)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 2931014,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Pesti Vigadó / Vigadó tér 2.",
+  "lat": 47.4960355,
+  "lon": 19.0497022,
+  "epult": "1873–1901",
+  "ev_kezdet": 1873,
+  "ev_veg": 1901,
+  "ev_egyertelmu": true,
+  "tervezo": "Feszl Frigyes (1821–1884)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 24038230,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Petőfi híd / Budapest",
+  "lat": 47.4790231,
+  "lon": 19.0637774,
+  "epult": "1933–1937, újjáépítés 1952",
+  "ev_kezdet": 1933,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "Dr. Álgyay-Hubert Pál (1894–1945)"
+ },
+ {
+  "nev": "Pécsi Mecsek Áruház / Ybl Miklós utca 10.",
+  "lat": 46.0649206,
+  "lon": 18.1984537000001,
+  "epult": "1958–1969",
+  "ev_kezdet": 1958,
+  "ev_veg": 1969,
+  "ev_egyertelmu": true,
+  "tervezo": "Kun Attila (1924–1983)"
+ },
+ {
+  "nev": "Pesterzsébeti Állami Elemi Iskola / Budapest, Lázár u. 20.",
+  "lat": 47.438325,
+  "lon": 19.1198362,
+  "epult": "1916",
+  "ev_kezdet": 1916,
+  "ev_veg": 1916,
+  "ev_egyertelmu": true,
+  "tervezo": "Dr. Kismarty-Lechner Jenő"
+ },
+ {
+  "nev": "Philanthia virágüzlet portálja / Budapest, Váci utca 9–11.",
+  "lat": 47.49497,
+  "lon": 19.0517130000001,
+  "epult": "1906",
+  "ev_kezdet": 1906,
+  "ev_veg": 1906,
+  "ev_egyertelmu": true,
+  "tervezo": "Kőrössy Albert Kálmán (1869–1955)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3228039,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Planetárium / Budapest, Népliget",
+  "lat": 47.4771757,
+  "lon": 19.1020823,
+  "epult": "1975–1977",
+  "ev_kezdet": 1975,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "Lux László (1909–2002), Tömöry Tamás"
+ },
+ {
+  "nev": "Postapalota / Budapest, Krisztina krt. 6.",
+  "lat": 47.506327,
+  "lon": 19.0233450000001,
+  "epult": "1924–1925",
+  "ev_kezdet": 1924,
+  "ev_veg": 1925,
+  "ev_egyertelmu": true,
+  "tervezo": "Sándy Gyula (1868–1953)"
+ },
+ {
+  "nev": "Pozsonyi Kék templom / Bezručova 2.",
+  "lat": 48.1433427,
+  "lon": 17.116713,
+  "epult": "1909–1913",
+  "ev_kezdet": 1909,
+  "ev_veg": 1913,
+  "ev_egyertelmu": true,
+  "tervezo": "Lechner Ödön (1845–1914)"
+ },
+ {
+  "nev": "Pozsonyi út 38–42. / Budapest",
+  "lat": 47.5191098,
+  "lon": 19.0517721,
+  "epult": "1935–36",
+  "ev_kezdet": 1935,
+  "ev_veg": 1936,
+  "ev_egyertelmu": true,
+  "tervezo": "Domány Ferenc (1899–1939), Hofstätter Béla (1891–1944)"
+ },
+ {
+  "nev": "Ráckevei Savoyai-kastély / Kossuth Lajos u. 95.",
+  "lat": 47.1694908,
+  "lon": 18.9444983999999,
+  "epult": "1702",
+  "ev_kezdet": 1702,
+  "ev_veg": 1702,
+  "ev_egyertelmu": true,
+  "tervezo": "Johann Lucas von Hildebrandt (1668–1745)"
+ },
+ {
+  "nev": "Rákóczi út 12. / Budapest",
+  "lat": 47.4952972,
+  "lon": 19.0632512,
+  "epult": "1936",
+  "ev_kezdet": 1936,
+  "ev_veg": 1936,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)",
+  "illesztes": null
+ },
+ {
+  "nev": "Rákóczi úti templom, Luther-ház/ Budapest, Rákóczi út 57.",
+  "lat": 47.498231,
+  "lon": 19.0748627,
+  "epult": "1856–1863",
+  "ev_kezdet": 1856,
+  "ev_veg": 1863,
+  "ev_egyertelmu": true,
+  "tervezo": "Diescher József (1811–1874)"
+ },
+ {
+  "nev": "Rákócziánum / Budapest, Keleti Károly u. 39.",
+  "lat": 47.512822,
+  "lon": 19.024736,
+  "epult": "1924–1925",
+  "ev_kezdet": 1924,
+  "ev_veg": 1925,
+  "ev_egyertelmu": true,
+  "tervezo": "Árkay Aladár (1868–1932)"
+ },
+ {
+  "nev": "Református templom / Budapest, Október huszonharmadika utca 5.",
+  "lat": 47.4737207,
+  "lon": 19.0474812,
+  "epult": "1928–1930",
+  "ev_kezdet": 1928,
+  "ev_veg": 1930,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Református újtemplom Hódmezővásárhelyen 1979-ben",
+  "lat": 46.4140072,
+  "lon": 20.3187434,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "Fischer Boldizsár"
+ },
+ {
+  "nev": "Régi Műcsarnok / Budapest, Andrássy út 69.",
+  "lat": 47.5072648,
+  "lon": 19.0669806999999,
+  "epult": "1877",
+  "ev_kezdet": 1877,
+  "ev_veg": 1877,
+  "ev_egyertelmu": true,
+  "tervezo": "Lang Adolf (1848–1913)"
+ },
+ {
+  "nev": "Régi posta utca 13. / Budapest",
+  "lat": 47.4942769,
+  "lon": 19.051925,
+  "epult": "1938",
+  "ev_kezdet": 1938,
+  "ev_veg": 1938,
+  "ev_egyertelmu": true,
+  "tervezo": "Kozma Lajos (1884–1948)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 621691707,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Rhédey-présház / Balatongyörök",
+  "lat": 46.7823095,
+  "lon": 17.366064,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Roosevelt Irodaház / Széchenyi István tér 7.",
+  "lat": 47.5004262,
+  "lon": 19.047881,
+  "epult": "1969-1980",
+  "ev_kezdet": 1969,
+  "ev_veg": 1980,
+  "ev_egyertelmu": true,
+  "tervezo": "Hofer Miklós (1931-2011), Hübner Tibor (1897-1964), Horváth Lajos",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 12697,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Római strandfürdő / Budapest, Rozgonyi Piroska utca 2.",
+  "lat": 47.5745149,
+  "lon": 19.0534746000001,
+  "epult": "1964",
+  "ev_kezdet": 1964,
+  "ev_veg": 1964,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Rudas Gyógyfürdő/ Budapest, Döbrentei tér 9.",
+  "lat": 47.489438,
+  "lon": 19.04736,
+  "epult": "1566, 2014",
+  "ev_kezdet": 1566,
+  "ev_veg": 2014,
+  "ev_egyertelmu": false,
+  "tervezo": "ifj. Dankó József, Hofbauer János, Pázmándi István, Vékony Péter (Nirmana Építésziroda)"
+ },
+ {
+  "nev": "Salgótarjáni városközpont / Főtér",
+  "lat": 48.1046929,
+  "lon": 19.8079351,
+  "epult": "1960–1974",
+  "ev_kezdet": 1960,
+  "ev_veg": 1974,
+  "ev_egyertelmu": true,
+  "tervezo": "Magyar Géza (1930– ), Finta József (1935– ), Jánossy György (1923–2998), Hrecska József, Szrogh György (1915–1999)"
+ },
+ {
+  "nev": "Sasfiók utca 8. / Budapest",
+  "lat": 47.4840405,
+  "lon": 19.0148165000001,
+  "epult": "1934",
+  "ev_kezdet": 1934,
+  "ev_veg": 1934,
+  "ev_egyertelmu": true,
+  "tervezo": "Major Máté (1904–1986)"
+ },
+ {
+  "nev": "Sándor-palota / Budapest, Szent György tér 2.",
+  "lat": 47.4954583,
+  "lon": 19.0397798,
+  "epult": "1803–1806",
+  "ev_kezdet": 1803,
+  "ev_veg": 1806,
+  "ev_egyertelmu": true,
+  "tervezo": "bizonytalan, de valószínűleg Pollack Mihály (1773–1855) vagy Johann Aman (1765–1834)",
+  "illesztes": null
+ },
+ {
+  "nev": "Sárközy-présház / Szent György-hegy",
+  "lat": 46.8413889,
+  "lon": 17.4483333,
+  "epult": "1787",
+  "ev_kezdet": 1787,
+  "ev_veg": 1787,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Sárospataki Művelődés Háza / Eötvös út 6.",
+  "lat": 48.3220701,
+  "lon": 21.5669184999999,
+  "epult": "1983",
+  "ev_kezdet": 1983,
+  "ev_veg": 1983,
+  "ev_egyertelmu": true,
+  "tervezo": "Makovecz Imre (1935–2011)"
+ },
+ {
+  "nev": "Sárvári Nádasdy-vár / Várkerület utca 1.",
+  "lat": 47.2519444,
+  "lon": 16.9372172,
+  "epult": "13. század vége",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Semmelweis Egyetem – Klinikai Központ / Budapest, Üllői út 26.",
+  "lat": 47.4873756,
+  "lon": 19.0673766,
+  "epult": "1881–1884",
+  "ev_kezdet": 1881,
+  "ev_veg": 1884,
+  "ev_egyertelmu": true,
+  "tervezo": "Wéber Antal (1823–1889)"
+ },
+ {
+  "nev": "Semmelweis utca 15. / Budapest",
+  "lat": 47.4951542,
+  "lon": 19.0580353,
+  "epult": "1870",
+  "ev_kezdet": 1870,
+  "ev_veg": 1870,
+  "ev_egyertelmu": true,
+  "tervezo": "Diescher József (1811–1874)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 228693209,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Sepsiszentgyörgyi Székely Nemzeti Múzeum / Kós Károly út 10.",
+  "lat": 45.8615711,
+  "lon": 25.7856252,
+  "epult": "1911–1912",
+  "ev_kezdet": 1911,
+  "ev_veg": 1912,
+  "ev_egyertelmu": true,
+  "tervezo": "Kós Károly (1883–1977)"
+ },
+ {
+  "nev": "Siófoki Balaton Szálló / Petőfi stny. 9.",
+  "lat": 46.911797,
+  "lon": 18.055687,
+  "epult": "1962",
+  "ev_kezdet": 1962,
+  "ev_veg": 1962,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Endre, Polónyi Károly (1928–2002)"
+ },
+ {
+  "nev": "Siófoki Európa Szálló / Petőfi stny. 15.",
+  "lat": 46.9136349,
+  "lon": 18.0611904,
+  "epult": "1966",
+  "ev_kezdet": 1966,
+  "ev_veg": 1966,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Endre és Polónyi Károly (1928–2002)"
+ },
+ {
+  "nev": "Siófoki Éden bár / Petőfi sétány 28-40.",
+  "lat": 46.9126832,
+  "lon": 18.0596456,
+  "epult": "1966",
+  "ev_kezdet": 1966,
+  "ev_veg": 1966,
+  "ev_egyertelmu": true,
+  "tervezo": "n.a."
+ },
+ {
+  "nev": "Siófoki Hotel Lidó / Petőfi sétány 11.",
+  "lat": 46.9129813,
+  "lon": 18.0594393,
+  "epult": "1963",
+  "ev_kezdet": 1963,
+  "ev_veg": 1963,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Endre és Polónyi Károly (1928–2002)"
+ },
+ {
+  "nev": "Siófoki Hungária Szálló / Petőfi stny. 13.",
+  "lat": 46.9133076,
+  "lon": 18.0603079,
+  "epult": "1965",
+  "ev_kezdet": 1965,
+  "ev_veg": 1965,
+  "ev_egyertelmu": true,
+  "tervezo": "Czigler Endre és Polónyi Károly (1928–2002)"
+ },
+ {
+  "nev": "Siófoki Motel Étterem / Mátyás király u.",
+  "lat": 46.9113658,
+  "lon": 18.0584401999999,
+  "epult": "1960",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": true,
+  "tervezo": "Polónyi Károly (1928–2002)"
+ },
+ {
+  "nev": "Siófoki Sió csatorna",
+  "lat": 46.9069662,
+  "lon": 18.0470609,
+  "epult": "4. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Soproni Storno-ház / Fő tér 8.",
+  "lat": 47.686524,
+  "lon": 16.591184,
+  "epult": "13. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Soproni tévétorony / Károlymagaslati út",
+  "lat": 47.6623573,
+  "lon": 16.568388,
+  "epult": "1968-70",
+  "ev_kezdet": 1968,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "Kovács Sándor (1935-)"
+ },
+ {
+  "nev": "Soproni Tűztorony / Fő tér 5.",
+  "lat": 47.6867864,
+  "lon": 16.5913194,
+  "epult": "13. század, újjáépítés 1678-1682",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Só utca 5. / Budapest",
+  "lat": 47.4880195,
+  "lon": 19.0583928999999,
+  "epult": "1968",
+  "ev_kezdet": 1968,
+  "ev_veg": 1968,
+  "ev_egyertelmu": true,
+  "tervezo": "Jeney Lajos (1894–1981)"
+ },
+ {
+  "nev": "Svábhegyi Víztorony / Budapest, Eötvös út 41.",
+  "lat": 47.4996859,
+  "lon": 18.9747159999999,
+  "epult": "1913",
+  "ev_kezdet": 1913,
+  "ev_veg": 1913,
+  "ev_egyertelmu": true,
+  "tervezo": "Zielinski Szilárd (1860–1924)"
+ },
+ {
+  "nev": "Stefánia Palota / Budapest, Stefánia út 34.",
+  "lat": 47.509614,
+  "lon": 19.092682,
+  "epult": "1895",
+  "ev_kezdet": 1895,
+  "ev_veg": 1895,
+  "ev_egyertelmu": true,
+  "tervezo": "Meinig Artúr (1853–1904)"
+ },
+ {
+  "nev": "Steinlein-Fröhlich-bérház / Budapest, Sas utca 3.",
+  "lat": 47.499491,
+  "lon": 19.0525651,
+  "epult": "1829, 1853 és 1854 között teljes átalakításon esett át",
+  "ev_kezdet": 1829,
+  "ev_veg": 1854,
+  "ev_egyertelmu": false,
+  "tervezo": "az eredeti épületet Brein Ignác (XVIII. század vége–1834) tervezte, az átalakítás Gerster Károly (1819–1867), Kauser Lipót (1818–1877) és Feszl Frigyes (1791–1860) nevéhez fűződik",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3216822,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Szabadkai zsinagóga / Jakab és Komor tér",
+  "lat": 46.1014059,
+  "lon": 19.6614422,
+  "epult": "1900–1903",
+  "ev_kezdet": 1900,
+  "ev_veg": 1903,
+  "ev_egyertelmu": true,
+  "tervezo": "Komor Marcell (1868–1944), Jakab Dezső (1864–1932)"
+ },
+ {
+  "nev": "Szalay-kúria / Balatonlelle",
+  "lat": 46.786208,
+  "lon": 17.696342,
+  "epult": "1957",
+  "ev_kezdet": 1957,
+  "ev_veg": 1957,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szapáry-kastély / Felsőbük",
+  "lat": 47.3884689,
+  "lon": 16.7419123,
+  "epult": "17. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szarvasi autóbusz-pályaudvar / Szabadság utca 41-43.",
+  "lat": 46.860202,
+  "lon": 20.554977,
+  "epult": "1977",
+  "ev_kezdet": 1977,
+  "ev_veg": 1977,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szántódi kemping / Tihany utca 3.",
+  "lat": 46.878953,
+  "lon": 17.903455,
+  "epult": "1960-as évek",
+  "ev_kezdet": 1960,
+  "ev_veg": 1960,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szeged-Alsóvárosi Havas Boldogasszony templom / Mátyás király tér 26.",
+  "lat": 46.2406015,
+  "lon": 20.1365505,
+  "epult": "15. század második fele - 19.század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szeged-alsóvárosi napsugaras ház / Pásztor utca 63.",
+  "lat": 46.2360417,
+  "lon": 20.1270406,
+  "epult": "1881-1883",
+  "ev_kezdet": 1881,
+  "ev_veg": 1883,
+  "ev_egyertelmu": true,
+  "tervezo": "Pintér András"
+ },
+ {
+  "nev": "Szegedi egykori vasúti híd",
+  "lat": 46.2885977,
+  "lon": 20.2466399,
+  "epult": "1857-58",
+  "ev_kezdet": 1857,
+  "ev_veg": 1858,
+  "ev_egyertelmu": true,
+  "tervezo": "Ernest Cézanne (1830-1876)"
+ },
+ {
+  "nev": "Szeged-Felsővárosi Szent Miklós Plébániatemplom / Munkácsy utca 7-9.",
+  "lat": 46.2587755,
+  "lon": 20.1587621,
+  "epult": "1754-1767",
+  "ev_kezdet": 1754,
+  "ev_veg": 1767,
+  "ev_egyertelmu": true,
+  "tervezo": "Lechner Vencel"
+ },
+ {
+  "nev": "Szegedi MÁVAUT-pályaudvar / Mars tér",
+  "lat": 46.255936,
+  "lon": 20.1406425,
+  "epult": "1965",
+  "ev_kezdet": 1965,
+  "ev_veg": 1965,
+  "ev_egyertelmu": true,
+  "tervezo": "Dianóczki János (1928-1991)"
+ },
+ {
+  "nev": "Szegedi Nemzeti Színház / Vaszy Viktor tér 1.",
+  "lat": 46.2535551,
+  "lon": 20.1519535,
+  "epult": "1883",
+  "ev_kezdet": 1883,
+  "ev_veg": 1883,
+  "ev_egyertelmu": true,
+  "tervezo": "Ferdinand Fellner (1847-1916), Hermann Helmer (1849-1919)"
+ },
+ {
+  "nev": "Szegedi sebészeti klinika / Korányi fasor 14-15.",
+  "lat": 46.2484259,
+  "lon": 20.1512147,
+  "epult": "1929",
+  "ev_kezdet": 1929,
+  "ev_veg": 1929,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szeged újjáépítése",
+  "lat": 46.2530102,
+  "lon": 20.1414253,
+  "epult": "1880–1883",
+  "ev_kezdet": 1880,
+  "ev_veg": 1883,
+  "ev_egyertelmu": true,
+  "tervezo": "Lechner Lajos (1833–1897)"
+ },
+ {
+  "nev": "Szegedi Anna Fürdő / Tisza Lajos körút 24.",
+  "lat": 46.256134,
+  "lon": 20.150063,
+  "epult": "1896",
+  "ev_kezdet": 1896,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "Lang Adolf (1848–1913) és Steinhardt Antal (1856–1928)"
+ },
+ {
+  "nev": "Szegedi Fekete-ház, Móra Ferenc Múzeum / Somogyi u. 13.",
+  "lat": 46.2501507,
+  "lon": 20.1478597,
+  "epult": "1857",
+  "ev_kezdet": 1857,
+  "ev_veg": 1857,
+  "ev_egyertelmu": true,
+  "tervezo": "Gerster Károly (1819–1867)"
+ },
+ {
+  "nev": "Szent Anna templom / Budapest, Batthyány tér 7.",
+  "lat": 47.505673,
+  "lon": 19.038704,
+  "epult": "1740–1761, helyreállítás: 1763, 1773, teljes belső felújítás: 1978–1985, teljes külső felújítás: 1992–1997",
+  "ev_kezdet": 1740,
+  "ev_veg": 1761,
+  "ev_egyertelmu": true,
+  "tervezo": "Hamon Kristóf (1693–1748), Nöpauer Máté (1719–1792)",
+  "illesztes": null
+ },
+ {
+  "nev": "Szentendrei hajóállomás / Czóbel sétány 6.",
+  "lat": 47.6755351,
+  "lon": 19.0830429,
+  "epult": "1970-es évek végén, újjáépítés 2016",
+  "ev_kezdet": 1970,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szent Erzsébet templom / Budapest, Rózsák tere 8.",
+  "lat": 47.5013381,
+  "lon": 19.0759955,
+  "epult": "1893–1901",
+  "ev_kezdet": 1893,
+  "ev_veg": 1901,
+  "ev_egyertelmu": true,
+  "tervezo": "Steindl Imre (1839–1902)"
+ },
+ {
+  "nev": "Szentes–csongrádi közúti Tisza-híd",
+  "lat": 46.6848836,
+  "lon": 20.197753,
+  "epult": "1979-81",
+  "ev_kezdet": 1979,
+  "ev_veg": 1981,
+  "ev_egyertelmu": true,
+  "tervezo": "Németh Kálmán, Huszár Gyula (1921-)"
+ },
+ {
+  "nev": "Szentesi tévétorony",
+  "lat": 46.6238467,
+  "lon": 20.2822786,
+  "epult": "1959-1960",
+  "ev_kezdet": 1959,
+  "ev_veg": 1960,
+  "ev_egyertelmu": true,
+  "tervezo": "Reiner Endre"
+ },
+ {
+  "nev": "Szent Gellért-szobor árkádjai / Budapest, Szent Gellért rkp. 16.",
+  "lat": 47.4895793,
+  "lon": 19.0455293,
+  "epult": "1900-as évek eleje",
+  "ev_kezdet": 1900,
+  "ev_veg": 1900,
+  "ev_egyertelmu": false,
+  "tervezo": "Francsek Imre (1864-1920)",
+  "illesztes": null
+ },
+ {
+  "nev": "Szent György tér / Budapest",
+  "lat": 47.4976315,
+  "lon": 19.0377828000001,
+  "epult": "XVII–XVIII. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "-"
+ },
+ {
+  "nev": "Szent Imre Kollégium / Budapest, Bartók Béla út 17.",
+  "lat": 47.4811599,
+  "lon": 19.0519916000001,
+  "epult": "1906–1908",
+  "ev_kezdet": 1906,
+  "ev_veg": 1908,
+  "ev_egyertelmu": true,
+  "tervezo": "Aigner Sándor (1854–1912)"
+ },
+ {
+  "nev": "Szent Imre templom / Budapest, Villányi út 25.",
+  "lat": 47.4788412,
+  "lon": 19.041458,
+  "epult": "1938",
+  "ev_kezdet": 1938,
+  "ev_veg": 1938,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)"
+ },
+ {
+  "nev": "Szent István Bazilika / Budapest, Szent István tér 1.",
+  "lat": 47.5008902,
+  "lon": 19.0539887,
+  "epult": "1851-1906, felújítás: 1982-2003",
+  "ev_kezdet": 1851,
+  "ev_veg": 1906,
+  "ev_egyertelmu": true,
+  "tervezo": "Ybl Miklós (1814-1891), Hild József (1789-1867), Kauser József (1848-1919)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 20593057,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Szent István körút 13. és 15.",
+  "lat": 47.5119202,
+  "lon": 19.0510698000001,
+  "epult": "1898",
+  "ev_kezdet": 1898,
+  "ev_veg": 1898,
+  "ev_egyertelmu": true,
+  "tervezo": "Gaál Bertalan (1860–1915)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 2931018,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Szent István-völgyi malom / Ábrahámhegy",
+  "lat": 46.8214969,
+  "lon": 17.5635916,
+  "epult": "1804",
+  "ev_kezdet": 1804,
+  "ev_veg": 1804,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Széchenyi-hegyi tévétorony / Budapest, Csíz u. 2.",
+  "lat": 47.491439,
+  "lon": 18.9818951,
+  "epult": "1956–58",
+  "ev_kezdet": 1956,
+  "ev_veg": 1958,
+  "ev_egyertelmu": true,
+  "tervezo": "nincs információ"
+ },
+ {
+  "nev": "Széchenyi-fürdő / Budapest, Állatkerti krt. 9.",
+  "lat": 47.518971,
+  "lon": 19.0832359999999,
+  "epult": "1909–1913",
+  "ev_kezdet": 1909,
+  "ev_veg": 1913,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Székesfehérvári Püspöki Palota / Városház tér 5.",
+  "lat": 47.1917222,
+  "lon": 18.4097575,
+  "epult": "1788-1803",
+  "ev_kezdet": 1788,
+  "ev_veg": 1803,
+  "ev_egyertelmu": true,
+  "tervezo": "Franz Anton Fiegs, Rieder Jakab"
+ },
+ {
+  "nev": "Székesfővárosi Polgári és Elemi Iskola, ma József Attila Gimnázium / Budapest, Váli u. 1.",
+  "lat": 47.4762888,
+  "lon": 19.0477609,
+  "epult": "1922",
+  "ev_kezdet": 1922,
+  "ev_veg": 1922,
+  "ev_egyertelmu": true,
+  "tervezo": "Sándy Gyula (1868–1953)"
+ },
+ {
+  "nev": "Szigligeti Alkotóház",
+  "lat": 46.8016824,
+  "lon": 17.4328003,
+  "epult": "1785-1787, átépítés: 1915-1916",
+  "ev_kezdet": 1785,
+  "ev_veg": 1787,
+  "ev_egyertelmu": true,
+  "tervezo": "–, átépítés: Eduard Thumb (1882-1914) és Carl Badstieber (1875-1942)"
+ },
+ {
+  "nev": "Sziklakápolna / Budapest, Szent Gellért rakpart 1.",
+  "lat": 47.484837,
+  "lon": 19.0520459,
+  "epult": "1926",
+  "ev_kezdet": 1926,
+  "ev_veg": 1926,
+  "ev_egyertelmu": true,
+  "tervezo": "Lux Kálmán (1880-1961), Weichinger Károly (1893–1982) és Szabó Lóránt"
+ },
+ {
+  "nev": "Szilágyi Dezső téri református templom / Budapest",
+  "lat": 47.5038161,
+  "lon": 19.0382563000001,
+  "epult": "1892–1896",
+  "ev_kezdet": 1892,
+  "ev_veg": 1896,
+  "ev_egyertelmu": true,
+  "tervezo": "Pecz Samu (1854–1922)",
+  "illesztes": null
+ },
+ {
+  "nev": "Szilágyi Erzsébet Gimnázium / Budapest, Mészáros u. 5–7.",
+  "lat": 47.4962758,
+  "lon": 19.0300096999999,
+  "epult": "1937",
+  "ev_kezdet": 1937,
+  "ev_veg": 1937,
+  "ev_egyertelmu": true,
+  "tervezo": "Weichinger Károly (1893–1982)"
+ },
+ {
+  "nev": "Szolnoki autóbusz-állomás / Ady Endre út 15.",
+  "lat": 47.177476,
+  "lon": 20.192666,
+  "epult": "1976, újjáépült 2008",
+  "ev_kezdet": 1976,
+  "ev_veg": 2008,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Szolnoki Tisza Szálló / Sóház u. 2.",
+  "lat": 47.1719473,
+  "lon": 20.1970977999999,
+  "epult": "1928",
+  "ev_kezdet": 1928,
+  "ev_veg": 1928,
+  "ev_egyertelmu": true,
+  "tervezo": "Hegedűs Ármin (1869–1945)"
+ },
+ {
+  "nev": "Szolnoki toronyház / Mátyás király út 2.",
+  "lat": 47.178922,
+  "lon": 20.1784937,
+  "epult": "1975",
+  "ev_kezdet": 1975,
+  "ev_veg": 1975,
+  "ev_egyertelmu": true,
+  "tervezo": "Liszkai Károly"
+ },
+ {
+  "nev": "Szombathelyi autóbusz-pályaudvar / Ady Endre tér",
+  "lat": 47.233223,
+  "lon": 16.615637,
+  "epult": "1965, bővítés 1971, 1974",
+  "ev_kezdet": 1965,
+  "ev_veg": 1965,
+  "ev_egyertelmu": true,
+  "tervezo": "UVATERV"
+ },
+ {
+  "nev": "Szombathelyi Bartók Béla Zeneiskola és Hangversenyterem / Rákóczi Ferenc utca 3.",
+  "lat": 47.2290969,
+  "lon": 16.6223689999999,
+  "epult": "1968–1975",
+  "ev_kezdet": 1968,
+  "ev_veg": 1975,
+  "ev_egyertelmu": true,
+  "tervezo": "Károlyi Antal (1906–1970)"
+ },
+ {
+  "nev": "Szombathelyi Művelődési és Sportház / Március 15. tér 5.",
+  "lat": 47.2360051,
+  "lon": 16.6210876,
+  "epult": "1963",
+  "ev_kezdet": 1963,
+  "ev_veg": 1963,
+  "ev_egyertelmu": true,
+  "tervezo": "Károlyi Antal (1906–1970)"
+ },
+ {
+  "nev": "Sztánai Varjúvár",
+  "lat": 46.8865254,
+  "lon": 23.1425011,
+  "epult": "1910, bővítés 1925-ben",
+  "ev_kezdet": 1910,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "Kós Károly (1883–1977)"
+ },
+ {
+  "nev": "Tahitótfalui Tildy Zoltán híd",
+  "lat": 47.7536032,
+  "lon": 19.0813818,
+  "epult": "1912-1914",
+  "ev_kezdet": 1912,
+  "ev_veg": 1914,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Tapolcai vízimalom / Batsányi János tér 7.",
+  "lat": 46.8813113,
+  "lon": 17.4412229,
+  "epult": "13-14. század, felújítás 2016",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "n.a."
+ },
+ {
+  "nev": "Tátra utca 4. / Budapest",
+  "lat": 47.5132345,
+  "lon": 19.0501556,
+  "epult": "1911–1912",
+  "ev_kezdet": 1911,
+  "ev_veg": 1912,
+  "ev_egyertelmu": true,
+  "tervezo": "Málnai Béla (1878–1941) és Haász Gyula (1877–1951)",
+  "illesztes": null
+ },
+ {
+  "nev": "Tátra utca 25. / Budapest",
+  "lat": 47.5165834,
+  "lon": 19.0530091000001,
+  "epult": "1932",
+  "ev_kezdet": 1932,
+  "ev_veg": 1932,
+  "ev_egyertelmu": true,
+  "tervezo": "Málnai Béla (1878–1941)"
+ },
+ {
+  "nev": "Thonet-ház / Budapest, Váci u. 11/a.",
+  "lat": 47.49479,
+  "lon": 19.051872,
+  "epult": null,
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": null,
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 14637669,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Thonet-udvar / Budapest, Vigadó tér 3.",
+  "lat": 47.4961124,
+  "lon": 19.0485622,
+  "epult": "1869–1871",
+  "ev_kezdet": 1869,
+  "ev_veg": 1871,
+  "ev_egyertelmu": true,
+  "tervezo": "Szkalnitzky Antal (1836–1878) és ifj. Koch Henrik (1837–1889)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 936998,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Tigris Szálló / Budapest, Nádor utca 5.",
+  "lat": 47.4997367,
+  "lon": 19.0496841,
+  "epult": "1839–1840",
+  "ev_kezdet": 1839,
+  "ev_veg": 1840,
+  "ev_egyertelmu": true,
+  "tervezo": "Hild József (1789–1867)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 3217053,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Tihany Motel / Rév utca",
+  "lat": 46.8904138,
+  "lon": 17.8898643,
+  "epult": "1959",
+  "ev_kezdet": 1959,
+  "ev_veg": 1959,
+  "ev_egyertelmu": true,
+  "tervezo": "Polónyi Károly (1928–2002)"
+ },
+ {
+  "nev": "Tihany Szálló / Rév u.3.",
+  "lat": 46.891028,
+  "lon": 17.8901769,
+  "epult": "1963",
+  "ev_kezdet": 1963,
+  "ev_veg": 1963,
+  "ev_egyertelmu": true,
+  "tervezo": "Kun Attila (1924–1983)"
+ },
+ {
+  "nev": "Tihanyi hajóállomás",
+  "lat": 46.9175897,
+  "lon": 17.8945185,
+  "epult": "1958",
+  "ev_kezdet": 1958,
+  "ev_veg": 1958,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Tihanyi Németh László Művelődési Ház / Mádl Ferenc tér 1.",
+  "lat": 46.9131896,
+  "lon": 17.8879916,
+  "epult": "1963",
+  "ev_kezdet": 1963,
+  "ev_veg": 1963,
+  "ev_egyertelmu": true,
+  "tervezo": "Callmeyer Ferenc (1928– ), Tóth Kálmán"
+ },
+ {
+  "nev": "Tihanyi posta és idegenforgalmi hivatal, ma Móló Café / Hajóállomás",
+  "lat": 46.9171097,
+  "lon": 17.8922761,
+  "epult": "1962",
+  "ev_kezdet": 1962,
+  "ev_veg": 1962,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Tihanyi Rege Cukrászda / Kossuth Lajos u. 22.",
+  "lat": 46.913759,
+  "lon": 17.8888549,
+  "epult": "1961",
+  "ev_kezdet": 1961,
+  "ev_veg": 1961,
+  "ev_egyertelmu": true,
+  "tervezo": "Callmeyer Ferenc (1928– ), Tóth Kálmán"
+ },
+ {
+  "nev": "Tihanyi rév / Rév utca 1.",
+  "lat": 46.8897293,
+  "lon": 17.8909853,
+  "epult": "1962",
+  "ev_kezdet": 1962,
+  "ev_veg": 1962,
+  "ev_egyertelmu": true,
+  "tervezo": "Dianóczki János (1928–1991)"
+ },
+ {
+  "nev": "Tihanyi Sportszálló / Hajóállomás",
+  "lat": 46.9165514,
+  "lon": 17.8925922,
+  "epult": "1922–1923",
+  "ev_kezdet": 1922,
+  "ev_veg": 1923,
+  "ev_egyertelmu": true,
+  "tervezo": "Bierbauer (Borbíró) Virgil (1893–1956)"
+ },
+ {
+  "nev": "TIT székház, volt Zsinagóga / Bocskai út 37.",
+  "lat": 47.4763163,
+  "lon": 19.0373855,
+  "epult": "1935–1936",
+  "ev_kezdet": 1935,
+  "ev_veg": 1936,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Hámor (Hamburger) István (1895–1970)"
+ },
+ {
+  "nev": "Tokaji Karácsony-ház / Bethlen Gábor út 7.",
+  "lat": 48.1265717,
+  "lon": 21.4081846,
+  "epult": "1790-es évek eleje",
+  "ev_kezdet": 1790,
+  "ev_veg": 1790,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Tokaj-rakamazi közúti Tisza-híd",
+  "lat": 48.1216514,
+  "lon": 21.4138351,
+  "epult": "1956-1959",
+  "ev_kezdet": 1956,
+  "ev_veg": 1959,
+  "ev_egyertelmu": true,
+  "tervezo": "Knebel Jenő (1927-2016)"
+ },
+ {
+  "nev": "Toldy Ferenc Gimnázium / Budapest, Toldy Ferenc utca 9.",
+  "lat": 47.5045983,
+  "lon": 19.0357246999999,
+  "epult": "1857–1859",
+  "ev_kezdet": 1857,
+  "ev_veg": 1859,
+  "ev_egyertelmu": true,
+  "tervezo": "Hans Petschnig (1821–?)"
+ },
+ {
+  "nev": "Tőzsdepalota / Budapest, Szabadság tér 17.",
+  "lat": 47.5037477,
+  "lon": 19.0495409,
+  "epult": "1901–1905",
+  "ev_kezdet": 1901,
+  "ev_veg": 1905,
+  "ev_egyertelmu": true,
+  "tervezo": "Alpár Ignác (1855–1928)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 11832,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Tündérpalota / Budapest, Könyves Kálmán körút 40.",
+  "lat": 47.477877,
+  "lon": 19.099926,
+  "epult": "1909–1911",
+  "ev_kezdet": 1909,
+  "ev_veg": 1911,
+  "ev_egyertelmu": true,
+  "tervezo": "Kőrössy Albert Kálmán (1869–1955)"
+ },
+ {
+  "nev": "Új Színház / Budapest, Paulay Ede utca 35.",
+  "lat": 47.5015017,
+  "lon": 19.0594040999999,
+  "epult": "1909",
+  "ev_kezdet": 1909,
+  "ev_veg": 1909,
+  "ev_egyertelmu": true,
+  "tervezo": "Lajta Béla (1873–1920)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 259165339,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Új Városháza / Budapest, Váci utca 62–64.",
+  "lat": 47.4896106,
+  "lon": 19.0560384,
+  "epult": "1870–1875",
+  "ev_kezdet": 1870,
+  "ev_veg": 1875,
+  "ev_egyertelmu": true,
+  "tervezo": "Steindl Imre (1839–1902)",
+  "illesztes": null
+ },
+ {
+  "nev": "Újpalotai lakótelep / Budapest, Nyírpalota út",
+  "lat": 47.543827,
+  "lon": 19.1415031,
+  "epult": "1974",
+  "ev_kezdet": 1974,
+  "ev_veg": 1974,
+  "ev_egyertelmu": true,
+  "tervezo": "Tenke Tibor (1924–1984), Mester Árpád (1927–1992) Csorba Zoltán (1936–)"
+ },
+ {
+  "nev": "Újpalotai víztoronyház / Budapest, Nyírpalota út 71.",
+  "lat": 47.544269,
+  "lon": 19.140595,
+  "epult": "1975",
+  "ev_kezdet": 1975,
+  "ev_veg": 1975,
+  "ev_egyertelmu": true,
+  "tervezo": "Tenke Tibor (1924–1984)"
+ },
+ {
+  "nev": "Újpesti Városháza / Budapest, István út 14.",
+  "lat": 47.5621326,
+  "lon": 19.0899677,
+  "epult": "1900",
+  "ev_kezdet": 1900,
+  "ev_veg": 1900,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Újpesti Művelődési Központ / Tavasz utca 4.",
+  "lat": 47.5587812,
+  "lon": 19.0885418,
+  "epult": "1986",
+  "ev_kezdet": 1986,
+  "ev_veg": 1986,
+  "ev_egyertelmu": true,
+  "tervezo": "Ferencz István (1944–)"
+ },
+ {
+  "nev": "Váci Strandfürdő és Uszoda / Ady Endre stny. 16.",
+  "lat": 47.77519,
+  "lon": 19.1276359999999,
+  "epult": "1951",
+  "ev_kezdet": 1951,
+  "ev_veg": 1951,
+  "ev_egyertelmu": true,
+  "tervezo": "ismeretlen"
+ },
+ {
+  "nev": "Várkert Kioszk / Budapest, Ybl Miklós tér 9.",
+  "lat": 47.493651,
+  "lon": 19.0436328000001,
+  "epult": "1874–1879",
+  "ev_kezdet": 1874,
+  "ev_veg": 1879,
+  "ev_egyertelmu": true,
+  "tervezo": "Ybl Miklós (1814–1891)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 250256587,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Városmajori Gimnázium / Budapest, Városmajor utca 71.",
+  "lat": 47.5086244,
+  "lon": 19.0099956,
+  "epult": "1989",
+  "ev_kezdet": 1989,
+  "ev_veg": 1989,
+  "ev_egyertelmu": true,
+  "tervezo": "Pethes Endre"
+ },
+ {
+  "nev": "Városligeti Műjégpálya / Budapest, Olof Palme sétány 5.",
+  "lat": 47.51461,
+  "lon": 19.079781,
+  "epult": "1870, 1876, 1926",
+  "ev_kezdet": 1870,
+  "ev_veg": 1926,
+  "ev_egyertelmu": false,
+  "tervezo": "Francsek Imre (1864–1920), Lechner Ödön (1845–1914), majd Hollerung Gábor, Krencsey Géza, Kremples Béla, Bauer Béla"
+ },
+ {
+  "nev": "Városligeti 1. kút / Budapest, Hősök tere",
+  "lat": 47.5149429,
+  "lon": 19.0778626,
+  "epult": "1868–1878 (nem épületről, hanem egy melegvizes kút fúrásáró van szó)",
+  "ev_kezdet": 1868,
+  "ev_veg": 1878,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Városmajori kis templom / Budapest, Csaba u. 5.",
+  "lat": 47.5056367,
+  "lon": 19.0214719,
+  "epult": "1923",
+  "ev_kezdet": 1923,
+  "ev_veg": 1923,
+  "ev_egyertelmu": true,
+  "tervezo": "Árkay Aladár (1868–1932)"
+ },
+ {
+  "nev": "Városmajori új templom / Budapest, Csaba u.",
+  "lat": 47.5056983,
+  "lon": 19.021606,
+  "epult": "1932–1933",
+  "ev_kezdet": 1932,
+  "ev_veg": 1933,
+  "ev_egyertelmu": true,
+  "tervezo": "Árkay Aladár (1868–1932) és Árkay Bertalan (1901–1971)"
+ },
+ {
+  "nev": "Veszprémi Állatkert / Kittenberger Kálmán u. 17.",
+  "lat": 47.0970934,
+  "lon": 17.8948441,
+  "epult": "1958",
+  "ev_kezdet": 1958,
+  "ev_veg": 1958,
+  "ev_egyertelmu": true,
+  "tervezo": "-"
+ },
+ {
+  "nev": "Veszprémi Ipartanoda / Óváry Ferenc út – Szeglethy József u. 2",
+  "lat": 47.0922014,
+  "lon": 17.9064982,
+  "epult": "1908",
+  "ev_kezdet": 1908,
+  "ev_veg": 1908,
+  "ev_egyertelmu": true,
+  "tervezo": "Schoditsch Lajos (1872–1941)"
+ },
+ {
+  "nev": "Veszprémi Színház / Óvári Ferenc utca 2.",
+  "lat": 47.0919697,
+  "lon": 17.9068829,
+  "epult": "1907–1908",
+  "ev_kezdet": 1907,
+  "ev_veg": 1908,
+  "ev_egyertelmu": true,
+  "tervezo": "Medgyaszay István (1877–1959)"
+ },
+ {
+  "nev": "Villa a Garas utcában / Budapest, Garas u. 24/a.",
+  "lat": 47.5122373,
+  "lon": 19.0197455,
+  "epult": "1932–1933",
+  "ev_kezdet": 1932,
+  "ev_veg": 1933,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)"
+ },
+ {
+  "nev": "Villa a Pasaréti úton / Budapest, Pasaréti út 109.",
+  "lat": 47.522248,
+  "lon": 18.996993,
+  "epult": "1932",
+  "ev_kezdet": 1932,
+  "ev_veg": 1932,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)"
+ },
+ {
+  "nev": "Villanegyed a Kis-Svábhegyen / Budapest, Tóth Lőrinc u. 5.",
+  "lat": 47.5000609,
+  "lon": 19.0192537,
+  "epult": "1910–1913",
+  "ev_kezdet": 1910,
+  "ev_veg": 1913,
+  "ev_egyertelmu": true,
+  "tervezo": "Árkay Aladár (1868–1932)"
+ },
+ {
+  "nev": "Villánykövesdi présházak / Petőfi utca",
+  "lat": 45.8812912,
+  "lon": 18.4285483,
+  "epult": "–",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Visegrádi Mátyás Király Múzeum / Fő utca 23.",
+  "lat": 47.7924728,
+  "lon": 18.973859,
+  "epult": "14-15. század",
+  "ev_kezdet": null,
+  "ev_veg": null,
+  "ev_egyertelmu": false,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Vörösberényi jezsuita rendház / Veszprémi utca 7. (Balatonalmádi)",
+  "lat": 47.036755,
+  "lon": 18.013217,
+  "epult": "1748",
+  "ev_kezdet": 1748,
+  "ev_veg": 1748,
+  "ev_egyertelmu": true,
+  "tervezo": "–"
+ },
+ {
+  "nev": "Vörösmarty Mihály Gimnázium / Budapest, Horánszky utca 11.",
+  "lat": 47.4918573,
+  "lon": 19.0674555000001,
+  "epult": "1873–1874",
+  "ev_kezdet": 1873,
+  "ev_veg": 1874,
+  "ev_egyertelmu": true,
+  "tervezo": "Diescher József (1811–1874)"
+ },
+ {
+  "nev": "Vörösmarty tér 5. / Budapest",
+  "lat": 47.497073,
+  "lon": 19.0511539,
+  "epult": "1938",
+  "ev_kezdet": 1938,
+  "ev_veg": 1938,
+  "ev_egyertelmu": true,
+  "tervezo": "Kotsis Endre (1897–1954)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 936992,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Walkó-ház / Budapest, Aulich utca 3.",
+  "lat": 47.505206,
+  "lon": 19.051435,
+  "epult": "1901",
+  "ev_kezdet": 1901,
+  "ev_veg": 1901,
+  "ev_egyertelmu": true,
+  "tervezo": "Kőrössy Albert Kálmán (1869–1955)",
+  "illesztes": {
+   "osm_tipus": "way",
+   "id": 261987175,
+   "mod": "belul"
+  }
+ },
+ {
+  "nev": "Walkó-kilátó / Fonyód",
+  "lat": 46.7469626,
+  "lon": 17.5491697,
+  "epult": "1925–26",
+  "ev_kezdet": 1925,
+  "ev_veg": 1926,
+  "ev_egyertelmu": true,
+  "tervezo": "–, dombormű: Benedek György (1934– )"
+ },
+ {
+  "nev": "Wälder-villa / Budapest, Himfy utca 9.",
+  "lat": 47.4784289,
+  "lon": 19.0464151,
+  "epult": "1928–1929",
+  "ev_kezdet": 1928,
+  "ev_veg": 1929,
+  "ev_egyertelmu": true,
+  "tervezo": "Wälder Gyula (1884–1944)"
+ },
+ {
+  "nev": "Weiss Manfréd Nyugdíjpénztár bérháza / Budapest, Közraktár utca 22/b.",
+  "lat": 47.482526,
+  "lon": 19.0637199,
+  "epult": "1940–1941",
+  "ev_kezdet": 1940,
+  "ev_veg": 1941,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951), Barát Béla (1888–1945) és Hofstätter Béla (1891–1944)"
+ },
+ {
+  "nev": "Wekerletelep / Budapest",
+  "lat": 47.4531629,
+  "lon": 19.1236913,
+  "epult": "1908–1925",
+  "ev_kezdet": 1908,
+  "ev_veg": 1925,
+  "ev_egyertelmu": true,
+  "tervezo": null
+ },
+ {
+  "nev": "Wesselényi utca 26. / Budapest",
+  "lat": 47.4982161,
+  "lon": 19.0646653,
+  "epult": "1929",
+  "ev_kezdet": 1929,
+  "ev_veg": 1929,
+  "ev_egyertelmu": true,
+  "tervezo": "Novák Ede (1888–1951) és Barát Béla (1888–1945)"
+ },
+ {
+  "nev": "Wurm-udvar / Budapest, Wekerle Sándor u. 4.",
+  "lat": 47.4973046,
+  "lon": 19.0494165,
+  "epult": "1821",
+  "ev_kezdet": 1821,
+  "ev_veg": 1821,
+  "ev_egyertelmu": true,
+  "tervezo": "Pollack Mihály (1773–1855)",
+  "illesztes": {
+   "osm_tipus": "relation",
+   "id": 936997,
+   "mod": "kozeli"
+  }
+ },
+ {
+  "nev": "Zebegényi katolikus templom / Petőfi tér 5.",
+  "lat": 47.8012223,
+  "lon": 18.9107711,
+  "epult": "1909–1910",
+  "ev_kezdet": 1909,
+  "ev_veg": 1910,
+  "ev_egyertelmu": true,
+  "tervezo": "Kós Károly (1883–1977) és Jánszky Béla (1884–1945)"
+ },
+ {
+  "nev": "Zeneakadémia / Budapest, Liszt Ferenc tér 8.",
+  "lat": 47.5031974,
+  "lon": 19.0643564,
+  "epult": "1904–1907",
+  "ev_kezdet": 1904,
+  "ev_veg": 1907,
+  "ev_egyertelmu": true,
+  "tervezo": "Giergl Kálmán (1863–1954), Korb Flóris (1860–1930)"
+ },
+ {
+  "nev": "Zoodiákus ház / Budapest, Wekerletelep, Kós Károly tér 6.",
+  "lat": 47.4546498,
+  "lon": 19.1262905999999,
+  "epult": "1912–1920(?)",
+  "ev_kezdet": 1912,
+  "ev_veg": 1920,
+  "ev_egyertelmu": false,
+  "tervezo": "Wälder Gyula (1884–1944)"
+ },
+ {
+  "nev": "Zugligeti Libegő / Budapest, Zugliget – János-hegy",
+  "lat": 47.515788,
+  "lon": 18.9603236,
+  "epult": "1970",
+  "ev_kezdet": 1970,
+  "ev_veg": 1970,
+  "ev_egyertelmu": true,
+  "tervezo": "Sidlovics József"
+ },
+ {
+  "nev": "Zsil utca 3–5. / Budapest",
+  "lat": 47.483141,
+  "lon": 19.063309,
+  "epult": "1940",
+  "ev_kezdet": 1940,
+  "ev_veg": 1940,
+  "ev_egyertelmu": true,
+  "tervezo": "Major Máté (1904–1986), Benjámin László"
+ },
+ {
+  "nev": "Zsámbéki Romtemplom / Corvin János utca, Régi templom utca",
+  "lat": 47.5494079,
+  "lon": 18.7147458,
+  "epult": "1220–1234, restaurálás: 1896–1900",
+  "ev_kezdet": 1220,
+  "ev_veg": 1234,
+  "ev_egyertelmu": true,
+  "tervezo": "n.a."
+ }
+]

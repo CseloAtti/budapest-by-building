@@ -1,0 +1,369 @@
+﻿osm_tipus;id;nev;mezo;gyoztes;eltero_forras
+way;24024226;;szintek;szintterkep=9;osm=10.0
+way;24026328;Bank Center;ev;osm=1995;muemlek=1905
+way;24026328;Bank Center;tervezo;kezi=Finta József;muemlek=Alpár Ignác
+way;24038230;Pesti Vigadó;ev;osm=1865;lechner=1901
+way;24050409;InterContinental;szintek;szintterkep=6;osm=11.0
+way;24051071;Szakorvosi Rendelőintézet;szintek;szintterkep=3;osm=7.0
+way;24053205;Skála Metro áruház;szintek;kezi=8;osm=2.0
+way;24054232;Honvédelmi Minisztérium;ev;kezi=1950;wikidata=1848
+way;24054232;Honvédelmi Minisztérium;ev;kezi=1950;wikidata=1867
+way;24054281;;szintek;szintterkep=4;osm=5.0
+way;24126000;Országos Mentőszolgálat Főigazgatóság;ev;osm=1890;helyi_vedelem=1879
+way;24322299;Deák téri evangélikus templom;ev;osm=1811;wikidata=1808
+way;24322299;Deák téri evangélikus templom;ev;osm=1811;wikidata=1808
+way;24322702;Evangélikus Országos Múzeum;ev;lechner=1808;muemlek=1811
+way;24322704;Deák Téri Evangélikus Gimnázium;ev;lechner=1864;wikidata=1823
+way;24322704;Deák Téri Evangélikus Gimnázium;ev;lechner=1864;wikidata=1823
+way;24323125;East-West Center Irodaház;ev;osm=1992;lechner=1885
+way;24324019;Klotild-palota;ev;osm=1902;muemlek=1899
+way;24324025;Párizsi udvar;ev;osm=2019;eubucco=1912
+way;24324025;Párizsi udvar;ev;osm=2019;oeny=1909
+way;24324025;Párizsi udvar;ev;osm=2019;oeny=1914
+way;24332420;Regus Parlament irodaház;szintek;szintterkep=3;osm=7.0
+way;24341129;OTP;szintek;szintterkep=5;osm=6.0
+way;24349391;ECE irodaház;szintek;szintterkep=8;osm=7.0
+way;24711190;Egyetemi Kisboldogasszony-templom;ev;osm=1742;wikidata=1725
+way;24711190;Egyetemi Kisboldogasszony-templom;ev;osm=1742;wikidata_kozeli=1725
+way;25039922;Innovációs és Technológiai Minisztérium;szintek;szintterkep=4;muemlek=3
+way;25042465;Emerald Residence;szintek;szintterkep=7;osm=6.0
+way;25047275;;szintek;szintterkep=6;osm=3.0
+way;25049102;;szintek;szintterkep=3;osm=4.0
+way;25049958;Belvárosi Szent Mihály-templom;ev;osm=1730;muemlek=1783
+way;25049958;Belvárosi Szent Mihály-templom;ev;osm=1730;muemlek=1784
+way;25049958;Belvárosi Szent Mihály-templom;ev;osm=1730;wikidata=1765
+way;25049958;Belvárosi Szent Mihály-templom;ev;osm=1730;wikidata_kozeli=1765
+way;25049958;Belvárosi Szent Mihály-templom;szintek;osm=1.0;muemlek=4
+way;25290904;Ausztria irodaház;szintek;szintterkep=6;osm=9.0
+way;25291053;Magyar Fotográfusok Háza - Mai Manó Ház;ev;osm=1894;wikidata=1992
+way;25354238;;szintek;szintterkep=6;osm=1.0
+way;25355118;;szintek;szintterkep=7;osm=8.0
+way;25366511;Kossuth Lajos Múzeumhajó;ev;osm=1913;muemlek=1864
+way;25372266;;szintek;szintterkep=6;osm=1.0
+way;57716767;;szintek;szintterkep=3;osm=2.0
+way;60242224;;szintek;szintterkep=5;muemlek=3
+way;60242322;;szintek;szintterkep=7;osm=6.0
+way;166953718;;szintek;szintterkep=4;osm=3.0
+way;166967808;;szintek;szintterkep=3;osm=4.0
+way;200466622;;szintek;szintterkep=3;osm=4.0
+way;219936433;;ev;osm=1939;lechner=1935
+way;221650829;;szintek;szintterkep=1;osm=2.0
+way;221650832;;szintek;szintterkep=5;osm=4.0
+way;221650862;;szintek;szintterkep=7;osm=5.0
+way;223530620;Dohány utcai zsinagóga;ev;osm=1859;wikidata=1854
+way;223530620;Dohány utcai zsinagóga;ev;osm=1859;wikidata=1854
+way;227211905;;szintek;szintterkep=6;osm=7.0
+way;227211917;;ev;muemlek=1944;wikidata=1994
+way;227211933;;szintek;szintterkep=8;osm=9.0
+way;227214771;;szintek;szintterkep=5;osm=4.0
+way;227214772;;szintek;szintterkep=3;osm=6.0
+way;227214781;;szintek;szintterkep=4;osm=6.0
+way;227214783;;szintek;szintterkep=6;osm=4.0
+way;227332932;;szintek;szintterkep=6;osm=8.0
+way;228693174;;szintek;szintterkep=4;osm=6.0
+way;228693186;;szintek;szintterkep=5;osm=4.0
+way;228693192;Röser-udvar;szintek;szintterkep=6;osm=4.0
+way;228693196;;szintek;szintterkep=8;osm=6.0
+way;229439561;;szintek;szintterkep=6;osm=7.0
+way;229439563;;szintek;szintterkep=3;osm=7.0
+way;229439565;;szintek;szintterkep=3;osm=6.0
+way;229442136;;ev;oeny=1898;wikidata=1859
+way;238641872;;szintek;szintterkep=8;osm=7.0
+way;238737185;Zrinyi3;szintek;szintterkep=6;osm=8.0
+way;238737186;;szintek;szintterkep=3;muemlek=6
+way;238737186;;szintek;szintterkep=3;osm=6.0
+way;238738996;;szintek;szintterkep=5;osm=6.0
+way;238896339;Prestige Hotel;ev;kezi=1835;wikidata=2015
+way;238898872;;szintek;szintterkep=6;osm=5.0
+way;239210079;;szintek;szintterkep=7;osm=6.0
+way;239210083;;ev;osm=1865;muemlek=1861
+way;239210083;;ev;osm=1865;oeny=1861
+way;239339498;;szintek;szintterkep=3;muemlek=4
+way;239339498;;szintek;szintterkep=3;osm=4.0
+way;239339500;;szintek;szintterkep=5;osm=6.0
+way;241001294;;szintek;szintterkep=6;osm=4.0
+way;241012661;MTA könyvtára;szintek;szintterkep=3;osm=5.0
+way;241524011;;szintek;szintterkep=6;osm=4.0
+way;241524022;;szintek;szintterkep=8;osm=7.0
+way;241719960;;szintek;szintterkep=3;osm=4.0
+way;241719965;;szintek;szintterkep=5;osm=6.0
+way;243102049;;szintek;szintterkep=6;osm=7.0
+way;243704030;;szintek;szintterkep=7;osm=6.0
+way;244577226;UNIQA Plaza;ev;osm=1966;wikidata_kozeli=1991
+way;244577226;UNIQA Plaza;szintek;szintterkep=9;osm=11.0
+way;244577227;;szintek;szintterkep=9;osm=4.0
+way;244577232;Regus;szintek;szintterkep=6;osm=7.0
+way;244747423;Franklin Ház;szintek;szintterkep=6;osm=5.0
+way;244747430;;szintek;szintterkep=4;osm=5.0
+way;244747436;;szintek;szintterkep=3;osm=4.0
+way;244747457;;szintek;szintterkep=1;osm=3.0
+way;245165457;;szintek;szintterkep=3;osm=2.0
+way;245448623;;szintek;szintterkep=3;osm=2.0
+way;245721825;;szintek;szintterkep=6;osm=5.0
+way;247082779;;szintek;szintterkep=7;osm=9.0
+way;247082813;;szintek;szintterkep=5;osm=1.0
+way;248705962;;szintek;szintterkep=3;osm=1.0
+way;248706967;;szintek;szintterkep=3;osm=4.0
+way;248706970;;szintek;szintterkep=3;osm=5.0
+way;248922965;Istenszülő elhunyta Nagyboldogasszony-székesegyház;ev;osm=1791;muemlek=1801
+way;248922968;;szintek;szintterkep=6;osm=7.0
+way;248922988;;szintek;szintterkep=7;osm=6.0
+way;249285113;;szintek;szintterkep=6;osm=5.0
+way;250256587;Ybl Budai Kreatív Ház;ev;osm=1882;lechner_kozeli=1879
+way;254003779;;szintek;szintterkep=6;muemlek=3
+way;254003779;;szintek;szintterkep=6;osm=3.0
+way;254003892;;szintek;szintterkep=1;muemlek=2
+way;254003892;;szintek;szintterkep=1;osm=2.0
+way;254003907;;szintek;szintterkep=6;muemlek=3
+way;256056169;Péterffy-palota;szintek;szintterkep=8;osm=2.0
+way;258289286;Magyar Nemzeti Múzeum Gazdasági Főigazgatóság;szintek;szintterkep=3;osm=4.0
+way;258289295;;szintek;szintterkep=3;osm=4.0
+way;258289300;;szintek;szintterkep=3;muemlek=4
+way;258289304;;szintek;szintterkep=3;osm=4.0
+way;258289308;;szintek;szintterkep=3;osm=4.0
+way;258289312;;szintek;szintterkep=3;muemlek=4
+way;258289321;;szintek;szintterkep=4;osm=3.0
+way;259152005;;ev;osm=1810;muemlek=1938
+way;259154241;;szintek;osm=4.0;muemlek=3
+way;259160567;Ullmann-palota;ev;osm=1884;eubucco=1878
+way;259165339;;ev;osm=1909;wikidata=1994
+way;259517520;II. épület, Gozsdu udvar;ev;osm=1902;muemlek=1938
+way;259517522;I. épület, Gozsdu udvar;ev;osm=1902;muemlek=1938
+way;259517524;III. épület, Gozsdu udvar;ev;osm=1902;muemlek=1938
+way;259518686;;tervezo;muemlek=Wálder Gyula;helyi_vedelem=Martsekényi Imre
+way;259518686;;szintek;osm=7.0;muemlek=10
+way;259518688;;tervezo;muemlek=Wálder Gyula;helyi_vedelem=Martsekényi Imre
+way;259518688;;szintek;osm=7.0;muemlek=10
+way;259555819;Rumbach utcai zsinagóga;tervezo;muemlek=Ottó Wagner;wikidata=Buzzi Bódog
+way;259555819;Rumbach utcai zsinagóga;tervezo;muemlek=Ottó Wagner;wikidata=Buzzi Bódog
+way;259555831;Erzsébetváros alállomás;ev;osm=1966;lechner=1969
+way;259555844;IV. épület, Gozsdu udvar;ev;osm=1902;muemlek=1938
+way;261301353;;ev;oeny=1935;helyi_vedelem=1892
+way;261301353;;tervezo;oeny=Friedrich Lóránt;helyi_vedelem=Millnich Alfréd
+way;261301383;;szintek;osm=7.0;muemlek=3
+way;261301432;;tervezo;oeny=Fischer József;helyi_vedelem=Freund Dezső
+way;261301447;;ev;muemlek=1853;wikidata_kozeli=1870
+way;261301447;;szintek;osm=4.0;muemlek=3
+way;261889902;;szintek;szintterkep=8;osm=7.0
+way;261893546;;ev;osm=1930;oeny=1926
+way;261893546;;szintek;szintterkep=7;osm=5.0
+way;261912945;;szintek;szintterkep=7;osm=6.0
+way;261912946;;szintek;szintterkep=6;osm=7.0
+way;261987175;;tervezo;lechner=Kőrössy Albert Kálmán (1869–1955);helyi_vedelem=Körössy Albert Kálmán
+way;261994307;;szintek;szintterkep=6;osm=5.0
+way;261995598;;szintek;szintterkep=4;osm=3.0
+way;264564798;H2 Hotel Budapest;szintek;szintterkep=6;osm=7.0
+way;269870987;Tisza Lajos Irodaház;szintek;szintterkep=6;osm=5.0
+way;291450290;;ev;lechner=1926;muemlek=1735
+way;291450290;;tervezo;lechner=Bierbauer (Borbíró) Virgil (1893–1956), Reichl Kálmán (1879–1926);muemlek=Fortunato Prati és Hölbing János
+way;291450290;;szintek;szintterkep=3;muemlek=4
+way;310575850;;szintek;szintterkep=4;osm=5.0
+way;310575851;;szintek;szintterkep=3;osm=4.0
+way;310575854;;szintek;szintterkep=9;osm=1.0
+way;310575855;Kincsem-palota;szintek;szintterkep=1;osm=2.0
+way;315146139;Brüll-bérpalota;szintek;osm=5.0;muemlek=4
+way;319373301;;szintek;szintterkep=6;osm=3.0
+way;319373302;;szintek;szintterkep=3;osm=4.0
+way;336705423;;szintek;szintterkep=6;osm=5.0
+way;385832061;Magyar Zsidó Múzeum és Levéltár;ev;osm=1909;lechner_kozeli=1859
+way;519696082;Szervita Square;ev;kezi=2020;muemlek=1840
+way;519696082;Szervita Square;tervezo;kezi=Gellár László;muemlek=íves homlokzattal
+way;519696082;Szervita Square;szintek;szintterkep=8;muemlek=3
+way;519696082;Szervita Square;szintek;szintterkep=8;osm=5.0
+way;540140425;;szintek;szintterkep=6;osm=4.0
+way;621691706;Schorndorfer-ház;ev;osm=1806;wikidata_kozeli=1870
+way;621691707;;szintek;szintterkep=3;osm=7.0
+way;759145545;Festetics palota;szintek;osm=3.0;muemlek=4
+way;762834282;Országház Látogatóközpont;ev;kezi=2014;muemlek=1904
+way;762834282;Országház Látogatóközpont;tervezo;kezi=Tima Zoltán;muemlek=Steindl Imre
+way;1096291111;;szintek;szintterkep=3;osm=1.0
+way;1285215308;Dorothea Hotel, Budapest, Autograph Collection;ev;lechner=1873;oeny=1910
+way;1285215308;Dorothea Hotel, Budapest, Autograph Collection;tervezo;lechner=Wéber Antal (1823–1889);oeny=Weber Antal
+way;1285215308;Dorothea Hotel, Budapest, Autograph Collection;szintek;szintterkep=8;muemlek=4
+way;1530362284;;szintek;szintterkep=4;osm=3.0
+relation;11764;Képviselői irodaház;ev;osm=1947;wikidata=1911
+relation;11764;Képviselői irodaház;szintek;szintterkep=7;osm=9.0
+relation;11766;Igazságügyi palota;szintek;szintterkep=3;muemlek=4
+relation;11766;Igazságügyi palota;szintek;szintterkep=3;osm=4.0
+relation;11768;Miniszterelnöki Hivatal;szintek;szintterkep=6;osm=7.0
+relation;11772;Magyar Tudományos Akadémia;ev;lechner=1865;wikidata=1825
+relation;11772;Magyar Tudományos Akadémia;ev;lechner=1865;wikidata=1992
+relation;11832;Tőzsdepalota;ev;osm=1905;wikidata=1902
+relation;11832;Tőzsdepalota;ev;osm=1905;wikidata=1902
+relation;11832;Tőzsdepalota;szintek;szintterkep=4;osm=5.0
+relation;11844;Magyar Nemzeti Bank;ev;osm=1905;wikidata=1924
+relation;11845;Kúria;ev;kezi=1918;wikidata=1913
+relation;11845;Kúria;ev;kezi=1918;wikidata=1913
+relation;11845;Kúria;ev;kezi=1918;osm=1913
+relation;11846;Postatakarékpénztár;tervezo;oeny=Királyi Postatakarékpénztár;wikidata=Lechner Ödön
+relation;11895;Pénzügyminisztérium;ev;osm=1913;wikidata=2023
+relation;11895;Pénzügyminisztérium;szintek;szintterkep=6;osm=7.0
+relation;11897;Gerbeaud-ház;ev;osm=1860;wikidata_kozeli=2007
+relation;11898;Belügyminisztérium;ev;muemlek=1822;oeny=1908
+relation;11898;Belügyminisztérium;ev;muemlek=1822;wikidata=1848
+relation;11898;Belügyminisztérium;szintek;szintterkep=6;osm=5.0
+relation;11914;Emberi Erőforrások Minisztériuma;ev;muemlek=1836;wikidata=2010
+relation;11917;Atrinova irodaház;szintek;szintterkep=7;osm=8.0
+relation;11919;Honvédelmi Minisztérium;ev;kezi=1841;wikidata=1848
+relation;11919;Honvédelmi Minisztérium;ev;kezi=1841;osm=1947
+relation;11919;Honvédelmi Minisztérium;szintek;szintterkep=5;muemlek=3
+relation;11919;Honvédelmi Minisztérium;szintek;szintterkep=5;osm=3.0
+relation;12025;Budapesti Gazdasági Egyetem;ev;osm=1875;wikidata=1857
+relation;12146;;ev;osm=1844;muemlek=1834
+relation;12146;;ev;osm=1844;oeny=1834
+relation;12697;Roosevelt Irodaház;szintek;szintterkep=9;osm=8.0
+relation;12939;Fővárosi Önkormányzat;ev;osm=1727;muemlek=1735
+relation;12939;Fővárosi Önkormányzat;ev;osm=1727;wikidata=1716
+relation;12939;Fővárosi Önkormányzat;ev;osm=1727;wikidata=1716
+relation;12939;Fővárosi Önkormányzat;tervezo;muemlek=Fortunato Prati és Hölbing János;wikidata=Anton Erhard Martinelli
+relation;12939;Fővárosi Önkormányzat;tervezo;muemlek=Fortunato Prati és Hölbing János;wikidata=Anton Erhard Martinelli
+relation;12939;Fővárosi Önkormányzat;szintek;szintterkep=3;muemlek=4
+relation;12939;Fővárosi Önkormányzat;szintek;szintterkep=3;osm=4.0
+relation;12942;Pesti Vármegyeháza;ev;osm=1804;muemlek=1841
+relation;12983;;tervezo;muemlek=majd Frohner-szálló) Feszl-Gerster-Kauser;oeny=Feszl-Gerster-Kauser
+relation;13107;;szintek;osm=5.0;muemlek=4
+relation;14580;Klotild-palota;ev;kezi=1899;eubucco=1902
+relation;14580;Klotild-palota;ev;kezi=1899;osm=1902
+relation;18135;Főposta;ev;lechner=1873;wikidata=1870
+relation;18173;Piarista központ;ev;osm=1917;wikidata=1717
+relation;18180;;szintek;szintterkep=5;osm=4.0
+relation;18974;Drechsler-palota;szintek;osm=5.0;muemlek=4
+relation;19235;Millennium Center üzletház;ev;kezi=1997;eubucco=1985
+relation;19235;Millennium Center üzletház;ev;kezi=1997;osm=1985
+relation;19239;Palazzo Dorottya irodaház;szintek;szintterkep=5;muemlek=4
+relation;19642;;szintek;szintterkep=3;osm=7.0
+relation;936958;;szintek;szintterkep=3;osm=4.0
+relation;936980;;szintek;szintterkep=3;muemlek=4
+relation;936980;;szintek;szintterkep=3;osm=4.0
+relation;936981;Kehrer-ház;szintek;szintterkep=3;osm=4.0
+relation;936984;Cziráky-udvar;szintek;szintterkep=6;osm=5.0
+relation;936995;Luxus-áruház;szintek;szintterkep=7;osm=6.0
+relation;936997;;ev;lechner_kozeli=1821;muemlek=1860
+relation;936997;;ev;lechner_kozeli=1821;oeny=1860
+relation;936997;;tervezo;lechner_kozeli=Pollack Mihály (1773–1855);muemlek=Hild József
+relation;936997;;tervezo;lechner_kozeli=Pollack Mihály (1773–1855);oeny=Hild József
+relation;937002;D8 Hotel;szintek;szintterkep=6;osm=9.0
+relation;937006;;szintek;szintterkep=3;osm=2.0
+relation;2225177;;szintek;szintterkep=6;osm=5.0
+relation;2225185;;ev;osm=1902;lechner=1899
+relation;2225185;;ev;osm=1902;muemlek=1899
+relation;2693835;;szintek;szintterkep=6;osm=5.0
+relation;2908382;;ev;osm=1913;lechner_kozeli=1939
+relation;2931012;;szintek;szintterkep=6;osm=5.0
+relation;2931014;Eiffel Palace;ev;osm=1893;helyi_vedelem=1890
+relation;2931014;Eiffel Palace;tervezo;lechner_kozeli=Giergl Kálmán (1863–1954), Korb Flóris (1860–1930);helyi_vedelem=Korb–Giergl
+relation;2931017;;ev;osm=1890;wikidata_kozeli=1925
+relation;2931018;;szintek;szintterkep=5;osm=4.0
+relation;2931020;;szintek;szintterkep=7;osm=6.0
+relation;3019294;Rózsavölgyi Ház;szintek;szintterkep=3;osm=7.0
+relation;3062931;;szintek;szintterkep=6;osm=7.0
+relation;3076263;;szintek;szintterkep=6;muemlek=3
+relation;3216822;;tervezo;lechner=az eredeti épületet Brein Ignác (XVIII. század vége–1834) tervezte, az átalakítás Gerster Károly (1819–1867), Kauser Lipót (1818–1877) és Feszl Frigyes (1791–1860) nevéhez fűződik;oeny=Feszl-Gerster-Kauser
+relation;3216827;;szintek;szintterkep=3;osm=4.0
+relation;3217049;;szintek;szintterkep=6;osm=5.0
+relation;3217050;;szintek;szintterkep=6;osm=5.0
+relation;3217051;Derra-ház;ev;lechner=1839;muemlek=1790
+relation;3217051;Derra-ház;szintek;szintterkep=4;osm=3.0
+relation;3217052;;szintek;szintterkep=6;osm=5.0
+relation;3217055;;szintek;szintterkep=3;osm=4.0
+relation;3217056;;tervezo;muemlek=két utcára néző homlokzattal. Pollack Mihály;oeny=Pollack Mihály
+relation;3217057;;szintek;szintterkep=3;muemlek=4
+relation;3217057;;szintek;szintterkep=3;osm=4.0
+relation;3218137;;szintek;szintterkep=6;osm=7.0
+relation;3218139;;ev;muemlek=1820;oeny=1812
+relation;3218258;;szintek;szintterkep=5;osm=6.0
+relation;3218263;;szintek;szintterkep=6;osm=7.0
+relation;3226363;Zitterbarth ház;szintek;szintterkep=6;muemlek=5
+relation;3226364;;szintek;szintterkep=6;osm=5.0
+relation;3226366;;szintek;szintterkep=4;osm=3.0
+relation;3228038;Lahner üzlet és bérház;ev;osm=1912;eubucco=1840
+relation;3228038;Lahner üzlet és bérház;ev;osm=1912;muemlek=1889
+relation;3228038;Lahner üzlet és bérház;ev;osm=1912;oeny=1888
+relation;3228038;Lahner üzlet és bérház;szintek;szintterkep=6;osm=3.0
+relation;3228039;Hét választófejedelem ház;ev;osm=1840;lechner=1906
+relation;3228039;Hét választófejedelem ház;ev;osm=1840;wikidata=1724
+relation;3228039;Hét választófejedelem ház;tervezo;lechner=Kőrössy Albert Kálmán (1869–1955);wikidata=Hild József
+relation;3251844;;szintek;szintterkep=5;osm=4.0
+relation;3251853;;szintek;szintterkep=8;osm=6.0
+relation;3253936;;szintek;szintterkep=4;osm=3.0
+relation;3253939;;ev;muemlek=1800;oeny=1836
+relation;3257753;;szintek;szintterkep=5;osm=6.0
+relation;3294999;Országos Idegennyelvű Könyvtár;ev;kezi=1897;wikidata=1956
+relation;3294999;Országos Idegennyelvű Könyvtár;ev;kezi=1897;wikidata=1956
+relation;3295010;;szintek;kezi=2;muemlek=3
+relation;3295010;;szintek;kezi=2;szintterkep=3
+relation;3295010;;szintek;kezi=2;osm=3.0
+relation;3306961;;szintek;szintterkep=1;osm=2.0
+relation;3306962;Exe Budapest Center;szintek;szintterkep=6;osm=7.0
+relation;3309016;;szintek;szintterkep=3;muemlek=4
+relation;3309016;;szintek;szintterkep=3;osm=4.0
+relation;3309026;MTA Rényi Alfréd Matematikai Kutatóintézet;ev;helyi_vedelem=1860;wikidata=1950
+relation;3309027;;szintek;szintterkep=3;osm=4.0
+relation;3314898;;szintek;szintterkep=4;osm=5.0
+relation;3314900;;szintek;szintterkep=3;osm=4.0
+relation;3318172;;ev;kezi=1900;wikidata=1978
+relation;3318172;;szintek;szintterkep=7;osm=6.0
+relation;3333854;Károlyi-palota;ev;osm=1832;wikidata=1954
+relation;3333855;;szintek;szintterkep=8;osm=9.0
+relation;3348252;;ev;muemlek=1733;oeny=1847
+relation;3348252;;tervezo;muemlek=egykori klarissza-kolostor;oeny=Pollack Ágost
+relation;3403554;;szintek;szintterkep=3;osm=4.0
+relation;3403555;;szintek;szintterkep=1;osm=3.0
+relation;3403557;;szintek;szintterkep=3;osm=4.0
+relation;3403558;;szintek;szintterkep=6;osm=4.0
+relation;3466725;;szintek;szintterkep=4;osm=5.0
+relation;3466727;;ev;muemlek=1864;wikidata=1994
+relation;3466727;;szintek;szintterkep=3;muemlek=4
+relation;3466727;;szintek;szintterkep=3;osm=4.0
+relation;3472459;;szintek;szintterkep=4;osm=5.0
+relation;3478348;;szintek;osm=5.0;muemlek=4
+relation;3479354;;szintek;osm=7.0;muemlek=4
+relation;3482592;Wombat's Hostel;ev;muemlek=1840;oeny=1867
+relation;3482601;Robert Capa Kortárs Fotográfiai Központ;ev;muemlek=1912;wikidata=1978
+relation;3482601;Robert Capa Kortárs Fotográfiai Központ;tervezo;muemlek=Fodor Gyula.;wikidata=Beke Csilla
+relation;3482899;;ev;osm=1852;oeny=1848
+relation;3482958;;szintek;osm=8.0;muemlek=4
+relation;3483713;Gozsdu udvar;ev;muemlek=1938;eubucco=1902
+relation;3483714;Gozsdu udvar;ev;muemlek=1938;eubucco=1902
+relation;3508312;;ev;oeny=1901;helyi_vedelem=1890
+relation;3508344;;szintek;osm=4.0;muemlek=3
+relation;3508393;;tervezo;oeny=Quittner Ervin;helyi_vedelem=Hudek Antal
+relation;3508443;;ev;muemlek=1884;oeny=1880
+relation;3508443;;ev;muemlek=1884;wikidata=1881
+relation;3508443;;ev;muemlek=1884;wikidata=1881
+relation;3508443;;tervezo;muemlek=Ybl Miklós;oeny=Freund Vilmos
+relation;3508443;;tervezo;muemlek=Ybl Miklós;wikidata=Freund Vilmos
+relation;3508443;;tervezo;muemlek=Ybl Miklós;wikidata=Freund Vilmos
+relation;3516479;;ev;osm=1931;oeny=1926
+relation;3516582;;szintek;szintterkep=5;osm=6.0
+relation;3516593;;szintek;szintterkep=5;osm=4.0
+relation;3516892;;szintek;szintterkep=5;osm=6.0
+relation;3517735;;szintek;szintterkep=5;osm=6.0
+relation;3517742;;szintek;szintterkep=6;osm=3.0
+relation;3517825;;szintek;szintterkep=6;muemlek=3
+relation;3517831;;szintek;szintterkep=4;osm=3.0
+relation;3611685;;szintek;szintterkep=7;osm=6.0
+relation;3611688;;ev;osm=1911;oeny=1927
+relation;3611688;;szintek;szintterkep=7;osm=8.0
+relation;4238044;Saxlehner-palota;szintek;osm=5.0;muemlek=4
+relation;6486918;Budavári Palota;ev;osm=1714;wikidata=1244
+relation;6486918;Budavári Palota;tervezo;oeny=Johann Aman és Pollack Mihály;wikidata=Jean-Nicolas Jadot, Ybl Miklós, Hauszmann Alajos
+relation;7700814;Agrárminisztérium;ev;osm=1885;muemlek=1895
+relation;7700814;Agrárminisztérium;ev;osm=1885;wikidata=2014
+relation;7700815;;szintek;szintterkep=3;osm=4.0
+relation;11620521;;ev;osm=1954;muemlek=1854
+relation;11620521;;ev;osm=1954;oeny=1852
+relation;11620522;;szintek;szintterkep=4;osm=5.0
+relation;11810566;;szintek;szintterkep=6;osm=5.0
+relation;11848484;;szintek;szintterkep=6;osm=5.0
+relation;14637669;;szintek;szintterkep=6;osm=5.0
+relation;14655571;;szintek;szintterkep=6;osm=7.0
+relation;16460314;;ev;osm=1866;oeny=1861
+relation;17089480;;szintek;szintterkep=5;osm=6.0
+relation;17338259;;szintek;szintterkep=8;osm=9.0
+relation;17338259;;szintek;szintterkep=8;osm=9.0
+relation;20400701;;szintek;szintterkep=6;osm=7.0
+relation;20573252;Párisi Nagy Áruház;tervezo;muemlek=ma Divatcsarnok. Petschacher Gusztáv;oeny=Petschacher Gusztáv
+relation;20593057;Szent István-bazilika;ev;osm=1905;muemlek=1854
+relation;20593057;Szent István-bazilika;tervezo;lechner=Ybl Miklós (1814-1891), Hild József (1789-1867), Kauser József (1848-1919);muemlek=Kasselik Ferenc
+relation;21078808;Belvárosi Piac;szintek;szintterkep=4;osm=2.0

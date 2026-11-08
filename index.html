@@ -27,58 +27,176 @@
     .szerk-uzenet { margin-top: 4px; font-size: 12px; }
     .szerk-hiba { color: #b00020; }
     .szerk-ok { color: #1b6e2d; }
+    #nyelv { float: right; font-size: 12px; }
+    #nyelv button { cursor: pointer; border: 1px solid #bbb; background: none; padding: 1px 6px; font: inherit; }
+    #nyelv button[aria-pressed="true"] { background: #222; color: #fff; border-color: #222; }
+    .kartya {
+      position: fixed; z-index: 10; width: 340px; max-height: calc(100vh - 24px); overflow-y: auto;
+      background: #fff; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,.35);
+      font-size: 13px; line-height: 1.4; pointer-events: none;
+    }
+    .kartya.rogzitett { pointer-events: auto; width: 400px; max-width: calc(100vw - 24px); }
+    .kartya[hidden] { display: none; }
+    .kartya-bezar { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%;
+      background: rgba(255,255,255,.85); cursor: pointer; font-size: 18px; line-height: 1; }
+    .kartya-fej { padding: 12px 16px; border-radius: 10px 10px 0 0; }
+    .kartya-fej h3 { margin: 0 0 6px; font-size: 17px; line-height: 1.25; padding-right: 30px; }
+    .kartya-fej .cim { margin: 0 0 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .kartya-fej .cim a { margin-left: auto; color: inherit; font-weight: 400; font-size: 12px; }
+    .kartya-fej .mikor { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .kartya-fej .ev { font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+    .kartya-fej .korszak { opacity: .85; }
+    .kartya-fej .cim a { white-space: nowrap; }
+    .kartya:not(.rogzitett) .cim a { display: none; }
+    .kartya section { padding: 10px 16px; border-top: 1px solid #e6e6e6; }
+    .kartya h4 { margin: 0 0 6px; font-size: 12px; color: #666; }
+    .kartya dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; }
+    .kartya dt { color: #666; } .kartya dd { margin: 0; }
+    .kartya .becsles { background: #fff6e8; color: #5a4300; }
+    .kartya .tipp { font-size: 11px; color: #666; margin: 0; padding: 6px 16px 10px; }
+    .kartya small { color: inherit; opacity: .8; }
+    .kartya a { color: inherit; }
   </style>
 </head>
 <body>
   <div id="terkep"></div>
 
   <div id="kapcsolok" class="panel">
-    <strong>Rétegek</strong>
+    <span id="nyelv"><button type="button" data-nyelv="hu">HU</button> <button type="button" data-nyelv="en">EN</button></span>
+    <a href="terkep3d/index.html" data-t="link3d" style="font-size:12px"></a><br>
+    <strong data-t="retegek"></strong>
     <label><input type="checkbox" id="kiemel">
-      Lechner-épületek kiemelése<br>
-      <small>a többi épület halványabb lesz</small></label>
+      <span data-t="kiemel"></span><br><small data-t="kiemel_s"></small></label>
     <label><input type="checkbox" id="vedett">
-      Védett épületek kiemelése<br>
-      <small>műemlék, helyi védelem; a többi épület szürke lesz</small></label>
+      <span data-t="vedett"></span><br><small data-t="vedett_s"></small></label>
     <label><input type="checkbox" id="wikipedia-kiemel">
-      Wikipédia-cikkel rendelkező épületek kiemelése<br>
-      <small>a többi épület szürke lesz</small></label>
+      <span data-t="wiki"></span><br><small data-t="wiki_s"></small></label>
     <label><input type="checkbox" id="kozeli">
-      Közeli találatok magentával<br>
-      <small>a Lechner-pont nem esett az épületbe, ellenőrizendő</small></label>
+      <span data-t="kozeli"></span><br><small data-t="kozeli_s"></small></label>
+    <label><input type="checkbox" id="becsles">
+      <span data-t="becsles"></span><br><small data-t="becsles_s"></small></label>
+    <label style="margin-left:18px"><input type="checkbox" id="becsles-alacsony">
+      <small data-t="becsles_alacsony"></small></label>
     <div id="szerk-panel">
       <strong>Szerkesztési mód</strong><br>
-      <small>Kattints egy épületre, és a popupban javíthatod az adatait.</small><br>
+      <small>Kattints egy épületre, és a kártyán javíthatod az adatait.</small><br>
       <button type="button" id="ujraepit">Térkép újraépítése a javításokkal</button>
       <div id="ujraepit-uzenet" class="szerk-uzenet"></div>
     </div>
   </div>
 
   <div id="jelmagyarazat" class="panel">
-    <strong>Építési év</strong>
-    <div><span style="background:#7a1f1f"></span>1850 előtt</div>
-    <div><span style="background:#d9653b"></span>1850–1899</div>
-    <div><span style="background:#e8b04a"></span>1900–1944</div>
-    <div><span style="background:#6aa84f"></span>1945–1989</div>
-    <div><span style="background:#3d85c6"></span>1990 után</div>
-    <div><span style="background:#9aa0a6"></span>ismeretlen</div>
-    <div><span style="background:#d4189c"></span>Lechner, közeli találat</div>
+    <strong data-t="epitesi_ev"></strong>
+    <div id="korszak-sorok"></div>
+    <div><span style="background:#9aa0a6"></span><span data-t="ismeretlen" style="margin:0;width:auto;height:auto"></span></div>
+    <div><span style="background:#d4189c"></span><span data-t="lechner_kozeli" style="margin:0;width:auto;height:auto"></span></div>
+    <div id="becsles-jelmagyarazat" style="display:none"><small data-t="halvany"></small></div>
   </div>
+
+  <div id="kartya" class="kartya" hidden></div>
 
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script>
     const ADATFAJL = "data/belvaros_epuletek_vegleges.geojson";
 
-    const EV_SZINEK = [
-      "step", ["to-number", ["get", "ev"], 0],
-      "#9aa0a6",
-      1, "#7a1f1f",
-      1850, "#d9653b",
-      1900, "#e8b04a",
-      1945, "#6aa84f",
-      1990, "#3d85c6"
+    // Az építés éve szerinti korszakok (a színezés, a jelmagyarázat és a felugró ablak is ezt használja)
+    const KORSZAKOK = [
+      { tol: 1,    ig: 1847, nev: "1848 előtt",        en: "before 1848",      szin: "#7a1f1f" },
+      { tol: 1848, ig: 1918, nev: "1848–1918",         en: "1848–1918",        szin: "#e8b04a" },
+      { tol: 1919, ig: 1944, nev: "1919–1944",         en: "1919–1944",        szin: "#d9653b" },
+      { tol: 1945, ig: 1956, nev: "1945–1956",         en: "1945–1956",        szin: "#6aa84f" },
+      { tol: 1957, ig: 1989, nev: "1957–1989",         en: "1957–1989",        szin: "#2e8b8b" },
+      { tol: 1990, ig: 2010, nev: "1990–2010",         en: "1990–2010",        szin: "#3d85c6" },
+      { tol: 2011, ig: 9999, nev: "2011-től napjainkig", en: "2011 to present", szin: "#8e5bb5" }
     ];
+
+    // --- nyelv (magyar / angol) ---
+    const SZOVEG = {
+      hu: {
+        link3d: "← Vissza a 3D nézethez", retegek: "Rétegek", epitesi_ev: "Építési év", ismeretlen: "ismeretlen",
+        lechner_kozeli: "Lechner, közeli találat",
+        kiemel: "Lechner-épületek kiemelése", kiemel_s: "a többi épület halványabb lesz",
+        vedett: "Védett épületek kiemelése", vedett_s: "műemlék, helyi védelem; a többi épület szürke lesz",
+        wiki: "Wikipédia-cikkel rendelkező épületek kiemelése", wiki_s: "a többi épület szürke lesz",
+        kozeli: "Közeli találatok magentával", kozeli_s: "a Lechner-pont nem esett az épületbe, ellenőrizendő",
+        becsles: "Becsült korszak a szürke épületeken", becsles_s: "halvány szín = becslés, NEM adat (szomszédokból, utcából, alakból)",
+        becsles_alacsony: "az alacsony bizonyosságúakat is",
+        halvany: "Halvány színek: becsült korszak, nem adat.",
+        nevtelen: "névtelen épület", tipus: "Típus", resz: "épületrész", tervezo: "Tervező", stilus: "Stílus",
+        vedettseg: "Védettség", torzsszam: "törzsszám", szintszam: "Szintszám", magassag: "Magasság",
+        ismeretlen_ev: "ismeretlen", tobb_cim: "és még {n} cím", gmaps: "Google Térkép",
+        becsult: "Becsült korszak (nem adat)", valoszinuseg: "valószínűség", bizonyossag: "bizonyosság",
+        magas: "magas", kozepes: "közepes", alacsony: "alacsony",
+        becsles_alap: "szomszédokból, utcából és alakból becsülve",
+        keltezes: "Honnan az évszám", forrasok: "További információ", reszletek: "Kattints a részletekért",
+        szerkesztes: "Szerkesztés", lechner_blokk: "Lechner Tudásközpont", megnevezes: "Megnevezés", epult: "Épült",
+        kozeli_megj: "A pont nem esik az épületbe, csak a közelébe, a párosítás bizonytalan.",
+        osm_az: "OSM-azonosító", ev_nincs: "Nincs ismert építési év.",
+        ev_becsult_leiras: "A korszak becslés: a szomszédok, az utca és az épület alakja alapján, nem adat.",
+        ev_kozeli: "Közeli találat alapján párosítva, ellenőrizendő.",
+        ev_kezi: "Kézzel javított adat.", ev_osm: "OpenStreetMap-adat (start_date)."
+      },
+      en: {
+        link3d: "← Back to the 3D view", retegek: "Layers", epitesi_ev: "Year of construction", ismeretlen: "unknown",
+        lechner_kozeli: "Lechner, nearby match",
+        kiemel: "Highlight Lechner buildings", kiemel_s: "the other buildings get paler",
+        vedett: "Highlight protected buildings", vedett_s: "monument, local protection; the rest turns grey",
+        wiki: "Highlight buildings with a Wikipedia article", wiki_s: "the rest turns grey",
+        kozeli: "Nearby matches in magenta", kozeli_s: "the Lechner point missed the building; to be checked",
+        becsles: "Estimated era on grey buildings", becsles_s: "pale colour = estimate, NOT data (from neighbours, street, shape)",
+        becsles_alacsony: "include low-confidence estimates",
+        halvany: "Pale colours: estimated era, not data.",
+        nevtelen: "unnamed building", tipus: "Type", resz: "building part", tervezo: "Architect", stilus: "Style",
+        vedettseg: "Protection", torzsszam: "register no.", szintszam: "Storeys", magassag: "Height",
+        ismeretlen_ev: "unknown", tobb_cim: "and {n} more", gmaps: "Google Maps",
+        becsult: "Estimated era (not data)", valoszinuseg: "probability", bizonyossag: "confidence",
+        magas: "high", kozepes: "medium", alacsony: "low",
+        becsles_alap: "estimated from neighbours, street and shape",
+        keltezes: "Where the year comes from", forrasok: "Read more", reszletek: "Click for details",
+        szerkesztes: "Edit", lechner_blokk: "Lechner Knowledge Centre", megnevezes: "Name", epult: "Built",
+        kozeli_megj: "The point is not inside the building, only near it; the match is uncertain.",
+        osm_az: "OSM id", ev_nincs: "No known construction year.",
+        ev_becsult_leiras: "The era is an estimate from neighbours, street and building shape, not data.",
+        ev_kozeli: "Matched by proximity; to be checked.",
+        ev_kezi: "Hand-corrected value.", ev_osm: "OpenStreetMap data (start_date)."
+      }
+    };
+    let NYELV = "hu";
+    try { if (localStorage.getItem("nyelv") === "en") NYELV = "en"; } catch (e) { /* nincs tárhely */ }
+    const t = (k) => (SZOVEG[NYELV][k] ?? SZOVEG.hu[k] ?? k);
+    function alkalmazSzoveg() {
+      document.documentElement.lang = NYELV;
+      document.querySelectorAll("[data-t]").forEach((el) => { el.textContent = t(el.dataset.t); });
+      document.querySelectorAll("#nyelv button").forEach((b) =>
+        b.setAttribute("aria-pressed", String(b.dataset.nyelv === NYELV)));
+      document.getElementById("korszak-sorok").innerHTML = KORSZAKOK.map((k) =>
+        `<div><span style="background:${k.szin}"></span>${NYELV === "en" ? k.en : k.nev}</div>`).join("");
+    }
+    const EV_SZINEK = ["step", ["to-number", ["get", "ev"], 0], "#9aa0a6"]
+      .concat(...KORSZAKOK.map((k) => [k.tol, k.szin]));
+    function korszakNev(ev) {
+      const k = KORSZAKOK.find((x) => ev >= x.tol && ev <= x.ig);
+      return k ? (NYELV === "en" ? k.en : k.nev) : "";
+    }
     const KOZELI_SZIN = "#d4189c";
+    // becsült korszak: a korszak színe szürkével kevert (halványabb), hogy ne tűnjön ténynek
+    function halvany(hex) {
+      const szam = (i) => parseInt(hex.slice(1 + 2 * i, 3 + 2 * i), 16);
+      const kever = (i) => Math.round(szam(i) * 0.55 + 0xc8 * 0.45).toString(16).padStart(2, "0");
+      return "#" + kever(0) + kever(1) + kever(2);
+    }
+    const BIZONYOSSAG_NEVEK = { magas: "magas", kozepes: "közepes", alacsony: "alacsony" };
+    function alapSzin() {
+      if (!document.getElementById("becsles").checked) return EV_SZINEK;
+      const alacsonyIs = document.getElementById("becsles-alacsony").checked;
+      const biz = alacsonyIs ? ["magas", "kozepes", "alacsony"] : ["magas", "kozepes"];
+      const becsles = ["match", ["get", "ev_becsles_korszak"]]
+        .concat(...KORSZAKOK.map((k, i) => [i, halvany(k.szin)])).concat(["#9aa0a6"]);
+      return ["case",
+        ["all", ["==", ["to-number", ["get", "ev"], 0], 0], ["has", "ev_becsles_korszak"],
+          ["in", ["get", "ev_becsles_bizonyossag"], ["literal", biz]]],
+        becsles, EV_SZINEK];
+    }
     const RETEGEK = ["epuletek-alap", "epuletek-lechner", "epuletek-kozeli"];
 
     const terkep = new maplibregl.Map({
@@ -147,13 +265,15 @@
       const kiemelt = feltetelek.length === 1 ? feltetelek[0] : ["any"].concat(feltetelek);
       terkep.setPaintProperty("epuletek-alap", "fill-extrusion-opacity", kiemel ? 0.3 : 0.9);
       RETEGEK.forEach((id) => {
-        const alap = (id === "epuletek-kozeli" && kozeliJelol) ? KOZELI_SZIN : EV_SZINEK;
+        const alap = (id === "epuletek-kozeli" && kozeliJelol) ? KOZELI_SZIN : alapSzin();
         terkep.setPaintProperty(id, "fill-extrusion-color",
           feltetelek.length ? ["case", kiemelt, alap, NEM_VEDETT_SZIN] : alap);
       });
     }
-    ["kiemel", "kozeli", "vedett", "wikipedia-kiemel"].forEach((id) => {
+    ["kiemel", "kozeli", "vedett", "wikipedia-kiemel", "becsles", "becsles-alacsony"].forEach((id) => {
       document.getElementById(id).addEventListener("change", () => {
+        document.getElementById("becsles-jelmagyarazat").style.display =
+          document.getElementById("becsles").checked ? "block" : "none";
         if (terkep.getLayer("epuletek-alap")) frissitStilus();
       });
     });
@@ -165,22 +285,44 @@
       return div.innerHTML;
     }
 
-    const FORRAS_NEVEK = {
+    const FORRAS_NEVEK_EN = {
+      kezi: "hand correction", osm: "OpenStreetMap", lechner: "Lechner Knowledge Centre",
+      lechner_kozeli: "Lechner Knowledge Centre, nearby match (to be checked)", muemlek: "list of monuments",
+      oeny: "E-Örökség, official register (read from the description)", helyi_vedelem: "Budapest local protection list (2001)",
+      wikidata: "Wikidata", wikidata_kozeli: "Wikidata, nearby match (to be checked)", eubucco: "EUBUCCO",
+      szintterkep: "district storey map"
+    };
+    const FORRAS_NEVEK_HU = {
       kezi: "kézi javítás",
       osm: "OpenStreetMap",
       lechner: "Lechner Tudásközpont",
       lechner_kozeli: "Lechner Tudásközpont, közeli találat (ellenőrizendő)",
       muemlek: "műemlékjegyzék",
+      oeny: "E-Örökség, hivatalos nyilvántartás (leírásból kiolvasva)",
       helyi_vedelem: "fővárosi helyi védelmi lista (2001)",
       wikidata: "Wikidata",
       wikidata_kozeli: "Wikidata, közeli találat (ellenőrizendő)",
       eubucco: "EUBUCCO",
       szintterkep: "kerületi szintszám-térkép"
     };
-    const VEDETTSEG_NEVEK = {
+    const FORRAS_NEVEK = new Proxy({}, {
+      get: (_, k) => (NYELV === "en" ? FORRAS_NEVEK_EN : FORRAS_NEVEK_HU)[k]
+    });
+    const VEDETTSEG_HU = {
       M: "műemlék", MJ: "műemlék jellegű", VK: "városképi jelentőségű",
       MK: "műemléki környezet", MJT: "műemléki jelentőségű terület"
     };
+    const VEDETTSEG_EN = {
+      M: "listed monument", MJ: "monument-like", VK: "townscape significance",
+      MK: "monument surroundings", MJT: "area of monument significance"
+    };
+    const VEDETTSEG_NEVEK = new Proxy({}, { get: (_, k) => (NYELV === "en" ? VEDETTSEG_EN : VEDETTSEG_HU)[k] });
+
+    function inkOn(hex) {
+      const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+        .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2] > 0.3 ? "#000" : "#fff";
+    }
 
     function evForras(p) {
       if (!p.ev) return "";
@@ -190,79 +332,142 @@
       return FORRAS_NEVEK[p.ev_forras];
     }
 
+    // honnan az évszám (vagy: miért nincs)
+    function keltezesSzoveg(p) {
+      if (p.ev) {
+        let s = biztonsagos(evForras(p)) + ".";
+        if (p.ev_forras === "lechner_kozeli" || p.ev_forras === "wikidata_kozeli") s += " " + t("ev_kozeli");
+        return s;
+      }
+      if (p.ev_becsles_korszak !== undefined) return t("ev_nincs") + " " + t("ev_becsult_leiras");
+      return t("ev_nincs");
+    }
+
+    // az ev_becsles.py indoklása magyar; angolul a számot kiolvassuk belőle
+    function indoklasSzoveg(s) {
+      s = String(s || "");
+      if (NYELV !== "en") return s;
+      const m = /^(\d+) ismert korú szomszéd 60 m-en belül/.exec(s);
+      let out = m ? `${m[1]} neighbours with a known year within 60 m` : "";
+      const z = /zóna: (\S+)/.exec(s);
+      if (z) out += (out ? "; " : "") + `zone: ${z[1]}`;
+      return out;
+    }
+
     function magassagSor(p) {
       const m = Math.round(p.magassag) + " m";
+      const hu = NYELV === "hu";
       switch (p.magassag_forras) {
-        case "height": return `Magasság: ${m} <small>(OpenStreetMap, megadott érték)</small><br>`;
+        case "height": return `${m} <small>(OpenStreetMap${hu ? ", megadott érték" : ", given value"})</small>`;
         case "eubucco_becsles": {
           const sav = (p.eubucco_magassag_min != null && p.eubucco_magassag_max != null)
-            ? `, becslési sáv ${Math.round(p.eubucco_magassag_min)}–${Math.round(p.eubucco_magassag_max)} m` : "";
-          return `Magasság: ${m} <small>(EUBUCCO, gépi tanulással becsült${sav})</small><br>`;
+            ? (hu ? `, becslési sáv ` : `, range `) + `${Math.round(p.eubucco_magassag_min)}–${Math.round(p.eubucco_magassag_max)} m` : "";
+          return `${m} <small>(EUBUCCO, ${hu ? "gépi tanulással becsült" : "machine-learning estimate"}${sav})</small>`;
         }
-        case "eubucco_forras": return `Magasság: ${m} <small>(EUBUCCO, forrásadatból)</small><br>`;
-        case "szintszam": return `Magasság: ${m} <small>(szintszámból számolt, 3 m/szint)</small><br>`;
-        case "szintterkep": return `Magasság: ${m} <small>(szintszám-térképből számolt, 3 m/szint)</small><br>`;
-        default: return `Magasság: ${m} <small>(alapértelmezett, nincs adat)</small><br>`;
+        case "eubucco_forras": return `${m} <small>(EUBUCCO${hu ? ", forrásadatból" : ", from source data"})</small>`;
+        case "szintszam": return `${m} <small>(${hu ? "szintszámból számolt, 3 m/szint" : "from storeys, 3 m each"})</small>`;
+        case "szintterkep": return `${m} <small>(${hu ? "szintszám-térképből számolt, 3 m/szint" : "from the storey map, 3 m each"})</small>`;
+        default: return `${m} <small>(${hu ? "alapértelmezett, nincs adat" : "default, no data"})</small>`;
       }
     }
 
     function szintSor(p) {
       if (!p.szintek) return "";
-      let sor = `Szintszám: ${biztonsagos(p.szintek)} <small>(${biztonsagos(FORRAS_NEVEK[p.szintek_forras] || p.szintek_forras || "")})</small>`;
+      let sor = `${biztonsagos(p.szintek)} <small>(${biztonsagos(FORRAS_NEVEK[p.szintek_forras] || p.szintek_forras || "")})</small>`;
       if (p.szint_eltero && p.szintek_osm) sor += ` <small>OSM: ${biztonsagos(p.szintek_osm)}</small>`;
-      return sor + "<br>";
+      return sor;
     }
 
-    function wikipediaSor(p) {
-      const linkek = String(p.wikipedia || "").split("|").slice(0, 3).map((cikk) => {
+    function wikipediaLinkek(p) {
+      return String(p.wikipedia || "").split("|").slice(0, 3).map((cikk) => {
         const m = /^(hu|en):(.+)$/.exec(cikk.trim());
         if (!m) return "";
         const url = `https://${m[1]}.wikipedia.org/wiki/${encodeURIComponent(m[2].replace(/ /g, "_"))}`;
-        return `<a href="${url}" target="_blank" rel="noopener">${biztonsagos(m[2])}</a> <small>(Wikipédia, ${m[1]})</small>`;
+        return `<a href="${url}" target="_blank" rel="noopener">${biztonsagos(m[2])}</a> <small>(Wikipedia, ${m[1]})</small>`;
       }).filter(Boolean);
-      return linkek.length ? `Wikipédia: ${linkek.join("; ")}<br>` : "";
     }
 
-    function vedettsegSor(p) {
+    function vedettsegSzoveg(p) {
       const reszek = [];
-      if (p.vedettseg) reszek.push(VEDETTSEG_NEVEK[p.vedettseg] || p.vedettseg);
+      if (p.vedettseg) reszek.push((VEDETTSEG_NEVEK[p.vedettseg] || p.vedettseg) +
+        (p.muemlek_torzsszam ? " (" + t("torzsszam") + " " + p.muemlek_torzsszam + ")" : ""));
       if (p.vedettseg_helyi) reszek.push(p.vedettseg_helyi);
-      return reszek.length ? `Védettség: ${biztonsagos(reszek.join(", "))}<br>` : "";
+      return reszek.join(", ");
     }
 
-    function popupHtml(p) {
-      let html = `<strong>${biztonsagos(p.nev || p.lechner_nev || "névtelen épület")}</strong><br>`;
-      html += `Típus: ${biztonsagos(p.tipus || "?")}<br>`;
-      html += `Építési év: ${p.ev ? biztonsagos(p.ev) : "ismeretlen"}`;
-      if (p.ev) html += ` <small>(${biztonsagos(evForras(p))})</small>`;
-      html += "<br>";
+    function gmapsUrl(p, ll) {
+      const q = p.cim ? `${p.cim}, Budapest` : (ll ? `${ll.lat.toFixed(6)},${ll.lng.toFixed(6)}` : "Budapest");
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+    }
+
+    let kartyaKoord = null;   // az utolsó kattintás/hover koordinátája (a Google Térkép linkhez)
+
+    // A kártya: fejléc a korszak színével, majd a részletek. rogzitett=false: könnyű (egérrel föléállás).
+    function kartyaHtml(p, rogzitett) {
+      const ev = p.ev ? Number(p.ev) : 0;
+      const k = KORSZAKOK.find((x) => ev >= x.tol && ev <= x.ig);
+      const becsult = !ev && p.ev_becsles_korszak !== undefined && KORSZAKOK[p.ev_becsles_korszak];
+      const fejSzin = k ? k.szin : (becsult ? halvany(KORSZAKOK[p.ev_becsles_korszak].szin) : "#9aa0a6");
+      const nev = p.nev || p.lechner_nev;
+      let cimSor = "";
+      if (p.cim) {
+        cimSor = biztonsagos(p.cim) + (p.cim_tobb ? ` <small>(${t("tobb_cim").replace("{n}", p.cim_tobb)})</small>` : "");
+      }
+      let html = rogzitett ? `<button type="button" class="kartya-bezar" aria-label="×">×</button>` : "";
+      html += `<header class="kartya-fej" style="background:${fejSzin};color:${inkOn(fejSzin)}">`;
+      html += `<h3>${biztonsagos(nev || p.cim || t("nevtelen"))}</h3>`;
+      if (nev && cimSor || cimSor && !nev) html += `<p class="cim"><span>${cimSor}</span>`;
+      else html += `<p class="cim"><span></span>`;
+      html += `<a href="${biztonsagos(gmapsUrl(p, kartyaKoord))}" target="_blank" rel="noopener">${t("gmaps")} ↗</a></p>`;
+      html += `<div class="mikor"><span class="ev">${ev ? biztonsagos(ev) : (becsult ? "?" : "—")}</span>`;
+      if (ev && korszakNev(ev)) html += `<span class="korszak">${biztonsagos(korszakNev(ev))}</span>`;
+      else if (becsult) html += `<span class="korszak">${t("becsult")}: ${biztonsagos(NYELV === "en" ? KORSZAKOK[p.ev_becsles_korszak].en : KORSZAKOK[p.ev_becsles_korszak].nev)}</span>`;
+      else html += `<span class="korszak">${t("ev_nincs")}</span>`;
+      html += `</div></header>`;
+
+      if (becsult) {
+        html += `<section class="becsles">${t("becsult")}: <strong>${biztonsagos(NYELV === "en" ? KORSZAKOK[p.ev_becsles_korszak].en : KORSZAKOK[p.ev_becsles_korszak].nev)}</strong>, ` +
+          `${Math.round(p.ev_becsles_valoszinuseg * 100)}% ${t("valoszinuseg")}, ${t("bizonyossag")}: ${t(p.ev_becsles_bizonyossag) || "?"}` +
+          `<br><small>${biztonsagos(indoklasSzoveg(p.ev_becsles_indoklas))}; ${t("becsles_alap")}</small></section>`;
+      }
+      if (!rogzitett) return html + `<p class="tipp">${t("reszletek")}</p>`;
+
+      const sorok = [];
+      sorok.push([t("tipus"), biztonsagos(p.tipus || "?") + (p.resz ? ` <small>(${t("resz")})</small>` : "")]);
       if (p.tervezo) {
-        html += `Tervező: ${biztonsagos(p.tervezo)}`;
-        if (p.tervezo_forras) html += ` <small>(${biztonsagos(FORRAS_NEVEK[p.tervezo_forras] || p.tervezo_forras)})</small>`;
-        html += "<br>";
+        sorok.push([t("tervezo"), biztonsagos(p.tervezo) +
+          (p.tervezo_forras ? ` <small>(${biztonsagos(FORRAS_NEVEK[p.tervezo_forras] || p.tervezo_forras)})</small>` : "")]);
       }
-      if (p.stilus) html += `Stílus: ${biztonsagos(p.stilus)}<br>`;
-      html += vedettsegSor(p);
-      html += wikipediaSor(p);
-      html += szintSor(p);
-      html += magassagSor(p);
-      html += `OSM-azonosító: ${biztonsagos((p.osm_tipus || "way") + " " + p.id)}`;
+      if (p.stilus) sorok.push([t("stilus"), biztonsagos(p.stilus)]);
+      const ved = vedettsegSzoveg(p);
+      if (ved) sorok.push([t("vedettseg"), biztonsagos(ved)]);
+      if (p.szintek) sorok.push([t("szintszam"), szintSor(p)]);
+      sorok.push([t("magassag"), magassagSor(p)]);
+      html += `<section><dl>${sorok.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></section>`;
+
+      if (p.about) html += `<section><div style="white-space:pre-line">${biztonsagos(p.about)}</div></section>`;
+      html += `<section><h4>${t("keltezes")}</h4><div>${keltezesSzoveg(p)}</div></section>`;
+
+      const forrasok = [];
+      forrasok.push(...wikipediaLinkek(p));
       if (/^Q\d+$/.test(p.wikidata_id || "")) {
-        html += `<br><a href="https://www.wikidata.org/wiki/${p.wikidata_id}" target="_blank" rel="noopener">Wikidata: ${p.wikidata_id}</a>`;
+        forrasok.push(`<a href="https://www.wikidata.org/wiki/${p.wikidata_id}" target="_blank" rel="noopener">Wikidata: ${p.wikidata_id}</a>`);
       }
+      forrasok.push(`<a href="https://www.openstreetmap.org/${encodeURIComponent(p.osm_tipus || "way")}/${encodeURIComponent(p.id)}" target="_blank" rel="noopener">OpenStreetMap: ${biztonsagos((p.osm_tipus || "way") + " " + p.id)}</a>`);
+      forrasok.push(`<a href="${biztonsagos(gmapsUrl(p, kartyaKoord))}" target="_blank" rel="noopener">Google Maps</a>`);
+      html += `<section><h4>${t("forrasok")}</h4><div>${forrasok.join("<br>")}</div></section>`;
+
       if (p.lechner_nev) {
-        html += `<hr style="margin:6px 0">`;
-        html += `<em>Lechner Tudásközpont</em><br>`;
-        html += `Megnevezés: ${biztonsagos(p.lechner_nev)}<br>`;
-        if (p.lechner_epult) html += `Épült: ${biztonsagos(p.lechner_epult)}<br>`;
-        if (p.lechner_tervezo) html += `Tervező: ${biztonsagos(p.lechner_tervezo)}<br>`;
-        if (p.lechner_illesztes === "kozeli") {
-          html += `<small>A pont nem esik az épületbe, csak a közelébe, a párosítás bizonytalan.</small>`;
-        }
+        let l = `<h4>${t("lechner_blokk")}</h4>${t("megnevezes")}: ${biztonsagos(p.lechner_nev)}<br>`;
+        if (p.lechner_epult) l += `${t("epult")}: ${biztonsagos(p.lechner_epult)}<br>`;
+        if (p.lechner_tervezo) l += `${t("tervezo")}: ${biztonsagos(p.lechner_tervezo)}<br>`;
+        if (p.lechner_illesztes === "kozeli") l += `<small>${t("kozeli_megj")}</small>`;
+        html += `<section>${l}</section>`;
       }
-      if (szerkeszto) html += `<hr style="margin:6px 0"><button type="button" class="szerk-gomb">Szerkesztés</button>`;
+      if (szerkeszto) html += `<section><button type="button" class="szerk-gomb">${t("szerkesztes")}</button></section>`;
       return html;
     }
+    function popupHtml(p) { return kartyaHtml(p, true); }
 
     // --- szerkesztési mód (csak a py szerkeszto_szerver.py mellett érhető el) ---
     let szerkeszto = false;
@@ -275,12 +480,21 @@
       .catch(() => {});
 
     const SZERKESZTHETO = [
+      { mezo: "nev", cimke: "Az épület neve (üresen hagyva eltávolítja)", tipus: "text" },
       { mezo: "ev", cimke: "Építési év", tipus: "number" },
       { mezo: "tervezo", cimke: "Tervező", tipus: "text" },
       { mezo: "szintek", cimke: "Szintszám", tipus: "number" },
       { mezo: "magassag", cimke: "Magasság (m)", tipus: "number" },
+      { mezo: "vedettseg", cimke: "Védettség (oeny.hu szerint)", tipus: "select",
+        opciok: [["", "– nincs megadva / eltávolítás –"], ["M", "M – műemlék"], ["MJ", "MJ – műemlék jellegű"],
+                 ["VK", "VK – városképi jelentőségű"], ["MK", "MK – műemléki környezet"], ["MJT", "MJT – műemléki jelentőségű terület"]] },
+      { mezo: "muemlek_torzsszam", cimke: "Műemléki törzsszám (üresen hagyva eltávolítja)", tipus: "number" },
+      { mezo: "about", cimke: "Leírás / megjegyzés az épületről (szabad szöveg, legfeljebb 1500 karakter; üresen hagyva eltávolítja)", tipus: "textarea" },
       { mezo: "wikipedia", cimke: "Wikipédia-cikk (link vagy hu:Cím; több esetén | jel; üresen hagyva eltávolítja)", tipus: "text" }
     ];
+
+    // ezeknél az üres érték a mező eltávolítását jelenti ("-" megy a szervernek)
+    const TORLEHETO = new Set(["wikipedia", "vedettseg", "muemlek_torzsszam", "nev", "about"]);
 
     async function kuldes(url, adat) {
       const r = await fetch(url, {
@@ -304,9 +518,27 @@
       SZERKESZTHETO.forEach((m) => {
         const lab = document.createElement("label");
         lab.textContent = m.cimke;
-        const inp = document.createElement("input");
-        inp.type = m.tipus;
-        if (m.tipus === "number") inp.step = "any";
+        let inp;
+        if (m.tipus === "select") {
+          inp = document.createElement("select");
+          m.opciok.forEach(([ertek, felirat]) => {
+            const o = document.createElement("option");
+            o.value = ertek;
+            o.textContent = felirat;
+            inp.appendChild(o);
+          });
+          inp.style.width = "95%";
+        } else if (m.tipus === "textarea") {
+          inp = document.createElement("textarea");
+          inp.rows = 5;
+          inp.maxLength = 1500;
+          inp.style.width = "95%";
+          inp.style.boxSizing = "border-box";
+        } else {
+          inp = document.createElement("input");
+          inp.type = m.tipus;
+          if (m.tipus === "number") inp.step = "any";
+        }
         const eredeti = (p[m.mezo] === undefined || p[m.mezo] === null || p[m.mezo] === "")
           ? "" : String(m.mezo === "magassag" ? Math.round(p[m.mezo]) : p[m.mezo]);
         inp.value = eredeti;
@@ -350,7 +582,7 @@
         try {
           for (const m of valtozott) {
             const ertek = mezok[m.mezo].inp.value.trim();
-            if (ertek === "" && m.mezo !== "wikipedia") throw new Error(`A(z) ${m.cimke} nem lehet üres (törlés nem támogatott).`);
+            if (ertek === "" && !TORLEHETO.has(m.mezo)) throw new Error(`A(z) ${m.cimke} nem lehet üres (törlés nem támogatott).`);
             await kuldes("/api/javitas", {
               osm_tipus: p.osm_tipus || "way", id: p.id, mezo: m.mezo,
               ertek: ertek === "" ? "-" : ertek, megjegyzes: forras.value.trim()
@@ -369,11 +601,6 @@
       popup.setDOMContent(urlap);
     }
 
-    function szerkesztoGombBekotese(popup, p) {
-      const gomb = popup.getElement() && popup.getElement().querySelector(".szerk-gomb");
-      if (gomb) gomb.addEventListener("click", () => szerkesztoUrlap(popup, p));
-    }
-
     document.getElementById("ujraepit").addEventListener("click", async () => {
       const uzenet = document.getElementById("ujraepit-uzenet");
       const gomb = document.getElementById("ujraepit");
@@ -381,10 +608,18 @@
       uzenet.className = "szerk-uzenet";
       uzenet.textContent = "Újraépítés folyamatban...";
       try {
-        await kuldes("/api/ujraepit", {});
+        const v = await kuldes("/api/ujraepit", {});
         terkep.getSource("epuletek").setData(ADATFAJL + "?t=" + Date.now());
-        uzenet.className = "szerk-uzenet szerk-ok";
-        uzenet.textContent = "Kész, a térkép frissült.";
+        if (v.harom_d === undefined) {
+          uzenet.className = "szerk-uzenet szerk-hiba";
+          uzenet.textContent = "A 2D térkép frissült, de a 3D nézet nem: a szerver régi változata fut, indítsd újra (Ctrl+C, py szerkeszto_szerver.py).";
+        } else if (v.harom_d !== "ok") {
+          uzenet.className = "szerk-uzenet szerk-hiba";
+          uzenet.textContent = "A 2D térkép frissült, de a 3D adatok elkészítése hibázott: " + v.harom_d;
+        } else {
+          uzenet.className = "szerk-uzenet szerk-ok";
+          uzenet.textContent = "Kész, a 2D térkép és a 3D nézet adatai is frissültek (a 3D oldalt töltsd újra).";
+        }
       } catch (hiba) {
         uzenet.className = "szerk-uzenet szerk-hiba";
         uzenet.textContent = hiba.message;
@@ -393,21 +628,102 @@
       }
     });
 
+    // --- kártya: egérrel föléállásra könnyű, kattintásra rögzített ---
+    const kartya = document.getElementById("kartya");
+    let rogzitettAdat = null, rogzitettLL = null, hoverAz = null, hoverAdat = null;
+    const nincsEger = window.matchMedia("(hover: none)");
+
+    // a szerkesztő űrlap ezen a kis illesztőn át írja a kártyát
+    const popup = {
+      setHTML(html) { kartya.innerHTML = html; },
+      setDOMContent(csomopont) { kartya.replaceChildren(csomopont); },
+      getElement() { return kartya; }
+    };
+
+    function kartyaHelye(x, y) {
+      const r = kartya.getBoundingClientRect();
+      const bal = Math.max(12, Math.min(x + 18, innerWidth - r.width - 12));
+      const fent = Math.max(12, Math.min(y + 18, innerHeight - r.height - 12));
+      kartya.style.left = bal + "px";
+      kartya.style.top = fent + "px";
+    }
+
+    function bezarKartya() {
+      rogzitettAdat = null;
+      kartya.hidden = true;
+      kartya.classList.remove("rogzitett");
+    }
+
+    function rogzitKartya(p, ll, x, y) {
+      rogzitettAdat = p;
+      rogzitettLL = ll;
+      kartyaKoord = ll;
+      hoverAz = null;
+      kartya.classList.add("rogzitett");
+      kartya.innerHTML = kartyaHtml(p, true);
+      kartya.hidden = false;
+      szerkesztoGombBekotese(popup, p);
+      kartyaHelye(x, y);
+    }
+
+    // a szerkesztő gomb és a bezáró gomb bekötése (a szerkesztő űrlap "Mégse" gombja is ezt hívja)
+    function szerkesztoGombBekotese(_popup, p) {
+      const gomb = kartya.querySelector(".szerk-gomb");
+      if (gomb) gomb.addEventListener("click", () => szerkesztoUrlap(popup, p));
+      const bezar = kartya.querySelector(".kartya-bezar");
+      if (bezar) bezar.addEventListener("click", bezarKartya);
+    }
+
+    function feltetelesKartyaFrissites() {
+      if (!rogzitettAdat) return;
+      kartya.innerHTML = kartyaHtml(rogzitettAdat, true);
+      szerkesztoGombBekotese(popup, rogzitettAdat);
+    }
+
     terkep.on("click", (e) => {
       const talalatok = terkep.queryRenderedFeatures(e.point, { layers: RETEGEK });
-      if (!talalatok.length) return;
+      if (!talalatok.length) { bezarKartya(); return; }
       const p = talalatok[0].properties;
-      const popup = new maplibregl.Popup({ maxWidth: "320px" })
-        .setLngLat(e.lngLat)
-        .setHTML(popupHtml(p))
-        .addTo(terkep);
-      szerkesztoGombBekotese(popup, p);
+      if (rogzitettAdat && rogzitettAdat.id === p.id && rogzitettAdat.osm_tipus === p.osm_tipus) { bezarKartya(); return; }
+      rogzitKartya(p, e.lngLat, e.point.x, e.point.y);
     });
 
+    addEventListener("keydown", (e) => { if (e.key === "Escape") bezarKartya(); });
+
     terkep.on("mousemove", (e) => {
-      const van = terkep.queryRenderedFeatures(e.point, { layers: RETEGEK }).length > 0;
+      const talalatok = terkep.queryRenderedFeatures(e.point, { layers: RETEGEK });
+      const van = talalatok.length > 0;
       terkep.getCanvas().style.cursor = van ? "pointer" : "";
+      if (rogzitettAdat || nincsEger.matches) return;
+      if (!van) { kartya.hidden = true; hoverAz = null; return; }
+      const p = talalatok[0].properties;
+      const az = (p.osm_tipus || "way") + ":" + p.id;
+      if (az !== hoverAz || kartya.hidden) {
+        hoverAz = az;
+        hoverAdat = p;
+        kartyaKoord = e.lngLat;
+        kartya.classList.remove("rogzitett");
+        kartya.innerHTML = kartyaHtml(p, false);
+        kartya.hidden = false;
+      }
+      kartyaHelye(e.point.x + terkep.getCanvas().getBoundingClientRect().left,
+                  e.point.y + terkep.getCanvas().getBoundingClientRect().top);
     });
+    terkep.getCanvas().addEventListener("mouseleave", () => {
+      if (!rogzitettAdat) { kartya.hidden = true; hoverAz = null; }
+    });
+    terkep.on("movestart", () => { if (!rogzitettAdat) { kartya.hidden = true; hoverAz = null; } });
+
+    // --- nyelvváltó ---
+    document.querySelectorAll("#nyelv button").forEach((b) => {
+      b.addEventListener("click", () => {
+        NYELV = b.dataset.nyelv === "en" ? "en" : "hu";
+        try { localStorage.setItem("nyelv", NYELV); } catch (e) { /* nincs tárhely */ }
+        alkalmazSzoveg();
+        feltetelesKartyaFrissites();
+      });
+    });
+    alkalmazSzoveg();
   </script>
 </body>
 </html>
