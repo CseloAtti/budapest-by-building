@@ -1,0 +1,151 @@
+{
+  "_leiras": "A szürke épületek előzetes (prior) korszak-eloszlása épülettípus x városmagtól mért távolság szerint. Csak a városi módban (py ev_becsles.py varos) használja. Szerkeszd szabadon: minden cella [ev_tol, ev_ig] vagy [[ev_tol, ev_ig, suly], ...] lista.",
+  "kozpont": [
+    47.4979,
+    19.054
+  ],
+  "_kozpont_megj": "Deák Ferenc tér",
+  "gyuruk_km": [
+    2,
+    3,
+    6
+  ],
+  "_gyuruk_megj": "belváros: 0-2 km, belső gyűrű: 2-3 km, középső: 3-6 km, külső: 6+ km",
+  "szomszed_suly": [
+    1.0,
+    1.0,
+    0.5,
+    0.0,
+    1.0,
+    0.5
+  ],
+  "_szomszed_megj": "Ezzel szorzódik a szomszéd- és az utca-bizonyíték súlya gyűrűnként: belváros, belső, középső, külső, település-mag, település-átmeneti sáv. 0 = az ismert évű épület nem hat a szomszédaira (zárvány-szabály). A település-mag (4.) teljes súlyú: az egykori falu/város magja összefüggő állomány.",
+  "alak_suly": [
+    1.0,
+    1.0,
+    0.5,
+    0.0,
+    1.0,
+    0.5
+  ],
+  "_alak_megj": "Az alak-bizonyíték (F) szorzója gyűrűnként. Az F is az ismert évű (többnyire régi, védett) épületekből tanul, ezért a külső gyűrűben 0: ott a típus x gyűrű prior dönt.",
+  "ghsl": {
+    "min_m2": 300,
+    "suly": 0.7,
+    "eps": 0.05,
+    "max": 5.0,
+    "utolso": 0.03
+  },
+  "_ghsl_megj": "GHSL-bizonyíték (tenyek_ghsl.py). Az épület a cella mai épületállományának véletlen tagja: a korszakok valószínűsége abból jön, hogy a cella beépítettségének mekkora része mikor épült (1975, 1990, 2000, 2010, 2020 közt). min_m2: ennél kisebb beépítésű cellából nincs információ. suly: a bizonyíték súlya. eps/max: a korszak-valószínűség alsó/felső vágása (az egyenletes eloszláshoz képest). utolso: a 2020 utáni építés kis alapvalószínűsége.",
+  "global_keveres": 0.1,
+  "tipusok": {
+    "berhaz": [
+      [
+        1870,
+        1918
+      ],
+      [
+        1890,
+        1945
+      ],
+      [
+        1920,
+        1960
+      ],
+      [
+        1950,
+        1980
+      ]
+    ],
+    "csaladi": [
+      [
+        1880,
+        1940
+      ],
+      [
+        1900,
+        1960
+      ],
+      [
+        1920,
+        1990
+      ],
+      [
+        1930,
+        2026
+      ]
+    ],
+    "sorhaz": [
+      [
+        1930,
+        1960
+      ],
+      [
+        1950,
+        1990
+      ],
+      [
+        1980,
+        2010
+      ],
+      [
+        1990,
+        2026
+      ]
+    ],
+    "panel": [
+      [
+        1960,
+        1989
+      ],
+      [
+        1960,
+        1989
+      ],
+      [
+        1960,
+        1989
+      ],
+      [
+        1970,
+        1989
+      ]
+    ],
+    "kereskedelmi": [
+      [
+        1990,
+        2020
+      ],
+      [
+        1996,
+        2020
+      ],
+      [
+        1996,
+        2015
+      ],
+      [
+        1996,
+        2015
+      ]
+    ],
+    "ipari": [
+      [
+        1880,
+        1990
+      ],
+      [
+        1900,
+        1990
+      ],
+      [
+        1920,
+        2000
+      ],
+      [
+        1990,
+        2022
+      ]
+    ]
+  }
+}

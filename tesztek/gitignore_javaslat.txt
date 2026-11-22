@@ -1,0 +1,12 @@
+# A .gitignore jelenlegi tartalma (2 sor):
+#   data/
+#   terkep3d/data/
+# Javasolt kiegészítés (a nagy, újragenerálható fájlok és a szemét kimaradnak a tárolóból):
+data/
+terkep3d/data/
+terkep3d/data_varos/epuletek.json
+# terkep3d/data_varos_elteres/ és terkep3d/data_varos_ksh/: csak akkor kerüljenek ide, ha a nyilvános nézet nem használja őket (előbb nézd meg a méretüket)
+__pycache__/
+*.pyc
+*.bak
+mentes_*/

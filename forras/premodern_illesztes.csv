@@ -1,0 +1,507 @@
+﻿wikikonyv_cim;allapot;osm_tipus;id;cim_adatbazis;nev;ev;stilus_elotte;stilus_utana
+Állatkerti körút 6-12.;kihagyva: későbbi építési év;way;25223010;Állatkerti körút 12/a;Fővárosi Nagycirkusz;1971;;
+Vajda Péter u. 7-13.;kihagyva: későbbi építési év;way;248791453;Vajda Péter utca 9;Úszócsarnok;1984;;
+Széchenyi rkp. 19.;kihagyva: későbbi építési év;relation;11764;Széchenyi rakpart 19;Képviselői irodaház;1948;;
+Zsolt utca 7.;kihagyva: későbbi építési év;relation;19217413;Zsolt utca 7;;2002;;
+Haris köz 2-6.;kihagyva: későbbi építési év;way;227211930;Haris köz 6;;2012;;
+Kiscelli u. 78-82.;kihagyva: későbbi építési év;way;251873279;Kiscelli utca 78-82;AKG Általános Iskola;2018;modern;
+Bartók Béla út 45.;kihagyva: későbbi építési év;relation;3010137;Bartók Béla út 43-47;Bartók Ház;2003;;
+Révész u. 27-31.;kihagyva: későbbi építési év;way;158800026;Révész utca 29;Riverloft;2005;;
+József nádor tér 2-4. / Dorottya utca 5-7.;illesztve;relation;11895;Dorottya utca 7;Pénzügyminisztérium;1913;;premodern
+Pannónia u. 43.;illesztve;relation;1750092;Pannónia utca 43;;;;premodern
+Visegrádi u. 64.;illesztve;relation;1801768;Visegrádi utca 64;;;;premodern
+Hegedűs Gyula u. 64-66.;illesztve;relation;1801775;Hegedűs Gyula utca 64-66;;;;premodern
+Hegedűs Gyula u. 68. / Garam u. 21.;illesztve;relation;1801766;Hegedűs Gyula utca 68;;1911;;premodern
+Hegedűs Gyula u. 73.;illesztve;relation;1801767;Hegedűs Gyula utca 73;;;;premodern
+Csanády utca 2. / Váci út 34.;illesztve;relation;1764334;Váci út 34;Krayer-ház;1910;;premodern
+Wesselényi utca 32.;illesztve;way;832590258;Wesselényi utca 32;;;;premodern
+Dob utca 5-7.;illesztve;way;259229896;Dob utca 5;;1909;;premodern
+Dob utca 5-7.;illesztve;way;259293254;Dob utca 7;;1911;;premodern
+Múzeum körút 41.;illesztve;way;258289289;Múzeum körút 41;;1911;;premodern
+Dohány u. 44.;illesztve;relation;20082;Dohány utca 42-44;Continental Hotel Budapest;1907;szecessziós építészet;szecessziós építészet, premodern
+Balzac u. 8-10. / Kresz Géza u.;illesztve;relation;1769805;Balzac utca 8-10;;;;premodern
+Balzac u. 9-11. / Kresz Géza u. 30. / Visegrádi u. 27.;illesztve;way;131269302;Balzac utca 11;;1912;;premodern
+Balzac u. 9-11. / Kresz Géza u. 30. / Visegrádi u. 27.;illesztve;relation;1764333;Balzac utca 9;;;;premodern
+Marczibányi tér 1.;illesztve;way;268363861;Marczibányi tér 1;Kodály Zoltán Ének-zenei Általános Iskola, Gimnázium és Zenei Alapfokú Művészeti Iskola;1912;népies szecessziós;népies szecessziós, premodern
+Csengery utca 68.;illesztve;way;164312586;Csengery utca 68/A;;;;premodern
+Népszínház utca 32.;illesztve;way;247082753;Népszínház utca 32;;;;premodern
+Cházár András utca 18.;illesztve;way;257232349;Cházár András utca 18;;1914;;premodern
+Kálvária tér 14.;illesztve;relation;3329362;Kálvária tér 14;;;;premodern
+Szilágyi Erzsébet fasor 19.;illesztve;relation;20700467;Szilágyi Erzsébet fasor 17-19-21;Trombitás-ház;;;premodern
+Budafoki út 9-11.;illesztve;relation;367662;Budafoki út 9-11;;1911;;premodern
+Irányi utca 25. / Veres Pálné utca 12.;illesztve;relation;3321312;Veres Pálné utca 12;;;;premodern
+Irányi utca 25. / Veres Pálné utca 12.;illesztve;relation;3321314;Irányi utca 25;;;;premodern
+Akácfa utca 30.;illesztve;way;259000773;Akácfa utca 30;;1907;;premodern
+Stefánia út 20.;illesztve;way;256958998;Stefánia út 20;Ligeti-műteremvilla;1905;magyaros szecessziós;magyaros szecessziós, premodern
+Fiumei út 23.;illesztve;way;272518914;Fiumei út 23;;;;premodern
+Thököly út 48.;már premodern;way;257209456;Thököly út 48-50;A épület;1912;premodern;premodern
+Thököly út 48.;illesztve;way;835099312;Thököly út 48;;;;premodern
+Andrássy út 120.;illesztve;way;258040881;Andrássy út 120;Sváb-villa;1914;;premodern
+Hegedűs Gyula utca 36.;illesztve;relation;1750087;Hegedűs Gyula utca 36;;1911;;premodern
+Szív utca 42.;illesztve;way;187633082;Szív utca 42;;1913;;premodern
+Dob utca 9.;illesztve;relation;3480252;Dob utca 9;;;;premodern
+Damjanich u. 9.;illesztve;way;1285691019;Damjanich utca 9;;;;premodern
+Damjanich u. 9.;illesztve;relation;3461492;Damjanich utca 9;;;;premodern
+Eötvös utca 28.;illesztve;relation;2184354;Eötvös utca 28;;;;premodern
+Eötvös utca 28.;illesztve;way;761438324;Eötvös utca 28;;;;premodern
+Sörház utca 3.;illesztve;way;306666233;Sörház utca 3/A;;1866;;premodern
+Sörház utca 3.;illesztve;way;306666241;Sörház utca 3;Kultikum rendezőház;1866;;premodern
+Sörház utca 3.;illesztve;way;306666246;Sörház utca 3;;1866;;premodern
+Sörház utca 3.;illesztve;way;563820749;Sorház utca 3;;;;premodern
+Sörház utca 3.;illesztve;way;247323954;Sörház utca 3;;;;premodern
+István utca 40.;illesztve;relation;3456588;István utca 40;;;;premodern
+Csanády utca 19.;illesztve;relation;1750089;Csanády utca 19;Felső kereskedelmi iskola és internátus;1911;;premodern
+Margit utca 11.;illesztve;way;1064358553;Margit utca 11;;1912;;premodern
+Margit utca 11.;illesztve;way;608630469;Margit utca 11;;;;premodern
+Budafoki út 53.;illesztve;relation;3006858;Budafoki út 53;;;;premodern
+Pilvax köz 1-3.;illesztve;way;227332932;Pilvax köz 1-3;;;;premodern
+Pilvax köz 2-4.;illesztve;way;227214772;Pilvax köz 4;;1817;;premodern
+Illatos út 2.;illesztve;way;356631211;Illatos út 2-4;Jaschik Álmos Művészeti Szakgimnázium és Technikum;;;premodern
+Bauer Sándor utca 7.;illesztve;way;246444312;Bauer Sándor utca 7;;;;premodern
+József utca 36.;illesztve;relation;3502066;József utca 36;;;;premodern
+József utca 36.;illesztve;way;665175498;József utca 36;;;;premodern
+Vajdahunyad utca 15.;illesztve;way;260888857;Vajdahunyad utca 15;;;;premodern
+Aradi utca 11.;illesztve;relation;1784136;Aradi utca 11;;;;premodern
+Aradi utca 11.;illesztve;way;120260621;Aradi utca 11;;;;premodern
+Aradi utca 11.;illesztve;way;348703178;Aradi utca 11;;;;premodern
+Víg utca 26.;illesztve;way;260714343;Víg utca 24-26;;;;premodern
+Víg utca 24.;illesztve;way;260714343;Víg utca 24-26;;;;premodern
+Kazinczy utca 10.;illesztve;way;743739639;Kazinczy utca 10;;;;premodern
+Kazinczy utca 10.;illesztve;way;920881188;Kazinczy utca 10;;;;premodern
+Kazinczy utca 10.;illesztve;relation;3482802;Kazinczy utca 10;;;;premodern
+Kazinczy utca 10.;illesztve;way;605826266;Kazinczy utca 10;;;;premodern
+Kazinczy utca 10.;illesztve;way;798420404;Kazinczy utca 10;;;;premodern
+Alsó erdősor 22.;illesztve;relation;3474372;Alsó erdősor 22/a;;;;premodern
+Ó utca 46.;illesztve;relation;3508431;Ó utca 46;;;;premodern
+Margit körút 11-13.;illesztve;relation;17031958;Margit körút 11;;1909;;premodern
+Berzenczey utca 3.;illesztve;relation;3509660;Berzenczey utca 3;;;;premodern
+Hegedűs Gyula utca 49-51.;illesztve;relation;1751008;Hegedűs Gyula utca 49-51;;1913;;premodern
+Nagymező utca 3.;illesztve;way;259153805;Nagymező utca 3;;1913;;premodern
+Kós Károly tér 5.;illesztve;way;287956794;Kós Károly tér 5;;1926;;premodern
+Közraktár utca 30.;illesztve;way;242195033;Közraktár utca 30;K30;1920;;premodern
+Margit körút 7.;illesztve;relation;3359545;Margit körút 7;Margit-udvar;1907;;premodern
+Hungária körút 32-34.;illesztve;way;256262199;Hungária körút 32;;;;premodern
+Eötvös u. 29.;illesztve;relation;2191616;Eötvös utca 29;;1911;;premodern
+Eötvös u. 29.;illesztve;way;759884699;Eötvös utca 29;;;;premodern
+Kresz Géza u. 24-26.;illesztve;way;131694235;Kresz Géza utca 24;;;;premodern
+Visegrádi u. 23.;illesztve;relation;1769796;Visegrádi utca 23;Förster-ház;1910;;premodern
+Népszínház utca 35.;illesztve;way;246439289;Népszínház utca 35;;1911;;premodern
+Tátra u. 3.;illesztve;way;1137999676;Tátra utca 3;;;;premodern
+Tátra u. 3.;illesztve;relation;1788741;Tátra utca 3;;;;premodern
+Tátra u. 3.;illesztve;way;819243122;Tátra utca 3;;;;premodern
+Tátra u. 4.;illesztve;relation;1788751;Tátra utca 4;;1912;;premodern
+Nádor utca 6.;illesztve;way;238737186;Nádor utca 6;;1913;;premodern
+Nádor utca 6.;illesztve;way;851892441;Nádor utca 6;;;;premodern
+Székely Mihály utca 10.;illesztve;way;259154577;Székely Mihály utca 10;;;;premodern
+Bartók Béla út 50.;illesztve;way;1144550324;Bartók Béla út 50;;;;premodern
+Bartók Béla út 50.;illesztve;way;1137997920;Bartók Béla út 50;;;;premodern
+Bartók Béla út 50.;illesztve;way;709681159;Bartók Béla út 50;;1915;;premodern
+Bartók Béla út 50.;illesztve;relation;9870623;Bartók Béla út 50;;1915;;premodern
+Victor Hugo u. 6-8. / Kresz Géza u. 48.;illesztve;relation;1756956;Kresz Géza utca 48;;;;premodern
+Victor Hugo u. 10-12. / Visegrádi u. 43-45.;illesztve;relation;1756957;Visegrádi utca 43;;;;premodern
+Visegrádi utca 43-45.;illesztve;relation;1756957;Visegrádi utca 43;;;;premodern
+Alkotmány utca 29.;illesztve;way;290281989;Alkotmány utca 29;;;;premodern
+Alkotmány utca 29.;illesztve;relation;2693835;Alkotmány utca 29;;;;premodern
+Múzeum körút 3.;illesztve;relation;3257753;Múzeum körút 3;;1914;;premodern
+Károly körút 3.;illesztve;way;259229893;Károly körút 3/b;Mandl-bérház;1929;;premodern
+Bajcsy-Zsilinszky út 36-38.;illesztve;way;261989304;Bajcsy-Zsilinszky út 36;;;;premodern
+Gyorskocsi u. 25.;illesztve;way;249666669;Gyorskocsi utca 25;;;;premodern
+Gyorskocsi u. 25.;illesztve;relation;8180339;Gyorskocsi utca 25-27;Fővárosi Büntetés-végrehajtási Intézet - II. Objektum;1913;art déco;art déco, premodern
+Ág utca 3.;illesztve;way;250158308;Ág utca 3;;;;premodern
+Hűvösvölgyi út 85.;illesztve;way;494206748;Hűvösvölgyi út 85;Hűvösvölgyi úti Könyvtár;1912;;premodern
+Dankó utca 22.;illesztve;way;246130986;Dankó utca 22;;;;premodern
+Nádor utca 11.;illesztve;way;310077888;Nádor utca 11;;1914;;premodern
+Zoltán utca 11.;illesztve;way;1064640173;Zoltán utca 11;;1910;;premodern
+Zoltán utca 11.;illesztve;relation;3517823;Zoltán utca 11;;;;premodern
+Arany János utca 32.;illesztve;way;291854060;Arany János utca 32/a;;;;premodern
+Arany János utca 32.;illesztve;way;291854064;Arany János utca 32;;;;premodern
+Arany János utca 32.;illesztve;way;291854066;Arany János utca 32/b;;;;premodern
+Arany János utca 32.;illesztve;way;607494621;Arany János utca 32/d;;;;premodern
+Arany János utca 32.;illesztve;relation;3253937;Arany János utca 32;Goldberger-ház;1911;;premodern
+Arany János utca 32.;illesztve;way;804755902;Arany János utca 32;;;;premodern
+Papnövelde utca 1.;illesztve;way;263530887;Papnövelde utca 1;;;;premodern
+Szervita tér 2.;illesztve;way;227214768;Szervita tér 2;Szénásy és Bárczai Áruháza;1908;szecessziós építészet Magyarországon;szecessziós építészet Magyarországon, premodern
+Dohány utca 10-14.;illesztve;way;259309002;Dohány utca 10;;1844;klasszicista;klasszicista, premodern
+Dohány utca 10-14.;illesztve;way;259309004;Dohány utca 12;Focus point;1913;;premodern
+Pannónia utca 6.;illesztve;relation;1788749;Pannónia utca 6;;1909;;premodern
+Kőrösi Csoma Sándor út 36-38.;illesztve;relation;6674842;Kőrösi Csoma Sándor út 36;;;;premodern
+Bajza u. 17.;illesztve;way;257877992;Bajza utca 17;;;;premodern
+Bajza u. 19.;illesztve;way;257877981;Bajza utca 19;;;;premodern
+Apáczai Csere János utca 11.;illesztve;way;60242195;Apáczai Csere János utca 11;Futura-ház;1873;neoreneszánsz;neoreneszánsz, premodern
+Apáczai Csere János utca 11.;illesztve;way;60242220;Apáczai Csere János utca 11;MAHART-ház;1913;neoreneszánsz;neoreneszánsz, premodern
+Apáczai Csere János utca 11.;illesztve;way;60242222;Apáczai Csere János utca 11;Dorothea Hotel, Budapest, Autograph Collection;1873;neoreneszánsz;neoreneszánsz, premodern
+Apáczai Csere János utca 11.;illesztve;way;1285215309;Apáczai Csere János utca 11;Dorothea Hotel, Budapest, Autograph Collection;1873;neoreneszánsz;neoreneszánsz, premodern
+Türr István utca 9.;illesztve;relation;3228037;Türr István utca 9;;;;premodern
+Hold utca 15.;illesztve;relation;3517782;Hold utca 15;;;;premodern
+Kuny Domokos utca 11.;illesztve;way;694578114;Kuny Domokos utca 11;;;;premodern
+Benczúr utca 26.;illesztve;way;257909965;Benczúr utca 26;Oktatási és Innovációs Központ;1913;;premodern
+Margit körút 60.;illesztve;way;249660493;Margit körút 60;;;;premodern
+II. János Pál pápa tér 30.;illesztve;way;26829510;II. János Pál pápa tér 30;Erkel Színház;1911;szecessziós építészet, art déco;szecessziós építészet, art déco, premodern
+Fiumei út 19/a.;illesztve;way;272518606;Fiumei út 19;;;;premodern
+Nyár utca 22.;illesztve;way;259022657;Nyár utca 22;;1910;;premodern
+Lendvay utca 27.;illesztve;way;257938145;Lendvay utca 27;;;;premodern
+Lendvay u. 27.;illesztve;way;257938145;Lendvay utca 27;;;;premodern
+Bajcsy-Zsilinszky út 7.;illesztve;way;1505837702;Bajcsy-Zsilinszky út 7;;1914;;premodern
+Állatkerti körút 6-12.;illesztve;way;25226450;Állatkerti körút 6-12;India-ház;1912;népies stílus;népies stílus, premodern
+Állatkerti körút 6-12.;illesztve;relation;6221648;Állatkerti körút 6-12;Állatkert Főbejárat;1912;szecessziós építészet;szecessziós építészet, premodern
+Állatkerti körút 6-12.;illesztve;way;1344529660;Állatkerti körút 12/b;;1912;;premodern
+Állatkerti körút 6-12.;illesztve;way;1344529661;Állatkerti körút 12/b;;1909;;premodern
+Állatkerti körút 6-12.;illesztve;way;1344529662;Állatkerti körút 12/b;;1909;;premodern
+Kristóf tér 6.;illesztve;relation;20995324;Kristóf tér 6;;1910;;premodern
+Vas utca 9-11.;illesztve;way;261802935;Vas utca 11;BGSZC Széchenyi István Kereskedelmi Szakgimnáziuma;1912;art déco;art déco, premodern
+Rákóczi út 18.;illesztve;way;272771321;Rákóczi út 18;;;;premodern
+Rákóczi út 18.;illesztve;way;536961505;Rákóczi út 18;;;;premodern
+Szervita tér 5.;illesztve;relation;3019294;Szervita tér 5;Rózsavölgyi Ház;1912;;premodern
+Népszínház utca 19.;illesztve;way;260566945;Népszínház utca 19;;1913;;premodern
+Cházár András utca 10.;illesztve;way;780288332;Cházár András utca 10;ELTE Radnóti Miklós Gyakorlóiskola;1913;art déco;art déco, premodern
+Paulay Ede utca 35.;illesztve;way;259165339;Paulay Ede utca 35;;1909;art déco;art déco, premodern
+Amerikai út 53-55.;illesztve;way;275145044;Amerikai út 53;MAZSIHISZ Szeretetkórház;1914;;premodern
+Kőrösi Csoma Sándor út 28-34.;illesztve;way;516150865;Kőrösi Csoma Sándor út 28-34;Szent László Gimnázium;1914;;premodern
+Vajda Péter u. 25-31.;már premodern;way;254456762;Vajda Péter utca 25;Vajda Péter Ének-zenei Általános és Sportiskola;1924;premodern;premodern
+Irányi utca 15.;illesztve;relation;3318173;Irányi utca 15;Vermes-ház;1911;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457194;Vajda Péter utca 4-6;;1909;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457199;Vajda Péter utca 4;;1909;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457200;Vajda Péter utca 6;;1909;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457201;Vajda Péter utca 6;;1909;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457203;Vajda Péter utca 4;;1909;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457207;Vajda Péter utca 6;;1909;;premodern
+Vajda Péter u. 4-6.;illesztve;way;254457208;Vajda Péter utca 4;;1909;;premodern
+Cházár András u. 5.;illesztve;way;257207967;Cházár András utca 5;;1912;;premodern
+Vajda Péter u. 7-13.;illesztve;way;254456766;Vajda Péter utca 11;;;;premodern
+Zoltán utca 12.;illesztve;way;304364070;Zoltán utca 12;;;;premodern
+Zoltán utca 12.;illesztve;relation;3517832;Zoltán utca 12;;;;premodern
+Nyúl utca 9.;illesztve;way;372445244;Nyúl utca 9;;1913;szecesszió;szecesszió, premodern
+Dózsa György út 86/a.;illesztve;way;306984505;Dózsa György út 84-94;;;;premodern
+Dózsa György út 86/b.;illesztve;way;306984505;Dózsa György út 84-94;;;;premodern
+Visegrádi u. 48. / Victor Hugo u. 14.;illesztve;relation;1751011;Visegrádi utca 48;;;;premodern
+Mexikói út 63.;illesztve;way;261996896;Mexikói út 63-64;;1905;;premodern
+Visegrádi u. 9. / Katona József u. 13.;illesztve;relation;1781508;Katona József utca 13;;;;premodern
+Lehel u. 14.;illesztve;way;824534085;Lehel utca 14;;;;premodern
+Lehel u. 14.;már premodern;relation;1753567;Lehel utca 14;Lehel utcai műhelyház;1912;premodern;premodern
+Lehel u. 14.;illesztve;way;751360072;Lehel utca 14;;;;premodern
+Lehel u. 14.;illesztve;way;821234139;Lehel utca 14;;;;premodern
+Lehel u. 14.;illesztve;way;348318933;Lehel utca 14;Jézus Szíve templom;;;premodern
+Lehel u. 14.;illesztve;way;348318936;Lehel utca 14;Római Katolikus Plébánia;;;premodern
+Elek utca 14.;illesztve;way;252233387;Elek utca 14;;;;premodern
+Orlay utca 2/b.;illesztve;relation;3009339;Orlay utca 2/B;;1910;;premodern
+Bokréta utca 10.;illesztve;way;261414840;Bokréta utca 10;;;;premodern
+Dobozi utca 27.;illesztve;way;246471599;Dobozi utca 27;;;;premodern
+Belgrád rakpart 12.;illesztve;way;247323966;Belgrád rakpart 12;;1912;;premodern
+Attila út 91. / Logodi utca 32.;illesztve;relation;3361311;Logodi utca 32;;;;premodern
+Attila út 91. / Logodi utca 32.;illesztve;relation;3361312;Attila út 91;;;;premodern
+Váci út 3.;illesztve;way;25372268;Váci út 1-3;Sóház;1916;szecessziós építészet;szecessziós építészet, premodern
+Váci út 3.;illesztve;way;131893576;Váci út 102/3;;1896;;premodern
+Thaly Kálmán utca 50.;illesztve;way;254161094;Thaly Kálmán utca 50;;;;premodern
+Rómer Flóris utca 26.;illesztve;way;490638695;Rómer Flóris utca 26;;1914;;premodern
+István u. 38.;illesztve;relation;3456594;István utca 38;;;;premodern
+Kőris utca 39. / Orczy út 39.;illesztve;way;255361823;Orczy út 39;;;;premodern
+Kőris utca 39. / Orczy út 39.;illesztve;way;255361825;Kőris utca 39;;;;premodern
+Zichy Jenő utca 15.;illesztve;relation;3508309;Zichy Jenő utca 15;;;;premodern
+Csanády u. 11.;illesztve;relation;1751009;Csanády utca 11;;;;premodern
+Csanády u. 13. / Hegedüs Gyula u. 43.;illesztve;relation;1751013;Hegedűs Gyula utca 43;;;;premodern
+Kádár u. 4.;illesztve;relation;1786263;Kádár utca 4;;;;premodern
+Bajnok u. 17.;illesztve;way;211475028;Bajnok utca 17;;;;premodern
+Jókai utca 12.;illesztve;relation;3508394;Jókai utca 12;;;;premodern
+Jókai utca 12.;illesztve;way;768639047;Jókai utca 12;;;;premodern
+Székely Mihály utca 4-6;illesztve;way;259154563;Székely Mihály utca 4;;;;premodern
+Székely Mihály utca 4-6;illesztve;relation;20597974;Székely Mihály utca 6;;;;premodern
+Pauler utca 19.;illesztve;way;250076637;Pauler utca 19;;;;premodern
+Alkotás utca 11. / Greguss utca 1. / Ráth György utca 2.;illesztve;way;314968157;Alkotás utca 11;;1911;;premodern
+Margit körút 64.;illesztve;way;249660462;Margit körút 64/a;;1911;;premodern
+Margit körút 64.;illesztve;way;249660469;Margit körút 64/b;;1911;;premodern
+Margit körút 41.;illesztve;way;249858434;Margit körút 41;;;;premodern
+Lajos u. 1-5.;illesztve;way;306521609;Lajos utca 5;;;;premodern
+Lajos u. 1-5.;illesztve;way;306521617;Lajos utca 3;;;;premodern
+Lajos u. 1-5.;illesztve;way;250919490;Lajos utca 1-5;Than Károly Ökoiskola, Gimnázium, Szakgimnázium és Szakközépiskola;;;premodern
+Lajos u. 1-5.;illesztve;relation;3368554;Lajos utca 1;Óbuda Gate;;;premodern
+II. János Pál pápa tér 4.;illesztve;way;260430599;II. János Pál pápa tér 4;;1911;;premodern
+Gyáli út 21-23.;illesztve;way;315328703;Gyáli út 21-23;;1909;premodern építészet;premodern építészet, premodern
+Gyáli út 21-23.;illesztve;way;315328711;Gyáli út 21-23;Novex Biztonságtechnika Kft.;;;premodern
+Mészöly utca 6.;illesztve;way;251984315;Mészöly utca 6;;1909;art nouveau;art nouveau, premodern
+Belgrád rakpart 13-15.;illesztve;way;247323956;Belgrád rakpart 13-15;;1911;;premodern
+Vág utca 12-14.;illesztve;way;135339834;Vág utca 12;Budapesti Komplex SZC Modell Divatiskolája;1909;;premodern
+Vág utca 12-14.;illesztve;way;766563150;Vág utca 12;;;;premodern
+Vág utca 12-14.;illesztve;way;801982535;Vág utca 14;;;;premodern
+Frangepán u. 6. / Váci út 87.;illesztve;way;126230000;Frangepán utca 6;;1911;;premodern
+Frangepán u. 6. / Váci út 87.;illesztve;way;272543930;Frangepán utca 6;;;;premodern
+Attila út 77.;illesztve;way;250075980;Attila út 77;;;;premodern
+Zsolt utca 7.;illesztve;way;311983122;Zsolt utca 7;;;;premodern
+Zsolt utca 7.;illesztve;relation;3362140;Zsolt utca 7;;;;premodern
+Ady Endre utca 1.;illesztve;way;384432894;Ady Endre utca 1;XX. kerületi szakrendelő;;;premodern
+Ady Endre utca 1.;illesztve;way;370160666;Ady Endre utca 1;;;;premodern
+Ady Endre utca 1.;illesztve;way;271954250;Ady Endre utca 1;;;;premodern
+Balaton utca 12.;illesztve;relation;11848484;Balaton utca 12;;;;premodern
+Akácfa utca 7.;illesztve;relation;18138601;Akácfa utca 7;;1914;;premodern
+Salétrom utca 6.;illesztve;relation;15981999;Salétrom utca 6;;;;premodern
+Gyáli út 15/a-e.;illesztve;way;314424572;Gyáli út 15/E;;1912;;premodern
+Gyáli út 15/a-e.;illesztve;way;314424573;Gyáli út 15/D;;1912;;premodern
+Gyáli út 15/a-e.;illesztve;way;314424574;Gyáli út 15/A;;1912;;premodern
+Gyáli út 15/a-e.;illesztve;way;314424577;Gyáli út 15/C;;1912;;premodern
+Gyáli út 15/a-e.;illesztve;way;314424578;Gyáli út 15/B;;1912;;premodern
+Régi Posta utca 11.;illesztve;way;256056156;Régi posta utca 11;;;;premodern
+Erzsébet tér 3.;illesztve;relation;936984;Erzsébet tér 3;Cziráky-udvar;1912;;premodern
+Erzsébet tér 5.;illesztve;relation;936988;Erzsébet tér 5;;1912;;premodern
+Haris köz 1-5.;illesztve;way;227332941;Haris köz 5;;;;premodern
+Haris köz 1-5.;illesztve;way;227332943;Haris köz 3;;;;premodern
+Haris köz 1-5.;illesztve;way;227332946;Haris köz 1;;;;premodern
+Haris köz 1-5.;illesztve;way;227332950;Haris köz 3;;;;premodern
+Haris köz 2-6.;illesztve;way;227211922;Haris köz 4;;;;premodern
+Haris köz 2-6.;illesztve;way;227211931;Haris köz 2;;;;premodern
+Dohány utca 58-62.;illesztve;relation;18138602;Dohány utca 58-62;;1913;;premodern
+Baross utca 45.;illesztve;way;1064845164;Baross utca 45;;1912;;premodern
+Baross utca 45.;illesztve;relation;3373703;Baross utca 45;Dános-bérház;;;premodern
+Baross utca 45.;illesztve;way;1149972380;Baross utca 45;;;;premodern
+Baross utca 45.;illesztve;relation;1913304;Baross utca 45;;;;premodern
+Alföldi utca 16.;illesztve;way;246892064;Alföldi utca 16;;;;premodern
+Baross utca 87/a-b.;illesztve;way;177672662;Baross utca 87;Bán-bérház;;;premodern
+Baross utca 87/a-b.;illesztve;way;260882890;Baross utca 87;;1934;;premodern
+Baross utca 87/a-b.;illesztve;way;1150245691;Baross utca 87/A;Pest-Pilis-Solt-Kiskun vármegye bérháza;;;premodern
+Baross utca 87/a-b.;illesztve;way;1150245692;Baross utca 87/B;Pest-Pilis-Solt-Kiskun vármegye bérháza;;;premodern
+Bercsényi utca 6.;illesztve;way;1064557584;Bercsényi utca 6;;1911;;premodern
+Bercsényi utca 6.;illesztve;relation;1853694;Bercsényi utca 6;;;;premodern
+Bercsényi utca 6.;illesztve;way;813504813;Bercsényi utca 6;;;;premodern
+Hollán Ernő utca 3.;illesztve;relation;1788752;Hollán Ernő utca 3;;1912;;premodern
+Csanády utca 21.;illesztve;relation;1750090;Csanády utca 21;;1914;;premodern
+Baross utca 75.;illesztve;way;386599646;Baross utca 73-77;Pesterzsébet Önkormányzata GAMESZ;;;premodern
+Baross utca 75.;illesztve;way;1064846120;Baross utca 75;;1912;;premodern
+Baross utca 75.;illesztve;relation;3504701;Baross utca 75;Reiss-bérház;1913;;premodern
+Baross utca 75.;illesztve;way;1149972272;Baross utca 75;;;;premodern
+Bulcsú utca 21/a.;illesztve;relation;1753566;Bulcsú utca 21;;1913;;premodern
+Bulcsú utca 21/b.;illesztve;relation;1753566;Bulcsú utca 21;;1913;;premodern
+Bulcsú utca 21/a.;illesztve;way;764433800;Bulcsú utca 21;;;;premodern
+Bulcsú utca 21/b.;illesztve;way;764433800;Bulcsú utca 21;;;;premodern
+Bulcsú utca 21/b.;illesztve;way;130101986;Bulcsú utca 21/b;;1913;;premodern
+Párizsi u. 4.;illesztve;way;227211915;Párizsi utca 4;;;;premodern
+Királyhágó tér 1.;illesztve;relation;3365561;Királyhágó tér 1;;1914;;premodern
+Greguss utca 3.;illesztve;way;314968167;Greguss utca 3;;1914;;premodern
+Greguss utca 10.;illesztve;relation;3353130;Greguss utca 10;;1914;;premodern
+Drégely utca 2-4.;illesztve;way;252184309;Drégely utca 2;Verona Ház;;;premodern
+Martinovics tér 4/a.;illesztve;way;523418901;Martinovics tér 4/A;;;;premodern
+Pannónia utca 81.;illesztve;way;135339783;Pannónia utca 81;Pannónia Általános Iskola;1911;historizáló;historizáló, premodern
+Tűzoltó utca 3.;illesztve;relation;3508939;Tűzoltó utca 3;;;;premodern
+Bercsényi utca 10.;illesztve;way;1064557580;Bercsényi utca 10;;1911;;premodern
+Bercsényi utca 10.;illesztve;relation;1853688;Bercsényi utca 10;;1913;;premodern
+Bercsényi utca 10.;illesztve;way;348703219;Bercsényi utca 10;;;;premodern
+Népszínház utca 20.;illesztve;way;259725024;Népszínház utca 20;;;;premodern
+Andrássy út 101.;illesztve;way;257909926;Andrássy út 101;Schanzer-villa;1900;;premodern
+Rákóczi út 51.;illesztve;way;259686896;Rákóczi út 51;Hofstätter-bérház;1912;;premodern
+Rákóczi út 51.;illesztve;relation;3485525;Rákóczi út 51;Hofstätter-bérház;;;premodern
+Váci út 87. / Frangepán u. 2.;illesztve;way;1064639608;Frangepán utca 2;;1914;;premodern
+Váci út 87. / Frangepán u. 2.;illesztve;relation;12687107;Frangepán utca 2;;1911;;premodern
+Váci út 87. / Frangepán u. 2.;illesztve;way;272543933;Frangepán utca 2;;;;premodern
+Hegedüs Gyula u. 40.;illesztve;way;129727406;Hegedűs Gyula utca 40;;;;premodern
+Károly körút 18.;illesztve;way;694349847;Károly körút 18;;;;premodern
+Damjanich utca 18.;illesztve;way;1283383186;Damjanich utca 18;;;;premodern
+Damjanich utca 18.;illesztve;relation;6179173;Damjanich utca 18;;;;premodern
+Dugonics utca 17-21.;illesztve;way;255632621;Dugonics utca 17-21;Dugonics utcai elemi iskola;1911;;premodern
+Dugonics utca 17-21.;illesztve;way;124142161;Dugonics utca 21;;;;premodern
+Dugonics utca 17-21.;illesztve;way;754708163;Dugonics utca 19;;;;premodern
+Dugonics utca 17-21.;illesztve;way;754708164;Dugonics utca 21;;;;premodern
+Dugonics utca 17-21.;illesztve;way;754708165;Dugonics utca 17;;;;premodern
+Dugonics utca 17-21.;illesztve;way;754708157;Dugonics utca 21/A;;;;premodern
+Angyalföldi út 36-38.;illesztve;relation;1741803;Angyalföldi út 36;;;;premodern
+Karácsony Sándor utca 28-30.;illesztve;relation;3329019;Karácsony Sándor utca 28;;;;premodern
+Karácsony Sándor utca 28-30.;illesztve;way;348284926;Karácsony Sándor utca 30;;;;premodern
+Karácsony Sándor utca 28-30.;illesztve;way;348284953;Karácsony Sándor utca 28;;;;premodern
+Október 6. utca 16-18.;illesztve;relation;20400701;Október 6. utca 16;;1912;;premodern
+Zsolt utca 11.;illesztve;way;311982959;Zsolt utca 11;;;;premodern
+Zsolt utca 11.;illesztve;relation;3362141;Zsolt utca 11;;;;premodern
+Andrássy út 39.;illesztve;relation;20573252;Andrássy út 39;Párisi Nagy Áruház;1882;szecessziós;szecessziós, premodern
+Kertész u. 30.;illesztve;way;309167212;Kertész utca 30;;;;premodern
+Kertész u. 30.;már premodern;way;259000134;Kertész utca 30;;1910;premodern;premodern
+Pannónia u. 33.;illesztve;way;306545077;Pannónia utca 33/A;;;;premodern
+Pannónia u. 33.;illesztve;way;306545092;Pannónia utca 33/B;;;;premodern
+Pannónia u. 33.;illesztve;relation;1763278;Pannónia utca 33;;;;premodern
+Péterfy Sándor u. 17.;illesztve;relation;2190152;Péterfy Sándor utca 17;;1900;;premodern
+Damjanich utca 49.;illesztve;way;1285690707;Damjanich utca 49;;;;premodern
+Damjanich utca 49.;illesztve;way;257583293;Damjanich utca 49;;;;premodern
+Déri Miksa utca 18.;illesztve;way;246730477;Déri Miksa utca 18;;;;premodern
+Gellérthegy utca 1.;illesztve;way;250107023;Gellérthegy utca 1;;;;premodern
+Práter utca 59–63. / Lósy Imre utca 1–6.;illesztve;way;261041699;Lósy Imre utca 3;;1912;;premodern
+Práter utca 59–63. / Lósy Imre utca 1–6.;illesztve;way;261041705;Lósy Imre utca 2;;;;premodern
+Práter utca 59–63. / Lósy Imre utca 1–6.;illesztve;way;261041706;Lósy Imre utca 3;;;;premodern
+Práter utca 59–63. / Lósy Imre utca 1–6.;illesztve;relation;3429258;Lósy Imre utca 2;;;;premodern
+Tanoda tér 1.;illesztve;way;120260623;Tanoda tér 1;Újpesti Könyves Kálmán Gimnázium;1914;neoklasszicista építészet, premodern építészet;neoklasszicista építészet, premodern építészet, premodern
+Deák Ferenc utca 16-18.;illesztve;way;457421512;Deák Ferenc utca 16/a;;;;premodern
+Deák Ferenc utca 16-18.;illesztve;way;1137999022;Deák Ferenc utca 18/a;;;;premodern
+Deák Ferenc utca 16-18.;illesztve;way;553762742;Deák Ferenc utca 16;;;;premodern
+Deák Ferenc utca 16-18.;illesztve;way;553762745;Deák Ferenc utca 18;;;;premodern
+Deák Ferenc utca 16-18.;illesztve;way;134989199;Deák Ferenc utca 16;;;;premodern
+Deák Ferenc utca 16-18.;illesztve;way;134989227;Deák Ferenc utca 18;;;;premodern
+Népszínház utca 25.;illesztve;way;430034571;Népszínház utca 25;;;;premodern
+Kazinczy utca 11.;illesztve;way;920881175;Kazinczy utca 11;;;;premodern
+Kazinczy utca 11.;illesztve;way;259308445;Kazinczy utca 11;;;;premodern
+Kazinczy utca 11.;illesztve;way;820436652;Kazinczy utca 11;;;;premodern
+Kazinczy utca 11.;illesztve;way;798420312;Kazinczy utca 11;;;;premodern
+Tolnai Lajos utca 4.;illesztve;way;260566687;Tolnai Lajos utca 4;;;;premodern
+Dohány utca 22-24.;illesztve;relation;3482805;Dohány utca 22-24;Árkád Bazár;1909;;premodern
+Munkácsy Mihály u. 19/a;illesztve;way;273897489;Munkácsy Mihály utca 19;;;;premodern
+Tompa utca 9.;illesztve;way;1067853905;Tompa utca 9;;;;premodern
+Tompa utca 9.;illesztve;way;813244793;Tompa utca 9;;;;premodern
+Liszt Ferenc tér 2.;illesztve;way;105952964;Liszt Ferenc tér 2;;1905;;premodern
+Városligeti fasor 45.;illesztve;way;257725574;Városligeti fasor 45;Wodianer ház;;;premodern
+Falk Miksa u. 5., 6-8.;illesztve;relation;3611683;Falk Miksa utca 8;;;;premodern
+Falk Miksa u. 5., 6-8.;illesztve;relation;3611686;Falk Miksa utca 6;;;;premodern
+Falk Miksa u. 5., 6-8.;illesztve;relation;21078974;Falk Miksa utca 5;;;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;way;552188732;Katona József utca 28;;;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;way;552188733;Katona József utca 26;;;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;relation;1792060;Katona József utca 39;;1911;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;relation;1792061;Katona József utca 41;;1911;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;relation;1792062;Pozsonyi út 14;;1911;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;relation;1792063;Radnóti Miklós utca 40;;1911;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;way;133332343;Pozsonyi út 14;;;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;way;133428462;Jászai Mari tér 5;Palatinus ház;1911;;premodern
+Pozsonyi út 2-18. / Jászai Mari tér 5-6. / Újpesti rakpart 1-9. / Katona József u. 26-28., 39-41. / Radnóti Miklós u. 38-40.;illesztve;relation;21289446;Jászai Mari tér 5;Palatinus ház;1911;;premodern
+Alkotmány u. 4. / Szalay u. 3. / Honvéd u. 14-18. / Vajkay u. 1-5.;illesztve;way;894260832;Honvéd utca 16;;;;premodern
+Alkotmány u. 4. / Szalay u. 3. / Honvéd u. 14-18. / Vajkay u. 1-5.;illesztve;way;290508476;Alkotmány utca 4;;;;premodern
+Alkotmány u. 4. / Szalay u. 3. / Honvéd u. 14-18. / Vajkay u. 1-5.;illesztve;relation;3516528;Alkotmány utca 4;;1913;szecessziós;szecessziós, premodern
+Alkotmány u. 4. / Szalay u. 3. / Honvéd u. 14-18. / Vajkay u. 1-5.;illesztve;relation;3516529;Honvéd utca 16;;;;premodern
+Alkotmány u. 4. / Szalay u. 3. / Honvéd u. 14-18. / Vajkay u. 1-5.;illesztve;relation;3516530;Honvéd utca 18;;;;premodern
+Miklós tér 2.;illesztve;way;252575160;Miklós tér 2;;1911;;premodern
+Szörény utca 5-7.;illesztve;way;256262211;Szörény utca 5;;;;premodern
+Krisztina körút 2-4.;illesztve;relation;3355298;Krisztina körút 2-4;;1920;;premodern
+Martinovics tér 4/b.;illesztve;way;523418900;Martinovics tér 4/B;;;;premodern
+Verseny u. 14.;már premodern;relation;3442148;Verseny utca 14;;1910;premodern;premodern
+Verseny u. 18.;már premodern;way;256796595;Verseny utca 18;;1910;premodern;premodern
+Damjanich utca 38.;illesztve;way;1285690623;Damjanich utca 38;;;;premodern
+Damjanich utca 38.;illesztve;relation;3459641;Damjanich utca 38;;;;premodern
+Mester u. 12.;illesztve;way;261353492;Mester utca 12;;;;premodern
+Mester u. 18.;illesztve;way;261353491;Mester utca 18;;;;premodern
+Mester u. 53. / Haller út;illesztve;way;261481411;Mester utca 53;;;;premodern
+Gyáli út 18-22.;illesztve;way;303358233;Gyáli út 22;Puskás Tivadar Távközlési Technikum;1912;;premodern
+Gyáli út 18-22.;illesztve;way;303358234;Gyáli út 22;Gyáli úti Posta telep;1912;;premodern
+Marek József utca 29.;illesztve;relation;3456585;Marek József utca 29;;;;premodern
+Lövölde tér 4.;illesztve;way;258056748;Lövölde tér 4;Smart Hotel Budapest;;;premodern
+Baross u. 86. / Szűz u. / Magdolna u. / Vasas köz;illesztve;relation;3330335;Baross utca 86;;;;premodern
+Baross u. 86. / Szűz u. / Magdolna u. / Vasas köz;illesztve;way;1150569223;Baross utca 86;;;;premodern
+Baross u. 88. / Magdolna u. / Vasas köz;illesztve;way;246666461;Baross utca 88;;;;premodern
+Baross u. 88. / Magdolna u. / Vasas köz;illesztve;way;1150569222;Baross utca 88;;;;premodern
+Baross u. 90.;illesztve;way;246666460;Baross utca 90;Magyarországi Vas- és Fémmunkások Szövetkezetének bérháza;1928;;premodern
+Baross u. 90.;illesztve;way;1150569221;Baross utca 90;;;;premodern
+Hősök u. 23.;illesztve;way;108784371;Hősök utca 23;;1882;szecessziós;szecessziós, premodern
+Váci út 198.;illesztve;way;331614990;Váci út 198;Főnix-Med Zrt.;;;premodern
+Lujza utca 38.;illesztve;relation;3329144;Lujza utca 38;;;;premodern
+Nagy Lajos király útja 128. / Szugló u. 80.;illesztve;way;206590998;Nagy Lajos király útja 128;;;;premodern
+Mészáros u. 64.;illesztve;relation;3363211;Mészáros utca 64;;;;premodern
+Dózsa György út 86/b.;illesztve;way;257909994;Dózsa György út 86/B;;1910;;premodern
+Dózsa György út 102.;illesztve;way;257938143;Dózsa György út 102;;1910;;premodern
+Maros utca 44.;illesztve;way;250782889;Maros utca 44/a;;;;premodern
+Lehel u. 5.;illesztve;relation;1752744;Lehel utca 5;;;;premodern
+Lehel u. 5.;illesztve;way;557416485;Lehel utca 5;;;;premodern
+Lehel u. 5.;illesztve;way;348295520;Lehel utca 5;;;;premodern
+Bercsényi utca 15;illesztve;way;1064557602;Bercsényi utca 15;;1911;;premodern
+Bercsényi utca 15;illesztve;way;226145967;Bercsényi utca 15;;;;premodern
+Kun utca 12.;illesztve;relation;3331748;Kun utca 12;;;;premodern
+Nagymező utca 36.;illesztve;way;261301459;Nagymező utca 36;;;;premodern
+Tompa u. 15/a.;illesztve;way;1531241981;Tompa utca 15;;;;premodern
+Tompa u. 15/a.;illesztve;way;288082271;Tompa utca 15;;;;premodern
+Tompa u. 15/a.;illesztve;way;813244794;Tompa utca 15;;;;premodern
+Tompa u. 15/a.;illesztve;relation;3509079;Tompa utca 15/a;;1912;;premodern
+Lónyay u. 34.;illesztve;relation;3263717;Lónyay utca 34;;;;premodern
+Károly körút 12.;illesztve;way;228693191;Károly körút 12;;1894;;premodern
+Jókai u. 15.;illesztve;relation;2538732;Jókai utca 15;Reiner-bérház;1889;;premodern
+Jókai u. 15.;illesztve;way;553972193;Jókai utca 15;;;;premodern
+Szondi u. 37.;illesztve;way;187633096;Szondi utca 37/b;;;;premodern
+Szondi u. 37.;illesztve;relation;2525807;Szondi utca 37/c;;;;premodern
+Szondi u. 37.;illesztve;way;272721161;Szondi utca 37;;;;premodern
+Andrássy út 45.;illesztve;relation;1784945;Andrássy út 45;Karsai-bérház;1880;eklektikus;eklektikus, premodern
+Andrássy út 45.;illesztve;relation;20573251;Andrássy út 45;;1878;eklektikus;eklektikus, premodern
+Hajós u. 19.;illesztve;way;261301347;Hajós utca 19;;;;premodern
+Vörösmarty u. 12.;illesztve;way;675870236;Vörösmarty utca 12;;;;premodern
+Vörösmarty u. 12.;illesztve;way;1067853910;Vörösmarty utca 12;;;;premodern
+Vörösmarty u. 12.;illesztve;way;258718026;Vörösmarty utca 12/b;;;;premodern
+Vörösmarty u. 12.;illesztve;way;820436626;Vörösmarty utca 12;;;;premodern
+Vörösmarty u. 12.;illesztve;way;247363336;Vörösmarty utca 12;;;;premodern
+Vörösmarty u. 12.;illesztve;way;798420336;Vörösmarty utca 12/B;Geo+Bau Kft.;;;premodern
+Fehérvári út 202.;illesztve;way;102690079;Fehérvári út 202;Club 202;1900;;premodern
+Fehérvári út 70.;illesztve;way;543696511;Fehérvári út 70/a;;1913;;premodern
+Bocskai út 134.;illesztve;way;566433002;Bocskai út 134-146;E;1918;;premodern
+Bocskai út 134.;illesztve;way;566433003;Bocskai út 134-146;E;1918;;premodern
+Bocskai út 134.;illesztve;way;566433004;Bocskai út 134-146;E;1918;;premodern
+Bocskai út 134.;illesztve;way;566433005;Bocskai út 134-146;E;1918;;premodern
+Bocskai út 134.;illesztve;way;566433006;Bocskai út 134-146;E;1918;;premodern
+Bocskai út 134.;illesztve;way;566433007;Bocskai út 134-146;E;1918;;premodern
+Karolina út 17. / Daróczi út 8.;illesztve;way;252234311;Karolina út 17;;;;premodern
+Budafoki út 59.;illesztve;way;46907443;Budafoki út 59;;1912;;premodern
+Budafoki út 59.;illesztve;way;46907463;Budafoki út 59;;1912;;premodern
+Budafoki út 59.;illesztve;way;226151091;Budafoki út 59;;1912;;premodern
+Budafoki út 59.;illesztve;way;1488529102;Budafoki út 59;E/3;1912;;premodern
+Hunyadi János út 7.;illesztve;way;280821812;Hunyadi János út 7;Pátria Nyomda Rt.;;;premodern
+Váci út 45-47.;illesztve;way;158949188;Váci út 45;;;;premodern
+Váci út 45-47.;illesztve;way;158949194;Váci út 45/B;Nemzeti Útdíjfizetési Szolgáltató Zrt.;;;premodern
+Wysocki u. 1.;illesztve;way;732151025;Wysocki utca 1/B;;;;premodern
+Wysocki u. 1.;illesztve;way;732151038;Wysocki utca 1/A;;1910;;premodern
+Wysocki u. 1.;illesztve;way;751360084;Wysocki utca 1/C;;;;premodern
+Campona utca 1-2.;illesztve;way;330027753;Campona utca 1;MédiaLOG Zrt.;1914;;premodern
+Soroksári út 160.;illesztve;way;356216080;Soroksári út 160;;;;premodern
+Soroksári út 160.;illesztve;way;356216134;Soroksári út 160;;;;premodern
+Jászberényi út 29/b.;illesztve;way;591891489;Jászberényi út 29;;;;premodern
+Maglódi út 47.;illesztve;way;1004772194;Maglódi út 47;;1912;;premodern
+Maglódi út 17.;illesztve;way;100057574;Maglódi út 17;Lidl;;;premodern
+Dreher Antal út 3.;illesztve;way;449770308;Dreher Antal út 3;;;;premodern
+Váci u 1-3.;nincs találat;;;;;;;
+Múzeum körút 1/a.;nincs találat;;;;;;;
+Jurányi utca 1.;nincs találat;;;;;;;
+Bem tér 5.;nincs találat;;;;;;;
+Fehérhajó utca 8-10.;nincs találat;;;;;;;
+Népszínház utca 46.;nincs találat;;;;;;;
+Teleki tér 3.;nincs találat;;;;;;;
+József utca 46.;nincs találat;;;;;;;
+Fő utca 23.;nincs találat;;;;;;;
+Verseny u. 8.;nincs találat;;;;;;;
+Dózsa György út 78.;nincs találat;;;;;;;
+Fehérhajó utca 12-14.;nincs találat;;;;;;;
+Dózsa György út 17.;nincs találat;;;;;;;
+Hernád u. 42.;nincs találat;;;;;;;
+Práter utca 51.;nincs találat;;;;;;;
+Margit körút 62.;nincs találat;;;;;;;
+Szilágyi Dezső tér 4.;nincs találat;;;;;;;
+Zichy Jenő utca 19.;nincs találat;;;;;;;
+Dévai utca 15/a.;nincs találat;;;;;;;
+Vörösmarty tér 3.;nincs találat;;;;;;;
+Péterfy Sándor utca 7.;nincs találat;;;;;;;
+Károly körút 25.;nincs találat;;;;;;;
+Salgótarjáni utca 6.;nincs találat;;;;;;;
+Budaörsi út 49-51.;nincs találat;;;;;;;
+Dózsa György út 68.;nincs találat;;;;;;;
+Hentes u. 17.;nincs találat;;;;;;;
+Hegedűs Gyula u. 90.;nincs találat;;;;;;;
+Szerdahelyi utca 11.;nincs találat;;;;;;;
+Váci u. 25.;nincs találat;;;;;;;
+Batthyányi utca 4.;nincs találat;;;;;;;
+Kitaibel Pál utca 1.;nincs találat;;;;;;;
+Szent László út 26.;nincs találat;;;;;;;
+Trombitás utca 19.;nincs találat;;;;;;;
+Váci utca 30/a-b.;nincs találat;;;;;;;
+Papnövelde utca 4-6.;nincs találat;;;;;;;
+Üteg u. 15. / Gömb u.;nincs találat;;;;;;;
+Váli út 1.;nincs találat;;;;;;;
+Hernád u. 46.;nincs találat;;;;;;;
+Hegedűs Gyula u. 88.;nincs találat;;;;;;;
+Gitár u. 20.;nincs találat;;;;;;;
+Népszínház utca 22.;nincs találat;;;;;;;
+Sörgyár utca 23. / Gitár u. 21-23.;nincs találat;;;;;;;
+Királyi Pál utca 9.;nincs találat;;;;;;;
+Teleki tér 5.;nincs találat;;;;;;;
+Alföldi utca 18.;nincs találat;;;;;;;
+Rottenbiller u. 35.;nincs találat;;;;;;;
+Podmaniczky út 67.;nincs találat;;;;;;;
+Podmaniczky út 75.;nincs találat;;;;;;;
+Mester u. 4-6.;nincs találat;;;;;;;
+Mester u. 22. / Liliom u.;nincs találat;;;;;;;
+Mester u. 33.;nincs találat;;;;;;;
+Mester u. 51. / Haller út;nincs találat;;;;;;;
+Fő u. 19.;nincs találat;;;;;;;
+Krisztina út 73.;nincs találat;;;;;;;
+Váci út 18.;nincs találat;;;;;;;
+Nagy Ignác u. 9.;nincs találat;;;;;;;
+Hengermalom út 51.;nincs találat;;;;;;;
+Pozsonyi út 77-79.;nincs találat;;;;;;;
+Hengermalom út 60.;nincs találat;;;;;;;
+Váci út 172.;nincs találat;;;;;;;
+Vágóhíd u. 14.;nincs találat;;;;;;;
+Külső Váci út 77.;nincs találat;;;;;;;
+Maglódi út 25.;nincs találat;;;;;;;
+Zsigmond tér 1-4.;nincs találat;;;;;;;
+Tatai út 140.;nincs találat;;;;;;;
+Verseny u.;nincs házszám;;;;;;;

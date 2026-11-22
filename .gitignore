@@ -1,0 +1,30 @@
+data/
+terkep3d/data/
+terkep3d/data_varos/
+__pycache__/
+*.pyc
+*.bak
+*.bak.json
+*.bak.geojson
+mentes_*/
+kiadas/
+Claude outputs/
+# Mások adatai (letöltött vagy abból kinyert táblák): helyben megmaradnak, de nem kerülnek a GitHubra
+forras/oeny_vegleges_adatok.csv
+forras/oeny_vegleges_adatok_test.csv
+forras/oeny_koordinatak_api.csv
+forras/oeny_vegleges_terbeli_parositas.csv
+forras/ertekleltar_cimekkel_es_geometriaval.csv
+forras/ertekleltar_telekadatok_kesz.xlsx
+forras/ertekleltar_telekadatok_kitoltendo.xlsx
+forras/mai_magyar_epiteszet_budapest.csv
+forras/epitesz_elvetett.csv
+forras/epitesz_parositott.csv
+forras/wikipedia_lista_ellenorzes.csv
+forras/legenda_kepek.csv
+forras/archiv/
+# Cloudflare (Wrangler) helyi gyorsitotar: fiokazonositot tartalmaz
+.wrangler/
+# egyszeri segedfajlok
+git_fajlok*.txt
+git_tisztitas.bat

@@ -1,0 +1,768 @@
+{
+ "_leiras": "Meghatározó épületek adatlapjai (a Stílusok panelhez és a térképi kártyához). Kulcs: osm_tipus/id (csoportnál a fő elem). 'kepmappa': terkep3d/kepek/<mappa>/ (+ kepek.csv). Futtatás: py adatlapok_keszites.py",
+ "adatlapok": {
+  "way/240902171": {
+   "kepmappa": "iparmuveszeti-muzeum",
+   "szoveg": "Az 1893 és 1896 között épült múzeum Lechner Ödön és Pártos Gyula tervei alapján a magyar szecesszió egyik főműve. Lechner keleti, nyugati és magyar népi építészeti elemekből dolgozott, a kívül-belül látható díszítő csempéket és a tetőcserepeket a pécsi Zsolnay-gyár készítette. Az épületet Ferenc József nyitotta meg 1896. október 25-én, a millenniumi ünnepségek zárásaként.\nA múzeum már 1872-ben megalakult, ezzel London és Bécs után a világ harmadik iparművészeti múzeuma volt. Saját épületet azonban csak ekkor kapott.",
+   "forrasok": [
+    {
+     "nev": "Iparművészeti Múzeum – az épület története",
+     "url": "https://www.imm.hu/en/contents/20,History+of+the+Building"
+    },
+    {
+     "nev": "Wikipedia – Museum of Applied Arts (Budapest)",
+     "url": "https://en.wikipedia.org/wiki/Budapest_Museum_of_Applied_Arts"
+    }
+   ]
+  },
+  "relation/11847": {
+   "kepmappa": "gresham-palota",
+   "szoveg": "A Széchenyi István téri palotát a londoni Gresham Életbiztosító Társaság építtette, amely 1880-ban vette meg a telket, a névadó Sir Thomas Gresham 16. századi angol pénzember volt. Tervezői Quittner Zsigmond és Vágó József; az építkezés 1904-ben kezdődött, 1906-ra készült el, 1907-ben nyílt meg. A szecessziós épület fénypontjai a nagy lépcsőház, az üvegablakok, a mozaikok, a kovácsoltvas részletek és a télikertek.\nA második világháború után a Vörös Hadsereg laktanyának használta, később lakóházként egyre romlott az állapota. 1990-ben az állam a fővárosnak adta; az első szállodai terv (Oberoi, 1991) jogvitákba fulladt, és 1995-ben meghiúsult. Az 1998 és 2004 közötti átfogó felújítás helyreállította az eredeti részleteket, a Four Seasons szálloda 2004 júniusában nyílt meg 179 szobával. Az épületet 2011-ben az ománi állami tartalékalap vásárolta meg, a szállodát azóta is a Four Seasons üzemelteti.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Gresham Palace",
+     "url": "https://en.wikipedia.org/wiki/Gresham_Palace"
+    }
+   ]
+  },
+  "way/25225154": {
+   "kepmappa": "elefanthaz",
+   "szoveg": "A Fővárosi Állatkert elefántháza 1909 és 1912 között épült, az állatkert nagy átépítésének részeként, Neuschloss Kornél tervei szerint. A magyar szecesszió keleti motívumokat szecessziós hangon értelmező épülete; tornyát 1915-ben lebontották.\nAz átfogó felújítás – a homlokzat restaurálása, a belső terek és a torony rekonstrukciója, valamint az állattartás korszerűsítése – Kugler Katalin és Anthony Fall tervei szerint készült, a ház 1999 márciusában nyílt meg újra. A munkát 2000-ben az európai örökségvédelmi díjak (European Heritage Awards) érmével ismerték el.",
+   "forrasok": [
+    {
+     "nev": "European Heritage Awards – az Elefántház felújítása",
+     "url": "https://europeanheritageawards-archive.eu/laureates-1978-2022/detail/restoration-and-reconstruction-of-the-elephant-house-budapest"
+    }
+   ]
+  },
+  "way/261802935": {
+   "kepmappa": "bgszc-szechenyi",
+   "szoveg": "A Vas utca 9–11. alatti, négyemeletes iskolaépületet Lajta Béla tervezte Budapest Székesfőváros megbízásából, 1909 és 1912 között kereskedelmi iskolának; a használatbavételi engedély 1913 januárjában készült. A főváros lakás- és iskolaépítési programjának egyik legnagyobb költségvetésű alkotása volt.\nL alakú alaprajzú, a szűk telek miatt az utcai homlokzat közepe hátrébb húzódik, hogy több fény jusson az alsó szintek termeibe. A középrész homlokzatán Peter Behrens berlini AEG-gyárának hatása látszik: a lépcsőtornyok állóhasábjai, a hosszú ablaksávok és a négy szintet átfogó, lépcsőzetesen előreugró téglalizénák függőlegesen tagolják, a középrészt manzárdtető zárja. A lépcsőtornyok aljában bélletes fő- és mellékbejárat nyílik, ókori keleti hatásokkal. A homlokzatot népművészeti ihletésű domborműsávok díszítik kereskedelmi, közlekedési és ipari jelképekkel; az előcsarnokban és a lépcsőházban festett díszítés, a folyosókon terrazzo falburkolat látható, a ruhatári rácsokon és a tantermek ajtaján népművészeti motívumok.\nAz épületben ma is iskola működik, a BGSZC Széchenyi István Kereskedelmi Technikum.",
+   "forrasok": [
+    {
+     "nev": "Budapest100 – Vas utca 9–11.",
+     "url": "https://budapest100.hu/house/vas-utca-9-11/"
+    },
+    {
+     "nev": "Fővárosi Szabó Ervin Könyvtár – Budapest-képarchívum",
+     "url": "https://bea.fszek.hu/handle/20.500.14711/156728"
+    }
+   ]
+  },
+  "relation/3019294": {
+   "kepmappa": "rozsavolgyi-haz",
+   "szoveg": "A Szervita tér 5. alatti üzlet- és lakóház Lajta Béla tervei szerint épült 1911 és 1912 között, az építkezés 1912 októberének végén fejeződött be. A kőburkolatú lakószinteket óriás pilaszterek tagolják, az üzletportálok átlátszóak, a lakószintek falát világos mázas tégla borítja, a szinteket többszínű díszítő övpárkányok választják el, és Zsolnay-kerámia díszek is készültek hozzá. A legfelső szintet mintegy két méterrel hátrébb húzták.\nA földszinten később a Rózsavölgyi zeneműbolt működött, innen a ház ismert neve. Az üzlet a 20. század során többször átalakult, 1962-ben egy tűz után építették újjá, a lakószintek belső terei megváltoztak, de az épület áll.",
+   "forrasok": [
+    {
+     "nev": "Lajta Béla-archívum – Henrik és Dezső Lajta üzlet- és lakóháza",
+     "url": "https://lajta.bparchiv.hu/en/topics/shop-and-apartment-block-henrik-and-dezso-lajta"
+    }
+   ]
+  },
+  "way/459864181": {
+   "kepmappa": "kelenfoldi-eromu",
+   "szoveg": "A Kelenföldi Erőmű 1914-ben nyílt meg, és akkor Európa egyik legkorszerűbb áramtermelő központja volt. Tervezőjeként az adatbázisunk Reichl Kálmánt és Borbiró Virgilt jelöli. A kapcsolóterem a látványa miatt híres: középpontja a nagy üvegmennyezet, a termet műszerfalak, mérőórák és gombok sora tölti meg.\nAz erőmű 2007-ig látta el Budapestet árammal, azóta nem termel, régi gépei, a közel százéves turbinák a helyükön maradtak. Történeti részei védettek, a bontástól a törvény óvja őket; a tulajdonosok alkalmanként nyitják meg bejárásra.",
+   "forrasok": [
+    {
+     "nev": "Atlas Obscura – Kelenföld Power Station",
+     "url": "https://www.atlasobscura.com/places/kelenfold-power-station"
+    }
+   ]
+  },
+  "way/243689215": {
+   "kepmappa": "szent-anna-templom",
+   "szoveg": "A Batthyány téri Szent Anna-templomot Hamon Kristóf tervezte, és ő vezette az építését, amely 1740-ben kezdődött. Hamon 1748-ban meghalt, a munkát Nöpauer Máté fejezte be, a templom 1761-re készült el. A kéttornyos homlokzat 21,5 méter széles és 55 méter magas; a főkaput a Hit, a Remény és a Szeretet szobrai díszítik. Belül ovális kupola borítja a nyolcszögletű hajót; a főoltár szoborcsoportja Bebo Károly műve (1771–1773), a kovácsoltvas rács 1752-ből, Pugl Ignác munkája.\nA plébánia története 1390-ig nyúlik vissza, a törökök 1540-ben elpusztították, 1687-ben szervezték újjá. A jezsuita rend feloszlatása (1773) után a templom elhanyagolt lett. 1950-ben a metróépítés miatt a lebontása is felmerült, a tervet 1954-ben elvetették.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Saint Anne Parish, Budapest",
+     "url": "https://en.wikipedia.org/wiki/Saint_Anne_Parish,_Budapest"
+    }
+   ]
+  },
+  "way/24711190": {
+   "kepmappa": "egyetemi-templom",
+   "szoveg": "A pesti Egyetemi templom eredetileg a pálos rend temploma volt: a rend 1686-ban, Buda felszabadítása után megvásárolta a pesti dzsámit és a környező házakat, a kolostor építése 1715-től 1742-ig tartott. Az alapkövet 1725-ben tették le a lebontott dzsámi helyén, a templomot 1742 szeptemberében szentelték fel. Tervezői között Mayerhoffer András, Drenker Mátyás és Siegl Márton szerepel; Mayerhoffer a magyarországi barokk építészet egyik vezető alakja. A háromrészes homlokzat két, egyenként 56 méteres tornya 1768-ra, az egész épület 1771-re készült el.\nBelül egyhajós tér nyílik, két oldalán kápolnasorral és márványburkolatú falakkal; a boltozat freskóit Johann Bergl festette. A pálos rend 1786-os feloszlatása után a templom az egyetemhez került, 1803 óta az egyetem és a Központi Papnevelő Intézet közös temploma.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Church of St. Mary the Virgin, Budapest",
+     "url": "https://en.wikipedia.org/wiki/Church_of_St._Mary_the_Virgin,_Budapest"
+    }
+   ]
+  },
+  "relation/12963": {
+   "kepmappa": "nemzeti-muzeum",
+   "szoveg": "A klasszicista épület Pollack Mihály tervei szerint 1837 és 1847 között épült, a múzeum 1846-ban költözött be. A gyűjtemény alapja Széchényi Ferenc gróf 1802-es könyvtáralapítása volt, az intézményről az országgyűlés 1807-ben alkotott törvényt. Az előcsarnok szobrait a milánói Raffaello Monti készítette (középen Hungária a címeres pajzzsal, két oldalán a Tudomány és a Művészet), a lépcsőház és a mennyezet festményei Lotz Károly és Than Mór munkái (1875).\nAz épület a magyar történelem helyszíne is: 1848-ban a lépcsőjén olvasták fel Petőfi Sándor 12 pontját és a Nemzeti dalt. A múzeum előtt áll Arany János 1883-ban felavatott szobra; Petőfi emléktáblája 1890-ben került a falra. 1949-ben a néprajzi és a természettudományi gyűjteményt külön múzeummá szervezték.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Hungarian National Museum",
+     "url": "https://en.wikipedia.org/wiki/Hungarian_National_Museum"
+    }
+   ]
+  },
+  "relation/20593058": {
+   "kepmappa": "szent-istvan-bazilika",
+   "szoveg": "A Szent István-bazilika építése 1851-ben kezdődött Hild József klasszicista tervei szerint, és 54 évig tartott. Hild halála (1867) után Ybl Miklós vette át a munkát, és neoreneszánsz irányba módosította a terveket; a kupola összeomlása miatt az elkészült részek egy részét el kellett bontani, és az építést alapjaitól újra kellett kezdeni. A templomot Kauser József fejezte be, 1905-ben szentelték fel. Magassága 96 méter, ugyanannyi, mint az Országházé; a két épület Budapest legmagasabb épülete. Hossza 87,4, szélessége 55 méter.\nA bazilika Szent István királyról kapta a nevét, mumifikálódott jobb kezét ereklyetartóban őrzik itt. XI. Piusz pápa 1931-ben bazilikai rangra emelte; 1938 májusában itt rendezték a 34. Nemzetközi Eucharisztikus Kongresszust. A második világháborúban súlyosan megsérült, pincéje sok menekültnek és a Magyar Országos Levéltár egy részének adott menedéket.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – St. Stephen's Basilica",
+     "url": "https://en.wikipedia.org/wiki/St._Stephen%27s_Basilica"
+    }
+   ]
+  },
+  "relation/12942": {
+   "kepmappa": "pesti-varmegyehaza",
+   "szoveg": "A Pesti Vármegyeháza Városház utcai szárnyát ifj. Zitterbarth Mátyás tervezte és építette 1838 és 1841 között; az épület építéstörténetében Hild János és Hofrichter József neve is felmerül. A szűk utca és az egyenletes házsorra vonatkozó szabályozás miatt nem kaphatott kiugró középrizalitot, mint Pollack Mihály Nemzeti Múzeuma.\nHelyette a hét tengelyes középső szakaszt karcsú, szabadon álló óriáspillérek tagolják, mögöttük a fal visszalép, és előcsarnokot alkot. A közigazgatási funkció feltűnő, díszes homlokzatot kívánt, és a tervező ezt a klasszicista eszközökkel oldotta meg.",
+   "forrasok": [
+    {
+     "nev": "Zádor Anna: Klasszicista Pest – Budapest Városháza Kiadó, 1993 (Hungaricana)",
+     "url": "https://library.hungaricana.hu/en/view/VaroshazaKiado_0083/?pg=30"
+    }
+   ]
+  },
+  "way/24038230": {
+   "kepmappa": "pesti-vigado",
+   "szoveg": "A Duna-parti Pesti Vigadót Feszl Frigyes tervezte 1859-ben, a korábbi, az 1848–49-es szabadságharcban elpusztult redoute helyére; az épület 1865-re készült el. A romantikus stílusú épület Budapest második legnagyobb hangversenyterme.\nA második világháborúban súlyosan megsérült. Az újjáépítés mintegy harminchat évig tartott, és hűen követte Feszl eredeti tervét.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Vigadó of Pest",
+     "url": "https://en.wikipedia.org/wiki/Vigad%C3%B3_of_Pest"
+    }
+   ]
+  },
+  "way/24000390": {
+   "kepmappa": "operahaz",
+   "szoveg": "A Magyar Állami Operaház Ybl Miklós tervei szerint épült: az építkezés 1875-ben kezdődött, a megnyitó 1884. szeptember 27-én volt. A neoreneszánsz épület barokk elemeket is tartalmaz. A nézőtér patkó alakú; a díszes belső terek közül kiemelkedik a nagy lépcsőház, a 3050 kilogrammos bronz csillár, amely Lotz Károly Olümposzt ábrázoló freskóját világítja meg, és az előcsarnok boltozata, amelyet Székely Bertalan és Than Mór kilenc múzsát ábrázoló falképei borítanak. A főbejárat melletti fülkékben Erkel Ferenc és Liszt Ferenc szobra áll, Stróbl Alajos munkái.\nAz épület az 1970-es években nagy felújításra szorult; a munkák 1980 és 1984 között folytak, az Operaház 1984. szeptember 27-én nyitott meg újra.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Hungarian State Opera House",
+     "url": "https://en.wikipedia.org/wiki/Hungarian_State_Opera_House"
+    }
+   ]
+  },
+  "relation/1783328": {
+   "kepmappa": "batthyany-palota",
+   "szoveg": "A palotát gróf Batthyány Géza (1838–1900) építtette, aki Batthyány Lajos miniszterelnök lányát, Emmát vette feleségül. Hauszmann Alajos tervezte, Vahl Hugó építőmester valósította meg 1885-ben (egyes források szerint 1884-ben). Neoreneszánsz főhomlokzatát a firenzei Palazzo Strozzi ihlette: a gróf kívánságára Hauszmann arányaiban kicsinyített másolatot tervezett, bár eredetileg ellenezte a másolást. Az eredeti kilenc tengely helyett hét tengelyes lett, a kapu a homlokzat bal oldalára került. A falakat terméskő kváderkövekből rakták; az utcai falon lovak kikötésére szolgáló vaskarikák és lámpások vannak.\nA belső terek már eklektikusak: a lépcsőház korlátja rokokó, az előcsarnok és a kapualj barokkos elemeket mutat. Az emeleten három szalon volt (úri szalon, nagyszalon és női szalon), eltérő színekkel; a márványburkolatú főlépcső csak az első emeletig vezetett. 1919-ben, a Tanácsköztársaság idején Cserny József különítménye foglalta el az épületet. A család után a Frankfurti Általános és Életbiztosító Rt. költözött be; ma egy része házasságkötő terem, más részein a Magyar Tudományos Akadémia szervezeti egységei működnek.",
+   "forrasok": [
+    {
+     "nev": "Fővárosi Szabó Ervin Könyvtár – Batthyány-palota",
+     "url": "https://fszek.hu/Entities/110/0601anzix-batthyany-palota"
+    },
+    {
+     "nev": "Wikipedia – Alajos Hauszmann",
+     "url": "https://en.wikipedia.org/wiki/Alajos_Hauszmann"
+    }
+   ]
+  },
+  "way/177349368": {
+   "kepmappa": "baar-madas",
+   "szoveg": "A Lorántffy Zsuzsanna úti iskolaépületet Medgyaszay István tervezte; az intézmény 1929-ben nyitotta meg kapuit, eredetileg leánynevelő intézetként. Medgyaszay (1877–1959) a magyar, főként erdélyi népi formavilág egyik első alkalmazója volt, ebben az épületben a modern vasbeton szerkezeteket népi formanyelvvel és építészeti elemekkel ötvözte.\nA homlokzat díszítése csak néhány kiemelt ponton jelenik meg: különösen a bejáratok és a belső homlokzat keleties hatású díszei figyelemre méltók. A belső, kiugró homlokzaton Márton Ferenc sgrafittói láthatók, különböző női történelmi szerepeket bemutató jelenetek, alattuk végigfutó felirattal.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – Budapest legszebb iskolái",
+     "url": "https://welovebudapest.com/toplista/2019/09/13/szerencsesek-akiknek-itt-csongetnek-be-budapest-legszebb-iskolai-i/"
+    },
+    {
+     "nev": "Wikipedia – István Medgyaszay",
+     "url": "https://en.wikipedia.org/wiki/Istv%C3%A1n_Medgyaszay"
+    }
+   ]
+  },
+  "way/250716920": {
+   "kepmappa": "varosmajori-jezus-szive",
+   "szoveg": "A Városmajori Jézus Szíve-templom tervezését Árkay Aladár 1928-ban kezdte; halála után fia, Árkay Bertalan fejezte be a munkát. Az épületet 1933. június 4-én szentelte fel Serédi Jusztinián hercegprímás; a harangtorony és a kistemplommal összekötő árkádsor csak 1936-ra készült el. A harangtornyot a főtömbtől távolabb kellett építeni, mert alatta húzódik a beboltozott Ördög-árok.\nA vasbeton szerkezetű, háromhajós csarnoktemplom lapos tetejű, travertinburkolatú modern épület. A főhomlokzat kapuzatának angyal-domborművei Ohmann Béla munkái; a szentélyt toronyszerű állóhasáb hangsúlyozza öt magas ablaksávval. A szentély oldalfalán Aba-Novák Vilmos alumíniumlapokra festett, 1938-ban készült képei láthatók, a diadalívet Pátzay Pál tizenkét apostolszobra díszíti. A második világháborúban elpusztult üvegablakok közül háromnak a rekonstrukciója készült el.",
+   "forrasok": [
+    {
+     "nev": "Mandadb – A Városmajori Jézus Szíve plébániatemplom",
+     "url": "https://mandadb.hu/tetel/685949/A_Varosmajori_Jezus_Szive_plebaniatemplom"
+    }
+   ]
+  },
+  "way/1239884778": {
+   "kepmappa": "dugattyus-haz",
+   "szoveg": "A Dugattyús-házat Hofstätter Béla és Domány Ferenc tervezte a Weiss Manfréd Vállalatok Elismert Nyugdíjpénztára bérházaként; adókedvezménynek köszönhetően 1937–1938-ban épült. A lejtős telken két utca, a Margit körút és a Mecset utca között áll: egy emelettel alacsonyabbra építették, hogy a két tömb egyforma magas legyen. Jellegzetes a lekerekített forma, az ívek, a szalagablakok és a lépcsőház; földszintjét travertin, emeleteit homokkő borítja.\nA nevét az üveghengeres liftekről kapta. A lakások egy-három szobásak, a tetőszinten nagy lakásokkal. Az egyik korai lakó Aczél Benő ügyvéd és szerkesztő volt, Hofstätter Béla pedig haláláig a Mecset utcai tetőtéri lakásban élt.",
+   "forrasok": [
+    {
+     "nev": "Modernism in Architecture – Piston house (Dugattyús ház)",
+     "url": "https://modernism-in-architecture.org/buildings/piston-house/"
+    }
+   ]
+  },
+  "way/288520520": {
+   "kepmappa": "kos-karoly-ter",
+   "kiemel": {
+    "zona": "z_mwolh96o"
+   },
+   "szoveg": "A Wekerle-telep főterét a telep építtetője, Wekerle Sándor miniszterelnök kezdeményezésére 1908 és 1925 között építették, az angol munkástelepek mintájára, kertvárosi jelleggel. Kós Károly 1908 és 1913 között irányította az építést, ő nyerte meg a főtér tervpályázatát, ő alakította ki a tér elrendezését, a keleti főkaput és két lakóházat. A tér többi épületét Zrumeczky Dezső (ő tervezte a nyugati kaput is), Schodits Lajos, Eberling Béla, Wälder Gyula és Györgyi Dénes tervezte; a templom Heintz Béla műve, és ez épült meg utoljára.\nA tér kör alakú, közepén nagy parkkal, nyolc út vezet rá; a házakat, a kapukat és a növényzetet előre megtervezték. A telepre jellemző az „erdélyi stílus”: magas tetők és kiterjedt faszerkezetek. A teret 1910 és 1946 között Fő térnek hívták, 1987-ben, Kós Károly szobrának avatásakor kapta a mai nevét; épületei 2011-ben műemléki védettséget kaptak.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – a Kós Károly tér története",
+     "url": "https://welovebudapest.com/cikk/2023/02/22/latnivalok-es-kultura-wekerle-telep-kos-karoly-ter-tortenete/"
+    },
+    {
+     "nev": "Wikipedia – Wekerletelep",
+     "url": "https://en.wikipedia.org/wiki/Wekerletelep"
+    }
+   ]
+  },
+  "way/491732440": {
+   "kepmappa": "napraforgo-utca",
+   "kiemel": {
+    "wikipedia": "Napraforgó utcai kísérleti lakótelep",
+    "kiveve": [
+     "way/491765505",
+     "way/491765508"
+    ]
+   },
+   "szoveg": "A Napraforgó utcai kísérleti lakótelep építése 1931 februárjában kezdődött. A házakat magánépítők emelték, nem építészegyesület; a kezdeményező építészek Kaffka Péter, Kozma Lajos, Molnár Farkas és Vágó László voltak. Az utca házait mintegy két tucat építész tervezte, többek között Gerlóczy Gedeon, Borbíró Virgil, Kertész K. Róbert, Münnich Aladár, Quittner Ervin, Hajós Alfréd, Weichinger Károly és Fischer József.\nA kezdeményezők házai tükrözték leginkább az európai modernizmust, mások mérsékeltebb modernizmust valósítottak meg; a 22. szám (Novák Ede és Barát Béla) hagyományosabb. A városi szabályozás miatt a házak három méterre állnak a telekhatártól. Az 1940-es évek végén egyes eredeti tulajdonosok eladták a házaikat, másokat az 1950-es években politikai okokból kitelepítettek. A házak védelmére 2017-ben alakult a Napraforgó Egyesület; ma családi házak és lakások vannak bennük.",
+   "forrasok": [
+    {
+     "nev": "Modernism in Architecture – Napraforgó Street",
+     "url": "https://modernism-in-architecture.org/buildings/napraforgo-street/"
+    },
+    {
+     "nev": "We Love Budapest – Napraforgó utca",
+     "url": "https://welovebudapest.com/cikk/2016/12/13/a-magyar-bauhaus-epiteszet-legjava-a-napraforgo-utca"
+    }
+   ]
+  },
+  "way/24727027": {
+   "kepmappa": "mu-rakpart-7-9",
+   "szoveg": "A Műegyetem rakpart 7–9. szám alatti, a Duna felé néző R épületet Rimanóczy Gyula tervezte; ezért a munkájáért 1953-ban Kossuth-díjat kapott (ugyanebben az évben az Ybl-díjat is megkapta életművéért). Az 1951-es építési program a Duna-part mentén tervezett épületet még „Rajzterem, később R” néven említi. A szomszédos H és T épület (Egry József utca 1.) adatbázisunk szerint szintén 1955-ös, szintén Rimanóczy nevéhez köthető.\nA BME-campus ma ezekkel az épületekkel zárja le a Duna-partot.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Gyula Rimanóczy",
+     "url": "https://en.wikipedia.org/wiki/Gyula_Riman%C3%B3czy"
+    },
+    {
+     "nev": "BME története (Hungaricana)",
+     "url": "https://library.hungaricana.hu/hu/view/BME_SK_01/?pg=172"
+    }
+   ]
+  },
+  "way/268328651": {
+   "kepmappa": "pannonia-filmstudio",
+   "szoveg": "A Hűvösvölgyi út 64. alatti épületet 1954-ben építették Gádoros Lajos és Mühlbacher István tervei szerint, a szocreál egyik legismertebb épületeként. Itt működött Magyarország első szinkronstúdiója és animációs filmműhelye, a Pannónia Filmstúdió: itt készült többek között a Mézga család, a Lúdas Matyi és a Magyar népmesék, valamint Rofusz Ferenc Oscar-díjas rövidfilmje, A légy. Dargay Attila, Jankovics Marcell, Nepp József és Macskássy Gyula dolgozott itt.\nA hangszigetelt termek dupla falúak, a betonpadlójuk rugókon áll, így rezgésmentesek; a nagyterem nagyzenekari felvételekre is alkalmas volt. A fénykor után az épület pusztulásnak indult; a 2015 szeptemberében kezdődött, magánfinanszírozású felújítás a műemléki előírásokat követte, több régi díszítőelem megmaradt. 2017 márciusában Pannónia Stúdió néven adták át, itt kapott helyet a Pannónia Emlékmúzeum is.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – újra a pörgésben, felújították az egykori Pannónia Filmstúdiót",
+     "url": "https://welovebudapest.com/cikk/2017/03/16/ujra-a-verkeringesben-felujitottak-az-egykori-pannonia-filmstudiot"
+    }
+   ]
+  },
+  "way/241787154": {
+   "kepmappa": "mome-master",
+   "szoveg": "A Zugligeti úti főépületet az 1950-es években Farkasdy Zoltán tervezte; a MOME elődintézménye 1954-ben költözött részben ide. A korabeli szocreál épület („A” épület) évtizedekig soha nem esett át felújításon. A 3h Építésziroda a campus befejező ütemében, 2019-ben újította fel MOME MASTER néven: a régi, tantermekre osztott elrendezést nyitottabb, szintekkel és átriumokkal tagolt térre cserélték, a 300 fős nagy auditóriumot eredeti formájában hagyták meg.\nA campus a 2014-ben indult fejlesztés végére 25 000 négyzetméternyi épületet és 15 000 négyzetméternyi közparkot foglal magában; a Master mellett itt áll a MOME BASE, a MOME UP, a föld alatti MOME GROUND és a felújított, klasszicista Gondűző villa.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – átadták a MOME szupermodern zugligeti campusát",
+     "url": "https://welovebudapest.com/cikk/2019/09/06/atadtak-a-mome-szupermodern-zugligeti-campusat-az-elsok-kozott-neztuk-meg-milyen-lett/"
+    },
+    {
+     "nev": "MOME – a MOME története",
+     "url": "https://apply.mome.hu/news/new/14-history-mome"
+    }
+   ]
+  },
+  "way/706621044": {
+   "kepmappa": "deli-palyaudvar",
+   "szoveg": "A Déli pályaudvar mai épülete, amelyet adatbázisunk szerint Kővári György tervezett, 1975-ben készült el; a főváros nagy pályaudvarai közül ez az egyetlen modern épület. Az állomás 1861-ben nyílt meg a Fiume felé vezető vonalon, a második világháborúban súlyosan megsérült. Az épület alatt 1972-ben nyílt meg a metróállomás, az M2-es vonal nyugati végállomása.\nAz állomásnak öt szigetperonja és két oldalperonja van tizenkét vágánnyal; mind zsákvágány.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Budapest Déli station",
+     "url": "https://en.wikipedia.org/wiki/Budapest_D%C3%A9li_station"
+    }
+   ]
+  },
+  "way/415556517": {
+   "kepmappa": "korszallo",
+   "szoveg": "A Körszálló (eredeti nevén Budapest Szálloda, ma Hotel Budapest) Szrogh György Ybl-díjas építész műve. A munkák 1962-ben kezdődtek, a nagy lejtés miatt mintegy 8000 köbméter földet kellett kitermelni; az épületet 1967. december 30-án adták át, az első vendégek szilveszterkor érkeztek. A harminc méter átmérőjű betonhenger csúszózsalus technikával épült; a 64 méter magas, tizenkilenc szintes épületben 280 szoba, 560 férőhely van. A teljes beruházás 90 millió forintba került.\nA szocialista presztízsberuházásként született szálloda a korszak egyik legnépszerűbb szállodája és éjszakai helye lett. A tetőn Panorámabár működött, amelyet 1994-ben a biztonsági előírások miatt átalakítottak.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – 50 éves a Körszálló",
+     "url": "https://welovebudapest.com/2017/03/30/korbejartuk-a-szuletesnapjat-unneplo-hotel-budapestet-es-tortenetet-50-eves-a-korszallo/"
+    }
+   ]
+  },
+  "way/42816882": {
+   "kepmappa": "tuskecsarnok",
+   "szoveg": "A Tüskecsarnok tervpályázatát 1993-ban a Rubik Ernő vezette A&D Stúdió nyerte; a megvalósult épület Lázár Antal és Magyar Péter elképzeléseit tükrözi. Az építkezés hosszú időre megakadt: mintegy húsz évnyi tétlenség után 2012-ben döntöttek a befejezésről, a csarnokot 2014 decemberében adták át. A nevét a tetőn álló 84 bevilágítóról kapta: ezek piramisra emlékeztetnek, egyenként hat méter magasak, napközben természetes fénnyel világítják meg a küzdőteret, éjszaka lámpásként világítanak.\nA küzdőtér körül 4000 néző fér el; mintegy húsz sportág használhatja (kézilabda, jégkorong, kosárlabda), emellett négy parkettás tornaterem, konditerem, két fallabdapálya, fitneszterem, pezsgőfürdő és szauna is van. Kulturális rendezvényekre, színházi előadásokra és szalagavatókra is alkalmas.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – húsz évet vártunk rá, elkészült a Tüskecsarnok",
+     "url": "https://welovebudapest.com/cikk/2014/12/01/husz-evet-vartunk-ra-elkeszult-a-tuskecsarnok/"
+    }
+   ]
+  },
+  "way/250166529": {
+   "kepmappa": "mti-szekhaz",
+   "szoveg": "Az MTI új székházát Virág Csaba (LAKÓTERV) tervezte, aki 1985-ben meghívásos tervpályázaton nyerte el a megbízást; az építés 1987 szeptemberétől 1990 augusztusáig tartott (más forrás szerint 1989–1991 között épült). A telken Hidasi Lajos 1950-es szocreál irodaháza állt, ahová az MTI 1953-ban költözött; az új szárny ehhez csatlakozik. A pince, földszint és öt emelet alkotta hengeres tömeg a háromszög alakú telekre került. Négy nagy acéloszlop, négy pilon és páros oszlopok tartják, így a nagyterek belül szabadon alakíthatók.\nA ház a magyar high-tech egyik példája, a tervező „földre szállt űrállomásnak” képzelte. Finoman osztott üveg függönyfal veszi körül halványzöld és meleg barna árnyalatokkal; a tetőn antennatorony áll, a talajszinttől 70 méter magasan. A tervben még felmerült egy posztmodern stílusú kulisszahomlokzat is, ez nem valósult meg. 2006-ban a Geon építészstúdió az első emeletet cellás rendszerből egyterű struktúrává alakította át.",
+   "forrasok": [
+    {
+     "nev": "Építészfórum – az MTI székházának hírközlési üzemépülete",
+     "url": "https://epiteszforum.hu/a-magyar-tavirati-iroda-azaz-az-mti-szekhazanak-hirkozlesi-uzemepulete"
+    },
+    {
+     "nev": "Fővárosi Blog – 130 éves az MTI",
+     "url": "https://fovarosi.blog.hu/2011/03/05/mti_130"
+    }
+   ]
+  },
+  "way/24000485": {
+   "kepmappa": "westend",
+   "szoveg": "A WestEnd City Center a Nyugati pályaudvar mellett áll; a TriGránit fejlesztette, 1999 novemberében nyílt meg. Az 186 000 négyzetméteres, 50 000 négyzetméteres telken álló komplexum egyszerre bevásárlóközpont (mintegy 49 700 m², több mint 400 üzlet, 16 horgonybérlő, mozi), irodaház (20 900 m²) és szálloda (Crowne Plaza); tetején 22 300 négyzetméteres tetőkert van. A TriGránit szerint ez volt az első olyan városközpont-projekt Budapest új belvárosában, amely különböző funkciókat egyesített. A tervezője adatbázisunk szerint Finta József.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – WestEnd City Center",
+     "url": "https://en.wikipedia.org/wiki/WestEnd_City_Center"
+    },
+    {
+     "nev": "TriGránit – WestEnd City Center",
+     "url": "https://trigranit.com/building/the-first-city-center-project-combining-different-functions-in-the-new-downtown-of-budapest-the-westend-city-center/"
+    }
+   ]
+  },
+  "way/237397586": {
+   "kepmappa": "orszaghaz",
+   "szoveg": "Az Országházat Steindl Imre tervezte neogótikus stílusban, miután nemzetközi tervpályázaton nyert (két másik pályázó terve később a Néprajzi Múzeum és a Földművelésügyi Minisztérium épülete lett). Az építkezés 1885-ben kezdődött, az épületet 1896-ban, az ezredik évforduló idején avatták fel, a kulcsokat 1902-ben adták át, teljesen 1904-re készült el. Hossza 268, szélessége 123, magassága 96 méter (ez az 1896-os évfordulóra utal), 691 helyisége van. A kupola reneszánsz stílusú, a kupolacsarnok tizenhatszögletű.\nÉpítéséhez mintegy 40 millió téglát, félmillió drágakövet és 40 kilogramm aranyat használtak fel. Belül-kívül 242 szobor díszíti; az üvegablakok és üvegmozaikok Róth Miksa munkái. A Szent Korona 2000 óta a kupolacsarnokban látható.",
+   "forrasok": [
+    {
+     "nev": "Wikipedia – Hungarian Parliament Building",
+     "url": "https://en.wikipedia.org/wiki/Hungarian_Parliament_Building"
+    }
+   ]
+  },
+  "way/1315274768": {
+   "kepmappa": "memosz-szekhaz",
+   "szoveg": "A MÉMOSZ-székház eredeti, 1949-es tömbjét (ma Liget Center Auditorium és Classic) Gádoros Lajos, Perényi Imre, Preisich Gábor és Szrogh György tervezte; a tervpályázatot 1946-ban írták ki, az épület a szocreál időszak előtt készült, az alapkövet Rajk László tette le. Modernista épület, a szöveg szerint Le Corbusier elveit követi; az egykori tanácsterem álmennyezete Alvar Aalto viipuri könyvtárának auditóriumára utal. Egy ötemeletes irodaházból és egy kongresszusi teremből áll, amelyeket nyaktag köt össze.\nAz 1940-es években a MÉMOSZ volt a legnagyobb szakszervezet, és az állami építőipart koordinálta; az 1951-es építészkongresszuson az épületet a dekadens nyugati építészet elrettentő példájaként emlegették. A kongresszusi terem a 20. századi magyar történelem helyszíne lett: pártkongresszusokat tartottak itt, Kádár János és Che Guevara is szónokolt benne. Az RTL megvásárolta, és 2024 nyarán beköltözött; a felújítás a műemléki előírások miatt a külső méreteken nem változtathatott.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – az RTL székházába költözés",
+     "url": "https://welovebudapest.com/cikk/2024/09/11/latnivalok-es-kultura-rtl-szekhaz-koltozes-liget-center-auditorium-memosz-szekhaz/"
+    }
+   ]
+  },
+  "way/1214317084": {
+   "kepmappa": "chemolimpex",
+   "szoveg": "A Chemolimpex-székház (ma OTP irodaház) a Bécsi utca és a Deák Ferenc utca sarkán áll; Gulyás Zoltán tervezte, 1960–1962 között épült, 1963-ban adták át. Építtetői a Chemolimpex Vegyiáru Külkereskedelmi Vállalat és az OTP voltak, az OTP építési osztálya és V. kerületi fiókja az első két szintet kapta. A szocreál utáni modernizmus úttörő alkotásaként tartják számon: a korabeli sajtó világos szobákról és üvegfalakról írt, a homlokzatot az Erzsébet híd roncsaiból bontott gránit fénytartók alkották, a szakma pedig a gazdaságos, mégis igényes anyaghasználatot és az innovatív statikai megoldásokat emelte ki. Az öt emeletes irodaház tömege a századfordulós belvárosi házak közé illeszkedik.\nEredetileg szürke gránitburkolata, faablakai és a pénztárterem rácsszerkezetű, felülvilágító kupolás tetőszerkezete volt; a rendszerváltás környékén, Gulyás közreműködésével átépítették: a szürke gránit vörös gránitra, a faablak fémablakra cserélődött, a pénztárterem kupolája helyén üvegpiramis áll. A Chemolimpex a rendszerváltás után elköltözött, az OTP ma is az épületben működik. A 2010-es évek elején felmerült a lebontása, ez nagy szakmai felháborodást váltott ki, és a terv elhalt; az V. kerület később helyi védettséget adott az épületnek.",
+   "forrasok": [
+    {
+     "nev": "Krónika – Egy úttörő modernista épület a Belvárosban",
+     "url": "https://kronika.hu/cikk/egy-uttoro-modernista-epulet-a-belvarosban/"
+    },
+    {
+     "nev": "Architectuul – Chemolimpex",
+     "url": "https://architectuul.com/architecture/chemolimpex"
+    }
+   ]
+  },
+  "way/50847962": {
+   "kepmappa": "hattyuhaz",
+   "szoveg": "A Hattyúház Nagy Ervin tervei szerint 1998-ban készült el a Széll Kálmán tér közelében, a Hattyú utca és a Batthyány utca találkozásánál. Irodaház, a budapesti szerves (organikus) építészet egyik legismertebb középülete: tömegét és részleteit nem a derékszögű modernizmus szabályai, hanem a természetes formák határozzák meg.",
+   "forrasok": [
+    {
+     "nev": "Eston – Hattyúház",
+     "url": "https://eston.hu/property/hattyuhaz"
+    }
+   ]
+  },
+  "way/317335661": {
+   "kepmappa": "makovecz-kozpont",
+   "szoveg": "A Városkúti úti ház Makovecz Imre egykori családi háza, amelyet magának és feleségének tervezett; ő már nem költözött be. 2018 januárja óta Makovecz Központ és Archívumként működik: a Magyar Művészeti Akadémia kutatóintézete üzemelteti, benne az építész Kecske utcai irodájának rekonstrukciója, személyes tárgyai, könyvtár és rendezvénytér látható.\nA ház egy belső kert körül csavarodik, az egykori lakókonyha felett kupola áll; a formák élőlényekre és az emberi arcra emlékeztetnek, ez Makovecz építészetének jellegzetessége.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – Az építész háza a hegyekben",
+     "url": "https://welovebudapest.com/cikk/2018/02/05/az-epitesz-haza-a-hegyekben-megnyilt-a-makovecz-kozpont-es-archivum-budan/"
+    }
+   ]
+  },
+  "way/139591054": {
+   "kepmappa": "farkasreti-ravatalozo",
+   "szoveg": "A Farkasréti temető ravatalozója Makovecz Imre fő budapesti műve (1975): a szerves építészet legismertebb fővárosi példája, ahol a forma a temetési szertartás hangulatához igazodik. A nyilvántartás Módos Ferencet és Krassói Virgilt is a tervezők között említi, 1938-as dátummal; ez a korábbi ravatalozóra utal, az új árkádsor és a mai megjelenés Makovecz munkája.",
+   "forrasok": [
+    {
+     "nev": "Budapest100 – Németvölgyi út 99.",
+     "url": "https://budapest100.hu/house/nemetvolgyi-ut-99/"
+    }
+   ]
+  },
+  "way/1381325372": {
+   "kepmappa": "mupa",
+   "szoveg": "A Művészetek Palotája (Müpa) a Zoboki, Demeter és Társaik Építésziroda tervei szerint 2002 és 2005 között épült, 2005. március 14-én nyílt meg. A kb. 70 000 m²-es épületben a Bartók Béla Nemzeti Hangversenyterem (1656 férőhely, Russell Johnson tervezte akusztikával, 58 mozgatható rezonanciakamrával és 42 tonnás függesztett ernyővel), a Fesztiváli Színház (452 férőhely) és a Ludwig Múzeum kapott helyet. Az orgonát 2006 májusában avatták; a ház a Millenniumi Városközpont része, a Nemzeti Színház szomszédságában.",
+   "forrasok": [
+    {
+     "nev": "Wikipédia – Müpa Budapest (angol)",
+     "url": "https://en.wikipedia.org/wiki/M%C3%BCpa_Budapest"
+    },
+    {
+     "nev": "Müpa – Az épület",
+     "url": "https://www.mupa.hu/en/about/the-building"
+    }
+   ]
+  },
+  "way/249667641": {
+   "kepmappa": "medve-utcai-iskola",
+   "szoveg": "A Medve utca 13. alatti iskolaépület 2002-ben készült Hőnich Richárd és Cságoly Ferenc (Építész Stúdió) tervei szerint, a kortárs magyar oktatási épületek egyik ismert példájaként.",
+   "forrasok": []
+  },
+  "relation/5678698": {
+   "kepmappa": "hapimag",
+   "szoveg": "A Fortuna utca 18. alatti apartmanházat Reimholz Péter tervezte, 2000-ben készült el a Várnegyed közepén, a svájci Hapimag tulajdonában; 30 modern apartmanja van. A beépítés egy járható barlangrendszer fölé került (a wellness-részből látható), és az új szerkezetbe a középkori falmaradványokat is beépítették. Védett épület.",
+   "forrasok": [
+    {
+     "nev": "Manchester History – Hapimag House",
+     "url": "https://manchesterhistory.net/architecture/2000/hapimag.html"
+    }
+   ]
+  },
+  "relation/17718483": {
+   "kepmappa": "matav-igazgatasi-kozpont",
+   "szoveg": "A Krisztina körút 55. alatti irodaház a MATÁV, majd a Telekom igazgatási központjaként működött. A nyilvántartás szerint tervezői Németh Pál és Balázs Mihály (1954); a kortárs jelleget későbbi átalakításai adják.",
+   "forrasok": [
+    {
+     "nev": "Budapest100 – Krisztina körút 55.",
+     "url": "https://budapest100.hu/house/krisztina-korut-55/"
+    }
+   ]
+  },
+  "relation/8766354": {
+   "kepmappa": "puskas-arena",
+   "szoveg": "A Puskás Aréna Skardelli György tervei szerint épült az egykori Puskás Ferenc (Népstadion) helyén, amelynek bontása 2016 októberére fejeződött be. 2019. november 15-én nyílt meg (Magyarország–Uruguay 2:1), 67 215 nézős, kizárólag ülőhelyes labdarúgó-stadion. Az eredeti terv a pálya körül magasított futópályát is tartalmazott; a költségnövekedés és a változó koncepció miatt a végleges épület a labdarúgásra szabott.",
+   "forrasok": [
+    {
+     "nev": "Wikipédia – Puskás Aréna (angol)",
+     "url": "https://en.wikipedia.org/wiki/Pusk%C3%A1s_Ar%C3%A9na"
+    }
+   ]
+  },
+  "way/725388585": {
+   "kepmappa": "mome-campus",
+   "szoveg": "A MOME zugligeti kampuszának új szakaszát 2019 szeptemberében adták át; az utolsó ütem tervezője a 3h Építésziroda (Csillag Katalin, Gunther Zsolt). A kampusz része a felújított egykori szocreál főépület (MOME Master, Farkasdy Zoltán, 1950-es évek), a MOME Base (látszóbeton, piros akcentusokkal) és a MOME Up tudásközpont, doktori iskolával és 650 m²-es nyilvános könyvtárral; utóbbi homlokzata Moholy-Nagy fényjátékaira utaló, kopolimer üvegburok. A földalatti MOME Ground 1500 fős fedett teret és 400 fős étkezdét ad. Az épületek kb. 25 000 m², a nyilvános park 15 000 m².",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – Átadták a MOME zugligeti campusát",
+     "url": "https://welovebudapest.com/2019/09/06/atadtak-a-mome-szupermodern-zugligeti-campusat-az-elsok-kozott-neztuk-meg-milyen-lett/"
+    }
+   ]
+  },
+  "way/759007872": {
+   "kepmappa": "zene-haza",
+   "szoveg": "A Magyar Zene Háza az Olof Palme sétányon, a Városligetben áll, Sou Fujimoto japán építész tervei szerint (átadás: 2022). A Liget Budapest projekt részeként épült, a Városliget parkosított környezetébe illesztve.",
+   "forrasok": [
+    {
+     "nev": "Wikipédia – Magyar Zene Háza",
+     "url": "https://hu.wikipedia.org/wiki/Magyar_Zene_H%C3%A1za"
+    }
+   ]
+  },
+  "relation/13957874": {
+   "kepmappa": "neprajzi-muzeum",
+   "szoveg": "Az új Néprajzi Múzeum a Városligetben, a Dózsa György út mentén áll; tervezői a NAPUR Architect és Ferencz Marcel, 2022-ben nyílt meg. A Liget Budapest projekt egyik fő épülete.",
+   "forrasok": [
+    {
+     "nev": "Wikipédia – Néprajzi Múzeum (Budapest)",
+     "url": "https://hu.wikipedia.org/wiki/N%C3%A9prajzi_M%C3%BAzeum_(Budapest)"
+    }
+   ]
+  },
+  "way/3000000003": {
+   "kepmappa": "getto-emlekmu",
+   "szoveg": "A pesti gettó-emlékmű a VII. kerületi (erzsébetvárosi) utcák járdáiba süllyesztett jelekből áll, amelyek a gettó 1944. november 29. és december 10. között kijelölt határát követik. A Hetedik Műterem tervezte (a Klauzál téri gettóemlékhely ötletpályázatának nyertes terve alapján); 16 utcában összesen 32 jel készül, színezett műkő téglákból, amelyek felületébe vastag bronzrúd jelzi a határt. Kétféle felirat van: magyar–angol és magyar–héber.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – Erzsébetváros pesti gettó-emlékműve",
+     "url": "https://welovebudapest.com/cikk/2023/12/08/latnivalok-es-kultura-erzsebetvaros-pesti-getto-emlekmu/"
+    }
+   ]
+  },
+  "way/697548412": {
+   "kepmappa": "m4-allomasok",
+   "szoveg": "A 4-es metró első szakaszát 2014. március 28-án nyitották meg (Keleti pályaudvar–Kelenföld vasútállomás). A Fővám tér és a Szent Gellért tér állomás tervezője Erő Zoltán (Spora Architects) vezette csapat. A Fővám tér állomás nyitott munkagödrös doboz, amelyet három szinten vasbeton gerendák hálója tart, belső tere megfordított utcához hasonlít; a felszínen kristályformájú felülvilágítók hozzák be a fényt, a falakat üvegmozaik borítja (Komoróczky Tamás közreműködésével). A Szent Gellért tér a vonal legmélyebb állomása (31 m).",
+   "forrasok": [
+    {
+     "nev": "Architizer – M4 Fővám tér Station",
+     "url": "https://architizer.com/projects/m4-fovam-ter-station/"
+    },
+    {
+     "nev": "Wikipédia – Szent Gellért tér – Műegyetem metróállomás (angol)",
+     "url": "https://en.wikipedia.org/wiki/Szent_Gell%C3%A9rt_t%C3%A9r_%E2%80%93_M%C5%B1egyetem_metro_station"
+    }
+   ]
+  },
+  "way/1167748301": {
+   "kepmappa": "vizafogo-okopark",
+   "szoveg": "A Vizafogó Ökopark a XIII. kerületben, az Árpád híd közelében, egy egykori áruforgalmi terület helyén létesült; a parkot az Objekt Tájépítész Iroda (Pécsi Máté), a pavilont az Archikon Architects tervezte. A közel egy hektáros területen közel 1000 m²-es természetes tó, ökológiai csapadékvíz-kezelés, áteresztő burkolat és sok fa található. A pavilon faszerkezetű (újrahasznosított cellulóz hőszigeteléssel), vörösfenyő burkolatú, a tetőformája később napelemek elhelyezését is lehetővé teszi. 2022 elején adták át.",
+   "forrasok": [
+    {
+     "nev": "Hype and Hyper – Az ökopark a Vizafogó szívében",
+     "url": "https://hypeandhyper.com/an-eco-park-combining-local-needs-and-green-aspects-at-the-heart-of-vizafogo-budapest/"
+    },
+    {
+     "nev": "We Love Budapest – Elkészült a Vizafogó park",
+     "url": "https://welovebudapest.com/cikk/2022/03/08/szabadido-to-ligetes-kis-erdo-es-rekreacios-funkciok-elkeszult-a-vizafogo-park"
+    }
+   ]
+  },
+  "relation/165911": {
+   "kepmappa": "honved-foparancsnoksag",
+   "szoveg": "A Dísz téri Honvéd Főparancsnokságot Kallina Mór tervei szerint építették 1895 és 1897 között egy korábbi kaszárnya és evangélikus templom helyén. A második világháborúban súlyosan megrongálódott, évtizedekig romként állt. 2014-ben a megmaradt falak között a Zsolnay családról szóló kiállítás nyílt (Deák Zoltán tervei szerint, visszafogott helyreállítással, a háború pusztítására emlékeztető felirattal). Újjáépítését a Nemzeti Hauszmann Program keretében a sajtó 2025-ben folyamatban lévőként említette.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – Zsolnayak az egykori romokon",
+     "url": "https://welovebudapest.com/cikk/2014/08/05/zsolnayak-az-egykori-romokon-megnyilt-a-honved-foparancsnoksag-epulete/"
+    }
+   ]
+  },
+  "relation/165909": {
+   "kepmappa": "karmelita-kolostor",
+   "szoveg": "A Karmelita kolostor a 18. században épült a Budai Várban (a templom alapkövét 1725-ben rakták le, 1763-ban szentelték fel); II. József 1784-ben feloszlatta a rendet, Kempelen Farkas tervei szerint színház és kaszinó lett belőle. A II. világháborúban megsérült, 1947-ben újjáépítették. A Nemzeti Hauszmann Program keretében a 18. századi állapotokat idéző helyreállítás zajlott (lépcsőházak, bejáratok, folyosók), a szerzetesi cellákat egybenyitották; 2018 óta miniszterelnöki rezidencia.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – A Karmelita kolostor története",
+     "url": "https://welovebudapest.com/cikk/2026/06/29/karmelita-kolostor-tortenete-fotok-epuletbejaras/"
+    }
+   ]
+  },
+  "relation/17222009": {
+   "kepmappa": "voroskereszt-szekhaz",
+   "szoveg": "A Dísz tér 1–2. telkén a középkorban az esztergomi érsekek budai rezidenciája állt; a Vöröskereszt Egylete 1900-ban vásárolta meg. Hültl Dezső és Hauszmann Alajos tervei szerint 1902-re épült fel a négyemeletes, sarokkupolás palota (historizmus, szecessziós részletekkel). A második világháború után ideológiai okokból lebontották. A TIBA Építész Stúdió korabeli tervek és fotók alapján újjáépítette (2025 elejére): rekonstruálták a homlokzatot, a díszlépcsőházat és a Róth Miksa műhelyében készült üvegmozaikot. Ma a Szociális és Családügyi Minisztérium otthona.",
+   "forrasok": [
+    {
+     "nev": "We Love Budapest – A Vöröskereszt-székház története",
+     "url": "https://welovebudapest.com/cikk/2026/07/07/voroskereszt-szekhaz-tortenete-disz-ter-budai-var/"
+    }
+   ]
+  },
+  "way/24260437": {
+   "kepmappa": "kossuth-ter-6",
+   "szoveg": "A Szabad György Irodaház a Kossuth Lajos téren áll; a nyilvántartás szerint tervezői Vadász Bence, Bretz Gyula, Déri Dániel, Turján Csaba és Hültl Dezső, készült: 2020. A Kossuth tér 2010-es években zajló újjáépítésének része.",
+   "forrasok": [
+    {
+     "nev": "Wikipédia – Szabad György Irodaház",
+     "url": "https://hu.wikipedia.org/wiki/Szabad_Gy%C3%B6rgy_Irodah%C3%A1z"
+    }
+   ]
+  }
+ },
+ "stilusok": {
+  "Szecesszió": [
+   {
+    "nev": "Iparművészeti Múzeum",
+    "azon": "way/240902171"
+   },
+   {
+    "nev": "Gresham-palota",
+    "azon": "relation/11847"
+   },
+   {
+    "nev": "Elefántház",
+    "azon": "way/25225154"
+   }
+  ],
+  "Premodern": [
+   {
+    "nev": "BGSZC Széchenyi István Kereskedelmi Szakgimnáziuma",
+    "azon": "way/261802935"
+   },
+   {
+    "nev": "Rózsavölgyi Ház",
+    "azon": "relation/3019294"
+   },
+   {
+    "nev": "Kelenföldi hőerőmű kapcsolóterme",
+    "azon": "way/459864181"
+   }
+  ],
+  "Barokk": [
+   {
+    "nev": "Felsővízivárosi Szent Anna-plébániatemplom",
+    "azon": "way/243689215"
+   },
+   {
+    "nev": "Kisboldogasszony-templom (Egyetemi templom)",
+    "azon": "way/24711190"
+   }
+  ],
+  "Klasszicizmus": [
+   {
+    "nev": "Magyar Nemzeti Múzeum",
+    "azon": "relation/12963"
+   },
+   {
+    "nev": "Szent István-bazilika",
+    "azon": "relation/20593058"
+   },
+   {
+    "nev": "Pesti Vármegyeháza",
+    "azon": "relation/12942"
+   }
+  ],
+  "Romantika": [
+   {
+    "nev": "Pesti Vigadó",
+    "azon": "way/24038230"
+   }
+  ],
+  "Historizmus": [
+   {
+    "nev": "Magyar Állami Operaház",
+    "azon": "way/24000390"
+   },
+   {
+    "nev": "Országház",
+    "azon": "way/237397586"
+   },
+   {
+    "nev": "Batthyány-palota",
+    "azon": "relation/1783328"
+   }
+  ],
+  "Nemzeti romantika": [
+   {
+    "nev": "Kós Károly tér",
+    "azon": "way/288520520"
+   },
+   {
+    "nev": "Baár–Madas Református Gimnázium",
+    "azon": "way/177349368"
+   }
+  ],
+  "Modernizmus": [
+   {
+    "nev": "Napraforgó utcai kísérleti lakótelep",
+    "azon": "way/491732440"
+   },
+   {
+    "nev": "Városmajori Jézus Szíve-templom",
+    "azon": "way/250716920"
+   },
+   {
+    "nev": "Dugattyús-ház",
+    "azon": "way/1239884778"
+   },
+   {
+    "nev": "MÉMOSZ székház (az eredeti 1949-es tömb)",
+    "azon": "way/1315274768"
+   }
+  ],
+  "Szocreál": [
+   {
+    "nev": "Műegyetem rakpart 7-9",
+    "azon": "way/24727027"
+   },
+   {
+    "nev": "Hűvösvölgyi út 64 (Pannónia Filmstúdió)",
+    "azon": "way/268328651"
+   },
+   {
+    "nev": "MOME Master",
+    "azon": "way/241787154"
+   }
+  ],
+  "Késő modern": [
+   {
+    "nev": "Déli pályaudvar",
+    "azon": "way/706621044"
+   },
+   {
+    "nev": "Körszálló",
+    "azon": "way/415556517"
+   },
+   {
+    "nev": "Chemolimpex székház, ma OTP irodaház",
+    "azon": "way/1214317084"
+   }
+  ],
+  "Posztmodern": [
+   {
+    "nev": "Tüskecsarnok",
+    "azon": "way/42816882"
+   },
+   {
+    "nev": "MTI székház",
+    "azon": "way/250166529"
+   },
+   {
+    "nev": "WestEnd",
+    "azon": "way/24000485"
+   }
+  ],
+  "Organikusok": [
+   {
+    "nev": "Hattyúház",
+    "azon": "way/50847962"
+   },
+   {
+    "nev": "Makovecz Központ és Archívum",
+    "azon": "way/317335661"
+   },
+   {
+    "nev": "Farkasréti ravatalozó",
+    "azon": "way/139591054"
+   }
+  ],
+  "Kortárs": [
+   {
+    "nev": "Müpa",
+    "azon": "way/1381325372"
+   },
+   {
+    "nev": "Medve utcai iskola",
+    "azon": "way/249667641"
+   },
+   {
+    "nev": "HAPIMAG",
+    "azon": "relation/5678698"
+   },
+   {
+    "nev": "MATÁV (Telekom) Igazgatási Központ",
+    "azon": "relation/17718483"
+   },
+   {
+    "nev": "Puskás Aréna",
+    "azon": "relation/8766354"
+   },
+   {
+    "nev": "MOME",
+    "azon": "way/725388585"
+   },
+   {
+    "nev": "Magyar Zene Háza",
+    "azon": "way/759007872"
+   },
+   {
+    "nev": "Néprajzi Múzeum",
+    "azon": "relation/13957874"
+   },
+   {
+    "nev": "Pesti gettó-emlékmű",
+    "azon": "way/3000000003"
+   },
+   {
+    "nev": "M4-es metróállomások",
+    "azon": "way/697548412"
+   },
+   {
+    "nev": "Vizafogó Ökopark és Pavilon",
+    "azon": "way/1167748301"
+   }
+  ],
+  "Újhistorizmus": [
+   {
+    "nev": "Honvéd főparancsnokság",
+    "azon": "relation/165911"
+   },
+   {
+    "nev": "Karmelita Kolostor",
+    "azon": "relation/165909"
+   },
+   {
+    "nev": "Vöröskereszt Székház",
+    "azon": "relation/17222009"
+   },
+   {
+    "nev": "Kossuth Lajos tér 7.",
+    "azon": "way/24260437"
+   }
+  ]
+ }
+}

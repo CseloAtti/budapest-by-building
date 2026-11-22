@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <title>Budapest, épületenként (3D)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="brand">
+  <h1><img src="arculat/BP_horizontalis_monokrom_fekete_RGB_vagott.svg" alt="Budapest"></h1>
+  <p data-t="alcim"></p>
+</header>
+
+<aside id="panel" class="panel">
+  <div class="nez" role="tablist">
+    <button type="button" data-nez="period"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg><span class="tx" data-t="nez_period"></span></button>
+    <button type="button" data-nez="arch"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5"/><path d="M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/></svg><span class="tx" data-t="nez_arch"></span></button>
+    <button type="button" data-nez="epitesz"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg><span class="tx" data-t="nez_epitesz"></span></button>
+    <button type="button" data-nez="vedett"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg><span class="tx" data-t="nez_vedett"></span></button>
+    <button type="button" data-nez="lakotelep"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg><span class="tx" data-t="nez_lakotelep"></span></button>
+    <button type="button" data-nez="magassag"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M7 20V12M12 20V5M17 20V9"/></svg><span class="tx" data-t="nez_magassag"></span></button>
+  </div>
+  <div class="panel-test">
+    <section id="nez-period">
+      <strong data-t="legend_cim"></strong>
+      <div id="legend"></div>
+    </section>
+    <section id="nez-vedett" class="reteg-nez" hidden>
+      <label><input type="checkbox" id="vedett"> <span data-t="vedett"></span></label>
+      <div id="vedett-info" class="reteg-info" hidden></div>
+      <div class="ved-kereso">
+        <input type="search" id="ved-ker" class="ep-ker" autocomplete="off" spellcheck="false">
+        <div class="ved-szuro">
+          <label class="ved-cb"><input type="checkbox" id="ved-m" checked> <span id="ved-m-sz"></span></label>
+          <label class="ved-cb"><input type="checkbox" id="ved-h" checked> <span id="ved-h-sz"></span></label>
+          <select id="ved-kerulet"></select>
+        </div>
+        <small id="ved-db" class="ep-db"></small>
+        <div id="ved-lista" class="ved-lista"></div>
+      </div>
+    </section>
+    <section id="nez-magassag" class="reteg-nez" hidden>
+      <label><input type="checkbox" id="magassag-reteg"> <span data-t="reteg_magassag"></span></label>
+      <div id="mag-info" class="mag-forras"></div>
+    </section>
+    <section id="nez-lakotelep" class="reteg-nez" hidden>
+      <label><input type="checkbox" id="lakotelep"> <span data-t="reteg_lakotelep"></span></label>
+      <div id="lakotelep-info" class="reteg-info" hidden></div>
+      <div class="ved-kereso">
+        <input type="search" id="lak-ker" class="ep-ker" autocomplete="off" spellcheck="false">
+        <small id="lak-db" class="ep-db"></small>
+        <div id="lak-lista" class="ved-lista"></div>
+      </div>
+    </section>
+    <section id="nez-epitesz" hidden>
+      <div class="ep-fej">
+      <input type="search" id="ep-ker" class="ep-ker" autocomplete="off" spellcheck="false">
+      <div class="ep-szuro">
+        <label><span data-t="ep_sorrend"></span>
+          <select id="ep-sorrend"><option value="abc" data-t="ep_s_abc"></option><option value="db" data-t="ep_s_tobb"></option><option value="db_nov" data-t="ep_s_kevesebb"></option></select></label>
+        <label><span data-t="ep_korszak"></span> <select id="ep-kor"><option value=""></option></select></label>
+        <label hidden><span data-t="ep_min1"></span> <input type="number" id="ep-min" min="1" value="1"> <span data-t="ep_min2"></span></label>
+      </div>
+      <div class="ep-dijak">
+        <label><input type="checkbox" data-dij="ybl"> <span data-t="dij_ybl"></span></label>
+        <label><input type="checkbox" data-dij="prima"> <span data-t="dij_prima"></span></label>
+        <label><input type="checkbox" data-dij="nivo"> <span data-t="dij_nivo"></span></label>
+      </div>
+      <small id="ep-db" class="ep-db"></small>
+      </div>
+      <div id="ep-lista" class="ep-lista"></div>
+    </section>
+    <section id="nez-arch" hidden>
+      <div id="arch-lista" class="arch-lista"></div>
+      <div id="arch-adatlap" class="arch-adatlap" hidden></div>
+    </section>
+    <div id="szintlegend" hidden><i class="ramp"></i><span data-t="szint_kicsi"></span> <span class="vege" data-t="szint_nagy"></span></div>
+  </div>
+  <small class="forras"><span id="szerk"></span>Domborzat: NASA SRTM · Adatok: OpenStreetMap</small>
+</aside>
+
+<div class="tally" aria-live="polite">
+  <span id="year" class="tally-year">&nbsp;</span>
+  <span class="tally-count"><span id="count">0</span> <span data-t="epulet"></span></span>
+  <span class="pill"><button type="button" id="about-gomb" data-t="about_gomb" aria-label="Névjegy / About"></button><span id="nyelv"><button type="button" data-nyelv="hu">HU</button><button type="button" data-nyelv="en">EN</button></span></span>
+  <div class="kereso">
+    <div class="kereso-sor">
+      <div class="kereso-sav">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l4.5 4.5"/></svg>
+        <input id="kereso" type="search" autocomplete="off" spellcheck="false">
+      </div>
+      <button type="button" id="reteg-gomb" class="reteg-gomb" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span data-t="nez_layers"></span></button>
+      <button type="button" id="utak-gomb" class="utak-gomb" aria-pressed="false" data-t="utak_gomb"></button>
+    </div>
+    <div id="kereso-lista" hidden></div>
+  </div>
+</div>
+
+<div id="about" class="modal" hidden>
+  <div class="modal-doboz" role="dialog" aria-modal="true" aria-labelledby="about-cim">
+    <button type="button" class="modal-bezar" id="about-bezar" aria-label="Bezár">×</button>
+    <h2 id="about-cim" data-t="about_cim"></h2>
+    <div id="about-tartalom"></div>
+  </div>
+</div>
+
+<div id="kartya" class="kartya" hidden></div>
+<p class="howto" data-t="howto"></p>
+
+<footer class="timeline">
+  <button id="play" class="play" aria-label="Play">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path id="play-icon" d="M4 2.5v11l9-5.5z"/></svg>
+  </button>
+  <canvas id="hist"></canvas>
+</footer>
+
+<div id="loading" class="loading"><span data-t="betoltes"></span> <span id="progress">0</span>%</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

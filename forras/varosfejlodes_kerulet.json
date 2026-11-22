@@ -1,0 +1,793 @@
+{
+ "_leiras": "Kerületrészek beépülési korszakai a településképi arculati kézikönyvekből és kerületi értékleltárakból. Mint a varosfejlodes.json: CSAK támpont (prior), nem adat, nem kerül az 'ev' mezőbe. A zónák földrajzi lehatárolása kerületre (kerulet) és – ahol a forrás megnevezi – utcákra (utcak) épül; ahol nincs utcalista, a zóna csak kerületi szinten értelmezhető. allapot='forrasolt': az időszak mindkét határa a forrásból jön; 'ellenorizendo': legalább az egyik határ saját feltevés (a megjegyzés mondja meg, melyik).",
+ "zonak": [
+  {
+   "id": "zuglo_herminamezo_villak",
+   "kerulet": 14,
+   "nev": "Herminamező, Ajtósi Dürer sor eleje – első villák",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1850,
+    1900
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XIV. kerület (Zugló) Településképi Arculati Kézikönyv, 2017, Zugló története (12–13. o.)",
+   "idezet": "1850 körül jelentek meg az első villák a mai Hermina út környékén és az Ajtósi Dürer sor elején, a többi terület azonban lakatlan volt.",
+   "utcak": [
+    "Hermina út",
+    "Ajtósi Dürer sor"
+   ],
+   "megjegyzes": "A kezdőév forrásolt (1850 körül), a záróév (1900) saját feltevés. Csak a legkorábbi villák; a környék többi része később épült be."
+  },
+  {
+   "id": "zuglo_thokoly_erzsebet",
+   "kerulet": 14,
+   "nev": "Thököly út és Erzsébet királyné útja környéke",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1880,
+    1899
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIV. kerület (Zugló) Településképi Arculati Kézikönyv, 2017, Zugló története (12–13. o.)",
+   "idezet": "Az 1880–1890-es években kezdett beépülni a Thököly út és az Erzsébet királyné útja, majd a századfordulón a Bosnyák tér környéke.",
+   "utcak": [
+    "Thököly út",
+    "Erzsébet királyné útja"
+   ],
+   "megjegyzes": "Az \"1880–1890-es évek\" szakaszt tekintjük 1880–1899-nek."
+  },
+  {
+   "id": "zuglo_bosnyak_ter",
+   "kerulet": 14,
+   "nev": "Bosnyák tér környéke",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1895,
+    1905
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XIV. kerület (Zugló) Településképi Arculati Kézikönyv, 2017, Zugló története (12–13. o.)",
+   "idezet": "…majd a századfordulón a Bosnyák tér környéke.",
+   "utcak": [
+    "Bosnyák tér"
+   ],
+   "megjegyzes": "A \"századforduló\" tágítása ±5 év saját feltevés."
+  },
+  {
+   "id": "zuglo_kerepesi_lakotelep",
+   "kerulet": 14,
+   "nev": "Kerepesi úti lakótelep",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1955,
+    1959
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIV. kerület (Zugló) Településképi Arculati Kézikönyv, 2017, Örökségvédelem – helyi védelem alá eső területek (40. o.)",
+   "idezet": "A Kerepesi úti lakótelep (Róna utca, Bánki Donát utca, Szervián utca, Bolgárkertész utca, Bátorkeszi utca, Örs vezér tere és Kerepesi út által határolt tömb) három ütemben épült 1955 és 1959 között.",
+   "utcak": [
+    "Róna utca",
+    "Bánki Donát utca",
+    "Szervián utca",
+    "Bolgárkertész utca",
+    "Bátorkeszi utca"
+   ]
+  },
+  {
+   "id": "zuglo_kacsoh_lakotelep",
+   "kerulet": 14,
+   "nev": "Kacsóh Pongrác úti lakótelep",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1960,
+    1965
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIV. kerület (Zugló) Településképi Arculati Kézikönyv, 2017, Zugló története",
+   "idezet": "1960–1965 között a Kacsóh Pongrác út mentén újabb lakótelep építése kezdődött.",
+   "utcak": [
+    "Kacsóh Pongrác út"
+   ]
+  },
+  {
+   "id": "zuglo_lakotelep_1967",
+   "kerulet": 14,
+   "nev": "Zuglói lakótelep (három ütemben)",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1967,
+    1978
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIV. kerület (Zugló) Településképi Arculati Kézikönyv, 2017, Zugló története",
+   "idezet": "Az ún. zuglói lakótelepen 1967–1978 között három ütemben 12 422 lakás épült.",
+   "megjegyzes": "A kézikönyv nem nevezi meg a pontos helyet; utcalista nélkül nem alkalmazható automatikusan."
+  },
+  {
+   "id": "kispest_regi_mag",
+   "kerulet": 19,
+   "nev": "Kispest történeti magja",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1870,
+    1900
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XIX. kerület (Kispest) Településképi Arculati Kézikönyv, 2017, Kispest bemutatása (7. o.)",
+   "idezet": "Az 1870-1900-as évek között megindult a kezdetleges infrastruktúra kialakulása… Az 1900-as évek elejére a lakóházak száma már a 2000-et is meghaladta.",
+   "megjegyzes": "Általános kerületi adat, nem utcára bontott; csak gyenge támpont."
+  },
+  {
+   "id": "kispest_wekerletelep",
+   "kerulet": 19,
+   "nev": "Wekerletelep",
+   "tipus": "telep",
+   "idoszak": [
+    1908,
+    1926
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XIX. kerület (Kispest) Településképi Arculati Kézikönyv, 2017, Kispest bemutatása (8. o.), Örökségünk (11–12. o.)",
+   "idezet": "1908-ban Wekerle Sándor miniszterelnök kezdeményezésére állami munkáslakótelep építése kezdődött meg…",
+   "utcak": [
+    "Kós Károly tér"
+   ],
+   "megjegyzes": "A kezdőév forrásolt; a záróév (1926) saját feltevés, a kézikönyv nem mondja meg."
+  },
+  {
+   "id": "kispest_uj_kozpont",
+   "kerulet": 19,
+   "nev": "Kispest új központja az Üllői út mentén",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1970,
+    1979
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIX. kerület (Kispest) Településképi Arculati Kézikönyv, 2017, Kispest bemutatása (8. o.)",
+   "idezet": "A 1970-es években az Üllői út két oldalán alakult ki Kispest új központja.",
+   "utcak": [
+    "Üllői út"
+   ]
+  },
+  {
+   "id": "kispest_panel",
+   "kerulet": 19,
+   "nev": "Kispesti panelterületek",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1980,
+    1989
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XIX. kerület (Kispest) Településképi Arculati Kézikönyv, 2017, Kispest bemutatása (8. o.)",
+   "idezet": "…1980 után 12100 panellakás épült a kerületben.",
+   "megjegyzes": "A záróév (1989) saját feltevés."
+  },
+  {
+   "id": "xv_ujpalota",
+   "kerulet": 15,
+   "nev": "Újpalotai lakótelep",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1968,
+    1980
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XV. kerület Településképi Arculati Kézikönyv (Rákospalota, Pestújhely, Újpalota), Bevezetés",
+   "idezet": "A kerület életében jelentős változást hozott a rákospalotai területen 1968-tól felépült óriás lakótelep, Újpalota…",
+   "megjegyzes": "A kezdőév forrásolt; a záróév (1980) saját feltevés."
+  },
+  {
+   "id": "xvii_akademiaujtelep",
+   "kerulet": 17,
+   "nev": "Akadémiaújtelep",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1938,
+    1960
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Akadémiaújtelep",
+   "idezet": "…az 1938-ban készült szabályozási terv alapján az Akadémiaújtelep, ahol az MTA 1076 házhelyet létesített. A terület a II. világháború után települt be teljes mértékben.",
+   "megjegyzes": "A kezdőév forrásolt; a záróév (1960) saját feltevés."
+  },
+  {
+   "id": "xvii_regi_akademiatelep",
+   "kerulet": 17,
+   "nev": "Régiakadémiatelep",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1931,
+    1950
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Régiakadémiatelep",
+   "idezet": "1931-ben kezdődött a 80 holdas terület parcellázása, de betelepülése csak a II. világháború után fejeződött be.",
+   "megjegyzes": "A záróév (1950) saját feltevés."
+  },
+  {
+   "id": "xvii_rakoskert",
+   "kerulet": 17,
+   "nev": "Rákoskert",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1931,
+    1945
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Rákoskert",
+   "idezet": "Rákoskert önálló története a birtok parcellázásától, az 1931. esztendőtől kezdődött… a rendezés és értékesítés 10 ütemben zajlott.",
+   "megjegyzes": "A kezdőév forrásolt; a záróév (1945) saját feltevés."
+  },
+  {
+   "id": "xvii_rakoscsaba_ujtelep",
+   "kerulet": 17,
+   "nev": "Rákoscsaba-Újtelep (Bolza-telep, Vangel-telepek)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1925,
+    1945
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Rákoscsaba-Újtelep",
+   "idezet": "A Rákoscsaba határában lévő birtok felparcellázása 1925-ben… a parcellázás 1929 után folytatódott a Bolza-teleptől északra és keletre (Vangel I. és Vangel II.-telepek), majd folyamatosan tartott az 1940-es évekig.",
+   "megjegyzes": "A \"1940-es évekig\" záróév 1945-nek véve."
+  },
+  {
+   "id": "xvii_martintelep",
+   "kerulet": 17,
+   "nev": "Martintelep (Rákoscsaba)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1910,
+    1925
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Rákoscsaba",
+   "idezet": "…a Tarcsai út keleti oldalán az akkoriban mintegy 10 házból álló Martintelep került felparcellázásra 1910-ben.",
+   "utcak": [
+    "Tarcsai út"
+   ],
+   "megjegyzes": "A kezdőév forrásolt; záróév feltevés."
+  },
+  {
+   "id": "xvii_rakoshegy",
+   "kerulet": 17,
+   "nev": "Rákoshegy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1892,
+    1945
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Rákoshegy",
+   "idezet": "1880 táján Fuchs Ignác vállalkozó megvásárolt egy nagyjából 480 holdnyi területet. Ezt felparcellázta… 1893-tól árulta. Az első ház 1892-ben épült fel… 1942–43-ban készült rendezési terv.",
+   "megjegyzes": "A kezdőév forrásolt (első ház 1892); a záróév feltevés."
+  },
+  {
+   "id": "xvii_rakoskeresztur_lakotelep",
+   "kerulet": 17,
+   "nev": "Rákoskeresztúr lakótelepi része (Pesti út – Kis utca környéke, városközpont)",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1970,
+    1989
+   ],
+   "allapot": "forrasolt",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Rákoskeresztúr",
+   "idezet": "1970 – 1989 között 7700 lakótelepi lakás épült a Pesti út és a Kis utca kereszteződésének környékén, valamint a városközpontban a régi családi házak helyén, négy ütemben.",
+   "utcak": [
+    "Kis utca"
+   ]
+  },
+  {
+   "id": "xvii_madardomb",
+   "kerulet": 17,
+   "nev": "Madárdomb",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1984,
+    1995
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVII. kerület (Rákosmente) Településképi Arculati Kézikönyve, 2021, Madárdomb",
+   "idezet": "…a terület beépítése azonban csak 1984-től kezdődött. (Madárdomb) az 1990-es években született.",
+   "megjegyzes": "A kezdőév forrásolt (1984); a záróév feltevés."
+  },
+  {
+   "id": "xiii_magdolnavaros",
+   "kerulet": 13,
+   "nev": "Magdolnaváros (OTI kislakásos telep)",
+   "tipus": "telep",
+   "idoszak": [
+    1940,
+    1943
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIII. kerület Településképi Arculati Kézikönyv (Urban-Lis, 2021), Karakterterületek – telepszerű beépítés",
+   "idezet": "…a Fővárosi Közmunkák Tanácsa 1939-ben fogadta el, az építkezések 1940-ben kezdődtek meg… az OTI – 1943-ban a háború miatt félbe maradt – Magdolnaváros kislakásos telepének befejezése.",
+   "utcak": [
+    "Gyöngyösi utca",
+    "Göncöl utca",
+    "Násznagy utca",
+    "Nővér utca",
+    "Fiastyúk utca",
+    "Mosoly utca"
+   ],
+   "megjegyzes": "A telep befejezése a háború után történt."
+  },
+  {
+   "id": "xiii_lehel_elmunkas",
+   "kerulet": 13,
+   "nev": "Lehel téri Élmunkás lakótelep",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1947,
+    1949
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIII. kerület Településképi Arculati Kézikönyv (Urban-Lis, 2021), Karakterterületek",
+   "idezet": "A Lehel utca 1-3. az Élmunkás lakótelep házai (1949.)… Lehel téri élmunkás házak – 1947.",
+   "utcak": [
+    "Lehel utca",
+    "Lehel tér"
+   ]
+  },
+  {
+   "id": "xiii_tegla_lakotelepek",
+   "kerulet": 13,
+   "nev": "Az 1950–60-as évek téglaépítésű lakótelepei",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1950,
+    1960
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIII. kerület Településképi Arculati Kézikönyv (Urban-Lis, 2021), Karakterterületek 2.a",
+   "idezet": "…az 1950-1960 közötti időszak (2.a. jelű) lakótelepei…",
+   "megjegyzes": "Kerületi szinten, utcalista nélkül; példa: József Attila tér lakótelepe, 1956; Tahi utca, 1958."
+  },
+  {
+   "id": "xiii_panel_lakotelepek",
+   "kerulet": 13,
+   "nev": "Az 1970–80-as évek paneles lakótelepei",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1975,
+    1990
+   ],
+   "allapot": "forrasolt",
+   "forras": "XIII. kerület Településképi Arculati Kézikönyv (Urban-Lis, 2021), Karakterterületek 2.b",
+   "idezet": "Az 1971-es ÁRT javaslata alapján további, változatos kialakítású lakótelepek jöhettek létre az 1975-‘80 közötti időszakban… Béke - Tatai utcai lakótelep… 1985-‘90."
+  },
+  {
+   "id": "iv_szent_laszlo_ter",
+   "kerulet": 4,
+   "nev": "Újpest, Szent László tér és István út – Árpád út torkolata",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1951,
+    1956
+   ],
+   "allapot": "forrasolt",
+   "forras": "Újpest városközpont – településfejlesztési dokumentáció melléklete, 2016, helyi értékvizsgálat",
+   "idezet": "A Szent László téri sgrafittós házak, a kis lakótelephez tartozó üzletekkel együtt, 1951-1956 között épültek fel.",
+   "utcak": [
+    "Szent László tér"
+   ],
+   "megjegyzes": "Csak a térhez tartozó ház- és üzletsor; az Árpád út többi része nem ide tartozik."
+  },
+  {
+   "id": "iv_neupest",
+   "kerulet": 4,
+   "nev": "Újpest legrégebbi magja (Neu Pest)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1819,
+    1869
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "Újpest városközpont – településfejlesztési dokumentáció melléklete, 2016, történeti áttekintés",
+   "idezet": "A második katonai felmérés (1819-69)… a mai Váci út–Árpád út térségében már kis, falusias, 4 utcás település létezett, melyet a térkép Neu Pest-ként jelöl.",
+   "megjegyzes": "A felmérés időszaka, nem a házak építési éve; kevés ház maradt meg."
+  },
+  {
+   "id": "xxiii_hetsch_telep",
+   "kerulet": 23,
+   "nev": "Soroksár, Hetsch telep",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1920,
+    1930
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XXIII. kerület (Soroksár) Településképi Arculati Kézikönyv, településrészek",
+   "idezet": "A Hetsch telepen az 1920-as években történt új telekparcellázásokat követően jelentek meg az első épületek…",
+   "megjegyzes": "A parcellázás évtizede forrásolt; a beépülés vége feltevés."
+  },
+  {
+   "id": "iii_obuda_lakotelepek",
+   "kerulet": 3,
+   "nev": "Óbudai, Kaszásdűlői és Békásmegyeri lakótelepek",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1960,
+    1985
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "III. kerület Örökségvédelmi hatástanulmány – Várostörténet (Urban-Lis Stúdió Kft.), térképek 1960 és 1985 (92–93. o.)",
+   "idezet": "1960: bekerültek a lakótelepek: az Óbudai, a Kaszásdűlői, a Békásmegyeri… 1985: A Kaszás dűlői lakótelep befejeződött… A Békásmegyeri lakótelep beépítése is elkészült erre az időre.",
+   "megjegyzes": "Az 1960-as terv és az 1985-ös térkép között épültek; az egyes telepek pontos ideje nem ismert."
+  },
+  {
+   "id": "iii_romai_uti_lakotelep",
+   "kerulet": 3,
+   "nev": "Római úti lakótelep",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1985,
+    1997
+   ],
+   "allapot": "forrasolt",
+   "forras": "III. kerület Örökségvédelmi hatástanulmány – Várostörténet (Urban-Lis Stúdió Kft.), térképek, 1985 (93. o.) és az utolsó térkép",
+   "idezet": "1985: a Római úti építés alatt álló… 1997-re a Római úti lakótelep is befejeződött."
+  },
+  {
+   "id": "xii_svabhegy",
+   "kerulet": 12,
+   "nev": "Svábhegy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1874,
+    1900
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "A Fogaskerekű Vasút 1874-es elindítása a kirándulás fellendülése mellett elsősorban a Svábhegy beépülését mozdította elő… (A Svábhegy) legrégebben beépített része a Sváb falu.",
+   "megjegyzes": "A kezdőév forrásolt; a záróév feltevés. A sváb falu vincellérházai a XIX. század közepéről valók."
+  },
+  {
+   "id": "xii_szechenyihegy",
+   "kerulet": 12,
+   "nev": "Széchenyihegy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1890,
+    1930
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "A terület beépülése hatalmas lendületet vett a Fogaskerekű vasút 1890-es meghosszabbításával.",
+   "megjegyzes": "A kezdőév forrásolt; a záróév feltevés."
+  },
+  {
+   "id": "xii_nemetvolgy",
+   "kerulet": 12,
+   "nev": "Németvölgy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1885,
+    1939
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "Az 1880-as években pusztító filoxéra járvány után kezdődött beépülése… Nagyszabású építkezés az 1930-as évekre tehető, ekkor változott meg jelentősen a városrész arculata.",
+   "megjegyzes": "Az 1880-as évek és az 1930-as évek forrásolt; a közbeeső időszak és a záróév feltevés."
+  },
+  {
+   "id": "xii_kutvolgy",
+   "kerulet": 12,
+   "nev": "Kútvölgy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1890,
+    1930
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "A városrész fejlődése a Szent János Kórház XIX. század végi építését követően indult meg.",
+   "megjegyzes": "A kezdőév a \"XIX. század vége\"; a záróév feltevés."
+  },
+  {
+   "id": "xii_orbanhegy",
+   "kerulet": 12,
+   "nev": "Orbánhegy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1900,
+    1920
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "A villák és lakóházak többsége a XX. század elején, a társasházak… a 70-es évektől épültek.",
+   "megjegyzes": "A XX. század eleje tágítása feltevés."
+  },
+  {
+   "id": "xii_farkasvolgy",
+   "kerulet": 12,
+   "nev": "Farkasvölgy",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1950,
+    1989
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "Farkasvölgy beépítése igen vegyes, az 50-es évek üdülői és a 60-as évek lakóházai közé a 80-as évektől épült nagyobb villák, társasházak.",
+   "megjegyzes": "A záróév (1989) feltevés."
+  },
+  {
+   "id": "xii_csillebérc",
+   "kerulet": 12,
+   "nev": "Csillebérc üdülőterülete",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1960,
+    1989
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XII. kerület Hegyvidék Településképi Arculati Kézikönyve (2023), A kerület bemutatása (19–25. o.)",
+   "idezet": "…az erdőterület belsejébe a 60-as évektől nőtt bele az üdülőterület…",
+   "megjegyzes": "A záróév feltevés."
+  },
+  {
+   "id": "xvi_matyasfold",
+   "kerulet": 16,
+   "nev": "Mátyásföld (1887-ben alapított üdülőtelep)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1887,
+    1911
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVI. kerület Településképi Arculati Kézikönyv (2017), Mátyásföld",
+   "idezet": "…az 1887-ben alapított üdülőtelep korának egyik legnívósabbjai közé tartozott… 1893-tól lóvasúttal, 1911-től HÉV-vonallal kötődött a fővároshoz.",
+   "megjegyzes": "A kezdőév forrásolt (1887); a záróév feltevés. Az Almásy-telepen az első villa 1893-ban épült."
+  },
+  {
+   "id": "xvi_lakotelepek",
+   "kerulet": 16,
+   "nev": "Lakótelepek (pl. Centenáriumi lakótelep)",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1960,
+    1989
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVI. kerület Településképi Arculati Kézikönyv (2017), Lakótelepek",
+   "idezet": "Az 1960-as évektől egészen a rendszerváltásig zajló iparosított lakótelep-építés… a XVI. kerületben is.",
+   "megjegyzes": "A \"rendszerváltásig\" záróév 1989-nek véve."
+  },
+  {
+   "id": "xvi_ikarus",
+   "kerulet": 16,
+   "nev": "Új-Mátyásföld, Ikarus gyár",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1943,
+    1960
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVI. kerület Településképi Arculati Kézikönyv (2017)",
+   "idezet": "…az Ikarus gyár, melynek építését a hajdani Új-Mátyásföld szélén kezdték meg 1943-ban.",
+   "megjegyzes": "A kezdőév forrásolt; a záróév feltevés."
+  },
+  {
+   "id": "xviii_gyongyviragutca",
+   "kerulet": 18,
+   "nev": "Gyöngyvirág utca menti nyaralótelep (Pestszentlőrinc)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1870,
+    1890
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVIII. kerület Pestszentlőrinc-Pestszentimre Településképi Arculati Kézikönyv, Várostörténet (3–4. o.)",
+   "idezet": "A mai település központjában, a Gyöngyvirág utca mentén az 1870-es években elegáns nyaralótelep alakult.",
+   "utcak": [
+    "Gyöngyvirág utca"
+   ],
+   "megjegyzes": "A kezdőév (1870-es évek) forrásolt; a záróév feltevés."
+  },
+  {
+   "id": "xviii_allami_lakotelep",
+   "kerulet": 18,
+   "nev": "Állami lakótelep (a mai Havanna lakótelep helyén)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1919,
+    1925
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVIII. kerület Pestszentlőrinc-Pestszentimre Településképi Arculati Kézikönyv, Várostörténet (3–4. o.)",
+   "idezet": "…az I. világháború befejezése után a Magyar Lőszergyár Rt. üresen álló épületeit… lakásokká alakíttatta át, illetve új lakóházakat is emelt. Ez a zárt, kertes bérlakásos terület volt az Állami lakótelep.",
+   "megjegyzes": "A kezdőév forrásolt (1918 után); a záróév feltevés. A mai Havanna lakótelep (1970–80-as évek) ennek helyén épült."
+  },
+  {
+   "id": "xviii_peteri",
+   "kerulet": 18,
+   "nev": "Péteri puszta (Pestszentimre)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1900,
+    1920
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XVIII. kerület Pestszentlőrinc-Pestszentimre Településképi Arculati Kézikönyv, Várostörténet (3–4. o.)",
+   "idezet": "A szomszédos Péteri pusztán is házhely-parcellázásba kezdtek a századfordulón…",
+   "megjegyzes": "A záróév feltevés."
+  },
+  {
+   "id": "xii_tartsay_telep",
+   "kerulet": 12,
+   "nev": "Tartsay Vilmos utca menti sorházas telep (36 épület)",
+   "tipus": "telep",
+   "idoszak": [
+    1938,
+    1942
+   ],
+   "allapot": "forrasolt",
+   "forras": "XII. kerület Hegyvidék helyi építési szabályzat (TKR) 1. melléklete, B. Kerületi helyi területi védelem; Településképi Arculati Kézikönyv (2023), 42. o.",
+   "idezet": "Az 1938-1942 között beépült sorházas telepen egyemeletes lakóépületeket építettek. A telepet 36 épület alkotja.",
+   "utcak": [
+    "Tartsay Vilmos utca",
+    "Beck Ödön Fülöp utca",
+    "Derkovits utca",
+    "Kernstok Károly tér",
+    "Brassai Sámuel utca"
+   ]
+  },
+  {
+   "id": "xii_hollosy_terulet",
+   "kerulet": 12,
+   "nev": "Hollósy Simon utcai terület (49 épület)",
+   "tipus": "telep",
+   "idoszak": [
+    1934,
+    1941
+   ],
+   "allapot": "forrasolt",
+   "forras": "XII. kerület Hegyvidék helyi építési szabályzat (TKR) 1. melléklete, B. Kerületi helyi területi védelem; Településképi Arculati Kézikönyv (2023), 42. o.",
+   "idezet": "1934-1941 között a kialakított új utca és tér köré felépült, modern stílusú lakóépületekből álló… 49 épületből álló épületegyüttes. A telep városépítészeti koncepcióját Granasztói Pál dolgozta ki.",
+   "utcak": [
+    "Hollósy Simon utca"
+   ]
+  },
+  {
+   "id": "xx_kozponti_lakotelep",
+   "kerulet": 20,
+   "nev": "Pesterzsébet központi lakótelepe",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1976,
+    1983
+   ],
+   "allapot": "forrasolt",
+   "forras": "XX. kerület Pesterzsébet Településképi Arculati Kézikönyv (szkennelt dokumentum, OCR-rel olvasva)",
+   "idezet": "A kerület központjában lévő, javarészt komfort nélküli, zsúfolt elhelyezkedésű házak helyén 1976–1983 között lakótelep épült fel.",
+   "megjegyzes": "A szöveg OCR-ből származik; az évszámokat a szövegkörnyezet alapján ellenőrizd."
+  },
+  {
+   "id": "xx_tatra_ter",
+   "kerulet": 20,
+   "nev": "Tátra tér környéke – 1950-es évek szocreál lakónegyede",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1950,
+    1959
+   ],
+   "allapot": "forrasolt",
+   "forras": "XX. kerület Pesterzsébet Településképi Arculati Kézikönyv (szkennelt dokumentum, OCR-rel olvasva)",
+   "idezet": "A Tátra-tér és környéke… az 1950-es években épült szocreál lakónegyedből áll.",
+   "utcak": [
+    "Tátra tér"
+   ]
+  },
+  {
+   "id": "xx_vagohid_lakotelep",
+   "kerulet": 20,
+   "nev": "Vágóhíd utcai lakótelep",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1970,
+    1979
+   ],
+   "allapot": "forrasolt",
+   "forras": "XX. kerület Pesterzsébet Településképi Arculati Kézikönyv (szkennelt dokumentum, OCR-rel olvasva)",
+   "idezet": "Vágóhíd utcai lakótelep: a lakótelepek jellemzően az 1970-es években épültek.",
+   "utcak": [
+    "Vágóhíd utca"
+   ]
+  },
+  {
+   "id": "xx_panel_foltok",
+   "kerulet": 20,
+   "nev": "Paneles lakótelepi foltok a családi házas területeken",
+   "tipus": "lakotelep",
+   "idoszak": [
+    1970,
+    1989
+   ],
+   "allapot": "forrasolt",
+   "forras": "XX. kerület Pesterzsébet Településképi Arculati Kézikönyv (szkennelt dokumentum, OCR-rel olvasva)",
+   "idezet": "…az 1970–1980-as években épült paneles lakótelepek foltszerű megjelenése.",
+   "megjegyzes": "Utcalista nélkül, csak kerületi szinten értelmezhető."
+  },
+  {
+   "id": "xx_pesterzsebet_alap",
+   "kerulet": 20,
+   "nev": "Pesterzsébet családi házas területei (parcellázás)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1860,
+    1930
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "XX. kerület Pesterzsébet Településképi Arculati Kézikönyv (szkennelt dokumentum, OCR-rel olvasva)",
+   "idezet": "Pesterzsébet területét az 1860-as években 5, 10, 15 holdas parcellákra osztották. A tervezett városrendezésre egészen az 1930-as évekig kellett várni.",
+   "megjegyzes": "Parcellázás, nem beépítés: a házak ideje tágabb; a záróév feltevés."
+  },
+  {
+   "id": "iii_ofalu_hosszuhazak",
+   "kerulet": 3,
+   "nev": "Békásmegyer-Ófalu – hosszúházas svábházas utcák",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1736,
+    1900
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "III. kerület Örökségvédelmi hatástanulmány – Értékkataszter (Urban-Lis Stúdió Kft.), Békásmegyer-Ófalu kataszterlapok (130–135. o.)",
+   "idezet": "Ezüsthegy utca: 1736-tól; Templom utca: 1736-tól; Kőbánya utca páratlan oldal: 1736-tól, páros oldal: 1860–1885; Perje utca déli oldal 18. sz. vége, északi oldal 19. sz. vége. Stílus: hosszúházas svábház.",
+   "utcak": [
+    "Ezüsthegy utca",
+    "Kőbánya utca",
+    "Perje utca",
+    "Templom utca",
+    "Virág utca"
+   ],
+   "megjegyzes": "A kezdőév (1736) forrásolt, a záróév (1900) saját feltevés; az utcák későbbi beszúrt újabb házai miatt gyenge súlyú (ellenorizendo)."
+  },
+  {
+   "id": "iii_ofalu_szentharomsag",
+   "kerulet": 3,
+   "nev": "Békásmegyer-Ófalu – Szentháromság utca",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1860,
+    1900
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "III. kerület Örökségvédelmi hatástanulmány – Értékkataszter (Urban-Lis Stúdió Kft.), Békásmegyer-Ófalu kataszterlapok (130–135. o.)",
+   "idezet": "Szentháromság utca: 1880-as évek körül.",
+   "utcak": [
+    "Szentháromság utca"
+   ],
+   "megjegyzes": "Az 1880-as évek forrásolt; a sáv szélessége feltevés."
+  },
+  {
+   "id": "iii_obuda_tortenelmi_magja",
+   "kerulet": 3,
+   "nev": "Óbuda történeti városmagja (Fő tér – Korona tér környéke)",
+   "tipus": "kerulet_resz",
+   "idoszak": [
+    1740,
+    1850
+   ],
+   "allapot": "ellenorizendo",
+   "forras": "III. kerület Örökségvédelmi hatástanulmány – Értékkataszter és Várostörténet (Urban-Lis Stúdió Kft.); a kataszter dátumozott tételei: Fő tér 4. (1787), Korona tér 13. (1790), Korona tér 2-4. (1816), Mókus utca 20., 22. (1800), Kálvin köz (1785), Szentlélek tér (1740)",
+   "idezet": "Az óbudai Zichy-rezidencia (1746–52) körüli magban a 18. század közepétől a 19. század elejéig épült barokk–klasszicista városi beépítés.",
+   "utcak": [
+    "Fő tér",
+    "Korona tér",
+    "Kiskorona utca",
+    "Mókus utca",
+    "Kálvin János köz",
+    "Szentlélek tér"
+   ],
+   "megjegyzes": "A határok a kataszter dátumozott tételeiből következnek; a pontos lehatárolás feltevés."
+  }
+ ]
+}

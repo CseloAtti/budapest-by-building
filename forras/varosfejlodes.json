@@ -1,0 +1,141 @@
+{
+  "_leiras": "Budapesti városfejlődési zónák az építési korszak becsléséhez. A zóna CSAK támpont (prior), nem adat: nem kerül az 'ev' mezőbe. allapot='forrasolt' = az idoszak a megadott forrásból, idézettel; allapot='ellenorizendo' = nincs hozzá forrás, a becslő kisebb súllyal veszi figyelembe, és a mérési jelentésben külön látszik, hogy használt-e. A zóna az utca építési idejét írja le, nem minden házét (háborús pusztulás, későbbi beépítés kivétel).",
+  "_sulyok": {
+    "forrasolt": 1.0,
+    "ellenorizendo": 0.4
+  },
+  "zonak": [
+    {
+      "id": "nagykorut_pest",
+      "nev": "Nagykörút, pesti oldal",
+      "tipus": "utcak",
+      "utcak": [
+        "Szent István körút",
+        "Teréz körút",
+        "Erzsébet körút",
+        "József körút",
+        "Ferenc körút"
+      ],
+      "szelesseg_m": 40,
+      "idoszak": [
+        1872,
+        1906
+      ],
+      "hatas": "A házsor döntően történelmi/századfordulós bérház: a fő korszak 1848–1918. Kivétel: háborús pótlások, 1945 utáni beépítés.",
+      "allapot": "forrasolt",
+      "forras": "Tóth Enikő: The Historicist Architecture of the Grand Boulevard in Budapest and Its Urbanistic Significance. Architektúra & Urbanizmus, 2024/3–4. https://architektura-urbanizmus.sk/2025/03/19/the-historicist-architecture-of-the-grand-boulevard-in-budapest-and-its-urbanistic-significance/",
+      "idezet": "legkorábbi épületek 1872–1873 (József körút 48, 50); utolsó: Pollák Sándor háza, Ferenc körút 19–21, 1905–1906; a körút 1896-ban nyílt meg a pesti oldalon, a beépítés még tíz évet vett igénybe. Szent István körúton példák: Amon-blokk (1900), Weiss-blokk (1904).",
+      "megjegyzes": "A forrás nem ad teljes körút-szakaszonkénti évszámot."
+    },
+    {
+      "id": "kiskorut",
+      "nev": "Kiskörút (Károly körút, Múzeum körút, Vámház körút)",
+      "tipus": "utcak",
+      "utcak": [
+        "Károly körút",
+        "Múzeum körút",
+        "Vámház körút"
+      ],
+      "szelesseg_m": 35,
+      "idoszak": [
+        1874,
+        1900
+      ],
+      "hatas": "Az útvonal kialakítása 1874-es döntés, de a házsorban régebbi (városfal mentén 1848 előtti) épületek is vannak: széles eloszlás, a 1848–1918 korszak a legvalószínűbb.",
+      "allapot": "ellenorizendo",
+      "forras": "Az 1874-es döntés: https://en.wikipedia.org/wiki/Small_Boulevard_(Budapest) ('In 1874, Budapest's Public Works Council decided to divide that road, creating the Kiskörút in three sections.'). A házsor építési idejére NINCS forrásom.",
+      "idezet": "Datált példák ugyanott: Nemzeti Múzeum 1847, Dohány utcai zsinagóga 1859, Közgazdasági Egyetem 1874, ELTE BTK 1883, Nagyvásárcsarnok 1896.",
+      "megjegyzes": "Az idoszak [1874,1900] saját feltevés, nem forrásolt."
+    },
+    {
+      "id": "andrassy_ut",
+      "nev": "Andrássy út",
+      "tipus": "utcak",
+      "utcak": [
+        "Andrássy út"
+      ],
+      "szelesseg_m": 35,
+      "idoszak": [
+        1872,
+        1884
+      ],
+      "hatas": "Bérpaloták, főként 1872–1884. A kisebb mellékutcák nem tartoznak ide.",
+      "allapot": "forrasolt",
+      "forras": "https://en.wikipedia.org/wiki/Andr%C3%A1ssy_%C3%BAt",
+      "idezet": "'It was decreed to be built in 1870'; 'Its construction began in 1872'; 'inaugurated on August 20 ..., 1876'; 'These were mostly finished by 1884.'",
+      "megjegyzes": "Az út a vizsgált területnek csak a keleti szélén van."
+    },
+    {
+      "id": "lipotvaros",
+      "nev": "Lipótváros (V. kerület északi fele)",
+      "tipus": "sokszog",
+      "sokszog": null,
+      "idoszak": [
+        1800,
+        1914
+      ],
+      "hatas": "Elsősorban a 19. század második fele; korai klasszicista és 20. század eleji elemekkel.",
+      "allapot": "ellenorizendo",
+      "forras": "https://en.wikipedia.org/wiki/Lip%C3%B3tv%C3%A1ros csak annyit mond: 'Lipótváros was named in 1790 after Leopold II'; 'established in the early 19th century'; 'became the political and financial centre of Hungary in the early 20th century'. Épületenkénti építési időszakot nem közöl.",
+      "idezet": "",
+      "megjegyzes": "A szükséges forrás: kerületi értékleltár vagy várostörténeti tanulmány. Határait kézzel kell rajzolni."
+    },
+    {
+      "id": "belvaros_regi_mag",
+      "nev": "Belváros, régi pesti mag",
+      "tipus": "sokszog",
+      "sokszog": null,
+      "idoszak": null,
+      "hatas": "Vegyes: középkori/barokk/klasszicista alap, 19. századi átépítés, háborús pótlások. Széles eloszlás, a szomszédok szava többet számít, mint a zóna.",
+      "allapot": "ellenorizendo",
+      "forras": "https://en.wikipedia.org/wiki/Inner_City_(Budapest) csak azt állítja, hogy 'more or less equivalent with the historic old town of Pest' és 1949-ig a 4. kerület volt. Építési időszakot nem közöl.",
+      "idezet": "",
+      "megjegyzes": "A becslő ezt a zónát NEM használja, amíg nincs forrás."
+    },
+    {
+      "id": "ujlipotvaros",
+      "nev": "Újlipótváros (XIII. kerület)",
+      "tipus": "sokszog",
+      "sokszog": null,
+      "idoszak": [
+        1927,
+        1944
+      ],
+      "hatas": "Szinte kizárólag 1919–1944 (modern bérházak). A Palatinus-házak 1910–1911-esek.",
+      "allapot": "forrasolt",
+      "forras": "https://en.wikipedia.org/wiki/%C3%9Ajlip%C3%B3tv%C3%A1ros",
+      "idezet": "'Almost all of the buildings were built between 1927 and 1944.'; 'Previously an industrial area, it was rebuilt as a residential district from the late 1920s.'; 'these were built in 1910–1911.'",
+      "megjegyzes": "A vizsgált területen kívül van; sablon a teljes Budapesthez."
+    },
+    {
+      "id": "palotanegyed",
+      "nev": "Palotanegyed (VIII. kerület, Józsefváros belső része)",
+      "tipus": "sokszog",
+      "sokszog": null,
+      "idoszak": [
+        1860,
+        1900
+      ],
+      "hatas": "A házak 1860 és 1900 között épültek (hu.wikipedia, a felhasználó közlése szerint). Az angol Wikipedia tágabb, 1840-es évektől az I. világháborúig tartó időszakot ír: ez a két forrás nem teljesen egyezik.",
+      "allapot": "forrasolt",
+      "forras": "https://hu.wikipedia.org/wiki/Palotanegyed (a felhasználó közlése: 1860–1900; az oldalt magam nem tudtam megnyitni, ellenőrizendő a pontos szöveg). Kiegészítő: https://en.wikipedia.org/wiki/Budapest%27s_Palace_District",
+      "idezet": "'Most of the Palotanegyed's architecture echoes that of the Viennese Franz-Joseph era from the 1840s until World War One.'; 'The two-metre great flood of 1838 caused the collapse of 900 buildings in the Józsefváros, with only 250 surviving.'",
+      "megjegyzes": "A vizsgált területen kívül van; sablon. Az 1840–1914 tágabb tartomány az angol oldalból van, a becslő a szűkebb 1860–1900-at használja."
+    },
+    {
+      "id": "lakotelep_sablon",
+      "nev": "Lakótelepek (sablon)",
+      "tipus": "sokszog",
+      "sokszog": null,
+      "idoszak": [
+        1957,
+        1989
+      ],
+      "hatas": "Panel- és blokkos lakótelepek: a 1957–1989 korszak a várt.",
+      "allapot": "ellenorizendo",
+      "forras": "NINCS. Telepenként külön forrás kell (pl. kerületi vagy várostörténeti leírás).",
+      "idezet": "",
+      "megjegyzes": "Sablon a teljes Budapesthez; a vizsgált területen nincs ilyen."
+    }
+  ]
+}

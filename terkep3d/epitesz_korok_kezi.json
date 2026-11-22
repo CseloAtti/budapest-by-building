@@ -1,0 +1,57 @@
+{
+ "_leiras": "Kézi felülírások az Építészek fül korszűrőjéhez. kor: korszak-indexek (0=1867 előtt, 1=1867–1918, 2=1919–1944, 3=1945–1956, 4=1957–1989, 5=1990–2010, 6=2011-től napjainkig); elet: [születés éve, halál éve vagy null]. A kulcs a név kisbetűs, ékezet nélküli alakja.",
+ "kruppa gabor": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "polus karoly": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "nagy csaba": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "ifj. benczur laszlo": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "benczur laszlo ifj.": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "csillag katalin": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "potzner ferenc": {
+  "kor": [
+   5,
+   6
+  ]
+ },
+ "komjathy attila": {
+  "elet": [
+   1944,
+   2019
+  ]
+ },
+ "siklos maria": {
+  "kor": [
+   5,
+   6
+  ]
+ }
+}

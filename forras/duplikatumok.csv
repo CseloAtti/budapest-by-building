@@ -1,0 +1,33 @@
+﻿mod;torolt_tipus;torolt_id;torolt_gyuru_pontok;megtartott_tipus;megtartott_id;alkalmaz;megjegyzes
+elem;relation;21212948;;way;282672037;igen;"kisebb (36 m²) teljesen a nagyobbon belül (5102 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→museum"
+elem;way;904867903;;way;179310840;igen;"kisebb (56 m²) teljesen a nagyobbon belül (730 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+elem;way;1205397889;;way;1205397890;igen;"kisebb (1158 m²) teljesen a nagyobbon belül (1716 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→hotel"
+elem;way;504138321;;way;123918580;;"kisebb (2239 m²) teljesen a nagyobbon belül (16560 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; warehouse→warehouse"
+elem;way;1344529658;;way;686238816;igen;"kisebb (174 m²) teljesen a nagyobbon belül (868 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+gyuru;relation;12528353;5;relation;12528353;igen;azonos elem egymásba ágyazott körvonala (29 m² a 1580 m²-ben)
+elem;way;123288427;;way;788866395;igen;"azonos alakú, kétszer berajzolva; apartments→yes"
+elem;way;927289205;;way;328473821;igen;"kisebb (21 m²) teljesen a nagyobbon belül (293 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→church"
+elem;way;852697070;;way;852697071;igen;"kisebb (244 m²) teljesen a nagyobbon belül (1231 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+elem;way;559577347;;way;316980526;;"kisebb (570 m²) teljesen a nagyobbon belül (8810 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; commercial→warehouse"
+elem;way;1495874197;;way;1344529662;;"kisebb (244 m²) teljesen a nagyobbon belül (844 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+elem;way;249666070;;way;852697071;;"kisebb (987 m²) teljesen a nagyobbon belül (1231 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; office→yes"
+elem;way;609448086;;way;594951844;igen;"kisebb (15 m²) teljesen a nagyobbon belül (2438 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; sports_centre→sports_centre"
+elem;way;671999755;;way;587741537;igen;"kisebb (55 m²) teljesen a nagyobbon belül (554 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+elem;way;341456378;;way;885305903;igen;"kisebb (1298 m²) teljesen a nagyobbon belül (2134 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; retail→retail"
+gyuru;relation;12143990;9;relation;12143990;igen;azonos elem egymásba ágyazott körvonala (135 m² a 254 m²-ben)
+elem;way;885524487;;way;1436196345;;"kisebb (786 m²) teljesen a nagyobbon belül (10072 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; apartments→yes"
+gyuru;relation;12528353;10;relation;12528353;igen;azonos elem egymásba ágyazott körvonala (1552 m² a 1580 m²-ben)
+elem;way;717716187;;way;343982861;igen;"kisebb (206 m²) teljesen a nagyobbon belül (3552 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+elem;way;346846475;;way;958948068;igen;"kisebb (7 m²) teljesen a nagyobbon belül (401 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+elem;way;621351604;;way;282672037;;"kisebb (1197 m²) teljesen a nagyobbon belül (5102 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; train_station→museum"
+gyuru;relation;12238436;8;relation;12238436;igen;azonos elem egymásba ágyazott körvonala (536 m² a 686 m²-ben)
+elem;way;247082813;;way;247082777;igen;"kisebb (137 m²) teljesen a nagyobbon belül (2445 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; school→school"
+elem;way;1333184118;;way;1434534603;igen;"azonos alakú, kétszer berajzolva; industrial→yes"
+elem;way;1486259844;;way;838292028;;"kisebb (28 m²) teljesen a nagyobbon belül (863 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; yes→yes"
+gyuru;relation;12143990;9;relation;12143990;igen;azonos elem egymásba ágyazott körvonala (119 m² a 254 m²-ben)
+gyuru;relation;12238436;5;relation;12238436;igen;azonos elem egymásba ágyazott körvonala (15 m² a 686 m²-ben)
+elem;way;1149655571;;way;661223145;igen;"kisebb (14 m²) teljesen a nagyobbon belül (198 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; service→yes"
+elem;way;1176384981;;way;1176384982;igen;"kisebb (13 m²) teljesen a nagyobbon belül (178 m²) – ellenőrizendő: ha tényleg külön épület, hagyd üresen; service→yes"
+elem;relation;12528352;;relation;531808;igen;duplikált geometria: a relation 531808 teljesen lefedi (korábban a kizárt listán volt)
+elem;way;219846838;;relation;20082;igen;"a Continental Hotel (relation 20082, épületrész) körvonala teljesen lefedi; a relation marad (név, szintszám, Wikidata, udvarok)"
+elem;way;1009342093;;relation;20082;igen;"a Continental Hotel (relation 20082, épületrész) körvonala teljesen lefedi; a relation marad (név, szintszám, Wikidata, udvarok)"

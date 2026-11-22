@@ -1,0 +1,85 @@
+﻿wikikonyv_cim;allapot;wikikonyv_adat;wikikonyv_ido;osm_tipus;id;cim_adatbazis;adatbazis_adat
+Wesselényi utca 32.;nincs (megbízható) találat;Ágoston Emil;1909;;;;
+Fiumei út 23.;nincs (megbízható) találat;Bálint Zoltán & Jámbor Lajos;1909-1910;;;;
+Kőrösi Csoma Sándor út 36-38.;nincs (megbízható) találat;Jónás Dávid & Jónás Zsigmond;1911;;;;
+Rákóczi út 18.;nincs (megbízható) találat;Lajta Béla;1911;;;;
+Dózsa György út 86/a.;nincs (megbízható) találat;Medgyes Alajos;1907;;;;
+Széchenyi rkp. 19.;nincs (megbízható) találat;Messinger Hugó;1911 k.;;;;
+Kiscelli u. 78-82.;nincs (megbízható) találat;Reichl Kálmán;1911-1912;;;;
+Martinovics tér 4/a.;nincs (megbízható) találat;Schöntheil Richárd;1911;;;;
+Deák Ferenc utca 16-18.;nincs (megbízható) találat;Tőry Emil & Pogány Móric;1912–1918;;;;
+Munkácsy Mihály u. 19/a;nincs (megbízható) találat;Vágó László & Vágó József;1910–1912;;;;
+Tompa utca 9.;nincs (megbízható) találat;Vida Artúr;1911;;;;
+Martinovics tér 4/b.;nincs (megbízható) találat;tervező nem ismert;n. a.;;;;
+Hősök u. 23.;nincs (megbízható) találat;tervező nem ismert;;;;;
+Váci út 198.;nincs (megbízható) találat;tervező nem ismert;;;;;
+Nagy Lajos király útja 128. / Szugló u. 80.;nincs (megbízható) találat;tervező nem ismert;;;;;
+Bartók Béla út 45.;nincs (megbízható) találat;tervező nem ismert;1913-1914;;;;
+Fehérvári út 202. (?);nincs (megbízható) találat;tervező nem ismert;1914;;;;
+Hunyadi János út 7.;nincs (megbízható) találat;tervező nem ismert;1916;;;;
+Révész u. 27-31.;nincs (megbízható) találat;Neuschloss Kornél;1914;;;;
+Soroksári út 160.;nincs (megbízható) találat;Gut & Gergely;1915;;;;
+Jászberényi út 29/b.;nincs (megbízható) találat;;1913;;;;
+Maglódi út 17.;nincs (megbízható) találat;Vidor Emil;1910-es évek;;;;
+Dreher Antal út 3.;nincs (megbízható) találat;Hültl Dezső;1913 k.;;;;
+Dob utca 5-7.;év eltér;1909;1909;way;259293254;Dob utca 7;adatbázis: 1911 (kezi)
+Múzeum körút 41.;év eltér;1915;1915;way;258289289;Múzeum körút 41;adatbázis: 1911 (budapest100)
+Balzac u. 9-11. / Kresz Géza u. 30. / Visegrádi u. 27.;tervező eltér;Ágoston Emil;;way;131269302;Balzac utca 11;adatbázis: Klinger József
+Balzac u. 9-11. / Kresz Géza u. 30. / Visegrádi u. 27.;év eltér;1910;1910;way;131269302;Balzac utca 11;adatbázis: 1912 (budapest100)
+Pilvax köz 1-3. és 2-4;tervező eltér;Fischer József;;way;227332932;Pilvax köz 1-3;adatbázis: Nagy Tamás
+Pilvax köz 1-3. és 2-4;év eltér;1913;1913;way;227214772;Pilvax köz 4;adatbázis: 1817 (budapest100)
+Hegedűs Gyula utca 49-51.;tervező eltér;Gyárfás Antal;;relation;1751008;Hegedűs Gyula utca 49-51;adatbázis: Sterk Izidor
+Hegedűs Gyula utca 49-51.;év eltér;1915;1914-1915;relation;1751008;Hegedűs Gyula utca 49-51;adatbázis: 1913 (budapest100)
+Eötvös u. 29.;év eltér;1910;1910;relation;2191616;Eötvös utca 29;adatbázis: 1911 (lechner)
+Károly körút 3.;tervező eltér;Hoepfner Guidó és Györgyi Géza;;way;259229893;Károly körút 3/b;adatbázis: Hubert József
+Károly körút 3.;év eltér;1912;1912;way;259229893;Károly körút 3/b;adatbázis: 1929 (budapest100)
+Hűvösvölgyi út 85.;év eltér;1913;1913;way;494206748;Hűvösvölgyi út 85;adatbázis: 1912 (budapest100)
+Dohány utca 10-14.;tervező eltér;Jónás Dávid és Jónás Zsigmond;;way;259309002;Dohány utca 10;adatbázis: Hild József
+Dohány utca 10-14.;év eltér;1913;1910-1913;way;259309002;Dohány utca 10;adatbázis: 1844 (muemlek)
+Apáczai Csere János utca 11.;tervező eltér;Kármán Géza Aladár és Ullmann Gyula;;way;60242195;Apáczai Csere János utca 11;adatbázis: Wéber Antal
+Apáczai Csere János utca 11.;év eltér;1913;1910-1913;way;60242195;Apáczai Csere János utca 11;adatbázis: 1873 (lechner)
+Apáczai Csere János utca 11.;tervező eltér;Kármán Géza Aladár és Ullmann Gyula;;way;60242222;Apáczai Csere János utca 11;adatbázis: Wéber Antal
+Apáczai Csere János utca 11.;év eltér;1913;1910-1913;way;60242222;Apáczai Csere János utca 11;adatbázis: 1873 (lechner)
+Apáczai Csere János utca 11.;tervező eltér;Kármán Géza Aladár és Ullmann Gyula;;way;1285215309;Apáczai Csere János utca 11;adatbázis: Wéber Antal
+Apáczai Csere János utca 11.;év eltér;1913;1910-1913;way;1285215309;Apáczai Csere János utca 11;adatbázis: 1873 (lechner)
+Benczúr utca 26.;tervező eltér;Kiss Géza;;way;257909965;Benczúr utca 26;adatbázis: Kőrössy Albert Kálmán
+Bajcsy-Zsilinszky út 7.;év eltér;1913;1913;way;1505837702;Bajcsy-Zsilinszky út 7;adatbázis: 1914 (budapest100)
+Népszínház utca 19.;év eltér;1912;1911-1912;way;260566945;Népszínház utca 19;adatbázis: 1913 (start_date)
+Irányi utca 15.;év eltér;1910;1910;relation;3318173;Irányi utca 15;adatbázis: 1911 (start_date)
+Cházár András u. 5.;tervező eltér;Matouschek Franz;;way;257207967;Cházár András utca 5;adatbázis: Franz Matuschek
+Cházár András u. 5.;év eltér;1909;1909;way;257207967;Cházár András utca 5;adatbázis: 1912 (start_date)
+Mexikói út 63.;év eltér;1913;1909-1913;way;261996896;Mexikói út 63-64;adatbázis: 1905 (budapest100)
+Lehel u. 14.;tervező eltér;Medgyes Alajos;;relation;1753567;Lehel utca 14;adatbázis: Messinger Alajos
+Belgrád rakpart 13-15.;év eltér;1912;1912;way;247323956;Belgrád rakpart 13-15;adatbázis: 1911 (start_date)
+Frangepán u. 6. / Váci út 87.;tervező eltér;Pollák Manó;;way;126230000;Frangepán utca 6;adatbázis: Pallák Manó
+Erzsébet tér 5.;év eltér;1910;1910;relation;936988;Erzsébet tér 5;adatbázis: 1912 (budapest100)
+Baross utca 87/a-b.;év eltér;1912;1911-1912;way;260882890;Baross utca 87;adatbázis: 1934 (wikidata)
+Bercsényi utca 6.;év eltér;1909;1909;way;1064557584;Bercsényi utca 6;adatbázis: 1911 (start_date)
+Baross utca 75.;év eltér;1914;1913-1914;way;1064846120;Baross utca 75;adatbázis: 1912 (start_date)
+Királyhágó tér 1.;év eltér;1915;1915;relation;3365561;Királyhágó tér 1;adatbázis: 1914 (budapest100)
+Pannónia utca 81.;év eltér;1910;1910;way;135339783;Pannónia utca 81;adatbázis: 1911 (kezi)
+Bercsényi utca 10.;tervező eltér;Sipos József;;relation;1853688;Bercsényi utca 10;adatbázis: Archikon, Batta Miklós, Bordás Flóra, Nagy Csaba, Pólus Károly, Bóday-Bagó Bernadett, Laczkó Gábor, Major Eszter
+Bercsényi utca 10.;év eltér;1915;1915;relation;1853688;Bercsényi utca 10;adatbázis: 1913 (start_date)
+Október 6. utca 16-18.;év eltér;1910;1910;relation;20400701;Október 6. utca 16;adatbázis: 1912 (helyi_vedelem)
+Andrássy út 39.;tervező eltér;Sziklai Zsigmond;;relation;20573252;Andrássy út 39;adatbázis: Petschacher Gusztáv
+Andrássy út 39.;év eltér;1911;1909–1911;relation;20573252;Andrássy út 39;adatbázis: 1882 (muemlek)
+Péterfy Sándor u. 17.;tervező eltér;Szőke Imre;;relation;2190152;Péterfy Sándor utca 17;adatbázis: Márkus Géza
+Péterfy Sándor u. 17.;év eltér;1910;1909–1910;relation;2190152;Péterfy Sándor utca 17;adatbázis: 1900 (helyi_vedelem)
+Tanoda tér 1.;év eltér;1913;1911–1913;way;120260623;Tanoda tér 1;adatbázis: 1914 (start_date)
+Alkotmány u. 4. / Szalay u. 3. / Honvéd u. 14-18. / Vajkay u. 1-5.;év eltér;1912;1911–1912;relation;3516528;Alkotmány utca 4;adatbázis: 1913 (muemlek)
+Krisztina körút 2-4.;év eltér;1910;1910;relation;3355298;Krisztina körút 2-4;adatbázis: 1920 (kezi)
+Károly körút 12.;év eltér;1913;1913;way;228693191;Károly körút 12;adatbázis: 1894 (wikipedia_lista)
+Jókai u. 15.;év eltér;1911;1910-1911;relation;2538732;Jókai utca 15;adatbázis: 1889 (budapest100)
+Andrássy út 45.;év eltér;1911;1911;relation;1784945;Andrássy út 45;adatbázis: 1880 (start_date)
+Andrássy út 45.;év eltér;1911;1911;relation;20573251;Andrássy út 45;adatbázis: 1878 (start_date)
+Bocskai út 134.;tervező eltér;Kondor és Feledi;;way;566433003;Bocskai út 134-146;adatbázis: Tima Zoltán
+Bocskai út 134.;tervező eltér;Kondor és Feledi;;way;566433004;Bocskai út 134-146;adatbázis: Tima Zoltán
+Bocskai út 134.;tervező eltér;Kondor és Feledi;;way;566433005;Bocskai út 134-146;adatbázis: Tima Zoltán
+Bocskai út 134.;tervező eltér;Kondor és Feledi;;way;566433006;Bocskai út 134-146;adatbázis: Tima Zoltán
+Bocskai út 134.;tervező eltér;Kondor és Feledi;;way;566433007;Bocskai út 134-146;adatbázis: Tima Zoltán
+Bocskai út 134.;tervező eltér;Kondor és Feledi;;way;566433002;Bocskai út 134-146;adatbázis: Tima Zoltán
+Budafoki út 59.;év eltér;1910;1910;way;46907443;Budafoki út 59;adatbázis: 1912 (start_date)
+Budafoki út 59.;év eltér;1910;1910;way;1488529102;Budafoki út 59;adatbázis: 1912 (start_date)
+Budafoki út 59.;év eltér;1910;1910;way;46907463;Budafoki út 59;adatbázis: 1912 (start_date)
+Budafoki út 59.;év eltér;1910;1910;way;226151091;Budafoki út 59;adatbázis: 1912 (start_date)
+Maglódi út 47.;év eltér;1913;1913;way;1004772194;Maglódi út 47;adatbázis: 1912 (wikipedia_szoveg)

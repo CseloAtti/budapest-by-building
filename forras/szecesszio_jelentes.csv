@@ -1,0 +1,59 @@
+﻿cikk;osm_tipus;id;cím;mező;jelenlegi;új/wikipedia
+Hungária fürdő;relation;20082;Dohány utca 42-44;ELTÉRÉS ev;1907;1910
+Kazinczy utcai zsinagóga (Budapest);way;1306427083;Kazinczy utca 23-27;wikipedia;;hu:Kazinczy utcai zsinagóga (Budapest)
+Kazinczy utcai zsinagóga (Budapest);way;1306427083;Kazinczy utca 23-27;nev;;Kazinczy utcai zsinagóga
+Kazinczy utcai zsinagóga (Budapest);way;1306427083;Kazinczy utca 23-27;tervezo;;Löffler Sándor, Löffler Béla
+Kazinczy utcai zsinagóga (Budapest);way;1306427083;Kazinczy utca 23-27;stilus;;szecessziós
+Budai Vigadó;way;234250234;Corvin tér 8;ELTÉRÉS ev;1900;1899
+Kölcsey Ferenc Gimnázium (Budapest);way;258044918;Munkácsy Mihály utca 26;stilus;;szecessziós
+Fasori református templom;way;257865568;;stilus;népies stílus;népies stílus, szecessziós
+Babocsay-villa;way;90444471;Dózsa György út 92/b;stilus;;szecessziós
+A Fővárosi Állat- és Növénykert Kapuépülete;relation;6221648;Állatkerti körút 6-12;ELTÉRÉS tervezo;Kós Károly, Zrumeczky Dezső, Szkalnitzky Antal, ifj. Koch Henrik, Lohr Antal, Hauszmann Alajos, Neuschloss Kornél;Neuschloss-Knüsli Kornél
+Kőrössy-villa;way;257725587;Városligeti fasor 47;stilus;;szecessziós
+Postatakarékpénztár;relation;11846;Hold utca 4;stilus;;szecessziós
+Sacelláry-kastély;way;140009029;Anna utca 1-3;stilus;;szecessziós
+Széchenyi István Gimnázium (Budapest);way;254459753;;nev;;Széchenyi István Gimnázium
+Széchenyi István Gimnázium (Budapest);way;254459753;;stilus;;szecessziós
+Mindenki Temploma;way;523418898;Cserkesz utca 7-9;ELTÉRÉS ev;1910;1912
+Lengyel nemzetiségi templom;way;260208269;Óhegy utca 11;stilus;;szecessziós
+Nádor Terem;way;1037370557;Ajtósi Dürer sor 39;nev;;Nádor Terem (Vakok Általános Iskolája)
+Nádor Terem;way;1037370557;Ajtósi Dürer sor 39;ELTÉRÉS tervezo;Baumgarten Sándor és Herczegh Zsigmond;Lechner Ödön
+Nádor Terem;way;1037370557;Ajtósi Dürer sor 39;ELTÉRÉS ev;1907;1904
+A Vakok Általános Iskolájának épülete;way;1037370557;Ajtósi Dürer sor 39;nev;;Nádor Terem (Vakok Általános Iskolája)
+Mozgásjavító EGYMI;way;261997131;Mexikói út 59-60;wikipedia;;hu:Mozgásjavító EGYMI
+Mozgásjavító EGYMI;way;261997131;Mexikói út 59-60;ELTÉRÉS ev;1905;1908
+Népszínház utca 37.;relation;3326235;Népszínház utca 37;tervezo;;Löffler Béla, Löffler Sándor
+Népszínház utca 37.;relation;3326235;Népszínház utca 37;stilus;;szecessziós
+Népszálló;way;130101982;Dózsa György út 152;wikipedia;;hu:Népszálló
+Népszálló;way;130101982;Dózsa György út 152;stilus;;szecessziós
+Népszálló;way;130101982;Dózsa György út 152;ELTÉRÉS ev;1910;1912
+Nádor-udvar;relation;2931015;Falk Miksa utca 21;nev;;Nádor-udvar
+Postapalota (Budapest);relation;7654318;Krisztina körút 6;ELTÉRÉS ev;1924;1926
+Postapalota (Budapest);way;532777781;Krisztina körút 6;ELTÉRÉS ev;1924;1926
+Törley-mauzóleum;way;140009033;Sarló utca 6;stilus;;szecessziós
+Szent László Gimnázium (Budapest);way;516150865;Kőrösi Csoma Sándor út 28-34;stilus;premodern;premodern, szecessziós
+Szent László Gimnázium (Budapest);way;516150865;Kőrösi Csoma Sándor út 28-34;ELTÉRÉS ev;1914;1907
+Szent László-templom (Kőbánya);way;371016412;Szent László tér 25;wikipedia;;hu:Szent László-templom (Kőbánya)
+Szent László-templom (Kőbánya);way;371016412;Szent László tér 25;nev;;Szent László-templom
+Szent László-templom (Kőbánya);way;371016412;Szent László tér 25;tervezo;;Lechner Ödön
+Szent László-templom (Kőbánya);way;371016412;Szent László tér 25;ev;;1899
+Szent László-templom (Kőbánya);way;371016412;Szent László tér 25;stilus;;szecessziós
+Városháza (Budafok);way;36916822;Városház tér 11;tervezo;;Bathó Lajos
+Városháza (Budafok);way;36916822;Városház tér 11;stilus;népies stílus;népies stílus, szecessziós
+Városháza (Budafok);way;36916822;Városház tér 11;ELTÉRÉS ev;1928;1929
+Török Bankház;way;227214781;Szervita tér 3;stilus;;szecessziós
+Székesfővárosi Fertőtlenítő Intézet;relation;16712033;;nev;;Székesfővárosi Fertőtlenítő Intézet
+Újpesti Vágóhíd;way;249157265;Megyeri út 15a;wikipedia;;hu:Újpesti Vágóhíd
+Újpesti Vágóhíd;way;249157265;Megyeri út 15a;nev;;Újpesti vágóhíd
+Újpesti Vágóhíd;way;249157265;Megyeri út 15a;stilus;;szecessziós
+Újpesti Vágóhíd;way;249157265;Megyeri út 15a;ELTÉRÉS ev;1910;1911
+Újpesti Vágóhíd;way;248675978;Megyeri út 15;wikipedia;;hu:Újpesti Vágóhíd
+Újpesti Vágóhíd;way;248675978;Megyeri út 15;nev;;Újpesti vágóhíd
+Újpesti Vágóhíd;way;248675978;Megyeri út 15;stilus;;szecessziós
+Újpesti Vágóhíd;way;248675978;Megyeri út 15;ELTÉRÉS ev;1910;1911
+A Fővárosi Állat- és Növénykert Elefántháza;;;;NEM ILLESZTHETŐ (nincs egyértelmű épület az adatbázisban);;
+Gerbeaud-ház;;;;NEM ILLESZTHETŐ (nincs egyértelmű épület az adatbázisban);;
+A Fővárosi Állat- és Növénykert Pálmaháza;;;;NEM ILLESZTHETŐ (nincs egyértelmű épület az adatbázisban);;
+A Millenniumi Földalatti Vasút lejárócsarnokai;;;;NEM ILLESZTHETŐ (nincs egyértelmű épület az adatbázisban);;
+Staffenberg-ház;;;;NEM ILLESZTHETŐ (nincs egyértelmű épület az adatbázisban);;
+Városligeti Színház;;;;NEM ILLESZTHETŐ (nincs egyértelmű épület az adatbázisban);;

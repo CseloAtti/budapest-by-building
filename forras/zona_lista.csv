@@ -1,0 +1,260 @@
+﻿id;nev;tipus;kerulet;ev_tol;ev_ig;allapot;forras;hely;megjegyzes
+lt_III_01;Békásmegyeri lakótelep;lakotelep;III;1972;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;"13394 lakás; Budapest100: 1971 (egyezik; ""Békásmegyeri lakótelep I. ütem"")"
+lt_III_02;Pók utcai lakótelep;lakotelep;III;1984;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;4390 lakás
+lt_III_03;Kaszásdűlői lakótelep;lakotelep;III;1980;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;"3456 lakás; KSH-tábla: 1981-1986"
+lt_III_04;Bécsi–Bojtár utcai lakótelep;lakotelep;III;1988;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;584 lakás
+lt_III_05;Kalap utcai lakótelep;lakotelep;III;1968;1972;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;219 lakás
+lt_III_06;Hévízi utcai lakótelep;lakotelep;III;1957;1961;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;968 lakás
+lt_III_07;Hunor utcai lakótelep;lakotelep;III;1949;1956;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;200 lakás
+lt_III_08;Óbudai kísérleti lakótelep;lakotelep;III;1957;1964;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;849 lakás
+lt_III_09;Óbuda városközpont (Óbudai) lakótelep;lakotelep;III;1969;1984;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;13736 lakás
+lt_III_10;Árpád fejedelem útja lakótelep;lakotelep;III;1965;1967;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;660 lakás
+lt_III_11;Remetehegyi–Toboz utcai lakótelep;lakotelep;III;1973;1976;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;647 lakás
+lt_III_12;Folyóka utcai lakótelep;lakotelep;III;1973;1982;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), III. kerület oldala;;602 lakás
+lt_IV_01;Káposztásmegyeri I. ütem lakótelep;lakotelep;IV;1984;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;6039 lakás
+lt_IV_02;Káposztásmegyeri II. ütem lakótelep;lakotelep;IV;1989;1995;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;1280 lakás
+lt_IV_03;Sporttelep utcai lakótelep;lakotelep;IV;1979;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;1095 lakás
+lt_IV_04;Erdősor utcai lakótelep;lakotelep;IV;1983;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;232 lakás
+lt_IV_05;Szérűskert–Vetés utcai lakótelep;lakotelep;IV;1968;1977;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;kb. 1145 lakás
+lt_IV_06;Lechner György utcai lakótelep;lakotelep;IV;1968;1972;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;kb. 104 lakás
+lt_IV_07;Szent László téri lakótelep;lakotelep;IV;1949;1959;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;"457 lakás; Budapest100: 1957 (egyezik; ""Szent László tér 3.""); Budapest100: 1951 (egyezik; ""Szent László tér 9."")"
+lt_IV_08;Baross utcai lakótelep;lakotelep;IV;1961;1964;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;427 lakás
+lt_IV_09;Perényi Zsigmond utcai lakótelep;lakotelep;IV;1972;1974;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;kb. 84 lakás
+lt_IV_10;Liszt Ferenc utcai lakótelep;lakotelep;IV;1989;1991;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;kb. 104 lakás
+lt_IV_11;Újpest városkapu lakótelep;lakotelep;IV;1953;1967;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;590 lakás
+lt_IV_12;Újpest városközpont lakótelep;lakotelep;IV;1969;1988;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IV. kerület oldala;;"16805 lakás; KSH-tábla: 1968-1986"
+lt_VIII_01;Józsefvárosi rekonstrukciós lakótelep;lakotelep;VIII;1971;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), VIII. kerület oldala;;2893 lakás
+lt_VIII_02;Százados úti lakótelep;lakotelep;VIII;1989;1991;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), VIII. kerület oldala;;kb. 201 lakás
+lt_VIII_03;Hungária utcai lakótelep;lakotelep;VIII;1961;1961;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), VIII. kerület oldala;;kb. 992 lakás
+lt_IX_01;József Attila lakótelep;lakotelep;IX;1958;1981;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IX. kerület oldala;;"kb. 8440 lakás; KSH-tábla: 1957-1967"
+lt_IX_02;Haller utcai lakótelep;lakotelep;IX;1963;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IX. kerület oldala;;742 lakás
+lt_IX_03;Vágóhíd utcai (IX.) lakótelep;lakotelep;IX;1963;1967;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), IX. kerület oldala;;kb. 281 lakás
+lt_X_01;Gyakorló utcai lakótelep;lakotelep;X;1971;1986;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;3390 lakás
+lt_X_02;Hungária körúti lakótelep;lakotelep;X;1961;1962;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;1245 lakás
+lt_X_03;Kőbányai úti lakótelep;lakotelep;X;1987;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;286 lakás
+lt_X_04;Martinovics téri lakótelep;lakotelep;X;1960;1969;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;kb. 288 lakás
+lt_X_05;Kőbánya városközpont lakótelep;lakotelep;X;1959;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;2765 lakás
+lt_X_06;Kőrösi Csoma úti lakótelep;lakotelep;X;1951;1971;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;1228 lakás
+lt_X_07;Harmat utcai lakótelep;lakotelep;X;1964;1967;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;"2223 lakás; Budapest100: 1951 (ELTÉR; ""Harmat utcai lakótelep (Harmat utca – Harmat köz – Mádi utca által határolt terület)"")"
+lt_X_08;Kada–Száraz utcai lakótelep;lakotelep;X;1980;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;690 lakás
+lt_X_09;Gergely utcai lakótelep;lakotelep;X;1950;1965;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;kb. 136 lakás
+lt_X_10;Sörgyár utcai lakótelep;lakotelep;X;1960;1967;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;kb. 356 lakás
+lt_X_11;Újhegyi lakótelep;lakotelep;X;1971;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;"kb. 7032 lakás; Budapest100: 1975 (egyezik; ""Újhegyi lakótelep""); KSH-tábla: 1973-1980"
+lt_X_12;Bihari–Zágrábi utcai lakótelep;lakotelep;X;1977;1986;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;kb. 1120 lakás
+lt_X_13;Üllői úti (X.) lakótelep;lakotelep;X;1957;1959;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;kb. 1350 lakás
+lt_X_14;Óhegyi lakótelep;lakotelep;X;1970;1975;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), X. kerület oldala;;"kb. 504 lakás; KSH-tábla: 1965-1976"
+lt_XI_01;Villányi úti lakótelep;lakotelep;XI;1957;1961;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;391 lakás
+lt_XI_02;Lágymányosi lakótelep;lakotelep;XI;1957;1964;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;3692 lakás
+lt_XI_03;Dayka Gábor utcai lakótelep;lakotelep;XI;1972;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;317 lakás
+lt_XI_04;Gazdagréti lakótelep;lakotelep;XI;1981;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;"4206 lakás; KSH-tábla: 1983-1989"
+lt_XI_05;Őrmezői lakótelep;lakotelep;XI;1977;1983;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;"3091 lakás; Budapest100: 1973 (ELTÉR; ""Őrmezői lakótelep""); KSH-tábla: 1972-1984"
+lt_XI_06;Kelenföldi lakótelep;lakotelep;XI;1966;1983;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;"9287 lakás; KSH-tábla: 1966-1975"
+lt_XI_07;Hengermalom utcai lakótelep;lakotelep;XI;1963;1986;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;816 lakás
+lt_XI_08;Csorbai utcai lakótelep;lakotelep;XI;1973;1981;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;636 lakás
+lt_XI_09;Fehérvári úti lakótelep;lakotelep;XI;1971;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;"4281 lakás; Budapest100: 1975 (egyezik; ""Fehérvári úti lakótelep"")"
+lt_XI_10;Mezőkövesd utcai lakótelep;lakotelep;XI;1953;1956;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XI. kerület oldala;;947 lakás
+lt_XII_01;Alkotás utcai lakótelep;lakotelep;XII;1964;1964;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XII. kerület oldala;;276 lakás
+lt_XII_02;Böszörményi úti lakótelep;lakotelep;XII;1962;1962;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XII. kerület oldala;;210 lakás
+lt_XII_03;Abos utcai lakótelep;lakotelep;XII;1970;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XII. kerület oldala;;kb. 181 lakás
+lt_XII_04;Istenhegyi úti lakótelep;lakotelep;XII;1970;1980;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XII. kerület oldala;;kb. 120 lakás
+lt_XII_05;Pagony utcai lakótelep;lakotelep;XII;1973;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XII. kerület oldala;;kb. 676 lakás
+lt_XII_06;Fülemile utcai lakótelep;lakotelep;XII;1976;1984;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XII. kerület oldala;;kb. 282 lakás
+lt_XIII_01;Gyöngyösi utcai lakótelep;lakotelep;XIII;1977;1986;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;lakásszám nincs
+lt_XIII_02;József Attila téri lakótelep;lakotelep;XIII;1954;1957;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;lakásszám nincs
+lt_XIII_03;Fiastyúk utcai lakótelep;lakotelep;XIII;1948;1960;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;"lakásszám nincs; Budapest100: 1953 (egyezik; ""Fiastyúk utcai lakótelep (első ütem)"")"
+lt_XIII_04;Béke–Tatai utcai lakótelep;lakotelep;XIII;1987;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;kb. lakásszám nincs
+lt_XIII_05;Árpád híd utcai lakótelep;lakotelep;XIII;1959;1968;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;kb. lakásszám nincs
+lt_XIII_06;Szegedi–Országbíró utcai lakótelep;lakotelep;XIII;1979;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;kb. lakásszám nincs
+lt_XIII_07;Csángó–Tüzér utcai lakótelep;lakotelep;XIII;1975;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;"lakásszám nincs; Budapest100: 1972 (ELTÉR; ""Csángó utcai telep"")"
+lt_XIII_08;Vizafogói lakótelep;lakotelep;XIII;1981;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;"lakásszám nincs; KSH-tábla: 1981-1989"
+lt_XIII_09;Váci–Pulszky utcai lakótelep;lakotelep;XIII;1961;1965;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;lakásszám nincs
+lt_XIII_10;Kárpát utcai lakótelep;lakotelep;XIII;1976;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;lakásszám nincs
+lt_XIII_11;Visegrádi utcai lakótelep;lakotelep;XIII;1961;1980;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;lakásszám nincs
+lt_XIII_12;Göncöl utcai (XIII.) lakótelep;lakotelep;XIII;1956;1960;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIII. kerület oldala;;lakásszám nincs
+lt_XIV_01;Kacsóh Pongrác úti lakótelep;lakotelep;XIV;1965;1975;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;3005 lakás
+lt_XIV_02;Kassai utcai lakótelep;lakotelep;XIV;1976;1988;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;260 lakás
+lt_XIV_03;Erzsébet királyné útja lakótelep;lakotelep;XIV;1954;1957;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;347 lakás
+lt_XIV_04;Laky Adolf utcai lakótelep;lakotelep;XIV;1970;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;kb. 100 lakás
+lt_XIV_05;Róna utcai lakótelep;lakotelep;XIV;1957;1961;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;708 lakás
+lt_XIV_06;Thököly úti lakótelep;lakotelep;XIV;1954;1955;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;346 lakás
+lt_XIV_07;Újvidék téri lakótelep;lakotelep;XIV;1967;1970;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;780 lakás
+lt_XIV_08;Egressy téri lakótelep;lakotelep;XIV;1962;1966;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;986 lakás
+lt_XIV_09;Mogyoródi–Jerney utcai lakótelep;lakotelep;XIV;1986;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;1298 lakás
+lt_XIV_10;Paskálmalom utcai lakótelep;lakotelep;XIV;1962;1964;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;254 lakás
+lt_XIV_11;Nagy Lajos király úti lakótelep;lakotelep;XIV;1971;1983;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;896 lakás
+lt_XIV_12;Göncöl utcai (XIV.) lakótelep;lakotelep;XIV;1954;1961;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;4952 lakás
+lt_XIV_13;Pillangó utcai lakótelep;lakotelep;XIV;1962;1970;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;1255 lakás
+lt_XIV_14;Füredi úti lakótelep;lakotelep;XIV;1964;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIV. kerület oldala;;"12233 lakás; Budapest100: 1972 (egyezik; ""Füredi utcai lakótelep""); KSH-tábla: 1967-1978"
+lt_XV_01;Károlyi Sándor utcai lakótelep;lakotelep;XV;1981;1983;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;486 lakás
+lt_XV_02;Énekes utcai lakótelep;lakotelep;XV;1979;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;1724 lakás
+lt_XV_03;Epres utcai lakótelep;lakotelep;XV;1960;1969;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;kb. 112 lakás
+lt_XV_04;Rákospalota városközpont lakótelep;lakotelep;XV;1989;1990;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;kb. 533 lakás
+lt_XV_05;Rákos utcai lakótelep;lakotelep;XV;1974;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;1062 lakás
+lt_XV_06;Mézeskalács téri lakótelep;lakotelep;XV;1971;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;"458 lakás; Budapest100: 1969 (egyezik; ""Mézeskalács téri lakótelep"")"
+lt_XV_07;Széchenyi utcai lakótelep;lakotelep;XV;1954;1961;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;"1395 lakás; Budapest100: 1955 (egyezik; ""Széchenyi úti lakótelep"")"
+lt_XV_08;Bánkút utcai lakótelep;lakotelep;XV;1970;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;kb. 108 lakás
+lt_XV_09;Szilas Park lakótelep;lakotelep;XV;1960;1969;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;kb. 932 lakás
+lt_XV_10;Újpalotai lakótelep;lakotelep;XV;1968;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XV. kerület oldala;;"15886 lakás; Budapest100: 1970 (egyezik; ""Újpalotai lakótelep"")"
+lt_XVIII_01;Lakatos utcai lakótelep;lakotelep;XVIII;1963;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XVIII. kerület oldala;;"3365 lakás; KSH-tábla: 1965-1974"
+lt_XVIII_02;Havanna lakótelep;lakotelep;XVIII;1976;1988;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XVIII. kerület oldala;;"5671 lakás; KSH-tábla: 1977-1985"
+lt_XVIII_03;Szent Lőrinc lakótelep;lakotelep;XVIII;1960;1975;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XVIII. kerület oldala;;"2064 lakás; Budapest100: 1970 (egyezik; ""Szent Lőrinc-lakótelep"")"
+lt_XVIII_04;Gloriett lakótelep;lakotelep;XVIII;1988;1991;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XVIII. kerület oldala;;1472 lakás
+lt_XVIII_05;Alacskai–Határ lakótelep;lakotelep;XVIII;1988;1991;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XVIII. kerület oldala;;548 lakás
+lt_XVIII_06;Flór Ferenc utcai lakótelep;lakotelep;XVIII;1987;1993;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XVIII. kerület oldala;;636 lakás
+lt_XIX_01;Kispest városközpont lakótelep;lakotelep;XIX;1971;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIX. kerület oldala;;"12017 lakás; Budapest100: 1973 (egyezik; ""Kispest-Városközpont I. ütem"")"
+lt_XIX_02;Nagykőrösi utcai lakótelep;lakotelep;XIX;1959;1962;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIX. kerület oldala;;486 lakás
+lt_XIX_03;Vas Gereben utcai lakótelep;lakotelep;XIX;1958;1964;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XIX. kerület oldala;;414 lakás
+lt_XX_01;Pestszenterzsébet városközpont lakótelep;lakotelep;XX;1962;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XX. kerület oldala;;7209 lakás
+lt_XX_02;Gubacsi híd (Gubacsi) lakótelep;lakotelep;XX;1954;1957;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XX. kerület oldala;;724 lakás
+lt_XX_03;Tátra téri lakótelep;lakotelep;XX;1954;1957;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XX. kerület oldala;;"252 lakás; Budapest100: 1953 (egyezik; ""Tátra téri lakótelep"")"
+lt_XX_04;Mártírok utcai lakótelep;lakotelep;XX;1960;1969;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XX. kerület oldala;;274 lakás
+lt_XX_05;Vágóhíd utcai (XX.) lakótelep;lakotelep;XX;1980;1984;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XX. kerület oldala;;448 lakás
+lt_XX_06;Vécsey utcai lakótelep;lakotelep;XX;1971;1975;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XX. kerület oldala;;1170 lakás
+lt_XXI_01;Csepel városközpont 1–3. ütem lakótelep;lakotelep;XXI;1959;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;3424 lakás
+lt_XXI_02;Csepel városközpont 4. ütem lakótelep;lakotelep;XXI;1977;1985;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;3651 lakás
+lt_XXI_03;Csepel városközpont 5. ütem lakótelep;lakotelep;XXI;1982;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;3338 lakás
+lt_XXI_04;Táncsics utcai lakótelep;lakotelep;XXI;1969;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;725 lakás
+lt_XXI_05;Temesvári utcai lakótelep;lakotelep;XXI;1965;1975;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;kb. 116 lakás
+lt_XXI_06;Királymajori lakótelep;lakotelep;XXI;1977;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;1355 lakás
+lt_XXI_07;Völgy utcai lakótelep;lakotelep;XXI;1949;1966;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;453 lakás
+lt_XXI_08;Csillagtelepi lakótelep;lakotelep;XXI;1954;1967;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;"2186 lakás; KSH-tábla: 1958-1972"
+lt_XXI_09;Rakéta utcai lakótelep;lakotelep;XXI;1986;1988;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;756 lakás
+lt_XXI_10;Erdősori lakótelep;lakotelep;XXI;1977;1988;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;2360 lakás
+lt_XXI_11;Szentmiklósi úti lakótelep;lakotelep;XXI;1970;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXI. kerület oldala;;969 lakás
+lt_XXII_01;Leányka utcai lakótelep;lakotelep;XXII;1957;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;"1576 lakás; Budapest100: 1973 (egyezik; ""Leányka utcai lakótelep"")"
+lt_XXII_02;Budafok városközpont lakótelep;lakotelep;XXII;1976;1981;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;506 lakás
+lt_XXII_03;Arany János utcai lakótelep;lakotelep;XXII;1983;1989;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;416 lakás
+lt_XXII_04;Mézesfehér utcai lakótelep;lakotelep;XXII;1985;1987;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;156 lakás
+lt_XXII_05;József Attila utcai (kibővített) lakótelep;lakotelep;XXII;1966;1975;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;kb. 476 lakás
+lt_XXII_06;Háros utcai lakótelep;lakotelep;XXII;1975;1979;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;kb. 113 lakás
+lt_XXII_07;Rózsakert–Vidám utcai lakótelep;lakotelep;XXII;1976;1982;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;1485 lakás
+lt_XXII_08;Bartók Béla utcai lakótelep;lakotelep;XXII;1970;1983;forrasolt;Lakótelep-atlasz (heas.hungarian-geography.hu), XXII. kerület oldala;;"1456 lakás; Budapest100: 1968 (egyezik; ""Bartók Béla úti lakótelep"")"
+ze_wekerle;Wekerletelep;telep;XIX;1908;1926;forrasolt;"Wikipedia (en) Wekerletelep; XIX. TAK 2017";Nagykőrösi u., Határ u., Ady E. u., Bercsényi u. által határolt terület;"1925-re 1007 ház, 4412 lakás; Nagykőrösi–Határ–Ady Endre–Bercsényi utcák; KSH-tábla: 1908-1925"
+ze_tisztviselotelep;Tisztviselőtelep (Józsefváros);telep;VIII–IX;1880;1900;ellenorizendo;welovebudapest.com 2026-03-24 (Józsefváros Tisztviselőtelep története);Orczy-kert, Vajda Péter u., Népliget, Üllői út között;"a forrás szerint típustervek, 1–2 szintes sorok; a cikk 1880-as évek végét és 1886-ot is említ, ellentmondó, ellenőrizendő; KSH-tábla: 1885-1914"
+ze_ujlipotvaros;Újlipótváros;negyed;XIII;1927;1944;forrasolt;Wikipedia (en) Újlipótváros: 'szinte minden épület 1927–1944';Szent István krt., Duna, Váci út környéke, Vizafogó felé;az északi (Palatinus-házak) 1910–11, a keleti rész a Margit-híd csatlakozásától 1930-as évek
+ze_madardomb;Madárdomb;kertvaros;XVII;1984;1995;forrasolt;Rákosmente TAK 2021, 2.3 (Madárdomb);Aranylúd u., Borsó u., Sarlósfecske u., Füstifecske u., Flamingó u. környéke;"parcellázás 1941 (Podmaniczky-telep), beépítés 1984-től; sor- és ikerházak"
+ze_akademiaujtelep;Akadémiaújtelep;kertvaros;XVII;1938;1960;forrasolt;Rákosmente TAK 2021;Rákoskeresztúr északi szomszédja;"1938-as szabályozás, 1076 házhely; teljes beépülés a II. vh. után"
+ze_regiakademiatelep;Régiakadémiatelep;kertvaros;XVII;1931;1950;forrasolt;Rákosmente TAK 2021;Rákoskeresztúr, Vigyázó-birtok;parcellázás 1931, betelepülés a II. vh. után fejeződött be
+ze_rakoskert_1933;Rákoskert (régi rész, Pesti úttól délre);kertvaros;XVII;1933;1950;forrasolt;Rákosmente TAK 2021;Pesti út déli oldala, Rákoskert;"alapítás 1933, 10 ütemben; házhelyek eladása az 1940-es évek elejéig"
+ze_rakoskert_1980;Rákoskert (újabb részek, 1980-as évektől);kertvaros;XVII;1983;2005;forrasolt;Rákosmente TAK 2021;"vasúttól ÉK-re, Rózsaszál–Rezgő utca környéke; Strázsahegy; Szárazhegy";"1980-as évek eleji új parcellázás; strázsahegyi sorházak 1990-es évek közepétől; Törpegém–Rétcsík u. 2000-es évek; Szárazhegy 2000-es évek"
+ze_rakoshegy_ofalu;Rákoshegy (történeti rész);kertvaros;XVII;1892;1945;forrasolt;Rákosmente TAK 2021;vasútállomás környéke, Rákoshegy;"Fuchs-féle parcellázás 1880 körül, árusítás 1893-tól, első ház 1892; Zsellérdűlő 1939 terv, templomföld 1943"
+ze_rakoshegy_helikopter;Helikopter-lakópark (Rákoshegy);lakopark;XVII;2000;2010;forrasolt;Rákosmente TAK 2021;Rákoshegy;beépítés a 2000-es évek elején kezdődött
+ze_rakoscsaba_ujtelep;Rákoscsaba-Újtelep (Bolza-, Vangel I–II. telep);kertvaros;XVII;1925;1950;forrasolt;Rákosmente TAK 2021;Ároktő, Diadal, Bártfai, Szent Imre herceg út környéke;parcellázás 1925-től (373 házhely), 1929 után folytatva, 1945-ben még 317 házhely
+ze_martintelep;Martintelep;telep;XVII;1910;1925;forrasolt;Rákosmente TAK 2021;Tarcsai út keleti oldala;1910-ben felparcellázva, ekkor kb. 10 ház
+ze_rakoscsaba_virag;Rákoscsaba Virágtelep;kertvaros;XVII;1984;1995;forrasolt;Rákosmente TAK 2021;Anna u. – Zrínyi u.;1984–88 között alakították ki, az Anna u. és Zrínyi u. között
+ze_rakoscsaba_aranyhegy;Rákoscsaba, Arany-hegy és Szigetcsép u. keleti része;kertvaros;XVII;1990;2020;ellenorizendo;Rákosmente TAK 2021;Szigetcsép utcától keletre;"parcellázás 1984-88 után; beépülés a rendszerváltás után folyamatos"
+ze_rakoskeresztur_ofalu;Rákoskeresztúr ófalu (maradvány);telep;XVII;1800;1940;ellenorizendo;Rákosmente TAK 2021;Kaszáló u. környéke;az ófalu az 1970-es évekre szinte teljesen megsemmisült, csak a Kaszáló u. környékén maradt
+ze_rakoskeresztur_lakotelep;Rákoskeresztúri lakótelep (4 ütem);lakotelep;XVII;1975;1990;ellenorizendo;"Rákosmente TAK 2021 (1970-es évek bontások); keletkezési idő pontosítandó";Pesti út – Kis utca;a Pesti út – Kis utca környékén és a városközpontban a régi házak helyén épült négy ütemben
+ze_rakosliget;Rákosliget;telep;XVII;1896;1930;forrasolt;Wikipedia (en) Rákosliget;Ferihegyi út két oldalán;"1896-tól a Munkás Biztosító Pénztár építtetett házakat, 1907-ben önálló; 1930-ban 3112 lakos"
+ze_matyasfold;Mátyásföld (villatelep);kertvaros;XVI;1887;1911;forrasolt;XVI. TAK 2021;Kerepesi úttól délre;parcellázás 1887-től, villarendszerű építés
+ze_almasytelep;Almásy-telep és szomszédos telepek (Rákosszentmihály, J. főherceg-, Szentgyörgy-telep, Új-Mátyásföld);telep;XVI;1890;1930;forrasolt;XVI. TAK 2021;Rákosszentmihály, Budapesti úttól északra;"Almásy-telep első villa 1893; 'a mátyásföldi villákkal közel egy időben épült ki'"
+ze_arpadfold;Árpádföld;kertvaros;XVI;1926;1980;ellenorizendo;XVI. TAK 2021;Csömöri út környéke;"1926–33-ban csatolták Cinkotához; 'számos új építkezés zajlik'"
+ze_centenarium;Centenáriumi lakótelep;lakotelep;XVI;1970;1989;ellenorizendo;"XVI. TAK 2021 (nevét Budapest 100. évfordulójáról kapta); évek: saját ismeret";Mátyásföld;"4–11 szintes; Budapest100: 1972 (egyezik; ""Centenáriumi lakótelep I. üteme"")"
+ze_gyongyviragutca;Pestszentlőrinc, Gyöngyvirág utca menti nyaralótelep;telep;XVIII;1870;1890;forrasolt;XVIII. TAK Appendix;Gyöngyvirág u.;1870-es években alakult, vasútállomás 1875
+ze_szemeretelep;Szemeretelep;telep;XVIII;1902;1930;forrasolt;XVIII. TAK Appendix;Pestszentlőrinc;Szemere Miklós 1902-ben vásárolta a birtokot, később felparcellázva
+ze_allami_telep;Állami lakótelep (a mai Havanna helyén);telep;XVIII;1919;1925;forrasolt;XVIII. TAK Appendix;Havanna lakótelep helyén;lebontva a Havanna építéséhez
+ze_peteri;Péteri puszta (Pestszentimre);telep;XVIII;1900;1920;forrasolt;XVIII. TAK Appendix;Pestszentimre;házhely-parcellázás a századfordulón, szegényebb családok
+ze_millenniumtelep;Soroksár, Millenniumtelep;telep;XXIII;1896;1930;ellenorizendo;XXIII. TAK;Soroksár;a millennium évében kezdődött
+ze_hetsch;Soroksár, Hetsch-telep;kertvaros;XXIII;1920;1935;forrasolt;XXIII. TAK;Soroksár;1920-as évek parcellázása után első épületek
+ze_soroksar_ujtelep;Soroksár, Újtelep és Könyves utca környéke;kertvaros;XXIII;1950;1985;forrasolt;XXIII. TAK;Soroksár;1950-től megindult az újtelepi városrész beépítése
+ze_kobanya_kertvaros;Kőbánya-Kertváros (Gömbös-, később Városszéli telep);kertvaros;X;1934;1990;ellenorizendo;Wikipedia (en) Kőbánya-Kertváros: alapítás 1934, 1980-as években fejlesztve;Kőbánya-Kertváros;
+ze_kerepesi_ut_lt;Kerepesi úti lakótelep;lakotelep;XIV;1954;1961;forrasolt;"welovebudapest.com szocreál lakótelepek; Lakótelep-atlasz";Kerepesi út;a meglévő zónafájl 1955–59-et ad
+ze_gubacsi_lt;Gubacsi lakótelep;lakotelep;XX;1953;1957;forrasolt;welovebudapest.com szocreál lakótelepek;Gubacsi híd környéke;"szocreál; ütemekben; KSH-tábla: 1953-1957 (KSH: IX. ker.)"
+ze_fiastyuk;Fiastyúk utcai lakótelep (szocreál);lakotelep;XIII;1954;1960;forrasolt;welovebudapest.com szocreál lakótelepek;Fiastyúk u.;első hullám 1947–49
+ze_neupest;Újpest legrégebbi magja (Neu Pest);negyed;IV;1831;1870;forrasolt;IV. Újpest városközpont kézikönyv melléklet;Attila u. – Fóti út – Váci út – Táncsics u.;1831-es parcellázás: Attila–Fóti–Váci–Táncsics utcák
+ze_kaposztasmegyer;Káposztásmegyer (Budapest utolsó nagy lakótelepe);lakotelep;IV;1984;1995;forrasolt;"Újpest kézikönyv melléklet; Lakótelep-atlasz";Károlyi-majorság;lakótelepi átalakítás 1966-ban tervezve
+ze_weiss_gyartelep;Csepel-Gyártelep és munkáskolóniák (Weiss Manfréd);telep;XXI;1892;1930;ellenorizendo;"444.hu Csepel Munkásotthon; saját ismeret";Csepel északi része;"1890-es évek: Weiss-gyár; WWI-ra 30 000 dolgozó, lakásínség"
+ze_pesterzsebet_alap;Pesterzsébet családi házas parcellázás;kertvaros;XX;1860;1930;ellenorizendo;meglévő zónafájl (XX. TAK);Pesterzsébet;
+ze_kispest_regi;Kispest történeti magja;negyed;XIX;1870;1900;ellenorizendo;meglévő zónafájl;Kispest régi belső része;
+sz_bevasarlokozpont;Bevásárlóközpontok (Mammut, WestEnd, Duna Plaza, Árkád, Arena stb.);ipar_kereskedelem;*;1995;2015;ellenorizendo;saját ismeret;épületenként;nem zóna, szabály: retail/mall típus ≥ 1995
+sz_hipermarket;Hipermarketek (Tesco, Auchan, Praktiker, Obi stb.);ipar_kereskedelem;*;1996;2012;ellenorizendo;saját ismeret;épületenként;nem zóna, szabály: nagy alapterületű retail/supermarket külső kerületben ≥ 1996
+sz_logisztika;Logisztikai csarnokok M0/M5 mentén;ipar_kereskedelem;XXIII,XVIII,XVII;1998;2022;forrasolt;XXIII. TAK ('M5 és M0 után logisztikai központok, hipermarketek');Soroksár, M0, M5;
+bp_XI_01;Albertfalvai OTI-telep;telep;XI;1929;1929;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakóház, év: 1929 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/albertfalva-oti-telep/"
+bp_XI_02;Albertfalvai házgyári lakótelep;lakotelep;XI;1975;1975;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1975 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/albertfalvai-hazgyari-lakotelep/"
+bp_XI_03;Allende park;lakotelep;XI;1970;1970;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1970 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/allende-park/"
+bp_XIII_01;Béke utcai lakótelep (Debrecen park);lakotelep;XIII;1954;1954;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1954 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/beke-utcai-lakotelep-debrecen-park/"
+bp_XIII_02;Béke utcai magasházak;lakotelep;XIII;1950;1950;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1950 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/beke-utcai-magashazak/"
+bp_XXII_01;Budafoki kísérleti lakótelep;lakotelep;XXII;1965;1965;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1965 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/budafoki-kiserleti-lakotelep/"
+bp_VIII_01;Corvin köz 1/a-b., 3/a-b. József körút 86., Üllői út 38-44.;lakotelep;VIII;1957;1957;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakóház, év: 1957 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/corvin-koz-1-a-b-3-a-b-jozsef-korut-86-ulloi-ut-38-44/"
+bp_XXI_01;Csepel-Belváros és Csepel-Szabótelep panelházai;lakotelep;XXI;1965;1965;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1965 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/csepel-belvaros-es-csepel-szabotelep-panelhazai/"
+bp_XXI_02;Csepel-Csillagtelep;telep;XXI;1956;1956;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1956 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/csepel-csillagtelep/"
+bp_XVII_01;Egészségház utca – Földműves utca – Akácvirág utca – Ferihegyi út;lakotelep;XVII;1974;1974;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakóház, év: 1974 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/egeszseghaz-utca-foldmuves-utca-akacvirag-utca-ferihegyi-ut/"
+bp_III_01;Gázgyári munkás és tisztviselő lakótelep, Sujtás utca-Gázgyár utca;telep;III;1911;1911;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: Óbudai gázgyári tisztviselői lakások, év: 1911 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/gazgyari-munkas-es-tisztviselo-lakotelep-sujtas-utca-gazgyar-utca/"
+bp_IV_01;Izzó-lakótelep I. ütem;lakotelep;IV;1966;1966;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1966 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/izzo-lakotelep-i-utem/"
+bp_XXII_02;Duna utca, Játék utca, Pécsi utca;lakotelep;XXII;1956;1956;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1956 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/jatek-es-pecsi-utcai-lakotelep/"
+bp_XVI_01;Jókai Mór utcai lakótelep;lakotelep;XVI;1970;1970;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1970 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/jokai-mor-utcai-lakotelep/"
+bp_XIII_04;József Attila tér;lakotelep;XIII;1954;1954;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1954 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/jozsef-attila-ter/"
+bp_X_01;Lavotta utcai lakótelep sávházai;lakotelep;X;1975;1975;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1975 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/lavotta-utcai-lakotelep-savhazai/"
+bp_XX_01;Pesterzsébet-Városközpont;lakotelep;XX;1973;1973;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1973 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/pesterzsebet-varoskozpont/"
+bp_X_02;Pongrác úti telep;telep;X;1920;1920;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakóház, év: 1920 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/pongrac-uti-telep/"
+bp_VIII_02;Stróbl Alajos utca 7. / Hős utca 4. – Juranics-telep;telep;VIII;1921;1921;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: állami (kislakásos) lakótelep, év: 1921 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/strobl-alajos-7-hos-utca-4/"
+bp_XIII_05;Újlipótvárosi lakótelep II/A ütem;lakotelep;XIII;1975;1975;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1975 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/ujlipotvarosi-lakotelep-ii-a-utem/"
+bp_IV_02;Újpesti lakótelep I. ütem;lakotelep;IV;1974;1974;ellenorizendo;Budapest100 (budapest100.hu);;"Budapest100: lakótelep, év: 1974 (egyetlen év, a tartományt rajzoláskor add meg); https://budapest100.hu/house/ujpesti-lakotelep-i-utem/"
+ksh_I_01;Tabáni / Krisztinavárosi bérházcsoportok;negyed;I;1910;1938;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_IX_02;Gyáli úti kislakásos telep;telep;IX;1909;1912;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;Bárczy-program
+ksh_X_03;MÁV-telep (Kőbánya, Hungária krt.);telep;X;1894;1914;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;vasutas telep
+ksh_X_04;Auguszta-telep / Bihari úti telep;telep;X;1911;1928;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_05;Palotai úti / Tripolisz kislakásos telep;telep;XIII;1911;1926;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_06;Magdolnavárosi OTI-telep (KSH: József Attila tér környéke);telep;XIII;1938;1942;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;a név és a kerület nem egyezik biztosan (a Magdolnaváros a VIII. ker.) - a rajzolás előtt ellenőrizd
+ksh_XIV_07;Jerikó-telep / Kerepesi úti kislakásos bérházak;telep;XIV;1910;1925;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;Bárczy-program
+ksh_XV_08;Rákospalotai MÁV-telep;telep;XV;1907;1916;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;MÁV műhelytelepi kolónia
+ksh_II_09;Gábor Áron utcai / Pasaréti korai állami társasházak;lakotelep;II;1948;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;korai szocreál
+ksh_III_10;Vörösvári úti korai lakótelep (Óbuda);lakotelep;III;1950;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_VIII_11;Kerepesi úti lakótelep (VIII. ker.);lakotelep;VIII;1949;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;a ze_kerepesi_ut_lt sor XIV. kerületi, 1954-61: lehet, hogy ugyanaz a telep - ellenőrizd
+ksh_X_12;Üllői úti / Kőbányai korai lakótelepek;lakotelep;X;1950;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;pontatlan hely
+ksh_XI_13;Lecke utcai / Fehérvári úti szocreál lakótelep;lakotelep;XI;1950;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_14;Béke téri / Lehel utcai szocreál lakótelep;lakotelep;XIII;1949;1955;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;részben egyezhet a bp_XIII_01 / bp_XIII_02 sorral
+ksh_XIV_15;Nagy Lajos király úti korai lakótelep;lakotelep;XIV;1952;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;a lt_XIV_11 sor ugyanezen a néven 1971-83 - két külön terület lehet
+ksh_XXI_16;Csepeli Béke téri / II. Rákóczi Ferenc úti szocreál lakótelep;lakotelep;XXI;1950;1956;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_II_17;Törökvész úti lakótelep;lakotelep;II;1966;1974;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;alagútzsalus
+ksh_II_18;Csatárka úti / Pitypang utcai lakótelep;lakotelep;II;1965;1975;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_III_19;Csobánka téri / Római-parti lakótelep;lakotelep;III;1972;1979;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XV_20;Rákospalotai (Fő út / Czabán Samu tér) lakótelep;lakotelep;XV;1972;1984;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;a lt_XV_04 (városközpont) 1989-90: ellenőrizd, azonos-e
+ksh_III_21;Római Kert / Pók utca északi lakóparkok;lakopark;III;1998;2008;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_IV_22;Homoktövis lakópark (Káposztásmegyer II. kelet);lakopark;IV;2001;2009;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_VIII_23;Corvin-negyed (nyugati és középső ütem);lakopark;VIII;2005;2010;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;a keleti vége 2010 utáni
+ksh_VIII_24;Corvin Sétány keleti lezárás (Technology Park, Grand Corvin);lakopark;VIII;2013;2023;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_IX_25;Középső-Ferencvárosi rehabilitációs tömbök;negyed;IX;1994;2009;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;vegyes: régi házak közé épített új tömbök
+ksh_IX_26;Millenniumi Városközpont (MÜPA, Nemzeti Színház, irodák);ipar_kereskedelem;IX;2000;2009;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_IX_27;City Home / Allure / Haller-Mester utcai új lakóparkok;lakopark;IX;2014;2025;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_X_28;Kőbányai új lakóparkok (Sommelière, Tara stb.);lakopark;X;2016;2025;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XI_29;Sasad Resort / Madárhegy korai ütemek;lakopark;XI;2002;2010;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XI_30;Infopark és Lágymányosi Egyetemi Campus;ipar_kereskedelem;XI;1996;2009;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XI_31;BudaPart (Kopaszi-gát mellett);lakopark;XI;2017;2026;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XI_32;Budapest One / Etele Plaza / Őrmező-Kelenföld irodapark;ipar_kereskedelem;XI;2017;2024;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XI_33;Elite Park / Kondorosi úti lakóparkok;lakopark;XI;2015;2025;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XI_34;Madárhegy / Sasad új társasházas ütemek;lakopark;XI;2012;2026;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_35;Marina Part (első és második ütem);lakopark;XIII;2003;2010;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;az északi/belső tömbök 2010 utániak
+ksh_XIII_36;Cézár Ház / Kleopátra Ház (Újlipótváros kelet);lakopark;XIII;2001;2006;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_37;Váci Greens / Agora / Váci úti új irodaházak;ipar_kereskedelem;XIII;2013;2025;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_38;Danubio / Marina Part új ütemek / Láng-negyed;lakopark;XIII;2016;2026;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIII_39;Kassák Passage / Park West / Ferdinánd-negyed;lakopark;XIII;2017;2025;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIV_40;Cordia Thermal Zugló / Paskál lakópark korai ütem;lakopark;XIV;2004;2010;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+ksh_XIV_41;Városliget új múzeumi épületei (Zene Háza, Néprajzi Múzeum);ipar_kereskedelem;XIV;2018;2023;ellenorizendo;"KSH-összeállítás (budapest_ksh_lakotelepek_korszakok.csv; másodlagos, nem ellenőrzött)";;
+oeny_30548;Állomásépület;muemlek;X;1940;1940;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 30548; nem értelmezhető cím";;OENY cím: KORPONAI U., LIGET TÉR
+oeny_30547;Kőbánya-alsó vasútállomás együttese;muemlek;X;1940;1940;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 30547; nem értelmezhető cím";;OENY cím: KORPONAI U., LIGET TÉR
+oeny_30550;Peronrendszer;muemlek;X;1940;1940;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 30550; nem értelmezhető cím";;OENY cím: KORPONAI U., LIGET TÉR
+oeny_15683;Conti-kápolna;muemlek;X;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15683; nem értelmezhető cím";;OENY cím: KÁPOLNA TÉR | a szám csak helykitöltő (nem évbizonyíték)
+oeny_16206;Dreher Sörgyár kertje (Csajkovszkij park);muemlek;X;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 16206; nem értelmezhető cím";;OENY cím: HALOM U. - MARTINOVICS TÉR - KÁPOLNA U. - KÁPOLNA TÉR - IHÁSZ U. - ELŐD KÖZ - ÁSZOK U. ÁLTAL HATÁROL | a szám csak helykitöltő (nem évbizonyíték)
+oeny_16080;Gries-sírbolt;muemlek;X;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 16080; nem értelmezhető cím";;OENY cím: KOZMA UTCAI IZRAELITA TEMETŐ | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15686;Kőbányai római katolikus plébániatemplom;muemlek;X;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15686; nem értelmezhető cím";;OENY cím: SZENT LÁSZLÓ TÉR | a szám csak helykitöltő (nem évbizonyíték)
+oeny_16150;Népligeti víztorony;muemlek;X;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 16150; nem értelmezhető cím";;OENY cím: NÉPLIGET | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15694_alb;Albertfalvai római tábor romjai;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15694; nem értelmezhető cím";;OENY cím: HUNYADI JÁNOS ÚT | a szám csak helykitöltő (nem évbizonyíték)
+oeny_16178;Autóbusz-pályaudvar;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 16178; nem értelmezhető cím";;OENY cím: BUKAREST UTCA | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15692;Citadella;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15692; nem értelmezhető cím";;OENY cím: GELLÉRT-HEGY | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15697;Kolostor és templom romjai;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15697; nem értelmezhető cím";;OENY cím: KAMARAERDŐ | a szám csak helykitöltő (nem évbizonyíték)
+oeny_16095;Templom körüli temető;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 16095; nem értelmezhető cím";;OENY cím: KŐÉRBERKI DŰLŐ | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15701;Lakóház;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15701; nem értelmezhető cím";;OENY cím: ORLAY PETRICH SOMA UTCA 2/B. | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15694_sil;Silvanus szentély maradványai;muemlek;XI;1900;1900;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15694; nem értelmezhető cím";;OENY cím: ALBERTFALVA | a szám csak helykitöltő (nem évbizonyíték)
+oeny_15703;Szentháromság oszlop;muemlek;XI;1759;1759;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15703; nem értelmezhető cím";;OENY cím: TÖRÖKBÁLINTI ÚT
+oeny_15999;Villamos végállomás épülete;muemlek;XI;1942;1942;ellenorizendo;"E-Örökség (OENY), műemléki törzsszám 15999; nem értelmezhető cím";;OENY cím: MÓRICZ ZSIGMOND KÖRTÉR
+oeny_15441;Rosenberg házaspár utca 4;muemlek;V;1900;1900;ellenorizendo;"Műemlékjegyzék, törzsszám 15441; az OSM-ben nincs címezett épület";;"Cím: Rosenberg házaspár utca 4. (Kiss Ernő utca 4., Perczel Mór utca 3.); hrsz 24744; védelem M; Baumgarten Sándor"
+oeny_15442;Rosenberg házaspár utca 5;muemlek;V;1855;1855;ellenorizendo;"Műemlékjegyzék, törzsszám 15442; az OSM-ben nincs címezett épület";;"Cím: Rosenberg házaspár utca 5.; hrsz 24783; védelem MJ"
+oeny_15443;Rosenberg házaspár utca 27;muemlek;V;1840;1840;ellenorizendo;"Műemlékjegyzék, törzsszám 15443; az OSM-ben nincs címezett épület";;"Cím: Rosenberg házaspár utca 27. (Kálmán utca 12.); hrsz 24860; védelem MJ; Hild József"
+oeny_15392;Martinelli tér 3;muemlek;V;1906;1906;ellenorizendo;"Műemlékjegyzék, törzsszám 15392; az OSM-ben nincs címezett épület";;"Cím: Martinelli tér 3.; hrsz 24372; védelem MJ; Böhm Henrik és Hegedűs Ármin"
+oeny_15393;Martinelli tér 5;muemlek;V;1911;1911;ellenorizendo;"Műemlékjegyzék, törzsszám 15393; az OSM-ben nincs címezett épület";;"Cím: Martinelli tér 5.; hrsz 24376; védelem M"
+oeny_15394;Martinelli tér 7;muemlek;V;1732;1732;ellenorizendo;"Műemlékjegyzék, törzsszám 15394; az OSM-ben nincs címezett épület";;"Cím: Martinelli tér 7.; hrsz 24355; védelem M"
+oeny_15345;Eötvös Loránd utca 2;muemlek;V;1841;1841;ellenorizendo;"Műemlékjegyzék, törzsszám 15345; az OSM-ben nincs címezett épület";;"Cím: Eötvös Loránd utca 2. (Cukor utca 7., Veres Pálné utca 18.); hrsz 24013; védelem MJ"
+oeny_15346;Eötvös Loránd utca 5-7;muemlek;V;1744;1744;ellenorizendo;"Műemlékjegyzék, törzsszám 15346; az OSM-ben nincs címezett épület";;"Cím: Eötvös Loránd utca 5-7.; hrsz 24036; védelem M"
+oeny_15380;Lengyel Gyula utca 3;muemlek;V;1848;1848;ellenorizendo;"Műemlékjegyzék, törzsszám 15380; az OSM-ben nincs címezett épület";;"Cím: Lengyel Gyula utca 3.; hrsz 24769; védelem VK"
+oeny_15429;Pesti Barnabás utca 2;muemlek;V;1744;1744;ellenorizendo;"Műemlékjegyzék, törzsszám 15429; az OSM-ben nincs címezett épület";;"Cím: Pesti Barnabás utca 2. (Galamb utca 1.); hrsz 24327/4; védelem M; Mayerhoffer András"
