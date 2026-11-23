@@ -46,8 +46,8 @@ button { font: inherit; color: inherit; }
 .timeline { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; gap: 14px;
   padding: 0 var(--gutter) 10px; pointer-events: none; background: linear-gradient(transparent, rgba(228,232,234,.85) 60%); }
 .timeline > * { pointer-events: auto; }
-.timeline canvas { flex: 1; height: 96px; cursor: ew-resize; touch-action: none; }
-.play { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ink); color: var(--paper);
+.timeline canvas { flex: 1 1 0; width: 0; min-width: 0; height: 96px; cursor: ew-resize; touch-action: none; }   /* width 0 + min-width 0: the canvas bitmap size must not hold the row open when the window gets narrower */
+.play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ink); color: var(--paper);
   cursor: pointer; display: grid; place-items: center; margin-bottom: 22px; }
 .play svg { width: 16px; height: 16px; fill: currentColor; }
 .howto { position: fixed; right: var(--gutter); bottom: 112px; margin: 0; color: var(--muted); font-size: 12px; pointer-events: none; }
