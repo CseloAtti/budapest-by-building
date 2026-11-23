@@ -704,21 +704,25 @@ function galeriaBetolt(gid) {
   kep.addEventListener('pointerdown', ev => { x0 = ev.clientX; });
   kep.addEventListener('pointerup', ev => { if (x0 !== null && diak.length > 1 && Math.abs(ev.clientX - x0) > 40) { lapozott = true; mut(akt + (ev.clientX < x0 ? 1 : -1)); } x0 = null; });
   rajzol();
-  mut(ujabbDia());      // the newest (latest-year) image is shown first, not the earliest
-  hely.hidden = false;
-  // the automatic photo goes in front of the "original", unless the user has paged in the meantime
+  // The slide shown first is the newest one. If an automatic (current) photo may exist, wait for it (at most 2.5 s) instead of showing
+  // an old photo first and swapping it a moment later; if there is none, the newest dated image is shown.
+  let mutatva = false;
+  const elso = () => { if (mutatva) return; mutatva = true; mut(ujabbDia()); hely.hidden = false; };
   if (!nincsKep(p) && kepLehet(p)) {
+    setTimeout(() => { if (rogzitettGid === gid && kartya.contains(hely)) elso(); }, 2500);
     if (!kepGyorsitotar.has(gid)) kepGyorsitotar.set(gid, kepLeker(p).catch(() => null));
     kepGyorsitotar.get(gid).then(k => {
-      if (!k || rogzitettGid !== gid || !kartya.contains(hely) || !hely.classList.contains('galeria')) return;
+      if (rogzitettGid !== gid || !kartya.contains(hely) || !hely.classList.contains('galeria')) return;
+      if (!k) { elso(); return; }
       const dia = galeriaAutoDia(k);
       const jelenlegi = diak[akt];
       dia.chip = NYELV === 'en' ? 'Today' : 'Ma';      // the automatic (current) photo stands at the end of the timeline, and it is shown first
       diak.push(dia);
       rajzol();
+      if (!mutatva) { mutatva = true; hely.hidden = false; mut(diak.length - 1); return; }
       mut(lapozott ? diak.indexOf(jelenlegi) : diak.length - 1);
     });
-  }
+  } else elso();
 }
 function kartyaHtml(p, rogzitett) {
   const per = periods[p.kor];
