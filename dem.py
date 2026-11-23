@@ -1,7 +1,7 @@
 """
 dem.py - reading NASA SRTM elevation tiles (N47E019.SRTMGL1_NC.nc etc.), with only the Python standard library.
 
-This file does not need to be run, csempek_keszites.py uses it.
+This file does not need to be run, build_tiles.py uses it.
 
 The file is NetCDF-4 (HDF5 inside). In NASA's files the elevation data is 3601 x 3601 integers (metres), stored uncompressed
 and contiguously, so it is enough to find its place in the file. If a file were compressed or structured

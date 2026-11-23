@@ -3,7 +3,7 @@
  * Változtatás nélküli kivonat a three.js (MIT licenc, Copyright 2010-2026 Three.js Authors, https://threejs.org)
  * vendor/three.core.js fájljából: az earcut (mapbox/earcut 3.0.2, ISC licenc) és a ShapeUtils.triangulateShape.
  * Miért? Így a háttérszálaknak (legfeljebb 4) nem kell egyenként letölteniük és értelmezniük a teljes, 1,46 MB-os three.core.js-t.
- * A tesztek/teszt_letoltes.py ellenőrzi, hogy ez a rész betűre egyezik a three.core.js-ben lévővel.
+ * A tests/test_download_size.py ellenőrzi, hogy ez a rész betűre egyezik a three.core.js-ben lévővel.
  */
 
 // a worker.js a Vector2-ből csak ennyit használ: x, y és equals()

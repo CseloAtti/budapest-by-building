@@ -43,18 +43,18 @@ A nyers letöltések és a harmadik féltől származó táblázatok **nem** ré
 A tárhely tartalmazza a megjelenítőt, a szerkesztő szervert és az adatfeldolgozó szkripteket. A feldolgozott adat nagy méretű és külső forrásokból épül, ezért a tárhely **önmagában nem elég a térkép nulláról való újraépítéséhez**. Előkészített adatmappával:
 
 ```
-py szerkeszto_szerver.py
+py editor_server.py
 # majd: http://localhost:8000/terkep3d/index.html?adat=varos
 ```
 
 Nyilvános kiadás (statikus fájlok, 25 MiB alatti darabokra bontva) és feltöltés a Cloudflare Workersre:
 
 ```
-py kiadas_keszites.py     # létrehozza a kiadas/ mappát
-kiadas_feltoltes.bat      # készítés + npx wrangler deploy kiadas
+py build_release.py     # létrehozza a release/ mappát
+release_deploy.bat      # készítés + npx wrangler deploy release
 ```
 
-Ellenőrző tesztek: `py tesztek/futtat_mindent.py`
+Ellenőrző tesztek: `py tests/run_all.py`
 
 Követelmények: Python 3, Node.js (a kiadás ellenőrzéséhez és feltöltéséhez).
 

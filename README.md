@@ -43,18 +43,18 @@ The raw data downloads and third-party tables are **not** part of this repositor
 The repository contains the viewer, the editor server and the data-processing scripts. The processed data is large and built from third-party sources, so the repository alone is **not enough to rebuild the map from scratch**. With a prepared data folder:
 
 ```
-py szerkeszto_szerver.py
+py editor_server.py
 # then open http://localhost:8000/terkep3d/index.html?adat=varos
 ```
 
 Public build (static files for hosting, split into <25 MiB files) and deployment to Cloudflare Workers:
 
 ```
-py kiadas_keszites.py     # creates the kiadas/ folder
-kiadas_feltoltes.bat      # build + npx wrangler deploy kiadas
+py build_release.py     # creates the release/ folder
+release_deploy.bat      # build + npx wrangler deploy release
 ```
 
-Checks: `py tesztek/futtat_mindent.py`
+Checks: `py tests/run_all.py`
 
 Requirements: Python 3, Node.js (for the build check and deployment).
 

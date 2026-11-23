@@ -12,7 +12,7 @@ What does it do?
   3. Saves the elements within the city boundary (data/budapest_hatar.json) in the same format as the Overpass downloader:
      data/budapest_nyers/pbf_<i>_<j>.json.gz   (each element once, with no cell-boundary duplicates)
 
-The city boundary has already been downloaded by budapest_letoltes.py (data/budapest_hatar.json). If the Overpass downloader is also
+The city boundary has already been downloaded by download_budapest.py (data/budapest_hatar.json). If the Overpass downloader is also
 running meanwhile, no problem: the processor filters out duplicates by type+id anyway.
 The log: data/budapest_pbf_naplo.txt. Running time: about 10-30 minutes, memory: 1-2 GB.
 """
@@ -210,7 +210,7 @@ def kerulet_szama(c):
 
 
 def vizzold_fajta(c):
-    """'viz' is the Danube and the lakes, 'park' is parks and lawns (the same rules as in viz_letoltes.py)."""
+    """'viz' is the Danube and the lakes, 'park' is parks and lawns (the same rules as in download_water.py)."""
     if c.get("natural") == "water" or c.get("waterway") == "riverbank":
         return "viz"
     if c.get("leisure") in ("park", "garden") or c.get("landuse") in ("grass", "recreation_ground"):
@@ -487,7 +487,7 @@ def lancok_zarasa(lancok, max_m=2500.0, doboz=None):
 
 
 def vizzold_iras(vonalak, vizvonalak, vizrel, doboz=None):
-    """Polygons of water and parks -> data/varos/viz_zold.json (like the output of viz_letoltes.py, but for the whole city)."""
+    """Polygons of water and parks -> data/varos/viz_zold.json (like the output of download_water.py, but for the whole city)."""
     lista = []
     stat = {"viz": 0, "park": 0, "nem_zarhato": 0}
 
@@ -639,7 +639,7 @@ def main():
     ne_aludjon()
     naplo("=== Budapest épületei OSM-kivonatból ===")
     if not HATAR.exists():
-        raise SystemExit("Hiányzik a data/budapest_hatar.json - előbb a budapest_letoltes.py városhatár-lépése kell (az már lefutott).")
+        raise SystemExit("Hiányzik a data/budapest_hatar.json - előbb a download_budapest.py városhatár-lépése kell (az már lefutott).")
     hatar = json.loads(HATAR.read_text(encoding="utf-8"))
     hb = Hatar(hatar)
     d, ny, e, k = hatar["bbox"]

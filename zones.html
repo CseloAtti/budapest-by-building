@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <title>Korszak-zónák – Budapest, épületenként</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; font: 13px/1.4 system-ui, sans-serif; color: #1c1c1c; }
+    #elrendezes { display: grid; grid-template-columns: 360px 1fr; height: 100%; }
+    #oldal { display: flex; flex-direction: column; border-right: 1px solid #ccc; background: #fafafa; min-height: 0; }
+    #oldal header { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+    #oldal h1 { font-size: 15px; margin: 0 0 4px; }
+    #allapot { font-size: 12px; color: #555; }
+    #allapot.ok { color: #1b6e2d; } #allapot.hiba { color: #b00020; }
+    #szuro { display: flex; gap: 6px; padding: 8px 12px; border-bottom: 1px solid #ddd; }
+    #szuro input, #szuro select { flex: 1; min-width: 0; padding: 4px 6px; font: inherit; }
+    #lista { overflow-y: auto; flex: 1 1 40%; min-height: 120px; }
+    .elem { padding: 6px 12px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; gap: 8px; align-items: baseline; }
+    .elem:hover { background: #eef3fb; } .elem.aktiv { background: #dde8fb; }
+    .elem .jel { width: 16px; flex: none; text-align: center; }
+    .elem .nev { flex: 1; } .elem small { color: #666; }
+    .jel.kesz { color: #1b6e2d; } .jel.jelolt { color: #b8860b; } .jel.hianyzik { color: #999; }
+    #urlap { border-top: 2px solid #bbb; padding: 10px 12px; overflow-y: auto; flex: 1 1 60%; background: #fff; }
+    #urlap label { display: block; margin: 5px 0; font-size: 12px; color: #444; }
+    #urlap input[type=text], #urlap input[type=number], #urlap select, #urlap textarea { width: 100%; padding: 4px 6px; font: inherit; }
+    #urlap .sor { display: flex; gap: 8px; } #urlap .sor > label { flex: 1; }
+    #urlap button, .gomb { cursor: pointer; padding: 4px 9px; font: inherit; margin: 3px 4px 3px 0; }
+    #urlap button.fo { background: #2b6cb0; color: #fff; border: 1px solid #2b6cb0; border-radius: 4px; }
+    #urlap button.veszely { color: #b00020; }
+    .gyors button { padding: 2px 6px; font-size: 12px; }
+    .seg { font-size: 12px; color: #555; margin: 6px 0; }
+    #terkepdoboz { position: relative; min-height: 0; }
+    #terkep { position: absolute; inset: 0; }
+    #eszkozok { position: absolute; top: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; max-width: 80%; }
+    #eszkozok button, #kereso input { padding: 6px 10px; font: inherit; background: #fff; border: 1px solid #aaa; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,.25); cursor: pointer; }
+    #eszkozok button.be { background: #2b6cb0; color: #fff; border-color: #2b6cb0; }
+    #kereso input { cursor: text; width: 220px; }
+    #uzenet { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 2; background: rgba(30,30,30,.88); color: #fff; padding: 7px 14px; border-radius: 6px; max-width: 80%; display: none; }
+    #jelmagyarazat { position: absolute; right: 10px; bottom: 30px; z-index: 2; background: #fff; padding: 8px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.3); font-size: 12px; }
+    #jelmagyarazat div { margin: 2px 0; } #jelmagyarazat i { display: inline-block; width: 14px; height: 12px; margin-right: 6px; vertical-align: middle; border: 1px solid rgba(0,0,0,.4); }
+    .vh { width: 12px; height: 12px; background: #fff; border: 2px solid #2b6cb0; border-radius: 50%; cursor: move; }
+    .vm { width: 8px; height: 8px; background: #2b6cb0; opacity: .55; border-radius: 50%; cursor: copy; }
+    a.vissza { font-size: 12px; }
+  </style>
+</head>
+<body>
+<div id="elrendezes">
+  <aside id="oldal">
+    <header>
+      <h1>Korszak-zónák</h1>
+      <a class="vissza" href="terkep3d/index.html">← vissza a térképhez</a>
+      <div id="allapot">Betöltés…</div>
+    </header>
+    <div id="szuro">
+      <input id="kereses" type="search" placeholder="Keresés a listában…">
+      <select id="szuroallapot">
+        <option value="mind">mind</option>
+        <option value="hianyzik">még nincs határ</option>
+        <option value="jelolt">jelölt (elfogadásra vár)</option>
+        <option value="kesz">kész</option>
+      </select>
+    </div>
+    <div id="lista"></div>
+    <div id="urlap"><p class="seg">Válassz egy zónát a listából vagy a térképen, vagy kezdj újat a „Rajzolás” gombbal.</p></div>
+  </aside>
+  <main id="terkepdoboz">
+    <div id="terkep"></div>
+    <div id="eszkozok">
+      <button type="button" id="rajzgomb">✎ Új zóna rajzolása</button>
+      <button type="button" id="letoltes" title="a zónák letöltése fájlként">⭳ Mentés fájlba</button>
+      <span id="kereso"><input id="helykereso" type="search" placeholder="Hely keresése (pl. Wekerletelep)…"></span>
+    </div>
+    <div id="jelmagyarazat">
+      <div><i style="background:rgba(46,139,139,.45)"></i>kész zóna (színe a korszak)</div>
+      <div><i style="background:#fff;border-style:dashed;border-color:#7b3ff2"></i>mérőpróba (a becslő nem használja, csak méri)</div>
+      <div><i style="background:rgba(184,134,11,.12);border-style:dashed;border-color:#b8860b"></i>jelölt – kattints, majd „Elfogadom”</div>
+    </div>
+    <div id="uzenet"></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+/* ===== alapadatok ===== */
+const KORSZAKOK = [
+  { tol: 1, ig: 1847, szin: "#7a1f1f" }, { tol: 1848, ig: 1918, szin: "#d9653b" }, { tol: 1919, ig: 1944, szin: "#e8b04a" },
+  { tol: 1945, ig: 1956, szin: "#6aa84f" }, { tol: 1957, ig: 1989, szin: "#2e8b8b" }, { tol: 1990, ig: 2010, szin: "#3d85c6" },
+  { tol: 2011, ig: 9999, szin: "#8e5bb5" }
+];
+const TIPUSOK = [["lakotelep", "lakótelep"], ["telep", "telep"], ["kertvaros", "kertváros / családi házas terület"],
+  ["negyed", "városrész / bérházas negyed"], ["lakopark", "lakópark"], ["ipar_kereskedelem", "ipari / kereskedelmi terület"], ["egyeb", "egyéb"], ["muemlek", "műemlék (OENY) – nem évszám-zóna"]];
+const ALLAPOTOK = [["helyismeret", "helyismeret (saját tudásod)"], ["forrasolt", "forrásolt (megvan a forrás)"], ["ellenorizendo", "ellenőrizendő"]];
+const GYORS_EVEK = [[1870, 1918], [1919, 1944], [1945, 1960], [1960, 1989], [1970, 1989], [1980, 2026], [1990, 2026]];
+const szinEvre = (ev) => (KORSZAKOK.find((k) => ev >= k.tol && ev <= k.ig) || KORSZAKOK[0]).szin;
+const ures = () => ({ type: "FeatureCollection", features: [] });
+
+let zonak = ures();          // saved zones
+let jeloltek = [];           // candidate polygons (even those not yet accepted)
+let lista = [];              // forras/zona_lista.csv sorai
+let szerver = false;
+let kijelolt = null;         // { fajta: "zona"|"jelolt", id }
+let mod = "nezet";           // nezet | rajz
+let rajz = null;
+let handlek = [];
+let mentesIdo = null;
+
+/* ===== helpers ===== */
+function csvSorok(szoveg) {
+  const sorok = []; let sor = [], mezo = "", idezet = false;
+  szoveg = szoveg.replace(/^﻿/, "");
+  for (let i = 0; i < szoveg.length; i++) {
+    const c = szoveg[i];
+    if (idezet) {
+      if (c === '"') { if (szoveg[i + 1] === '"') { mezo += '"'; i++; } else idezet = false; } else mezo += c;
+    } else if (c === '"') idezet = true;
+    else if (c === ";") { sor.push(mezo); mezo = ""; }
+    else if (c === "\n") { sor.push(mezo); sorok.push(sor); sor = []; mezo = ""; }
+    else if (c !== "\r") mezo += c;
+  }
+  if (mezo || sor.length) { sor.push(mezo); sorok.push(sor); }
+  const fej = sorok.shift();
+  return sorok.filter((s) => s.length === fej.length).map((s) => Object.fromEntries(fej.map((k, i) => [k, s[i]])));
+}
+function uzen(szoveg, ms = 3500) {
+  const d = document.getElementById("uzenet");
+  d.textContent = szoveg; d.style.display = "block";
+  clearTimeout(uzen.t); uzen.t = setTimeout(() => { d.style.display = "none"; }, ms);
+}
+function esc(s) { const d = document.createElement("div"); d.textContent = String(s ?? ""); return d.innerHTML; }
+const M_LON = Math.cos(47.5 * Math.PI / 180) * 111320, M_LAT = 110574;
+function terulet(gyuru) {
+  let s = 0;
+  for (let i = 0; i < gyuru.length - 1; i++) {
+    const [x1, y1] = [gyuru[i][0] * M_LON, gyuru[i][1] * M_LAT], [x2, y2] = [gyuru[i + 1][0] * M_LON, gyuru[i + 1][1] * M_LAT];
+    s += x1 * y2 - x2 * y1;
+  }
+  return Math.abs(s) / 2;
+}
+function egyszerusit(gyuru, tolM) {   // Douglas–Peucker for the closed ring, in metres
+  const pts = gyuru.slice(0, -1).map(([x, y]) => [x * M_LON, y * M_LAT]);
+  if (pts.length < 5) return gyuru;
+  const dist = (p, a, b) => {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const l2 = dx * dx + dy * dy;
+    const t = l2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2)) : 0;
+    return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy));
+  };
+  const megtart = new Set();
+  const dp = (lo, hi, sor) => {     // sor: the indices of the examined points; lo/hi: the positions within sor
+    let max = 0, idx = -1;
+    for (let i = lo + 1; i < hi; i++) { const d = dist(pts[sor[i]], pts[sor[lo]], pts[sor[hi]]); if (d > max) { max = d; idx = i; } }
+    if (max > tolM && idx >= 0) { megtart.add(sor[idx]); dp(lo, idx, sor); dp(idx, hi, sor); }
+  };
+  let tav = 0, f = 0;
+  pts.forEach((p, i) => { const d = Math.hypot(p[0] - pts[0][0], p[1] - pts[0][1]); if (d > tav) { tav = d; f = i; } });
+  megtart.add(0); megtart.add(f);
+  const elso = [], masodik = [];
+  for (let i = 0; i <= f; i++) elso.push(i);
+  for (let i = f; i < pts.length; i++) masodik.push(i);
+  masodik.push(0);
+  dp(0, elso.length - 1, elso);
+  dp(0, masodik.length - 1, masodik);
+  const ki = [...megtart].sort((a, b) => a - b).map((i) => gyuru[i]);
+  ki.push(ki[0]);
+  return ki.length >= 4 ? ki : gyuru;
+}
+function zonaTerulet(f) { return terulet(f.geometry.coordinates[0]); }
+function ujAzon() { return "z_" + Date.now().toString(36); }
+function listaElem(id) { return lista.find((l) => l.id === id); }
+/* rejected (deleted) list items and candidates: remembered in the browser, can be restored */
+let elvetettKesz = new Set();   // on the server it lives in forras/zona_elvetett.json (valid for every browser and restart)
+function elvetettBe() { return elvetettKesz; }
+function elvetettKi(h) {
+  elvetettKesz = new Set(h);
+  try { localStorage.setItem("zonak_elvetett", JSON.stringify([...elvetettKesz])); } catch (e) { /* no storage */ }
+  if (!szerver) return;
+  fetch("/api/zona_elvetett", { method: "POST", headers: { "Content-Type": "application/json", "X-Szerkeszto": "1" }, body: JSON.stringify({ ids: [...elvetettKesz] }) })
+    .then((r) => r.json()).then((v) => { if (!v.ok) throw new Error(v.hiba); })
+    .catch((e) => setAllapot("A törlés mentése a szerveren nem sikerült: " + e.message, "hiba"));
+}
+async function elvetettBetolt() {
+  let h = new Set();
+  try { h = new Set(JSON.parse(localStorage.getItem("zonak_elvetett") || "[]")); } catch (e) { /* empty */ }
+  if (szerver) {
+    try {
+      const r = await fetch("forras/zona_elvetett.json", { cache: "no-store" });
+      if (r.ok) { const d = await r.json(); (d.ids || []).forEach((x) => h.add(x)); }
+      // the older deletions stored only in the browser are also moved over to the server (a one-time sync)
+      elvetettKesz = h; if ([...h].length) elvetettKi(h);
+    } catch (e) { /* no file yet */ }
+  }
+  elvetettKesz = h;
+}
+function elvetettId(f) { return f.properties.lista_id_eredeti || f.properties.id; }
+function zonaPropok(alap) {
+  return Object.assign({ id: ujAzon(), nev: "", tipus: "egyeb", kerulet: "", ev_tol: 1990, ev_ig: 2026, allapot: "helyismeret",
+    forras: "", megjegyzes: "", tervezo: "", wikipedia: "", budapest100: "", eredet: "kezi", lista_id: "", mero: false, ig_hatar: false }, alap || {});
+}
+function ujrafestEvszin(f) {
+  f.properties.szin = szinEvre(Math.round((f.properties.ev_tol + f.properties.ev_ig) / 2));
+}
+
+/* ===== map ===== */
+const terkep = new maplibregl.Map({
+  container: "terkep",
+  style: {
+    version: 8,
+    glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+    sources: { osm: { type: "raster", tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"], tileSize: 256,
+      attribution: "© OpenStreetMap közreműködők" } },
+    layers: [{ id: "alap", type: "raster", source: "osm" }]
+  },
+  center: [19.1, 47.49], zoom: 11
+});
+terkep.addControl(new maplibregl.NavigationControl(), "top-right");
+terkep.doubleClickZoom.enable();
+
+terkep.on("load", () => {
+  const forrasok = ["jeloltek", "zonak", "rajz"];
+  forrasok.forEach((n) => terkep.addSource(n, { type: "geojson", data: ures() }));
+  terkep.addLayer({ id: "jeloltek-fill", type: "fill", source: "jeloltek", paint: { "fill-color": "#b8860b", "fill-opacity": 0.12 } });
+  terkep.addLayer({ id: "jeloltek-line", type: "line", source: "jeloltek", paint: { "line-color": "#b8860b", "line-width": 1.6, "line-dasharray": [3, 2] } });
+  terkep.addLayer({ id: "zonak-fill", type: "fill", source: "zonak", paint: {
+    "fill-color": ["get", "szin"], "fill-opacity": ["case", ["==", ["get", "mero"], true], 0.08, 0.38] } });
+  terkep.addLayer({ id: "zonak-line", type: "line", source: "zonak", filter: ["!=", ["get", "mero"], true],
+    paint: { "line-color": ["get", "szin"], "line-width": 2.2 } });
+  terkep.addLayer({ id: "zonak-line-mero", type: "line", source: "zonak", filter: ["==", ["get", "mero"], true],
+    paint: { "line-color": "#7b3ff2", "line-width": 2.2, "line-dasharray": [3, 2] } });
+  terkep.addLayer({ id: "kijelolt-line", type: "line", source: "zonak", filter: ["==", ["get", "id"], "-"], paint: { "line-color": "#000", "line-width": 3.5 } });
+  terkep.addLayer({ id: "jelolt-kijelolt-line", type: "line", source: "jeloltek", filter: ["==", ["get", "id"], "-"], paint: { "line-color": "#000", "line-width": 3 } });
+  terkep.addLayer({ id: "zonak-cimke", type: "symbol", source: "zonak", minzoom: 12, layout: {
+    "text-field": ["get", "nev"], "text-font": ["Open Sans Semibold"], "text-size": 12 }, paint: { "text-halo-color": "#fff", "text-halo-width": 1.6 } });
+  terkep.addLayer({ id: "rajz-fill", type: "fill", source: "rajz", filter: ["==", ["geometry-type"], "Polygon"], paint: { "fill-color": "#2b6cb0", "fill-opacity": 0.15 } });
+  terkep.addLayer({ id: "rajz-line", type: "line", source: "rajz", paint: { "line-color": "#2b6cb0", "line-width": 2.5, "line-dasharray": [2, 1] } });
+  terkep.addLayer({ id: "rajz-pont", type: "circle", source: "rajz", filter: ["==", ["geometry-type"], "Point"], paint: { "circle-radius": 5, "circle-color": "#fff", "circle-stroke-color": "#2b6cb0", "circle-stroke-width": 2 } });
+  frissit();
+  betoltes();
+});
+
+function frissit() {
+  if (!terkep.getSource("zonak")) return;
+  zonak.features.forEach(ujrafestEvszin);
+  terkep.getSource("zonak").setData(zonak);
+  const elfogadott = new Set(zonak.features.map((f) => f.properties.id));
+  const lathato = jeloltek.filter((f) => !elfogadott.has(f.properties.id));
+  terkep.getSource("jeloltek").setData({ type: "FeatureCollection", features: lathato });
+  const kid = kijelolt ? kijelolt.id : "-";
+  terkep.setFilter("kijelolt-line", ["==", ["get", "id"], kijelolt && kijelolt.fajta === "zona" ? kid : "-"]);
+  terkep.setFilter("jelolt-kijelolt-line", ["==", ["get", "id"], kijelolt && kijelolt.fajta === "jelolt" ? kid : "-"]);
+  listaRajzol();
+}
+
+/* ===== loading and saving ===== */
+async function betoltes() {
+  try {
+    const r = await fetch("/api/ping", { cache: "no-store" });
+    szerver = !!(await r.json()).szerkeszto;
+  } catch (e) { szerver = false; }
+  try {
+    const t = await (await fetch("forras/zona_lista.csv", { cache: "no-store" })).text();
+    lista = csvSorok(t).map((r) => Object.assign(r, { ev_tol: +r.ev_tol, ev_ig: +r.ev_ig })).filter((r) => !r.id.startsWith("sz_"));
+  } catch (e) { lista = []; uzen("A forras/zona_lista.csv nem tölthető be."); }
+  jeloltek = [];
+  for (const [fajl, eredet] of [["data/zonak_jeloltek.geojson", null], ["data/zonak_jeloltek_epuletbol.geojson", "epuletbol"]]) {
+    try {
+      const g = await (await fetch(fajl, { cache: "no-store" })).json();
+      g.features.forEach((f) => { f.properties.fajta = "jelolt"; jeloltek.push(f); });
+    } catch (e) { /* no such file */ }
+  }
+  // we split the candidates from multi-part shapes into simple polygons
+  await elvetettBetolt();
+  { const h = elvetettBe(); lista = lista.filter((l) => !h.has(l.id)); jeloltek = jeloltek.filter((f) => !h.has(elvetettId(f))); }
+  jeloltek = jeloltek.flatMap((f) => {
+    if (f.geometry.type === "Polygon") return [f];
+    return f.geometry.coordinates.map((p, i) => ({ type: "Feature", geometry: { type: "Polygon", coordinates: [p[0]] },
+      properties: Object.assign({}, f.properties, i ? { id: f.properties.id + "__" + (i + 1) } : {}, { lista_id_eredeti: f.properties.id }) }));
+  });
+  try {
+    if (szerver) {
+      const r = await fetch("forras/zonak_poligon.geojson", { cache: "no-store" });
+      if (r.ok) zonak = await r.json();
+    } else {
+      const m = localStorage.getItem("zonak_poligon");
+      if (m) zonak = JSON.parse(m);
+    }
+  } catch (e) { /* empty start */ }
+  zonak.features = (zonak.features || []).map((f) => { f.properties = zonaPropok(f.properties); return f; });
+  setAllapot(szerver ? "Szerverhez kötve: a változtatások automatikusan mentődnek a forras/zonak_poligon.geojson fájlba." :
+    "FIGYELEM: nincs szerver (py editor_server.py). A zónák csak a böngészőben maradnak; használd a „Mentés fájlba” gombot.", szerver ? "ok" : "hiba");
+  frissit();
+}
+function setAllapot(szoveg, osztaly) {
+  const d = document.getElementById("allapot"); d.textContent = szoveg; d.className = osztaly || "";
+}
+function mentesKesleltetve() {
+  clearTimeout(mentesIdo);
+  mentesIdo = setTimeout(mentes, 500);
+}
+async function mentes() {
+  const adat = { type: "FeatureCollection", features: zonak.features.map((f) => ({ type: "Feature", geometry: f.geometry,
+    properties: Object.fromEntries(Object.entries(f.properties).filter(([k]) => k !== "szin" && k !== "fajta")) })) };
+  try { localStorage.setItem("zonak_poligon", JSON.stringify(adat)); } catch (e) { /* no storage */ }
+  if (!szerver) { setAllapot("Csak a böngészőben mentve (nincs szerver).", "hiba"); return; }
+  try {
+    const r = await fetch("/api/zonak", { method: "POST", headers: { "Content-Type": "application/json", "X-Szerkeszto": "1" }, body: JSON.stringify(adat) });
+    const v = await r.json();
+    if (!r.ok || !v.ok) throw new Error(v.hiba || "A mentés nem sikerült.");
+    setAllapot(`Mentve ${new Date().toLocaleTimeString("hu-HU")} (${v.db} zóna).`, "ok");
+  } catch (e) { setAllapot("Mentési hiba: " + e.message, "hiba"); }
+}
+document.getElementById("letoltes").addEventListener("click", () => {
+  const adat = { type: "FeatureCollection", features: zonak.features.map((f) => ({ type: "Feature", geometry: f.geometry,
+    properties: Object.fromEntries(Object.entries(f.properties).filter(([k]) => k !== "szin" && k !== "fajta")) })) };
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(adat)], { type: "application/geo+json" }));
+  a.download = "zonak_poligon.geojson"; a.click();
+});
+
+/* ===== lista ===== */
+function allapotLista(l) {
+  if (zonak.features.some((f) => f.properties.lista_id === l.id)) return "kesz";
+  if (jeloltek.some((f) => f.properties.id === l.id || f.properties.lista_id_eredeti === l.id)) return "jelolt";
+  return "hianyzik";
+}
+function listaRajzol() {
+  const q = document.getElementById("kereses").value.trim().toLowerCase();
+  const sz = document.getElementById("szuroallapot").value;
+  const db = { kesz: 0, jelolt: 0, hianyzik: 0 };
+  const sorok = [];
+  lista.forEach((l) => {
+    const a = allapotLista(l); db[a]++;
+    if (sz !== "mind" && a !== sz) return;
+    if (q && !(l.nev + " " + l.kerulet).toLowerCase().includes(q)) return;
+    const aktiv = kijelolt && ((kijelolt.fajta === "lista" && kijelolt.id === l.id) || (kijelolt.lista === l.id)) ? " aktiv" : "";
+    sorok.push(`<div class="elem${aktiv}" data-id="${esc(l.id)}"><span class="jel ${a}">${a === "kesz" ? "✓" : a === "jelolt" ? "◐" : "○"}</span>` +
+      `<span class="nev">${esc(l.nev)} <small>${esc(l.kerulet)}. ker., ${l.ev_tol}–${l.ev_ig}</small></span></div>`);
+  });
+  const nElv = elvetettBe().size;
+  document.getElementById("lista").innerHTML = (sorok.join("") || "<p class='seg' style='padding:0 12px'>Nincs találat.</p>") +
+    (nElv ? `<p class='seg' style='padding:6px 12px'><a href='#' id='visszaall'>↺ ${nElv} törölt tétel visszaállítása</a></p>` : "");
+  const vi = document.getElementById("visszaall");
+  if (vi) vi.addEventListener("click", (ev) => { ev.preventDefault(); if (confirm(`Visszaállítod mind a ${nElv} törölt listatételt?`)) { elvetettKi(new Set()); location.reload(); } });
+  document.querySelectorAll("#lista .elem").forEach((d) => d.addEventListener("click", () => listaValaszt(d.dataset.id)));
+  const tetel = document.getElementById("szuroallapot");
+  tetel.options[1].textContent = `még nincs határ (${db.hianyzik})`;
+  tetel.options[2].textContent = `jelölt, elfogadásra vár (${db.jelolt})`;
+  tetel.options[3].textContent = `kész (${db.kesz})`;
+}
+document.getElementById("kereses").addEventListener("input", listaRajzol);
+document.getElementById("szuroallapot").addEventListener("change", listaRajzol);
+
+function listaValaszt(id) {
+  const l = listaElem(id);
+  const z = zonak.features.find((f) => f.properties.lista_id === id);
+  if (z) { valaszt("zona", z.properties.id); repulj(z); return; }
+  const j = jeloltek.find((f) => f.properties.id === id || f.properties.lista_id_eredeti === id);
+  if (j) { valaszt("jelolt", j.properties.id); repulj(j); return; }
+  kijelolt = { fajta: "lista", id };
+  torolHandlek(); frissit();
+  urlapUjHianyzo(l);
+}
+function repulj(f) {
+  const gy = f.geometry.coordinates[0];
+  const b = gy.reduce((a, [x, y]) => [Math.min(a[0], x), Math.min(a[1], y), Math.max(a[2], x), Math.max(a[3], y)], [999, 999, -999, -999]);
+  terkep.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 80, maxZoom: 17, duration: 600 });
+}
+
+/* ===== selection ===== */
+function keres(fajta, id) {
+  return (fajta === "zona" ? zonak.features : jeloltek).find((f) => f.properties.id === id);
+}
+function valaszt(fajta, id) {
+  kijelolt = { fajta, id };
+  const f = keres(fajta, id);
+  kijelolt.lista = f && (f.properties.lista_id || (fajta === "jelolt" ? (f.properties.lista_id_eredeti || f.properties.id) : ""));
+  torolHandlek();
+  frissit();
+  if (!f) return;
+  if (fajta === "zona") { urlapZona(f); handlekEpit(f); } else urlapJelolt(f);
+}
+function leVal() { kijelolt = null; torolHandlek(); frissit(); document.getElementById("urlap").innerHTML = '<p class="seg">Válassz egy zónát…</p>'; }
+
+terkep.on("click", (e) => {
+  if (mod === "rajz") { rajzKatt(e); return; }
+  const talalatok = terkep.queryRenderedFeatures(e.point, { layers: ["zonak-fill", "jeloltek-fill"] });
+  if (!talalatok.length) { leVal(); return; }
+  let i = 0;   // on a repeated click we step to the next overlapping element
+  if (kijelolt) { const k = talalatok.findIndex((f) => f.properties.id === kijelolt.id); if (k >= 0) i = (k + 1) % talalatok.length; }
+  const t = talalatok[i];
+  valaszt(t.layer.id.startsWith("zonak") ? "zona" : "jelolt", t.properties.id);
+});
+
+/* ===== forms ===== */
+function opciok(lista2, ertek) { return lista2.map(([k, n]) => `<option value="${k}"${k === ertek ? " selected" : ""}>${esc(n)}</option>`).join(""); }
+
+function urlapJelolt(f) {
+  const p = f.properties;
+  const forrasSzoveg = { osm_pontos: "OSM, pontos névegyezés", osm_reszleges: "OSM, részleges névegyezés (ellenőrizd!)", nominatim: "Nominatim keresés (ellenőrizd!)", epuletbol: "az épületekből számolt burok (durva)" }[p.egyezes] || p.egyezes;
+  document.getElementById("urlap").innerHTML =
+    `<strong>${esc(p.nev)}</strong><div class="seg">${esc(p.kerulet)}. kerület · ${p.ev_tol}–${p.ev_ig} · ${esc(forrasSzoveg)}${p.osm_nev ? "<br>OSM: " + esc(p.osm_nev) + " (" + esc(p.osm) + ")" : ""}` +
+    `<br>Terület: ${(zonaTerulet(f) / 10000).toFixed(1)} ha</div>` +
+    `<button class="fo" id="elfogad">Elfogadom, szerkeszthető zóna lesz</button>` +
+    `<button id="elvet" class="veszely" title="a jelölt kikerül a listából, helyette te rajzolhatod meg">Elvetem</button>`;
+  document.getElementById("elfogad").addEventListener("click", () => {
+    const lista_id = p.lista_id_eredeti || p.id;
+    const l = listaElem(lista_id) || {};
+    const uj = { type: "Feature", geometry: JSON.parse(JSON.stringify(f.geometry)), properties: zonaPropok({
+      id: p.id, nev: p.nev, tipus: p.tipus || l.tipus || "egyeb", kerulet: String(p.kerulet || l.kerulet || ""), ev_tol: p.ev_tol, ev_ig: p.ev_ig,
+      allapot: p.allapot === "forrasolt" ? "forrasolt" : "ellenorizendo", forras: p.forras || l.forras || "", megjegyzes: l.megjegyzes || "",
+      eredet: ["osm_pontos", "osm_reszleges"].includes(p.egyezes) ? "osm" : (p.egyezes || "kezi").replace("osm_", ""), lista_id }) };
+    if (!["osm", "nominatim", "epuletbol", "kezi", "lista"].includes(uj.properties.eredet)) uj.properties.eredet = "osm";
+    zonak.features.push(uj);
+    mentesKesleltetve();
+    valaszt("zona", uj.properties.id);
+  });
+  document.getElementById("elvet").addEventListener("click", () => {
+    if (!confirm(`Biztosan elveted a(z) „${p.nev}” jelöltet és törlöd a listáról?\n\nA döntés végleges: újraindítás után és másik böngészőben sem jelenik meg újra (a lista alján visszaállíthatod).`)) return;
+    const h = new Set(elvetettBe()); h.add(elvetettId(f)); elvetettKi(h);
+    const eid = elvetettId(f);
+    jeloltek = jeloltek.filter((x) => elvetettId(x) !== eid);
+    lista = lista.filter((l) => l.id !== eid);
+    leVal(); mentesKesleltetve();
+  });
+}
+
+function urlapUjHianyzo(l) {
+  document.getElementById("urlap").innerHTML =
+    `<strong>${esc(l.nev)}</strong><div class="seg">${esc(l.kerulet)}. kerület · ${l.ev_tol}–${l.ev_ig} · ${esc(l.allapot)}` +
+    `${l.hely ? "<br>Hely: " + esc(l.hely) : ""}${l.megjegyzes ? "<br>" + esc(l.megjegyzes) : ""}<br><small>Forrás: ${esc(l.forras)}</small></div>` +
+    `<p class="seg">Ehhez nincs jelölt határ. Keresd meg a térképen (a „Hely keresése” mezővel), majd:</p>` +
+    `<button class="fo" id="rajzol">✎ Megrajzolom</button>` +
+    `<button type="button" id="listatorol" class="veszely">Törlés a listáról</button>`;
+  document.getElementById("rajzol").addEventListener("click", () => rajzIndit(l));
+  document.getElementById("listatorol").addEventListener("click", () => {
+    if (!confirm(`Biztosan törlöd a(z) „${l.nev}” zónát a listáról?\n\nA döntés végleges: újraindítás után és másik böngészőben sem jelenik meg újra (a lista alján visszaállíthatod).`)) return;
+    const h = new Set(elvetettBe()); h.add(l.id); elvetettKi(h);
+    lista = lista.filter((x) => x.id !== l.id);
+    jeloltek = jeloltek.filter((x) => elvetettId(x) !== l.id);
+    leVal(); mentesKesleltetve();
+  });
+}
+
+function urlapZona(f) {
+  const p = f.properties;
+  const gy = f.geometry.coordinates[0];
+  document.getElementById("urlap").innerHTML =
+    `<label>Név<input type="text" id="u-nev" value="${esc(p.nev)}"></label>` +
+    `<div class="sor"><label>Típus<select id="u-tipus">${opciok(TIPUSOK, p.tipus)}</select></label>` +
+    `<label>Kerület<input type="text" id="u-ker" value="${esc(p.kerulet)}"></label></div>` +
+    `<div class="sor"><label>Építés ettől (év)<input type="number" id="u-tol" value="${p.ev_tol}" min="1" max="2100"></label>` +
+    `<label>eddig (év)<input type="number" id="u-ig" value="${p.ev_ig}" min="1" max="2100"></label></div>` +
+    `<div class="gyors">${GYORS_EVEK.map(([a, b]) => `<button type="button" data-a="${a}" data-b="${b}">${a}–${b}</button>`).join("")}</div>` +
+    `<label>Állapot (mennyire megbízható)<select id="u-allapot">${opciok(ALLAPOTOK, p.allapot)}</select></label>` +
+    `<label>Forrás<input type="text" id="u-forras" value="${esc(p.forras)}" placeholder="pl. helyismeret; vagy URL / kézikönyv"></label>` +
+    `<label>Megjegyzés<textarea id="u-megj" rows="2">${esc(p.megjegyzes)}</textarea></label>` +
+    `<label>Tervező(k) (pl. lakótelep tervezője; több: pontosvesszővel. A zóna összes háza ehhez az építészhez is tartozik, de a számlálóban az egész telep 1 projektnek számít)` +
+    `<input type="text" id="u-terv" value="${esc(p.tervezo || "")}" placeholder="pl. Mester Árpád; Kőrössy Zoltán"></label>` +
+    `<label>Wikipédia-cikk (a zóna házai ezt kapják alapértelmezésként; saját cikkel rendelkező ház a sajátját; hu:Cím vagy link, több: |)` +
+    `<input type="text" id="u-wiki" value="${esc(p.wikipedia || "")}" placeholder="pl. hu:Vécsey utcai lakótelep"></label>` +
+    `<label><input type="checkbox" id="u-znev"${(p.zona_nev_hozzaad ?? (p.tipus === "lakotelep")) ? " checked" : ""}> <strong>A zóna neve kerüljön a benne lévő házak nevébe</strong> (pl. „Gazdagréti lakótelep”): a ház saját neve marad, ha van; több zónánál a legkisebb győz</label>` +
+    `<label>Budapest100-link (a zóna házai ezt kapják, ha nincs saját linkjük)` +
+    `<input type="text" id="u-bp100" value="${esc(p.budapest100 || "")}" placeholder="https://budapest100.hu/house/…"></label>` +
+    `<label><input type="checkbox" id="u-igh"${p.ig_hatar ? " checked" : ""}> <strong>„Építés eddig” is kemény határ</strong>: a becslés a zónában nem mehet az „eddig” év utáni korszakba (az „ettől” év mindig kemény alsó határ)</label>` +
+    `<label><input type="checkbox" id="u-mero"${p.mero ? " checked" : ""}> <strong>Mérőpróba</strong>: a becslő NEM használja, csak megméri rajta magát</label>` +
+    `<div class="seg">${gy.length - 1} csúcs · ${(zonaTerulet(f) / 10000).toFixed(1)} ha · eredet: ${esc(p.eredet)}</div>` +
+    `<button type="button" id="egyszer">Egyszerűsítés</button>` +
+    `<button type="button" id="torol" class="veszely">Zóna törlése</button>`;
+  const alk = () => {
+    p.nev = document.getElementById("u-nev").value.trim();
+    p.tipus = document.getElementById("u-tipus").value;
+    p.kerulet = document.getElementById("u-ker").value.trim();
+    const t = parseInt(document.getElementById("u-tol").value, 10), i = parseInt(document.getElementById("u-ig").value, 10);
+    if (t >= 1 && i >= t && i <= 2100) { p.ev_tol = t; p.ev_ig = i; }
+    p.allapot = document.getElementById("u-allapot").value;
+    p.forras = document.getElementById("u-forras").value.trim();
+    p.megjegyzes = document.getElementById("u-megj").value.trim();
+    p.tervezo = document.getElementById("u-terv").value.trim();
+    p.wikipedia = document.getElementById("u-wiki").value.trim();
+    p.budapest100 = document.getElementById("u-bp100").value.trim();
+    p.zona_nev_hozzaad = document.getElementById("u-znev").checked;
+    p.mero = document.getElementById("u-mero").checked;
+    p.ig_hatar = document.getElementById("u-igh").checked;
+    frissit(); mentesKesleltetve();
+  };
+  ["u-nev", "u-tipus", "u-ker", "u-tol", "u-ig", "u-allapot", "u-forras", "u-megj", "u-terv", "u-wiki", "u-bp100", "u-znev", "u-mero", "u-igh"].forEach((id) =>
+    document.getElementById(id).addEventListener("change", alk));
+  document.querySelectorAll(".gyors button").forEach((b) => b.addEventListener("click", () => {
+    document.getElementById("u-tol").value = b.dataset.a; document.getElementById("u-ig").value = b.dataset.b; alk();
+  }));
+  document.getElementById("egyszer").addEventListener("click", () => {
+    const eleje = f.geometry.coordinates[0].length - 1;
+    f.geometry.coordinates[0] = egyszerusit(f.geometry.coordinates[0], 6);
+    uzen(`Egyszerűsítés: ${eleje} → ${f.geometry.coordinates[0].length - 1} csúcs (6 m tűréssel).`);
+    frissit(); mentesKesleltetve(); torolHandlek(); handlekEpit(f); urlapZona(f);
+  });
+  document.getElementById("torol").addEventListener("click", () => {
+    if (!confirm(`Biztosan törlöd a(z) „${p.nev || p.id}” zónát?\n\nA zóna határa végleg eltűnik (a mentés előtti állapot még megvan a zonak_poligon.bak.geojson fájlban).`)) return;
+    zonak.features = zonak.features.filter((x) => x !== f);
+    leVal(); mentesKesleltetve();
+  });
+}
+
+/* ===== editing the vertices ===== */
+function torolHandlek() { handlek.forEach((m) => m.remove()); handlek = []; }
+function handlekEpit(f) {
+  torolHandlek();
+  const gy = f.geometry.coordinates[0];
+  const n = gy.length - 1;
+  if (n > 400) { uzen(`A zónának ${n} csúcsa van: az „Egyszerűsítés” gombbal csökkentsd, hogy szerkeszthető legyen.`, 6000); return; }
+  const koz = () => { gy[gy.length - 1] = gy[0]; terkep.getSource("zonak").setData(zonak); };
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement("div"); el.className = "vh";
+    const m = new maplibregl.Marker({ element: el, draggable: true }).setLngLat(gy[i]).addTo(terkep);
+    m.on("drag", () => { const ll = m.getLngLat(); gy[i] = [ll.lng, ll.lat]; koz(); });
+    m.on("dragend", () => { mentesKesleltetve(); handlekEpit(f); urlapZona(f); });
+    el.addEventListener("click", (ev) => ev.stopPropagation());
+    el.addEventListener("contextmenu", (ev) => {
+      ev.preventDefault();
+      if (n <= 3) { uzen("Legalább 3 csúcs kell."); return; }
+      gy.splice(i, 1); gy[gy.length - 1] = gy[0];
+      frissit(); mentesKesleltetve(); handlekEpit(f); urlapZona(f);
+    });
+    handlek.push(m);
+  }
+  for (let i = 0; i < n; i++) {   // edge midpoints: a click makes a new vertex
+    const a = gy[i], b = gy[i + 1];
+    const el = document.createElement("div"); el.className = "vm"; el.title = "kattints: új csúcs";
+    const m = new maplibregl.Marker({ element: el }).setLngLat([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]).addTo(terkep);
+    el.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      gy.splice(i + 1, 0, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]);
+      frissit(); mentesKesleltetve(); handlekEpit(f); urlapZona(f);
+    });
+    handlek.push(m);
+  }
+}
+
+/* ===== drawing ===== */
+function rajzIndit(l) {
+  if (mod === "rajz") { rajzMegse(); return; }
+  mod = "rajz";
+  rajz = { pontok: [], kurzor: null, lista: l || null };
+  torolHandlek();
+  terkep.doubleClickZoom.disable();
+  terkep.getCanvas().style.cursor = "crosshair";
+  document.getElementById("rajzgomb").classList.add("be");
+  document.getElementById("rajzgomb").textContent = "✎ Rajzolás… (Enter: kész, Backspace: vissza, Esc: mégse)";
+  uzen("Kattintásokkal add meg a sarkokat. Dupla kattintás vagy Enter: kész.", 5000);
+}
+function rajzMegse() {
+  mod = "nezet"; rajz = null;
+  terkep.doubleClickZoom.enable();
+  terkep.getCanvas().style.cursor = "";
+  document.getElementById("rajzgomb").classList.remove("be");
+  document.getElementById("rajzgomb").textContent = "✎ Új zóna rajzolása";
+  terkep.getSource("rajz").setData(ures());
+}
+function rajzFrissit() {
+  const pts = rajz.pontok.concat(rajz.kurzor ? [rajz.kurzor] : []);
+  const fs = rajz.pontok.map((p) => ({ type: "Feature", geometry: { type: "Point", coordinates: p }, properties: {} }));
+  if (pts.length >= 2) {
+    const zart = pts.length >= 3 ? pts.concat([pts[0]]) : pts;
+    fs.push({ type: "Feature", geometry: { type: "LineString", coordinates: zart }, properties: {} });
+    if (pts.length >= 3) fs.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [zart] }, properties: {} });
+  }
+  terkep.getSource("rajz").setData({ type: "FeatureCollection", features: fs });
+}
+function rajzKatt(e) {
+  const p = [e.lngLat.lng, e.lngLat.lat];
+  if (rajz.pontok.length >= 3) {   // clicking the first point closes it
+    const e0 = terkep.project(rajz.pontok[0]);
+    if (Math.hypot(e0.x - e.point.x, e0.y - e.point.y) < 10) { rajzKesz(); return; }
+  }
+  const utolso = rajz.pontok[rajz.pontok.length - 1];
+  if (utolso) { const u = terkep.project(utolso); if (Math.hypot(u.x - e.point.x, u.y - e.point.y) < 3) return; }
+  rajz.pontok.push(p); rajzFrissit();
+}
+terkep.on("mousemove", (e) => { if (mod === "rajz") { rajz.kurzor = [e.lngLat.lng, e.lngLat.lat]; rajzFrissit(); } });
+terkep.on("dblclick", () => { if (mod === "rajz") rajzKesz(); });
+function rajzKesz() {
+  if (!rajz || rajz.pontok.length < 3) { uzen("Legalább 3 pont kell."); return; }
+  const l = rajz.lista;
+  const gy = rajz.pontok.concat([rajz.pontok[0]]);
+  const foglalt = l && zonak.features.some((z) => z.properties.id === l.id);
+  const f = { type: "Feature", geometry: { type: "Polygon", coordinates: [gy] }, properties: zonaPropok(l ? {
+    id: foglalt ? ujAzon() : l.id, nev: l.nev, tipus: l.tipus, kerulet: l.kerulet, ev_tol: l.ev_tol, ev_ig: l.ev_ig,
+    allapot: l.allapot === "forrasolt" ? "forrasolt" : "ellenorizendo", forras: l.forras, megjegyzes: l.megjegyzes, eredet: "kezi", lista_id: l.id } : {}) };
+  zonak.features.push(f);
+  rajzMegse();
+  mentesKesleltetve();
+  valaszt("zona", f.properties.id);
+}
+document.getElementById("rajzgomb").addEventListener("click", () => {
+  if (mod === "rajz") { rajzMegse(); return; }
+  const l = kijelolt && kijelolt.fajta === "lista" ? listaElem(kijelolt.id) : null;
+  rajzIndit(l);
+});
+addEventListener("keydown", (e) => {
+  if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
+  if (mod === "rajz") {
+    if (e.key === "Enter") rajzKesz();
+    else if (e.key === "Backspace") { rajz.pontok.pop(); rajzFrissit(); e.preventDefault(); }
+    else if (e.key === "Escape") rajzMegse();
+  } else if (e.key === "Escape") leVal();
+});
+
+/* ===== place search (Nominatim, from the browser) ===== */
+document.getElementById("helykereso").addEventListener("keydown", async (e) => {
+  if (e.key !== "Enter") return;
+  const q = e.target.value.trim();
+  if (!q) return;
+  try {
+    const r = await fetch("https://nominatim.openstreetmap.org/search?" + new URLSearchParams({
+      q: q + ", Budapest", format: "jsonv2", limit: "1", viewbox: "18.90,47.62,19.35,47.35", bounded: "1" }));
+    const d = await r.json();
+    if (!d.length) { uzen("Nincs találat."); return; }
+    const b = d[0].boundingbox.map(Number);
+    terkep.fitBounds([[b[2], b[0]], [b[3], b[1]]], { padding: 60, maxZoom: 17, duration: 600 });
+  } catch (err) { uzen("A keresés nem sikerült."); }
+});
+</script>
+</body>
+</html>

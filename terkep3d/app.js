@@ -5,7 +5,7 @@
 // The data flow, the eras, the card content, bilingual support and the estimated era are the Budapest part.
 import * as THREE from './vendor/three.module.js';
 import { MapControls } from './vendor/MapControls.js';
-import { hidakEpit, hidRekord, korlapEpit } from './hidak.js';
+import { hidakEpit, hidRekord, korlapEpit } from './bridges.js';
 
 THREE.ColorManagement.enabled = false;   // draw the colours as given
 
@@ -18,7 +18,7 @@ const ATTR_W = 256;
 const WORKERS = Math.min(4, navigator.hardwareConcurrency || 2);
 const MODE = { period: 0, floors: 1 };
 
-// the whole city (csempek_keszites.py varos -> data_varos/); the old inner-city version (data/) has been retired
+// the whole city (build_tiles.py varos -> data_varos/); the old inner-city version (data/) has been retired
 const DATA = 'data_varos';
 const [config, epuletek] = await Promise.all([
   fetch(`${DATA}/budapest.json`).then(r => r.json()),
@@ -169,7 +169,7 @@ function kezdoRepules() {
   requestAnimationFrame(lep);
 }
 
-// Ground: terrain mesh (SRTM) with the water and park image (csempek_keszites.py). Flat ground if missing.
+// Ground: terrain mesh (SRTM) with the water and park image (build_tiles.py). Flat ground if missing.
 const LAND_C = new THREE.Color(LAND), WATER_C = new THREE.Color(WATER), PARK_C = new THREE.Color(PARK);
 const terrainUniforms = {
   uLand: { value: LAND_C }, uWater: { value: WATER_C }, uPark: { value: PARK_C },
@@ -459,7 +459,7 @@ function hidFrissit() {
   for (const l of hidVonalak) { const p = hidRek(l); l.visible = lat(l) && megerkezett && (!uniforms.uPlaying.value || !p || !p.ev || Y >= p.ev + uniforms.uRise.value); }
 }
 
-// ---------- Danube bridges (schematic model; hidak_keszites.py -> hidak.json) ----------
+// ---------- Danube bridges (schematic model; build_bridges.py -> hidak.json) ----------
 const EPULET_DB = epuletek.length;       // the bridges' card records follow the buildings: gid = EPULET_DB + bridge index
 const hidMeshek = [], hidVonalak = [];
 fetch(`${DATA}/hidak.json`).then(r => (r.ok ? r.json() : null)).then(adat => {
@@ -622,7 +622,7 @@ function zonaAdat(p) {
 
 function kozelitoIdo(p) { return +p.ev_kozelito_tol === +p.ev_kozelito_ig ? String(p.ev_kozelito_tol) : `${p.ev_kozelito_tol}–${p.ev_kozelito_ig}`; }
 
-// ---------- Data sheets of key buildings (adatlapok.json <- py adatlapok_keszites.py): text, image gallery, sources in the map card ----------
+// ---------- Data sheets of key buildings (adatlapok.json <- py build_datasheets.py): text, image gallery, sources in the map card ----------
 let adatlapok = null;
 const adatlapBe = fetch('adatlapok.json').then(r => (r.ok ? r.json() : null)).then(j => { adatlapok = j; }).catch(() => {});
 const adatlapAdat = p => (adatlapok && p && adatlapok.adatlapok[(p.osm_tipus || 'way') + '/' + p.id]) || null;
@@ -884,7 +884,7 @@ async function kepLekerElso(p) {
       if (jo && jo.mainsnak && jo.mainsnak.datavalue) fajl = String(jo.mainsnak.datavalue.value).replace(/ /g, '_');
     } catch (e) { /* continue with the article's image */ }
   }
-  if (!fajl && p.kep) {   // the photo matched to the address or name by commons_kepek.py
+  if (!fajl && p.kep) {   // the photo matched to the address or name by commons_images.py
     const [f, a, l, u, m, r] = p.kep;
     return { src: `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(f)}?width=800`,
              lap: `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(f)}`, szerzo: a, licenc: l, licencUrl: u, mod: m, reszlet: r };
@@ -1848,7 +1848,7 @@ document.querySelectorAll('#nyelv button').forEach(b => b.addEventListener('clic
 
 // ---------- Search: OSM id (way/123, relation/123, osm.org link or just the number), name, address ----------
 const keresoBe = document.getElementById('kereso'), keresoLista = document.getElementById('kereso-lista');
-const LAT0 = 47.5015, LON0 = 19.0515, COSLAT = Math.cos(LAT0 * Math.PI / 180);   // the same as in csempek_keszites.py
+const LAT0 = 47.5015, LON0 = 19.0515, COSLAT = Math.cos(LAT0 * Math.PI / 180);   // the same as in build_tiles.py
 const normal = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const KERESO_MAX = 500;      // the result list shows at most this many rows (scrollable)
 let keresoIndex = null;
@@ -1954,7 +1954,7 @@ function keresoFrissit() {
   keresoLista.hidden = false;
 }
 
-// ---------- Streets and street names (toggleable layer; utak.json <- py utak_keszites.py) ----------
+// ---------- Streets and street names (toggleable layer; utak.json <- py build_roads.py) ----------
 // Lines: laid onto the terrain, one LineSegments per class; the names are DOM labels that turn along the street,
 // and avoid each other (main roads take priority). More street names appear the closer you zoom.
 const utakGomb = document.getElementById('utak-gomb');
@@ -2309,7 +2309,7 @@ renderer.setAnimationLoop(now => {
   renderer.render(scene, camera);
 });
 
-// ---------- Edit mode (only alongside py szerkeszto_szerver.py, http://localhost:8000/terkep3d/index.html) ----------
+// ---------- Edit mode (only alongside py editor_server.py, http://localhost:8000/terkep3d/index.html) ----------
 // Corrections go into forras/kezi_javitasok.csv (the same as on the 2D map); the "Rebuild" button rebuilds the whole city.
 let szerkeszto = false, szerkFuggo = 0;
 const SZERK_MEZOK = [
@@ -2653,7 +2653,7 @@ function szerkPanel() {
   });
   keret.append(fej, doboz);
   hely.appendChild(keret);
-  doboz.innerHTML = '<strong>Szerkesztési mód</strong><br><small>Kattints egy épületre, majd „Szerkesztés". A javítások az újraépítés után látszanak.<br><b>Figyelem:</b> a kézi korszak vagy évszám színhatásához (a becslés újraszámolásához) a teljes frissítés kell: futtasd a <code>zona_frissit.bat</code> fájlt, majd Ctrl+Shift+R. Az alábbi gomb ezt nem futtatja.</small><br>'
+  doboz.innerHTML = '<strong>Szerkesztési mód</strong><br><small>Kattints egy épületre, majd „Szerkesztés". A javítások az újraépítés után látszanak.<br><b>Figyelem:</b> a kézi korszak vagy évszám színhatásához (a becslés újraszámolásához) a teljes frissítés kell: futtasd a <code>zones_refresh.bat</code> fájlt, majd Ctrl+Shift+R. Az alábbi gomb ezt nem futtatja.</small><br>'
     + '<button type="button" id="szerk-ujraepit">Újraépítés (egész város)</button><div id="szerk-allapot" class="szerk-uzenet"></div>';
   alkotasPanel(doboz);
   doboz.querySelector('#szerk-ujraepit').addEventListener('click', async e => {
@@ -2664,7 +2664,7 @@ function szerkPanel() {
       const v = await szerkKuldes('/api/ujraepit', { varos: true });
       if (v.harom_d !== 'ok') throw new Error('Az adatok megépültek, de a 3D csempék elkészítése hibázott: ' + v.harom_d);
       szerkFuggo = 0;
-      szerkAllapot('Kész. Töltsd újra az oldalt (Ctrl+Shift+R). Ha kézi korszakot vagy évszámot adtál meg, a színéhez futtasd a zona_frissit.bat-ot: ez a gomb a becslést (ev_becsles.py) nem számolja újra.', 'ok');
+      szerkAllapot('Kész. Töltsd újra az oldalt (Ctrl+Shift+R). Ha kézi korszakot vagy évszámot adtál meg, a színéhez futtasd a zones_refresh.bat-ot: ez a gomb a becslést (year_estimate.py) nem számolja újra.', 'ok');
     } catch (hiba) {
       szerkAllapot(hiba.message, 'hiba');
     } finally { gomb.disabled = false; }
@@ -2698,7 +2698,7 @@ async function ertDontes(r, osm, megj, gomb, uzenet) {
     await szerkKuldes('/api/ertekleltar_dontes', { index: ertSorok.indexOf(r), kerulet: r.kerulet, cim: r.cim, hrsz: r.hrsz, osm_azonosito: osm, megjegyzes: megj });
     r.osm_azonosito = osm; r.megjegyzes = megj;
     szerkFuggo++;
-    szerkAllapot(`Döntés mentve (forras/ertekleltar_kezi_parositas.csv). A tények a „py tenyek_sarok.py” + zona_frissit.bat futtatása után látszanak.`, 'ok');
+    szerkAllapot(`Döntés mentve (forras/ertekleltar_kezi_parositas.csv). A tények a „py facts_corner.py” + zones_refresh.bat futtatása után látszanak.`, 'ok');
     ertAktiv = null;
     const lista = ertLista();
     if (ertPoz >= lista.length) ertPoz = Math.max(0, lista.length - 1);
@@ -2825,7 +2825,7 @@ function oenyRender() {
       await szerkKuldes('/api/oeny_atrak', { t: r.t, cim: r.cim, uj });
       if (uj === 'ok') r.allapot = 'ok'; else if (uj === 'levetel') r.allapot = 'levetel';
       else { r.akt = [uj]; r.allapot = 'atrakva'; r.javaslat = ''; }
-      if (uj !== 'ok') { szerkFuggo++; szerkAllapot(`${uzenet} – ${szerkFuggo} mentett javítás vár újraépítésre (előtte: py tenyek_oeny_kezi.py).`, 'ok'); }
+      if (uj !== 'ok') { szerkFuggo++; szerkAllapot(`${uzenet} – ${szerkFuggo} mentett javítás vár újraépítésre (előtte: py facts_oeny_manual.py).`, 'ok'); }
       if (oenyPoz < oenyGy.length - 1) oenyPoz++;
       oenyRender();
     } catch (e) { szerkAllapot(e.message, 'hiba'); }
@@ -2858,7 +2858,7 @@ function oenyPanel(doboz) {
     tart.hidden = !tart.hidden;
     if (tart.hidden) return;
     try { oenyGy = (await (await fetch('/api/oeny_gyanus', { cache: 'no-store' })).json()).tetelek || []; }
-    catch (e) { document.getElementById('oeny-sor').textContent = 'A lista nem tölthető be (indítsd újra a szerkeszto_szerver.py-t).'; return; }
+    catch (e) { document.getElementById('oeny-sor').textContent = 'A lista nem tölthető be (indítsd újra a editor_server.py-t).'; return; }
     const elso = oenyGy.findIndex(x => !x.allapot); oenyPoz = elso >= 0 ? elso : 0;
     oenyRender();
   });
@@ -3069,7 +3069,7 @@ async function ertPanel(doboz) {
     try {
       const v = await (await fetch('/api/ertekleltar_lista', { cache: 'no-store' })).json();
       ertSorok = v.sorok || [];
-    } catch (e) { document.getElementById('ert-sor').textContent = 'A lista nem tölthető be (indítsd újra a szerkeszto_szerver.py-t).'; return; }
+    } catch (e) { document.getElementById('ert-sor').textContent = 'A lista nem tölthető be (indítsd újra a editor_server.py-t).'; return; }
     const kerek = [...new Set(ertSorok.map(r => r.kerulet))].sort((a, b) => a - b);
     document.getElementById('ert-ker').innerHTML = '<option value="">Minden kerület</option>' + kerek.map(k => `<option value="${esc(k)}">${esc(k)}. ker.</option>`).join('');
     ertPoz = 0; ertLep(0);

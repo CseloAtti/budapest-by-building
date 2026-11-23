@@ -2,8 +2,8 @@
 commons_wikidata.py - Photos for the buildings based on Wikidata (P18 image, P373 Commons category) and the OSM
 `wikidata` / `wikimedia_commons` tags. For the whole city.
 
-Run (in the project folder; first: py varos_osszeallitas.py and py osszeepit.py varos, as well as
-py commons_kepek.py varos, so that data/varos/commons_kepek.json exists):
+Run (in the project folder; first: py city_assembly.py and py assemble.py varos, as well as
+py commons_images.py varos, so that data/varos/commons_kepek.json exists):
     py commons_wikidata.py
 
 What does it do?
@@ -29,7 +29,7 @@ import urllib.request
 from collections import defaultdict
 from pathlib import Path
 
-import commons_kepek as ck
+import commons_images as ck
 
 ADAT = Path("data")
 CACHE = ADAT / "cache"
@@ -310,7 +310,7 @@ def main():
         jel.append(f"- {k['m']}; {nevek.get(c) or c}; https://commons.wikimedia.org/wiki/File:{k['f']}")
     (ADAT / "varos" / "commons_wikidata_jelentes.md").write_text("\n".join(jel) + "\n", encoding="utf-8")
     print(f"Kész: {len(uj)} épületnek van fotója (új/lecserélt: Wikidata {stat['wd']}, kategória {stat['kat']}).")
-    print("Mentve: data/varos/commons_kepek.json, data/varos/commons_wikidata_jelentes.md  (most futtasd: py csempek_keszites.py)")
+    print("Mentve: data/varos/commons_kepek.json, data/varos/commons_wikidata_jelentes.md  (most futtasd: py build_tiles.py)")
 
 
 if __name__ == "__main__":
