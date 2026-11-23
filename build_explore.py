@@ -67,7 +67,7 @@ def own_wikipedia(p):
 def needed_page(p):
     if p.get("resz") or not address_article(p):
         return False
-    return bool(p.get("ev") or p.get("tervezo") or p.get("budapest100_url") or p.get("epforum_url") or p.get("legenda_url")
+    return bool(p.get("ev") or p.get("tervezo") or p.get("iroda") or p.get("budapest100_url") or p.get("epforum_url") or p.get("legenda_url")
                 or p.get("oeny_azonosito") or p.get("wikidata_id") or own_wikipedia(p))
 
 
@@ -117,6 +117,8 @@ def building_page(p, dict_, era_list, ep_slug):
         for n in designers(p):
             links.append(f'<a href="/explore/architect/{ep_slug[n]}/">{e(n)}</a>' if n in ep_slug else e(n))
         rows.append(("Tervező", ", ".join(links) if links else e(p["tervezo"])))
+    if p.get("iroda"):
+        rows.append(("Építész iroda", e(p["iroda"])))
     if p.get("stilus"):
         rows.append(("Stílus", e(p["stilus"])))
     t = type_name(p.get("tipus"), dict_)
@@ -157,6 +159,8 @@ def building_page(p, dict_, era_list, ep_slug):
         sentence += f", építési éve: {p['ev']}"
     if p.get("tervezo"):
         sentence += f", tervezője: {p['tervezo']}"
+    if p.get("iroda"):
+        sentence += f", építész irodája: {p['iroda']}"
     sentence += "."
     url = f"/e/{gid}/"
     ld = {"@context": "https://schema.org", "@type": "Place", "name": address,

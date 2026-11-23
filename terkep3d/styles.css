@@ -433,3 +433,29 @@ button { font: inherit; color: inherit; }
   .arch-lep select { flex: 1 1 0; width: 0; min-width: 0; }
 }
 .kartya > .szerk-urlap { padding: 14px 18px 16px; box-sizing: border-box; }
+
+/* "I know more" suggestion form */
+.kartya section.javaslat { text-align: center; }
+.javaslat-gomb { cursor: pointer; border: 1px solid var(--rule); background: #fff; border-radius: 999px; padding: 6px 16px; font: inherit; font-weight: 600; }
+.javaslat-gomb:hover { background: #f3f5f6; }
+.javaslat-fatyol { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 12px; background: rgba(0,0,0,.4); }
+.javaslat-doboz { box-sizing: border-box; width: min(460px, 100%); max-height: 100%; overflow-y: auto; background: #fff; border-radius: 12px; padding: 18px 20px 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3); font-size: 13.5px; line-height: 1.4; color: #111; }
+.javaslat-doboz h3 { margin: 0 0 2px; font-size: 18px; }
+.javaslat-doboz p { margin: 6px 0; }
+.javaslat-epulet { color: #666; font-weight: 600; }
+.javaslat-doboz label { display: block; margin: 10px 0 3px; font-weight: 600; }
+.javaslat-doboz label small { font-weight: 400; color: #666; }
+.javaslat-doboz input[type=text], .javaslat-doboz input[type=url], .javaslat-doboz textarea { box-sizing: border-box; width: 100%; padding: 7px 9px; border: 1px solid #c9cfd2; border-radius: 6px; font: inherit; }
+.javaslat-doboz textarea { resize: vertical; }
+.javaslat-doboz label.javaslat-pipa { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; margin: 6px 0 0; }
+.javaslat-pipa input { margin-top: 3px; flex: none; }
+.javaslat-szam { text-align: right; font-size: 11px; color: #666; }
+.javaslat-csali { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+#jv-turnstile { margin: 10px 0 0; min-height: 0; }
+.javaslat-jog { color: #666; }
+.javaslat-uzenet { min-height: 1.2em; color: #b00020; font-weight: 600; }
+.javaslat-gombok { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+.javaslat-gombok button { cursor: pointer; border: 1px solid var(--rule); background: #fff; border-radius: 999px; padding: 7px 18px; font: inherit; font-weight: 600; }
+.javaslat-gombok .javaslat-kuld { background: #1d6fa5; border-color: #1d6fa5; color: #fff; }
+.javaslat-gombok button:disabled { opacity: .55; cursor: default; }

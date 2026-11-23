@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_common
 
-TESTS = ["test_client", "test_datasheets", "test_data", "test_estimate", "test_estimate_threshold", "test_local_quota", "test_search", "test_parts", "test_server", "test_download_size", "test_explore", "test_sharing", "test_feedback"]
+TESTS = ["test_client", "test_datasheets", "test_data", "test_estimate", "test_estimate_threshold", "test_local_quota", "test_search", "test_parts", "test_server", "test_download_size", "test_explore", "test_sharing", "test_feedback", "test_suggestions", "test_offices"]
 
 
 def main():

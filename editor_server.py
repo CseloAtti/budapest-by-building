@@ -27,7 +27,7 @@ PORT = 8000
 MANUAL = Path("forras/kezi_javitasok.csv")
 HEADER = ["osm_tipus", "id", "mezo", "ertek", "forras", "megjegyzes", "lat", "lon"]
 NUMBERED = {"ev": (1000, 2100), "szintek": (1, 80), "magassag": (1, 500)}
-TEXTUAL = {"tervezo", "stilus"}
+TEXTUAL = {"tervezo", "iroda", "stilus"}
 SINGLE_LINE = {"nev": 120}                      # the building's name
 LONG_TEXT = {"about": 1500}              # free-text description (may have several paragraphs)
 PROTECTION_CODES = {"M", "MJ", "VK", "MK", "MJT"}   # monument, monument-like, townscape, monument surroundings, area of monument significance
@@ -290,7 +290,7 @@ def check(data_):
             if not re.fullmatch(r"[^/\\<>;|\x00-\x1f]{3,200}\.(?:jpe?g|png|gif|tiff?|webp|svg)", name_, flags=re.I):
                 return None, "A Commons-fotó a Commons fájl-oldalának teljes linkje legyen (https://commons.wikimedia.org/wiki/File:…), vagy a fájl neve; '-' vagy üres = a kézi választás eltávolítása."
             value = "https://commons.wikimedia.org/wiki/File:" + urllib.parse.quote(name_, safe="_-.~()',!")
-    elif field in ("kep_url", "link_url"):
+    elif field in ("kep_url", "link_url", "iroda_link"):
         value = str(data_.get("ertek", "")).strip()
         if value != "-":
             value = url_clean(value, field == "kep_url")
@@ -304,7 +304,7 @@ def check(data_):
         if value is None:
             return None, "A Wikipedia-oldal legyen hu.wikipedia.org vagy en.wikipedia.org cikk (link, vagy pl. 'hu:Vigadó'); több cikket | jellel válassz el."
     elif field in TEXTUAL:
-        value = "-" if str(data_.get("ertek", "")).strip() == "-" else clean_text(data_.get("ertek", ""), 150 if field == "stilus" else 100)    # '-' = remove the field
+        value = "-" if str(data_.get("ertek", "")).strip() == "-" else clean_text(data_.get("ertek", ""), 150 if field in ("stilus", "iroda") else 100)    # '-' = remove the field
         if value is None:
             return None, f"A(z) {field} értéke üres, túl hosszú, vagy tiltott karaktert tartalmaz."
     else:

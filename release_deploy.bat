@@ -8,5 +8,5 @@ if errorlevel 1 (
   exit /b 1
 )
 echo 2/2: feltoltes a Cloudflare-re...
-call npx wrangler deploy release
+call npx wrangler deploy
 pause

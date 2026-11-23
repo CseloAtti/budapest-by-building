@@ -1,7 +1,17 @@
 {
   "name": "budapestbuildings",
+  "main": "cloudflare/api.js",
   "compatibility_date": "2026-11-19",
   "assets": {
-    "directory": "release"
-  }
+    "directory": "release",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "budapest-suggestions",
+      "database_id": "5ba5ed3f-e079-4d95-9a9e-30ec9e31053f"
+    }
+  ]
 }

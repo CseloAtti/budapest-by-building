@@ -56,6 +56,8 @@ A kód azonosítói angolok, de az **adatmezők** (a JSON/CSV oszlopnevek) és a
 | `ev_forras` | az év forrása (dokumentált, becsült, …) |
 | `kor / korszak` | építési korszak |
 | `tervezo / epitesz` | építész / tervező |
+| `iroda` | építész iroda (cég) |
+| `iroda_link` | az iroda saját oldala az épületről (a „Tudj meg többet” részben jelenik meg) |
 | `stilus` | építészeti stílus |
 | `szintek / emelet` | szintek száma / emelet |
 | `magassag` | épületmagasság (m) |

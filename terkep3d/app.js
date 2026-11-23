@@ -36,7 +36,7 @@ const SZOVEG = {
     kereso_ph: 'Keresés: név, cím, OSM-id', utak_gomb: 'Utak', utak_cim: 'Utak és utcanevek ki/be', utak_nincs: 'nincs utak.json', kereso_nincs: 'Nincs találat', ved_ph: 'Keresés: név, cím, törzsszám', lak_ph: 'Keresés a lakótelepek között', lak_db: '{n} lakótelep', lak_ker: 'ker.', mag_cim: 'Honnan származnak a magassági adatok?', mag_1: 'A legtöbb épület (kb. 95%) magasságát az EUBUCCO nyílt épületadatbázis becslése adja; ez gépi tanulással készült, kb. ±4 m pontosságú.', mag_2: 'Ahol az OpenStreetMapban szerepel a magasság (height) vagy a szintszám (building:levels, szintenként 3 m), azt használjuk (kb. 3 300 épület).', mag_3: 'Néhány épületnél a kerületi szintszám-térkép, a műemléki adat vagy kézi javítás ad pontosabb értéket.', mag_4: 'Ahol semmilyen adat nincs, 15 m az alapértelmezett magasság (kb. 10 000 épület).', mag_5: 'A szín a szintek számát mutatja; ha nincs szintszám, a magasságot 3,2 m-rel osztjuk. A Duna szintje a nulla szint (kb. 96 m).', ved_mind: 'Minden kerület', ved_db: '{n} védett épület', ved_tobb: 'Az első {k} találat látszik; szűkítsd a keresést.',
     epulet: 'épület', ma: 'Ma', betoltes: 'A város építése',
     howto: 'Húzd a forgatáshoz. Jobb gomb vagy Shift + húzás: mozgatás. Görgő: nagyítás.',
-    nevtelen: 'névtelen épület', tipus: 'Típus', resz: 'épületrész', zona_telep: 'telep', zona_haz: 'ház', zona_tervezo: 'Telep tervezője', tervezo: 'Tervező', stilus: 'Stílus',
+    nevtelen: 'névtelen épület', tipus: 'Típus', resz: 'épületrész', zona_telep: 'telep', zona_haz: 'ház', zona_tervezo: 'Telep tervezője', tervezo: 'Tervező', iroda: 'Építész iroda', stilus: 'Stílus',
     vedettseg: 'Védettség', torzsszam: 'törzsszám', szintszam: 'Szintszám', magassag: 'Magasság',
     tobb_cim: 'és még {n} cím', gmaps: 'Google Térkép',
     rom_cimke: 'Rom, régészeti maradvány', becsult: 'Becsült korszak (nem adat)', valoszinuseg: 'valószínűség', bizonyossag: 'bizonyosság',
@@ -57,7 +57,7 @@ const SZOVEG = {
     kereso_ph: 'Search: name, address, OSM id', utak_gomb: 'Streets', utak_cim: 'Show/hide streets and street names', utak_nincs: 'utak.json missing', kereso_nincs: 'No results', ved_ph: 'Search: name, address, register no.', lak_ph: 'Search among the estates', lak_db: '{n} housing estates', lak_ker: 'district', mag_cim: 'Where do the height data come from?', mag_1: 'The height of most buildings (about 95%) is an estimate from the open EUBUCCO building database, produced by machine learning with roughly ±4 m accuracy.', mag_2: 'Where OpenStreetMap has a height or a number of levels (building:levels, 3 m per level), that is used (about 3,300 buildings).', mag_3: 'For some buildings a district floor-count map, heritage records or manual corrections give a more accurate value.', mag_4: 'Where no data exists, the default height is 15 m (about 10,000 buildings).', mag_5: 'The colour shows the number of storeys; without a storey count, the height is divided by 3.2 m. The Danube level is the zero level (about 96 m).', ved_mind: 'All districts', ved_db: '{n} protected buildings', ved_tobb: 'Showing the first {k} results; narrow your search.',
     epulet: 'buildings', ma: 'Today', betoltes: 'Building the city',
     howto: 'Drag to turn. Right-drag or Shift-drag to move. Scroll to zoom.',
-    nevtelen: 'unnamed building', tipus: 'Type', resz: 'building part', zona_telep: 'estate', zona_haz: 'buildings', zona_tervezo: 'Estate architect', tervezo: 'Architect', stilus: 'Style',
+    nevtelen: 'unnamed building', tipus: 'Type', resz: 'building part', zona_telep: 'estate', zona_haz: 'buildings', zona_tervezo: 'Estate architect', tervezo: 'Architect', iroda: 'Architecture office', stilus: 'Style',
     vedettseg: 'Protection', torzsszam: 'register no.', szintszam: 'Storeys', magassag: 'Height',
     tobb_cim: 'and {n} more', gmaps: 'Google Maps',
     rom_cimke: 'Ruins, archaeological remains', becsult: 'Estimated era (not data)', valoszinuseg: 'probability', bizonyossag: 'confidence',
@@ -759,6 +759,7 @@ function kartyaHtml(p, rogzitett) {
   }
   if (p.zona_tervezo && !(p.tervezo && archFold(p.tervezo).includes(archFold(p.zona_tervezo)))) sorok.push([t('zona_tervezo'), esc(p.zona_tervezo) + (p.zona_tervezo_nev ? ` <small>(${esc(p.zona_tervezo_nev)})</small>` : '')]);
   if (p.tervezo) sorok.push([t('tervezo'), esc(p.tervezo) + (p.tervezo_forras ? ` <small>(${esc(forrasNev(p.tervezo_forras) || p.tervezo_forras)})</small>` : '')]);
+  if (p.iroda) sorok.push([t('iroda'), esc(p.iroda)]);
   if (p.stilus) sorok.push([t('stilus'), esc(p.stilus)]);
   const ved = vedettsegSzoveg(p);
   if (ved) sorok.push([t('vedettseg'), esc(ved)]);
@@ -770,6 +771,11 @@ function kartyaHtml(p, rogzitett) {
   const epfCikkek = String(p.epforum_url || '').split('|').filter(u => /^https:\/\/epiteszforum\.hu\//.test(u));   // the point's articles (not the map's landing page)
   epfCikkek.forEach((u, n) => tobb.push(`<a href="${esc(u)}" target="_blank" rel="noopener">Építészfórum${epfCikkek.length > 1 ? ' (' + (n + 1) + ')' : ''}</a>`));
   if (legendaLap(p)) tobb.push(`<a href="${esc(legendaLap(p))}" target="_blank" rel="noopener">Budapest Legenda</a>`);
+  if (/^https?:\/\/[^\s"'<>]+$/i.test(p.iroda_link || '')) {      // the architecture office's own page about the building (nofollow: the map is not an SEO tool)
+    let host = p.iroda_link;
+    try { host = new URL(p.iroda_link).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
+    tobb.push(`<a href="${esc(p.iroda_link)}" target="_blank" rel="nofollow noopener noreferrer">${esc(p.iroda || host)} – ${NYELV === 'en' ? 'project page' : 'projektoldal'}</a>`);
+  }
   html += `<section><dl>${sorok.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></section>`;
   if (tobb.length) html += `<section class="tobbet"><h4>${NYELV === 'en' ? 'Learn more' : 'Tudj meg többet'}</h4><div>${tobb.join('<br>')}</div></section>`;
   if (p.hid && p.hid_megj) html += `<section><small>${esc(p.hid_megj)}</small></section>`;
@@ -796,6 +802,7 @@ function kartyaHtml(p, rogzitett) {
   // the link of the OpenStreetMap id is hidden on the card
   if (p.lat !== undefined) forrasok.push(`<a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${p.sv_lat !== undefined ? p.sv_lat : p.lat},${p.sv_lon !== undefined ? p.sv_lon : p.lon}" target="_blank" rel="noopener">${t('utcakep')}</a>`);
   html += `<section><h4>${t('forrasok')}</h4><div>${forrasok.join('<br>')}</div></section>`;
+  if (!p.hid && p.id) html += `<section class="javaslat"><button type="button" class="javaslat-gomb">${esc(jSz('gomb'))}</button></section>`;
 
   if (false && p.lechner_nev) {   // the Lechner block is hidden (the data stays in the background)
     let l = `<h4>${t('lechner_blokk')}</h4>${t('megnevezes')}: ${esc(p.lechner_nev)}<br>`;
@@ -1085,6 +1092,7 @@ function rogzit(gid, x, y) {
   wikiBetolt(gid);
   if (galeriaDiak(epuletek[gid]).length) galeriaBetolt(gid); else kepBetolt(gid);
   szerkGomb(gid);
+  javaslatGomb(gid);
   if (!archKiv && adatlapAdat(epuletek[gid]) && !document.getElementById('nez-arch').hidden) hazKiemel(gid);
   else if (hazKiem) hazKiemel(null);
 }
@@ -2334,6 +2342,8 @@ const SZERK_MEZOK = [
   { mezo: 'nev', cimke: 'Az épület neve (üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'ev', cimke: 'Építési év', tipus: 'number' },
   { mezo: 'tervezo', cimke: 'Tervező (üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
+  { mezo: 'iroda', cimke: 'Építész iroda (több esetén vesszővel elválasztva; üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
+  { mezo: 'iroda_link', cimke: 'Az iroda oldala az épületről (webcím; a „Tudj meg többet” részben jelenik meg; üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'stilus', cimke: 'Stílus (több esetén vesszővel elválasztva, pl. neobarokk, art déco; üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'korszak', cimke: 'Korszak (ha az évet nem tudom; a becslést és a színt is befolyásolja)', tipus: 'select', torlheto: true, korszakValaszto: true },
   { mezo: 'szintek', cimke: 'Szintszám', tipus: 'number' },
@@ -2368,8 +2378,121 @@ function kartyaUjra() {
   wikiBetolt(rogzitettGid);
   kepBetolt(rogzitettGid);
   szerkGomb(rogzitettGid);
+  javaslatGomb(rogzitettGid);
 }
 
+// ---------- "I know more": anonymous suggestions about a building (Worker + D1 database, see cloudflare/) ----------
+const JAVASLAT_SZOVEG = {
+  hu: {
+    gomb: 'Többet tudok', cim: 'Többet tudsz erről az épületről?',
+    bevezeto: 'Írd meg, amit tudsz. Csak azt töltsd ki, amit biztosan tudsz; a többit hagyd üresen.',
+    nev: 'Az épület neve', ev: 'Építés éve', tervezo: 'Tervező', iroda: 'Építész iroda', leiras: 'Leírás', leiras_seg: 'legfeljebb 500 karakter', link: 'Forráslink (weboldal)',
+    iroda_oldal: 'A link az iroda (vagy a tervező) saját oldala erről az épületről', iroda_oldal_seg: 'ellenőrzés után a „Tudj meg többet” részben jelenik meg',
+    jog: 'A beküldött szöveget ellenőrzés után felhasználhatjuk. A beküldéssel hozzájárulsz, hogy CC0 (szabad felhasználású) licenc alatt közzétegyük. Nem kérünk és nem tárolunk személyes adatot (se e-mailt, se IP-címet).',
+    kuld: 'Beküldés', megse: 'Mégse',
+    var: 'Kérlek, várd meg az ellenőrzés végét.',
+    ok: 'Köszönjük! A javaslatot ellenőrizzük.',
+    ures: 'Tölts ki legalább egy mezőt.', link_hiba: 'A link http:// vagy https:// kezdetű webcím legyen.',
+    korlat: 'Ma már sok javaslat érkezett ehhez az épülethez. Próbáld holnap.', captcha: 'Az ellenőrzés nem sikerült. Próbáld újra.',
+    nincs_beallitva: 'A beküldés ezen a gépen nem érhető el.', hiba: 'Nem sikerült elküldeni. Próbáld újra később.',
+  },
+  en: {
+    gomb: 'I know more', cim: 'Do you know more about this building?',
+    bevezeto: 'Tell us what you know. Fill in only what you are sure about; leave the rest empty.',
+    nev: 'Name of the building', ev: 'Year built', tervezo: 'Architect', iroda: 'Architecture office', leiras: 'Description', leiras_seg: 'up to 500 characters', link: 'Source link (web page)',
+    iroda_oldal: 'The link is the office\'s (or architect\'s) own page about this building', iroda_oldal_seg: 'after checking, it appears under "Learn more"',
+    jog: 'We may use the submitted text after checking it. By submitting you agree that it is published under the CC0 (public domain) licence. We do not ask for or store any personal data (no e-mail, no IP address).',
+    kuld: 'Submit', megse: 'Cancel',
+    var: 'Please wait for the check to finish.',
+    ok: 'Thank you! We will check your suggestion.',
+    ures: 'Fill in at least one field.', link_hiba: 'The link must be a web address starting with http:// or https://.',
+    korlat: 'Many suggestions have arrived for this building today. Please try tomorrow.', captcha: 'The check failed. Please try again.',
+    nincs_beallitva: 'Submitting is not available on this machine.', hiba: 'Could not send it. Please try again later.',
+  },
+};
+const jSz = k => (JAVASLAT_SZOVEG[NYELV] || JAVASLAT_SZOVEG.hu)[k];
+// Cloudflare Turnstile site key (public; it is made in the Cloudflare dashboard). On localhost Cloudflare's "always passes" test key is used.
+const TURNSTILE_KULCS = '0x4AAAAAAGPNQYM0eDTlvj8V';
+let turnstileBetoltve = null;
+function turnstileBetolt() {
+  if (!turnstileBetoltve) turnstileBetoltve = new Promise((ok, nem) => {
+    if (window.turnstile) return ok(window.turnstile);
+    const sc = document.createElement('script');
+    sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    sc.async = true; sc.onload = () => ok(window.turnstile); sc.onerror = () => { turnstileBetoltve = null; nem(new Error('turnstile')); };
+    document.head.appendChild(sc);
+  });
+  return turnstileBetoltve;
+}
+function javaslatGomb(gid) {
+  const g = kartya.querySelector('.javaslat-gomb');
+  if (g) g.addEventListener('click', () => javaslatUrlap(gid));
+}
+function javaslatUrlap(gid) {
+  const p = epuletek[gid];
+  if (!p || document.getElementById('javaslat-fatyol')) return;
+  const mezo = (id, cim, seg, tipus, max) => `<label for="jv-${id}">${esc(cim)}${seg ? ` <small>(${esc(seg)})</small>` : ''}</label>`
+    + (tipus === 'ta' ? `<textarea id="jv-${id}" maxlength="${max}" rows="4"></textarea><div class="javaslat-szam" id="jv-${id}-szam">0 / ${max}</div>`
+      : `<input id="jv-${id}" type="${tipus}" maxlength="${max}" autocomplete="off">`);
+  const fatyol = document.createElement('div');
+  fatyol.id = 'javaslat-fatyol'; fatyol.className = 'javaslat-fatyol';
+  fatyol.innerHTML = `<form class="javaslat-doboz" role="dialog" aria-modal="true" aria-labelledby="jv-cim" novalidate>
+    <h3 id="jv-cim">${esc(jSz('cim'))}</h3>
+    <p class="javaslat-epulet">${esc(p.nev || p.cim || '')}</p>
+    <p>${esc(jSz('bevezeto'))}</p>
+    ${mezo('nev', jSz('nev'), '', 'text', 150)}${mezo('ev', jSz('ev'), '', 'text', 40)}${mezo('tervezo', jSz('tervezo'), '', 'text', 150)}${mezo('iroda', jSz('iroda'), '', 'text', 150)}
+    ${mezo('leiras', jSz('leiras'), jSz('leiras_seg'), 'ta', 500)}${mezo('link', jSz('link'), '', 'url', 300)}
+    <label class="javaslat-pipa"><input type="checkbox" id="jv-iroda_oldal"><span>${esc(jSz('iroda_oldal'))} <small>(${esc(jSz('iroda_oldal_seg'))})</small></span></label>
+    <input type="text" id="jv-web" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" class="javaslat-csali">
+    <div id="jv-turnstile"></div>
+    <p class="javaslat-jog"><small>${esc(jSz('jog'))}</small></p>
+    <p class="javaslat-uzenet" id="jv-uzenet" role="status"></p>
+    <div class="javaslat-gombok"><button type="submit" class="javaslat-kuld">${esc(jSz('kuld'))}</button><button type="button" class="javaslat-megse">${esc(jSz('megse'))}</button></div>
+  </form>`;
+  document.body.appendChild(fatyol);
+  const urlap = fatyol.querySelector('form'), uz = fatyol.querySelector('#jv-uzenet'), kuld = fatyol.querySelector('.javaslat-kuld');
+  const ertek = id => fatyol.querySelector('#jv-' + id).value.trim();
+  const zar = () => { document.removeEventListener('keydown', esc_, true); fatyol.remove(); };
+  const esc_ = e => { if (e.key === 'Escape') { e.stopPropagation(); zar(); } };
+  document.addEventListener('keydown', esc_, true);      // Escape closes only this window, not the card behind it
+  fatyol.querySelector('.javaslat-megse').addEventListener('click', zar);
+  fatyol.addEventListener('mousedown', e => { if (e.target === fatyol) zar(); });
+  const szamlalo = fatyol.querySelector('#jv-leiras'), szam = fatyol.querySelector('#jv-leiras-szam');
+  szamlalo.addEventListener('input', () => { szam.textContent = `${szamlalo.value.length} / 500`; });
+  const sitekey = TURNSTILE_KULCS || (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ? '1x00000000000000000000AA' : '');
+  let token = '';
+  if (sitekey) turnstileBetolt().then(ts => ts.render(fatyol.querySelector('#jv-turnstile'), {
+    sitekey, callback: tk => { token = tk; }, 'expired-callback': () => { token = ''; }, 'error-callback': () => { token = ''; },
+  })).catch(() => { uz.textContent = jSz('captcha'); });
+  else uz.textContent = jSz('nincs_beallitva');
+  fatyol.querySelector('#jv-nev').focus();
+  urlap.addEventListener('submit', async e => {
+    e.preventDefault();
+    uz.className = 'javaslat-uzenet';
+    const adat = { nev: ertek('nev'), ev: ertek('ev'), tervezo: ertek('tervezo'), iroda: ertek('iroda'), leiras: ertek('leiras'), link: ertek('link') };
+    if (!Object.values(adat).some(Boolean)) { uz.textContent = jSz('ures'); return; }
+    if (adat.link && !/^https?:\/\/[^\s"'<>]{3,}$/i.test(adat.link)) { uz.textContent = jSz('link_hiba'); return; }
+    if (!sitekey) { uz.textContent = jSz('nincs_beallitva'); return; }
+    if (!token) { uz.textContent = jSz('var'); return; }
+    kuld.disabled = true;
+    try {
+      const r = await fetch('/api/javaslat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...adat, iroda_oldal: !!(adat.link && fatyol.querySelector('#jv-iroda_oldal').checked), osm_tipus: p.osm_tipus || 'way', osm_id: String(p.id), lat: p.lat, lon: p.lon, cim: p.cim || '',
+          nyelv: NYELV === 'en' ? 'en' : 'hu', token, web: fatyol.querySelector('#jv-web').value }),
+      });
+      const v = await r.json().catch(() => ({}));
+      if (v && v.ok) {
+        urlap.innerHTML = `<h3>${esc(jSz('ok'))}</h3><div class="javaslat-gombok"><button type="button" class="javaslat-megse">OK</button></div>`;
+        urlap.querySelector('.javaslat-megse').addEventListener('click', zar); urlap.querySelector('.javaslat-megse').focus();
+        return;
+      }
+      uz.textContent = v.hiba === 'limit' ? jSz('korlat') : v.hiba === 'captcha' ? jSz('captcha') : v.hiba === 'empty' ? jSz('ures') : v.hiba === 'link' ? jSz('link_hiba') : jSz('hiba');
+      if (window.turnstile && v.hiba === 'captcha') { token = ''; window.turnstile.reset(); }
+    } catch (h) { uz.textContent = jSz('hiba'); }
+    kuld.disabled = false;
+  });
+}
 function szerkGomb(gid) {
   if (!szerkeszto || rogzitettGid !== gid || (epuletek[gid] && epuletek[gid].hid)) return;
   const sec = document.createElement('section');

@@ -17,6 +17,7 @@ import math
 import json
 import re
 import sys
+import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -118,6 +119,73 @@ def clean_designer(feats):
                     pr.pop(m, None)
                     if m == "tervezo":
                         pr.pop("tervezo_forras", None)
+    return count_
+
+
+OFFICES = "forras/epitesz_irodak.csv"       # kulcs;nev;tipus;...: the classified designer names (the review made earlier + the editor)
+OFFICE_TYPES = ("iroda", "intezmeny")       # these names leave the 'tervezo' (designer) field and go to the 'iroda' (architecture office) field
+
+
+def name_key(x):
+    """The key of a name as in epitesz_irodak.csv: accents removed, lower case, single spaces."""
+    x = unicodedata.normalize("NFD", str(x))
+    return " ".join(re.sub(r"[\u0300-\u036f]", "", x).lower().split())
+
+
+def load_offices(path=OFFICES):
+    """-> (the set of the keys of the office names, the office names that contain ' és ' (these must not be split into two names))."""
+    keys, joined = set(), []
+    p = Path(path)
+    if not p.exists():
+        return keys, joined
+    with open(p, encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f, delimiter=";"):
+            if r.get("tipus") in OFFICE_TYPES and r.get("kulcs"):
+                keys.add(r["kulcs"])
+                if re.search(r"\sés\s", r.get("nev") or ""):
+                    joined.append(r["nev"])
+    return keys, joined
+
+
+def split_offices(feats, keys, joined):
+    """Moves the architecture offices out of the 'tervezo' field into the new 'iroda' field (the persons stay in 'tervezo').
+    An office given by hand in 'iroda' is kept; an office that is only in 'tervezo' is added to it. Returns the number of buildings changed."""
+    count_ = 0
+    pats = [re.compile(r"\s+".join(re.escape(w) for w in n.split()), re.I) for n in joined]
+    for ft in feats:
+        pr = ft["properties"]
+        if not pr.get("tervezo") or not keys:
+            continue
+        s = str(pr["tervezo"])
+        for pat in pats:
+            s = pat.sub(lambda m: m.group(0).replace(" ", "\ue000"), s)
+        parts = re.split(r"(\s*[;,]\s*|\s+és\s+)", s)
+        persons, offices = "", []
+        for i in range(0, len(parts), 2):
+            part = parts[i].replace("\ue000", " ")
+            name = " ".join(part.split())
+            if not name:
+                continue
+            if name_key(name) in keys:
+                offices.append(name)
+            else:
+                persons += (parts[i - 1] if persons and i else "") + part
+        if not offices:
+            continue
+        have = [x.strip() for x in re.split(r"\s*[;,]\s*", str(pr.get("iroda") or "")) if x.strip()]
+        known = {name_key(h) for h in have}
+        for o in offices:
+            if name_key(o) not in known:
+                have.append(o)
+                known.add(name_key(o))
+        pr["iroda"] = ", ".join(have)
+        persons = persons.strip(" ,;")
+        if persons:
+            pr["tervezo"] = persons
+        else:
+            pr.pop("tervezo", None)
+            pr.pop("tervezo_forras", None)
+        count_ += 1
     return count_
 
 
@@ -1236,6 +1304,9 @@ def main():
     group_count, group_part_count = merge_groups(gj["features"])
     designer_bracket_count = clean_designer(gj["features"])
     print(f"  tervező-mező zárójeles tartalma törölve: {designer_bracket_count} elemnél (az utolsó körben)")
+    office_keys, office_joined = load_offices()
+    office_count = split_offices(gj["features"], office_keys, office_joined)
+    print(f"  építész iroda: {office_count} épületnél a cégnév átkerült a tervező mezőből az iroda mezőbe")
     with open(OUTPUT, "w", encoding="utf-8") as f:
         json.dump(gj, f, ensure_ascii=False)
     exclude_path = Path("forras/epitesz_irodak.csv")      # the names excluded (not persons) from the Architects tab as a static file for the public site

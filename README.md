@@ -56,6 +56,8 @@ Identifiers in the code are English, but the **data fields** (JSON/CSV column na
 | `ev_forras` | source of the year (documented, estimated, …) |
 | `kor / korszak` | construction era |
 | `tervezo / epitesz` | architect / designer |
+| `iroda` | architecture office (firm) |
+| `iroda_link` | the office's own page about the building (shown under "Learn more") |
 | `stilus` | architectural style |
 | `szintek / emelet` | number of storeys / floor |
 | `magassag` | building height (m) |

@@ -9,6 +9,8 @@ __pycache__/
 mentes_*/
 release/
 kiadas/
+suggestions/
+.dev.vars
 Claude outputs/
 # Other people's data (downloaded tables or ones extracted from them): they stay locally, but do not go to GitHub
 forras/oeny_vegleges_adatok.csv
@@ -29,3 +31,7 @@ forras/archiv/
 # one-off helper files
 git_fajlok*.txt
 git_tisztitas.bat
+
+# large video files (GitHub rejects files over 100 MB)
+video/
+*.mp4
