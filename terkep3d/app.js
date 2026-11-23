@@ -1,13 +1,13 @@
-// Budapest, épületenként: a 3D nézet.
+// Budapest, building by building: the 3D view.
 //
-// A megjelenítő magja (shader, csempebetöltés, kijelölés, évcsúszka, az időhisztogram ötlete) az
-// amszterdami projektből való: alexbarakov/amsterdam-by-building, MIT licenc (lásd LICENSE-amsterdam.txt).
-// Az adatfolyam, a korszakok, a kártya tartalma, a kétnyelvűség és a becsült korszak a budapesti rész.
+// The core of the viewer (shader, tile loading, selection, year slider, the idea of the time histogram) comes from
+// the Amsterdam project: alexbarakov/amsterdam-by-building, MIT licence (see LICENSE-amsterdam.txt).
+// The data flow, the eras, the card content, bilingual support and the estimated era are the Budapest part.
 import * as THREE from './vendor/three.module.js';
 import { MapControls } from './vendor/MapControls.js';
 import { hidakEpit, hidRekord, korlapEpit } from './hidak.js';
 
-THREE.ColorManagement.enabled = false;   // a színeket úgy rajzoljuk, ahogy megadtuk
+THREE.ColorManagement.enabled = false;   // draw the colours as given
 
 const SKY = '#e4e8ea';
 const LAND = '#f4f3ef';
@@ -18,17 +18,17 @@ const ATTR_W = 256;
 const WORKERS = Math.min(4, navigator.hardwareConcurrency || 2);
 const MODE = { period: 0, floors: 1 };
 
-// az egész város (csempek_keszites.py varos -> data_varos/); a régi belvárosi változat (data/) megszűnt
+// the whole city (csempek_keszites.py varos -> data_varos/); the old inner-city version (data/) has been retired
 const DATA = 'data_varos';
 const [config, epuletek] = await Promise.all([
   fetch(`${DATA}/budapest.json`).then(r => r.json()),
   fetch(`${DATA}/epuletek.json`).then(r => r.json()),
 ]);
 const periods = config.periods;
-let epNevek = null, epAktiv = null, epKesz = false, epBetoltes = null, epKizart = new Set(), epDijak = { ybl: {}, prima: {}, nivo: {} };   // Építészek fül
-let archSzuro = null, archKiv = null, archAdat = null, archGidek = null;   // építész-kereső: a kiemelt épületek gid-halmaza és a kiválasztott építész
+let epNevek = null, epAktiv = null, epKesz = false, epBetoltes = null, epKizart = new Set(), epDijak = { ybl: {}, prima: {}, nivo: {} };   // Architects tab
+let archSzuro = null, archKiv = null, archAdat = null, archGidek = null;   // architect search: set of highlighted building gids and the selected architect
 
-// ---------- Nyelv (magyar / angol) ----------
+// ---------- Language (Hungarian / English) ----------
 const SZOVEG = {
   hu: {
     cim: 'Budapest, épületenként', varos: 'Budapest', forras_sor: 'Domborzat: NASA SRTM · Adatok: OpenStreetMap', oldal_cim: 'Budapest épületeinek kora, interaktív 3D térkép', alcim: 'Minden ma álló épület kor és alapinformációk szerint rendezve.', about_gomb: 'Névjegy', vedett_leiras: 'Nagyjából minden {n}. épület védett az Országos Építésügyi Nyilvántartás és a kerületi szabályozások szerint.', vedett_muemlek: 'Műemlék', vedett_helyi: 'Helyi védett', vedett_ossz: 'Összesen', about_cim: 'Budapest épületei projekt', about_szoveg: 'A szöveg hamarosan.', about_alap: 'A felület alapja az Amszterdam, épületenként projekt (Alex Barakov, MIT licenc). Adatok: OpenStreetMap, E-Örökség, Wikipédia, Wikimedia Commons; domborzat: NASA SRTM.', nez_period: 'Korok', nez_layers: 'Rétegek', nez_vedett: 'Védett', nez_magassag: 'Magasság', nez_lakotelep: 'Lakótelepek', nez_arch: 'Stílusok', nez_epitesz: 'Építészek', reteg_lakotelep: 'Lakótelepek', lakotelep_leiras: '{e} lakótelep, összesen {n} épület.', ep_ker: 'Keresés az építészek között', dij_ybl: 'Ybl Miklós-díj', dij_prima: 'Prima Primissima díj', dij_nivo: 'Budapest Építészeti Nívódíja', dij_cimke: 'Díjak', ep_sorrend: 'Sorrend', ep_s_abc: 'ABC', ep_s_tobb: 'Legtöbb épület elöl', ep_s_kevesebb: 'Legkevesebb épület elöl', ep_korszak: 'Korszak', ep_minden_kor: 'Minden korszak', ep_nincs_kor: 'Nincs korszakba sorolva', ep_min1: 'Legalább', ep_min2: 'épület', ep_szam: 'építész', ep_becsult: '(becsült: a házak építési éve alapján)', arch_galeria: 'Képgaléria', arch_epulet: 'épület a térképen', arch_wiki_hiba: 'A Wikipédia-adatlap most nem érhető el.', arch_ures: 'Nincs adat.', legend_cim: 'Építés ideje', reteg_magassag: 'Magasság (szintek száma)', mod_korszak: 'Korszak', mod_szint: 'Szintek', szint_kicsi: '1 szint', szint_nagy: '40 szint',
@@ -74,8 +74,8 @@ const SZOVEG = {
   },
 };
 let NYELV = 'hu';
-try { if (localStorage.getItem('nyelv') === 'en') NYELV = 'en'; } catch (e) { /* nincs tárhely */ }
-// nyelv mélylinkből: ?lang=en|hu erősebb a tárolt beállításnál; a /en/ oldal (html lang="en") alapból angol
+try { if (localStorage.getItem('nyelv') === 'en') NYELV = 'en'; } catch (e) { /* no storage available */ }
+// language from a deep link: ?lang=en|hu overrides the stored setting; the /en/ page (html lang="en") defaults to English
 {
   const nyL = new URLSearchParams(location.search).get('lang');
   if (nyL === 'en' || nyL === 'hu') NYELV = nyL;
@@ -112,7 +112,7 @@ const VEDETTSEG = {
   en: { M: 'listed monument', MJ: 'monument-like', VK: 'townscape significance', MK: 'monument surroundings', MJT: 'area of monument significance', HV: 'local protection' },
 };
 
-// ---------- Jelenet ----------
+// ---------- Scene ----------
 const canvas = document.getElementById('scene');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
@@ -128,8 +128,8 @@ controls.maxPolarAngle = Math.PI * 0.47;
 controls.minDistance = 60;
 controls.maxDistance = 30000;
 
-// A teljes város alapértelmezett kameraállása (F5 után és a „kezdőnézet” gombbal): délről, északnak nézve, a Duna függőlegesen, balra a Budai-hegység, jobbra Pest (a felhasználó mintaképe alapján becsült érték).
-// Finomhangolás: ?nezet=x,z,azimut,emelkedes,span az URL-ben; a böngésző konzoljában __dbg.nezet() kiírja az aktuális nézet értékeit.
+// Default camera position for the whole city (after F5 and with the "home view" button): from the south, looking north, the Danube vertical, the Buda Hills on the left, Pest on the right (a value estimated from the user's reference image).
+// Fine-tuning: ?nezet=x,z,azimuth,elevation,span in the URL; in the browser console __dbg.nezet() prints the current view values.
 const VAROS_KEZDONEZET = { x: 250, z: 700, azimuth: -8, elevation: 33, span: 9500 };
 function kezdoNezet() {
   const h = Object.assign({}, config.home, VAROS_KEZDONEZET);
@@ -153,7 +153,7 @@ function goHome() {
   controls.update();
 }
 goHome();
-// Ugyanaz a kezdőnézet, de sima átrepüléssel (az építész-nézet bezárásakor).
+// The same home view, but with a smooth fly-over (when the architect view is closed).
 function kezdoRepules() {
   const h = kezdoNezet(), az0 = THREE.MathUtils.degToRad(h.azimuth), el0 = THREE.MathUtils.degToRad(h.elevation), d = h.span * 0.9;
   const t1 = new THREE.Vector3(h.x, 0, h.z);
@@ -169,7 +169,7 @@ function kezdoRepules() {
   requestAnimationFrame(lep);
 }
 
-// Talaj: domborzati háló (SRTM) a víz- és parkképpel (csempek_keszites.py). Ha nincs, sík talaj.
+// Ground: terrain mesh (SRTM) with the water and park image (csempek_keszites.py). Flat ground if missing.
 const LAND_C = new THREE.Color(LAND), WATER_C = new THREE.Color(WATER), PARK_C = new THREE.Color(PARK);
 const terrainUniforms = {
   uLand: { value: LAND_C }, uWater: { value: WATER_C }, uPark: { value: PARK_C },
@@ -220,8 +220,8 @@ const TERRAIN_FRAG = /* glsl */`
     outColor = vec4(c, 1.0);
   }
 `;
-// Bináris adatfájl (tiles.bin, terrain.bin) betöltése. A nyilvános kiadásban ezek gzip-pel tömörítve vannak
-// (a Cloudflare a .bin fájlokat magától nem tömöríti), ezt az első két bájtról (1f 8b) ismerjük fel és itt bontjuk ki.
+// Loading a binary data file (tiles.bin, terrain.bin). In the public release these are gzip-compressed
+// (Cloudflare does not compress .bin files by itself); this is detected from the first two bytes (1f 8b) and unpacked here.
 async function binarisBetolt(url) {
   const resp = await fetch(url);
   if (!resp.ok) throw new Error('nincs ' + url);
@@ -239,7 +239,7 @@ async function buildTerrain() {
   const nx = hd.getUint32(0, true), nz = hd.getUint32(4, true);
   const x0 = hd.getFloat32(8, true), z0 = hd.getFloat32(12, true), step = hd.getFloat32(16, true);
   const h = new Int16Array(buf.slice(24));
-  terepMag = (x, z) => {        // bilineáris magasság a domborzati hálóból (az utcavonalak ráfektetéséhez)
+  terepMag = (x, z) => {        // bilinear height from the terrain mesh (to lay the street lines onto it)
     const fx = (x - x0) / step, fz = (z - z0) / step;
     if (fx < 0 || fz < 0 || fx > nx - 1 || fz > nz - 1) return 0;
     const i = Math.min(Math.floor(fx), nx - 2), j = Math.min(Math.floor(fz), nz - 2), u = fx - i, v = fz - j;
@@ -247,7 +247,7 @@ async function buildTerrain() {
     return ((m00 * (1 - u) + m10 * u) * (1 - v) + (m01 * (1 - u) + m11 * u) * v) / 10;
   };
   const SKIRT = -120;
-  const W = nx + 2, H = nz + 2;      // egy külső gyűrű: a szél lefelé "szoknya"
+  const W = nx + 2, H = nz + 2;      // an outer ring: the edge forms a downward "skirt"
   const pos = new Float32Array(W * H * 3);
   for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
     const ci = Math.min(Math.max(i - 1, 0), nx - 1), cj = Math.min(Math.max(j - 1, 0), nz - 1);
@@ -291,7 +291,7 @@ buildTerrain().catch(() => {
   flat.add(new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: LAND })));
 });
 
-// ---------- Közös uniformok ----------
+// ---------- Shared uniforms ----------
 const col = c => new THREE.Color(c);
 const uniforms = {
   uYear: { value: config.yearMax },
@@ -314,14 +314,14 @@ const uniforms = {
   uFog: uniformsFog().uFog,
 };
 
-// Kiemelés (védett / Wikipédia / Lechner): épületenként egy bit; a kiemeltek megtartják a színüket, a többi elhalványul.
+// Highlighting (protected / Wikipedia / Lechner): one bit per building; highlighted ones keep their colour, the rest fade.
 const PICK_ROWS = Math.ceil(config.stats.buildings / ATTR_W);
 const pickData = new Uint8Array(ATTR_W * PICK_ROWS * 4);
 const pickTex = new THREE.DataTexture(pickData, ATTR_W, PICK_ROWS, THREE.RGBAFormat, THREE.UnsignedByteType);
 pickTex.needsUpdate = true;
 uniforms.uPick.value = pickTex;
 
-// Épületcsoport: gid -> csoportsorszám (16 bit, 0 = nincs csoport); a csoport összes tagja együtt világít ki
+// Building group: gid -> group number (16 bits, 0 = no group); all members of a group light up together
 const grpData = new Uint8Array(ATTR_W * PICK_ROWS * 4);
 const grpTex = new THREE.DataTexture(grpData, ATTR_W, PICK_ROWS, THREE.RGBAFormat, THREE.UnsignedByteType);
 const grpIdx = new Uint16Array(ATTR_W * PICK_ROWS);
@@ -373,11 +373,11 @@ const VERT = /* glsl */`
     g = g * g * (3.0 - 2.0 * g);
     if (g <= 0.003 || vis <= 0.003) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
 
-    // Belépő animáció: csak a lejátszott filmnél és a csempék betöltésekor. Az épület a saját oldaláról "esik be".
+    // Entry animation: only for the played film and when tiles load. The building "drops in" from its own side.
     vec3 p = position;
     vRel = position.y * 0.1;
     vec4 lay = texelFetch(uAttr, tc + ivec2(1, 0), 0);
-    p.y += lay.x + lay.y * 65536.0 - 1000.0;   // talpmagasság (dm)
+    p.y += lay.x + lay.y * 65536.0 - 1000.0;   // base height (dm)
     float seed = fract(sin(a.w * 12.9898) * 43758.5453);
     float arrive = clamp((uNow - uBorn) / 0.9 - seed * 0.35, 0.0, 1.0);
     float fly = 1.0 - arrive;
@@ -396,7 +396,7 @@ const VERT = /* glsl */`
     if (vGid == uHover || vGid == uSelected || (grp > 0.5 && (grp == uHoverGrp || grp == uSelGrp))) c = mix(c, vec3(0.0), 0.35);
     if (uPickOn > 0.5) {
       int gi = int(vGid + 0.5);
-      if (texelFetch(uPick, ivec2(gi % ${ATTR_W}, gi / ${ATTR_W}), 0).x < 0.5) c = vec3(1.0);   // kiemelés-szűrő: ami nem esik bele, fehér
+      if (texelFetch(uPick, ivec2(gi % ${ATTR_W}, gi / ${ATTR_W}), 0).x < 0.5) c = vec3(1.0);   // highlight filter: whatever does not match is white
     }
     vColor = c;
     vec4 w = modelMatrix * vec4(p, 1.0);
@@ -420,7 +420,7 @@ const FRAG = /* glsl */`
       outColor = vec4(mod(id, 256.0), mod(floor(id / 256.0), 256.0), floor(id / 65536.0), 255.0) / 255.0;
     #else
       vec3 n = normalize(cross(dFdx(vWorld), dFdy(vWorld)));
-      // Alacsony délutáni nap délnyugatról, lágy égbolt-fény felülről.
+      // Low afternoon sun from the south-west, soft sky light from above.
       float sun = max(dot(n, normalize(vec3(-0.55, 0.55, 0.62))), 0.0);
       float light = n.y > 0.9 ? 1.04 : 0.66 + 0.34 * sun;
       float foot = mix(0.82, 1.0, clamp(vRel / 12.0, 0.0, 1.0));
@@ -443,24 +443,24 @@ function makeMaterial(tex, pick, born) {
   });
 }
 
-// ---------- Csempék ----------
+// ---------- Tiles ----------
 const meshes = [];
 
-// A hidak a jelmagyarázat korszak-jelölőnégyzeteit és az időcsúszkát is követik, mint az épületek (kor szerint, évszám nélkül mindig látszanak).
+// Bridges follow the legend's era checkboxes and the time slider like buildings do (by era; those without a year are always visible).
 const hidRek = o => epuletek[o.userData.rek != null ? o.userData.rek : EPULET_DB + o.userData.hid];
-// A hidak csak akkor jelennek meg, ha a város (az összes csempe) betöltődött; ekkor "esnek be" (hidBorn), lejátszáskor pedig az építési évükben emelkednek ki, mint az épületek.
+// Bridges appear only once the whole city (all tiles) has loaded; they then "drop in" (hidBorn), and during playback they rise at their construction year, like buildings.
 const hidBorn = { value: 1e9 };
 function hidFrissit() {
   const Y = uniforms.uYear.value, kesz = loaded === config.tiles.length;
   const lat = o => { const p = hidRek(o); return !!(p && maskTarget[p.kor]) && (!p || !p.ev || p.ev <= Y + 1); };
   for (const m of hidMeshek) m.visible = lat(m) && (m.userData.hid == null || kesz);
-  // a vonalak (kábelek, ív) nem animáltak: addig rejtve maradnak, amíg a híd teste meg nem érkezett / ki nem emelkedett
+  // the lines (cables, arch) are not animated: they stay hidden until the bridge body has arrived / has risen
   const megerkezett = kesz && uniforms.uNow.value - hidBorn.value > 1.4;
   for (const l of hidVonalak) { const p = hidRek(l); l.visible = lat(l) && megerkezett && (!uniforms.uPlaying.value || !p || !p.ev || Y >= p.ev + uniforms.uRise.value); }
 }
 
-// ---------- Duna-hidak (vázlatos modell; hidak_keszites.py -> hidak.json) ----------
-const EPULET_DB = epuletek.length;       // a hidak kártya-rekordjai az épületek után következnek: gid = EPULET_DB + híd sorszáma
+// ---------- Danube bridges (schematic model; hidak_keszites.py -> hidak.json) ----------
+const EPULET_DB = epuletek.length;       // the bridges' card records follow the buildings: gid = EPULET_DB + bridge index
 const hidMeshek = [], hidVonalak = [];
 fetch(`${DATA}/hidak.json`).then(r => (r.ok ? r.json() : null)).then(adat => {
   if (!adat || !adat.hidak || !adat.hidak.length) return;
@@ -470,12 +470,12 @@ fetch(`${DATA}/hidak.json`).then(r => (r.ok ? r.json() : null)).then(adat => {
   scene.add(ut.csoport);
   hidMeshek.push(...ut.meshek);
   hidVonalak.push(...ut.vonalak);
-  frissitKiemelest();   // a már bekapcsolt kiemelés-szűrő a hidakra is érvényes
+  frissitKiemelest();   // an already active highlight filter also applies to bridges
 }).catch(() => {});
-// Az óriáskerék (OSM way 386319234) 65 m magas dobozként félrevezető: a csempékből kihagyjuk, helyette vékony, függőleges körlapot rajzolunk (ugyanaz a kártya/kiemelés).
+// The Ferris wheel (OSM way 386319234) is misleading as a 65 m tall box: it is left out of the tiles and a thin, vertical disc is drawn instead (same card/highlight).
 const KEREK_GID = epuletek.findIndex(p => p && !p.hid && p.id === 386319234 && (p.osm_tipus || 'way') === 'way');
 var kerekMesh = null, kerekX = 0, kerekZ = 0;
-// a körlap a terep magasságára kerül (három mintapont a lap síkjának tengelyén, a legalacsonyabb)
+// the disc is placed at ground height (three sample points along the disc's axis, the lowest one)
 function kerekMagassag() {
   if (!kerekMesh || !terepMesh) return;
   terepMesh.updateMatrixWorld(true);
@@ -487,13 +487,13 @@ function kerekMagassag() {
   }
   if (isFinite(y)) kerekMesh.position.y = y;
 }
-// a körlap akkor jelenik meg (és ugyanúgy "esik be"), amikor az óriáskerék csempéje betöltődik
+// the disc appears (and "drops in" the same way) when the Ferris wheel's tile has loaded
 function kerekEpit(born) {
   if (kerekMesh || KEREK_GID < 0) return;
   const kp = epuletek[KEREK_GID];
-  kerekX = (kp.lon - 19.0515) * Math.cos(47.5015 * Math.PI / 180) * 111320; kerekZ = -(kp.lat - 47.5015) * 110574;   // LON0/LAT0/COSLAT később van deklarálva
+  kerekX = (kp.lon - 19.0515) * Math.cos(47.5015 * Math.PI / 180) * 111320; kerekZ = -(kp.lat - 47.5015) * 110574;   // LON0/LAT0/COSLAT are declared later
   const kc = col(periods[Math.max(0, periods.findIndex(q => q.to !== 0 && kp.ev >= q.from && kp.ev <= q.to))].color);
-  // a lap síkja a lábnyom hosszú tengelyében áll (kb. ÉNy–DK); 65 m-es csúcs: R = 31,5 m, alsó pontja 2 m-en
+  // the disc's plane lies along the footprint's long axis (roughly NW-SE); 65 m peak: R = 31.5 m, lowest point at 2 m
   const km = korlapEpit(THREE, { ...uniformsFog(), uMaquette: uniforms.uMaquette, uYear: uniforms.uYear, uNow: uniforms.uNow, uPlaying: uniforms.uPlaying, uRise: uniforms.uRise },
     KEREK_GID, [kc.r, kc.g, kc.b], kerekX, kerekZ, -0.731, -0.682, 31.5, 33.5, 1.2, kp.ev, born);
   scene.add(km);
@@ -511,8 +511,8 @@ function addTile(m) {
   g.setAttribute('position', new THREE.BufferAttribute(m.pos, 3));
   g.setAttribute('bld', new THREE.BufferAttribute(m.bld, 1));
   g.setIndex(new THREE.BufferAttribute(m.idx, 1));
-  // A talpmagasságot (domborzat) a vertex shader adja hozzá, a háló geometriája a talaj szintjén van. A kijelölésnél (1 képpontos nézetcsonk)
-  // a három.js ezért kiszűrné a magasan fekvő épületeket (pl. Jánoshegy), ha nem a függőleges alatt nézzük őket: a határgömböt megnöveljük (700 m).
+  // The base height (terrain) is added by the vertex shader; the mesh geometry sits at ground level. For picking (a 1-pixel view stub)
+  // three.js would therefore cull high-lying buildings (e.g. Jánoshegy) unless viewed from directly above: the bounding sphere is enlarged (700 m).
   g.computeBoundingSphere();
   g.boundingSphere.radius += 7000;
   const rows = Math.ceil(m.nB / ATTR_W);
@@ -548,7 +548,7 @@ for (const w of pool) {
   next();
 }
 
-// ---------- Kijelölés (melyik épület van az egér alatt) ----------
+// ---------- Picking (which building is under the pointer) ----------
 const pickTarget = new THREE.WebGLRenderTarget(1, 1);
 const pickPixel = new Uint8Array(4);
 function pick(x, y) {
@@ -573,7 +573,7 @@ function pick(x, y) {
   return pickPixel[0] + pickPixel[1] * 256 + pickPixel[2] * 65536 - 1;
 }
 
-// ---------- Kártya ----------
+// ---------- Card ----------
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 function inkOn(hex) {
@@ -586,7 +586,7 @@ var TIPUS_HU = { apartments: 'lakóház (társasház)', house: 'lakóház', resi
 function tipusNev(v) {
   if (!v) return v;
   const r = String(v).split(';').map(x => x.trim()).filter(x => x && x !== 'yes').map(x => NYELV === 'en' ? x : (TIPUS_HU[x] || x));
-  return r.length ? r.join(', ') : '-';       // 'yes' (általános épület): nincs konkrét típus, "-" jelenik meg
+  return r.length ? r.join(', ') : '-';       // 'yes' (generic building): no specific type, "-" is shown
 }
 function gmapsUrl(p) {
   const q = p.cim ? `${p.cim}, Budapest` : `${p.lat},${p.lon}`;
@@ -605,14 +605,14 @@ function wikipediaLinkek(p) {
 
 function vedettsegSzoveg(p) {
   const r = [];
-  const kod = p.vedettseg || (p.vedettseg_helyi ? 'HV' : '');   // helyi védelem önálló típus: csak helyi védelem esetén ez a fő védettség
+  const kod = p.vedettseg || (p.vedettseg_helyi ? 'HV' : '');   // local protection is a type of its own: only for local protection is this the main protection status
   if (kod) r.push((VEDETTSEG[NYELV][kod] || kod) + (p.muemlek_torzsszam && kod !== 'HV' ? ` (${t('torzsszam')} ${p.muemlek_torzsszam})` : ''));
   if (p.vedettseg_helyi && kod !== 'HV') r.push(VEDETTSEG[NYELV].HV || p.vedettseg_helyi);
   return r.join(', ');
 }
 
-// A rajzolt zóna adata az ev_becsles indoklásából: "…; rajzolt zóna: Név (1971–1975); …"
-// Ha az épület rajzolt zónában van, a kártyán a zóna neve és a zónához kötött időszak látszik (a szín a becsült korszaké marad).
+// Data of the drawn zone from the reasoning of ev_becsles: "...; drawn zone: Name (1971-1975); ..."
+// If the building lies in a drawn zone, the card shows the zone's name and the period tied to it (the colour stays that of the estimated era).
 function zonaAdat(p) {
   const m = /rajzolt zóna: (.*?) \((\d{3,4})[–-](\d{3,4})\)(?=;|$)/.exec(String(p.ev_becsles_indoklas || ''));
   if (!m) return null;
@@ -622,13 +622,13 @@ function zonaAdat(p) {
 
 function kozelitoIdo(p) { return +p.ev_kozelito_tol === +p.ev_kozelito_ig ? String(p.ev_kozelito_tol) : `${p.ev_kozelito_tol}–${p.ev_kozelito_ig}`; }
 
-// ---------- Meghatározó épületek adatlapjai (adatlapok.json <- py adatlapok_keszites.py): szöveg, képgaléria, források a térképi kártyában ----------
+// ---------- Data sheets of key buildings (adatlapok.json <- py adatlapok_keszites.py): text, image gallery, sources in the map card ----------
 let adatlapok = null;
 const adatlapBe = fetch('adatlapok.json').then(r => (r.ok ? r.json() : null)).then(j => { adatlapok = j; }).catch(() => {});
 const adatlapAdat = p => (adatlapok && p && adatlapok.adatlapok[(p.osm_tipus || 'way') + '/' + p.id]) || null;
 const biztonsagosUrl = u => /^https?:\/\/[^\s"'<>]+$/i.test(u || '');
-// Képgaléria a kártyában (mint az amszterdami projektben): nagy kép, ‹ › nyíl, a kép sarkában a címke, alatta a forrás, majd címke-gombok soronként (pl. évszám).
-// Forrása: az automatikus fotó (Commons, Budapest100, …) + az adatlap képei (adatlapok.json) + a szerkesztőben megadott „Kép linkek". A címke a felirat évszáma, különben a sorszám.
+// Image gallery in the card (as in the Amsterdam project): large image, ‹ › arrows, the label in the image corner, the source below, then label buttons row by row (e.g. year).
+// Sources: the automatic photo (Commons, Budapest100, ...) + the data sheet's images (adatlapok.json) + the "Image links" given in the editor. The label is the year in the caption, otherwise the index.
 function galeriaDiak(p) {
   const d = [], ad = adatlapAdat(p);
   const kesz = k => {
@@ -636,7 +636,7 @@ function galeriaDiak(p) {
     if (k.felirat) reszek.push(esc(k.felirat));
     if (k.szerzo) reszek.push((NYELV === 'en' ? 'Photo: ' : 'Fotó: ') + esc(k.szerzo));
     if (k.fp) reszek.push(`${t('kep_forras')}: <a href="${esc(k.lap)}" target="_blank" rel="noopener noreferrer">Fortepan #${esc(k.fp)}</a>`);
-    else if (biztonsagosUrl(k.lap)) { let h = k.lap; try { h = new URL(k.lap).hostname.replace(/^www\./, ''); } catch (e) { /* marad */ } reszek.push(`${t('kep_forras')}: <a href="${esc(k.lap)}" target="_blank" rel="noopener noreferrer">${esc(h)}</a>`); }
+    else if (biztonsagosUrl(k.lap)) { let h = k.lap; try { h = new URL(k.lap).hostname.replace(/^www\./, ''); } catch (e) { /* stays */ } reszek.push(`${t('kep_forras')}: <a href="${esc(k.lap)}" target="_blank" rel="noopener noreferrer">${esc(h)}</a>`); }
     if (k.licenc) reszek.push(k.licencUrl ? `<a href="${esc(k.licencUrl)}" target="_blank" rel="noopener noreferrer">${esc(k.licenc)}</a>` : esc(k.licenc));
     const ev = /(?:^|\D)(1[5-9]\d\d|20[0-3]\d)(?!\d)/.exec(k.felirat || k.szerzo || '');
     return { src: k.src, html: reszek.join(' · '), chip: ev ? ev[1] : '', ev: ev ? +ev[1] : null };
@@ -645,14 +645,14 @@ function galeriaDiak(p) {
   String((p && p.kepek_linkek) || '').split('\n').forEach(sor => {
     const i = sor.lastIndexOf('|'), url = sor.slice(i + 1).trim(), felirat = i >= 0 ? sor.slice(0, i).trim() : '';
     if (!/^https:\/\/[^\s"'<>]+$/i.test(url)) return;
-    const fp = /^https:\/\/(?:[a-z0-9-]+\.)?fortepan\.(?:hu|download)\/[^\s"'<>]*?fortepan_(\d+)/i.exec(url);      // Fortepan: az azonosítóból a fotóoldal és a licenc
+    const fp = /^https:\/\/(?:[a-z0-9-]+\.)?fortepan\.(?:hu|download)\/[^\s"'<>]*?fortepan_(\d+)/i.exec(url);      // Fortepan: the photo page and licence derived from the id
     d.push(kesz(fp ? { src: url, felirat, fp: fp[1], lap: `https://fortepan.hu/hu/photos/?id=${fp[1]}`, licenc: 'CC BY-SA 3.0', licencUrl: 'https://creativecommons.org/licenses/by-sa/3.0/' } : { src: url, felirat, lap: url }));
   });
-  d.sort((x, y) => (x.ev === null ? 1e9 : x.ev) - (y.ev === null ? 1e9 : y.ev));      // időrend (évszám nélküliek a végén, a megadás sorrendjében)
+  d.sort((x, y) => (x.ev === null ? 1e9 : x.ev) - (y.ev === null ? 1e9 : y.ev));      // chronological order (those without a year at the end, in the order given)
   d.forEach((k, i) => { if (!k.chip) k.chip = String(i + 1); });
   return d;
 }
-// Az automatikus fotó (kepLeker eredménye) a galéria első diája lesz
+// The automatic photo (the result of kepLeker) becomes the gallery's first slide
 function galeriaAutoDia(k) {
   const link = (u, sz) => u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(sz)}</a>` : esc(sz);
   const f = `${t('kep_forras')}: `;
@@ -660,7 +660,7 @@ function galeriaAutoDia(k) {
     const az = k.azonositok[0], lap = `https://www.oeny.hu/oeny/eorok/public/monument/${az}`;
     return { src: `https://www.oeny.hu/oeny/eorok/public/api/v1/ovnyr/muemlek/${az}/kep`, html: f + link(lap, 'E-Örökség') + ' (oeny.hu; a fotó jogai a megjelölt jogtulajdonosé)' };
   }
-  if (k.forras === 'url') { let h = 'link'; try { h = new URL(k.lap).hostname.replace(/^www\./, ''); } catch (e) { /* marad */ } return { src: k.src, html: f + esc(h) }; }
+  if (k.forras === 'url') { let h = 'link'; try { h = new URL(k.lap).hostname.replace(/^www\./, ''); } catch (e) { /* stays */ } return { src: k.src, html: f + esc(h) }; }
   if (k.forras === 'legenda') return { src: k.src, html: f + link(k.lap, 'Budapest Legenda') + ' (budapestlegenda.hu)' };
   if (k.forras === 'bp100') return { src: k.src, html: f + (k.foto ? '© ' + esc(k.foto) + ' · ' : '') + link(k.lap, 'Budapest100') + ' (budapest100.hu)' };
   return { src: k.src, html: f + esc(k.szerzo || 'Wikimedia Commons') + ' · ' + link(k.licencUrl, k.licenc || 'Wikimedia Commons') + ' · ' + link(k.lap, 'Wikimedia Commons')
@@ -689,7 +689,7 @@ function galeriaBetolt(gid) {
     chipek.querySelectorAll('button').forEach((b, j) => b.classList.toggle('aktiv', j === akt));
     const aktChip = chipek.querySelector('.aktiv'); if (aktChip && chipek.scrollWidth > chipek.clientWidth) aktChip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   };
-  kep.addEventListener('error', () => {      // a nem betölthető képet kihagyja; ha egyik sem tölthető be, jön az automatikus fotó
+  kep.addEventListener('error', () => {      // skips an image that cannot be loaded; if none can be loaded, the automatic photo is used
     diak.splice(akt, 1);
     if (diak.length) { rajzol(); mut(Math.min(akt, diak.length - 1)); return; }
     hely.hidden = true; hely.classList.remove('galeria'); hely.innerHTML = '';
@@ -697,20 +697,20 @@ function galeriaBetolt(gid) {
   });
   hely.querySelector('.gal-kep').addEventListener('click', ev => { const b = ev.target.closest('button[data-d]'); if (b) { lapozott = true; mut(akt + +b.dataset.d); } });
   chipek.addEventListener('click', ev => { const b = ev.target.closest('button[data-i]'); if (b) { lapozott = true; mut(+b.dataset.i); } });
-  let x0 = null;      // húzás (érintőképernyő / egér): balra = következő, jobbra = előző
+  let x0 = null;      // drag (touch screen / mouse): left = next, right = previous
   kep.addEventListener('pointerdown', ev => { x0 = ev.clientX; });
   kep.addEventListener('pointerup', ev => { if (x0 !== null && diak.length > 1 && Math.abs(ev.clientX - x0) > 40) { lapozott = true; mut(akt + (ev.clientX < x0 ? 1 : -1)); } x0 = null; });
   rajzol();
-  mut(ujabbDia());      // a legújabb (legkésőbbi évszámú) kép látszik először, nem a legkorábbi
+  mut(ujabbDia());      // the newest (latest-year) image is shown first, not the earliest
   hely.hidden = false;
-  // az automatikus fotó (az „eredeti") elé kerül, hacsak közben nem lapozott a felhasználó
+  // the automatic photo goes in front of the "original", unless the user has paged in the meantime
   if (!nincsKep(p) && kepLehet(p)) {
     if (!kepGyorsitotar.has(gid)) kepGyorsitotar.set(gid, kepLeker(p).catch(() => null));
     kepGyorsitotar.get(gid).then(k => {
       if (!k || rogzitettGid !== gid || !kartya.contains(hely) || !hely.classList.contains('galeria')) return;
       const dia = galeriaAutoDia(k);
       const jelenlegi = diak[akt];
-      dia.chip = NYELV === 'en' ? 'Today' : 'Ma';      // az automatikus (mai) fotó az időrend végén áll, és ez látszik először
+      dia.chip = NYELV === 'en' ? 'Today' : 'Ma';      // the automatic (current) photo stands at the end of the timeline, and it is shown first
       diak.push(dia);
       rajzol();
       mut(lapozott ? diak.indexOf(jelenlegi) : diak.length - 1);
@@ -755,12 +755,12 @@ function kartyaHtml(p, rogzitett) {
   if (p.stilus) sorok.push([t('stilus'), esc(p.stilus)]);
   const ved = vedettsegSzoveg(p);
   if (ved) sorok.push([t('vedettseg'), esc(ved)]);
-  const tobb = [];     // „Tudj meg többet": az épületről szóló külső oldalak (E-Örökség, Budapest100, Építészfórum, Budapest Legenda)
+  const tobb = [];     // "Learn more": external pages about the building (E-Örökség, Budapest100, Építészfórum, Budapest Legenda)
   String(p.oeny_azonosito || '').split('|').filter(a => /^\d{1,8}$/.test(a)).forEach(a =>
     tobb.push(`<a href="https://www.oeny.hu/oeny/eorok/public/monument/${a}" target="_blank" rel="noopener">E-Örökség (OENY)${p.muemlek_torzsszam ? ', törzsszám ' + esc(p.muemlek_torzsszam) : ''}</a>`));
   if (/^https:\/\/budapest100\.hu\//.test(p.budapest100_url || ''))
     tobb.push(`<a href="${esc(p.budapest100_url)}" target="_blank" rel="noopener">Budapest100</a>`);
-  const epfCikkek = String(p.epforum_url || '').split('|').filter(u => /^https:\/\/epiteszforum\.hu\//.test(u));   // a pont cikkei (nem a térkép választóoldala)
+  const epfCikkek = String(p.epforum_url || '').split('|').filter(u => /^https:\/\/epiteszforum\.hu\//.test(u));   // the point's articles (not the map's landing page)
   epfCikkek.forEach((u, n) => tobb.push(`<a href="${esc(u)}" target="_blank" rel="noopener">Építészfórum${epfCikkek.length > 1 ? ' (' + (n + 1) + ')' : ''}</a>`));
   if (legendaLap(p)) tobb.push(`<a href="${esc(legendaLap(p))}" target="_blank" rel="noopener">Budapest Legenda</a>`);
   html += `<section><dl>${sorok.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></section>`;
@@ -770,7 +770,7 @@ function kartyaHtml(p, rogzitett) {
   if (p.about) html += `<section><div style="white-space:pre-line">${esc(p.about)}</div></section>`;
   if (/^https?:\/\/[^\s"'<>]+$/i.test(p.link_url || '')) {
     let host = p.link_url;
-    try { host = new URL(p.link_url).hostname.replace(/^www\./, ''); } catch (e) { /* marad a teljes cím */ }
+    try { host = new URL(p.link_url).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
     html += `<section><a href="${esc(p.link_url)}" target="_blank" rel="noopener noreferrer">${esc(host)}</a></section>`;
   }
   if (p.csoport_reszek) html += `<section><h4>${NYELV === 'en' ? 'Parts of the building' : 'Az épület részei'}</h4><div style="white-space:pre-line"><small>${esc(p.csoport_reszek)}</small></div></section>`;
@@ -782,15 +782,15 @@ function kartyaHtml(p, rogzitett) {
     const i = sor.lastIndexOf('|'), url = sor.slice(i + 1).trim(), felirat = i >= 0 ? sor.slice(0, i).trim() : '';
     if (!/^https?:\/\/[^\s"'<>]+$/i.test(url)) return;
     let host = url;
-    try { host = new URL(url).hostname.replace(/^www\./, ''); } catch (e) { /* marad a teljes cím */ }
+    try { host = new URL(url).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
     forrasok.push(`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(felirat || host)}</a>`);
   });
   if (/^Q\d+$/.test(p.wikidata_id || '')) forrasok.push(`<a href="https://www.wikidata.org/wiki/${p.wikidata_id}" target="_blank" rel="noopener">Wikidata: ${p.wikidata_id}</a>`);
-  // az OpenStreetMap-azonosító linkje el van rejtve a kártyán
+  // the link of the OpenStreetMap id is hidden on the card
   if (p.lat !== undefined) forrasok.push(`<a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${p.sv_lat !== undefined ? p.sv_lat : p.lat},${p.sv_lon !== undefined ? p.sv_lon : p.lon}" target="_blank" rel="noopener">${t('utcakep')}</a>`);
   html += `<section><h4>${t('forrasok')}</h4><div>${forrasok.join('<br>')}</div></section>`;
 
-  if (false && p.lechner_nev) {   // a Lechner-blokk el van rejtve (az adat a háttérben megmarad)
+  if (false && p.lechner_nev) {   // the Lechner block is hidden (the data stays in the background)
     let l = `<h4>${t('lechner_blokk')}</h4>${t('megnevezes')}: ${esc(p.lechner_nev)}<br>`;
     if (p.lechner_epult) l += `${t('epult')}: ${esc(p.lechner_epult)}<br>`;
     if (p.lechner_tervezo) l += `${t('tervezo')}: ${esc(p.lechner_tervezo)}<br>`;
@@ -801,7 +801,7 @@ function kartyaHtml(p, rogzitett) {
 }
 
 
-// ---------- Wikipédia-kivonat (a kártyán, rögzítéskor tölt be; CC BY-SA 4.0, forrásmegjelöléssel) ----------
+// ---------- Wikipedia extract (on the card, loaded when pinned; CC BY-SA 4.0, with attribution) ----------
 const wikiGyorsitotar = new Map();
 function wikiCikkek(p) {
   return String(p.wikipedia || '').split('|').map(c => /^(hu|en):(.+)$/.exec(c.trim())).filter(Boolean)
@@ -819,7 +819,7 @@ function wikiKivonatLeker(c) {
 function wikiBetolt(gid) {
   const p = epuletek[gid], hely = kartya.querySelector('.wikikivonat');
   if (!p || !hely) return;
-  // az angol felületen az angol cikket részesítjük előnyben, ha van
+  // in the English interface the English article is preferred, if there is one
   const lista = wikiCikkek(p).sort((a, b) => (b.nyelv === NYELV) - (a.nyelv === NYELV));
   const c = lista[0];
   wikiKivonatLeker(c).then(j => {
@@ -837,12 +837,12 @@ function wikiBetolt(gid) {
   });
 }
 
-// ---------- Kép a kártyán: Wikimedia Commons (Wikidata P18 vagy a Wikipédia-cikk képe), szabad licenccel és szerzővel ----------
+// ---------- Image on the card: Wikimedia Commons (Wikidata P18 or the Wikipedia article's image), with a free licence and author ----------
 const kepGyorsitotar = new Map();
 const legendaLap = p => /^https:\/\/budapestlegenda\.hu\//.test(p.legenda_url || '') ? p.legenda_url : '';
 const legendaKep = p => (legendaLap(p) && /^https:\/\/([a-z0-9-]+\.)*budapestlegenda\.hu\//i.test(p.legenda_kep || '')) ? p.legenda_kep : '';
 const kepUrl = p => (/^https:\/\/[^\s"'<>]+$/i.test(p.kep_url || '') && !p.kep_url_hibas) ? p.kep_url : '';
-const nincsKep = p => String(p.commons_kep || '').trim().toLowerCase() === 'nincs';   // kézzel letiltott fotó: commons_kep = nincs
+const nincsKep = p => String(p.commons_kep || '').trim().toLowerCase() === 'nincs';   // manually disabled photo: commons_kep = nincs
 const kepLehet = p => !nincsKep(p) && !!(p.kep || kepUrl(p) || keziCommonsFajl(p) || p.hid || bp100Kep(p) || legendaKep(p) || oenyAzonositok(p).length || /^Q\d+$/.test(p.wikidata_id || '') || wikiCikkek(p).length);
 const commonsFajl = j => {
   const m = /\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/]+)/.exec((j && j.originalimage && j.originalimage.source) || '');
@@ -850,17 +850,17 @@ const commonsFajl = j => {
 };
 const bp100Kep = p => (p.budapest100_kep && /^https:\/\/([a-z0-9-]+\.)*budapest100\.hu\//i.test(p.budapest100_kep)
   && /^https:\/\/budapest100\.hu\//.test(p.budapest100_url || '')) ? p.budapest100_kep : '';
-// E-Örökség (oeny.hu): a műemlék adatlapjának fotója közvetlenül elérhető a böngészőből; csak ha más forrásból nincs kép, és
-// csak a kártya megnyitásakor kérjük le (nincs gyűjtés). Az oeny_azonosito a monument/<azonosító> oldal száma.
+// E-Örökség (oeny.hu): the photo of a monument's data sheet is directly reachable from the browser; only if no image is available from another source, and
+// only requested when the card is opened (no harvesting). oeny_azonosito is the number of the monument/<id> page.
 const oenyAzonositok = p => String(p.oeny_azonosito || '').split('|').filter(a => /^\d{1,8}$/.test(a)).slice(0, 3);
 async function kepLeker(p) {
   if (nincsKep(p)) return null;
-  // sorrend: 1. kézzel megadott Commons-fotó, 2. E-Örökség (OENY) fotó, 3. Budapest100, 4. Budapest Legenda, 5. Commons; ha az OENY-kép nem tölthető be, jön a következő
-  if (kepUrl(p) && !keziCommonsFajl(p)) return { forras: 'url', src: kepUrl(p), lap: /^https?:\/\/[^\s"'<>]+$/i.test(p.link_url || '') ? p.link_url : kepUrl(p) };   // kézzel megadott fotó-URL (pl. köztéri alkotás)
+  // order: 1. manually given Commons photo, 2. E-Örökség (OENY) photo, 3. Budapest100, 4. Budapest Legenda, 5. Commons; if the OENY image cannot be loaded, the next one is used
+  if (kepUrl(p) && !keziCommonsFajl(p)) return { forras: 'url', src: kepUrl(p), lap: /^https?:\/\/[^\s"'<>]+$/i.test(p.link_url || '') ? p.link_url : kepUrl(p) };   // manually given photo URL (e.g. public artwork)
   if (!keziCommonsFajl(p) && oenyAzonositok(p).length && !p.oeny_kep_hibas) return { forras: 'oeny', azonositok: oenyAzonositok(p) };
   return kepLekerElso(p);
 }
-// Kézzel megadott Commons-fotó (forras/kezi_javitasok.csv, mezo = commons_kep; érték: a Commons-fájl linkje vagy a fájlneve). Minden más forrást megelőz.
+// Manually given Commons photo (forras/kezi_javitasok.csv, mezo = commons_kep; value: the Commons file's link or file name). Takes precedence over every other source.
 const keziCommonsFajl = p => {
   let v = String(p.commons_kep || '').trim();
   if (!v) return null;
@@ -872,8 +872,8 @@ const keziCommonsFajl = p => {
 };
 async function kepLekerElso(p) {
   const keziFajl = keziCommonsFajl(p);
-  if (!keziFajl && bp100Kep(p)) return { src: bp100Kep(p), lap: p.budapest100_url, forras: 'bp100', foto: p.budapest100_foto || '' };   // a Budapest100-oldal képe megelőzi a Commonsot
-  if (!keziFajl && legendaKep(p)) return { src: legendaKep(p), lap: legendaLap(p), forras: 'legenda' };   // utána a Budapest Legenda-oldal képe, ez is megelőzi a Commonsot
+  if (!keziFajl && bp100Kep(p)) return { src: bp100Kep(p), lap: p.budapest100_url, forras: 'bp100', foto: p.budapest100_foto || '' };   // the Budapest100 page's image takes precedence over Commons
+  if (!keziFajl && legendaKep(p)) return { src: legendaKep(p), lap: legendaLap(p), forras: 'legenda' };   // then the Budapest Legenda page's image, which also takes precedence over Commons
   let fajl = keziFajl || (p.hid && p.kep_fajl ? String(p.kep_fajl).replace(/^(?:File|Fájl):/i, '').replace(/ /g, '_') : null);
   if (!fajl && /^Q\d+$/.test(p.wikidata_id || '')) {
     try {
@@ -882,17 +882,17 @@ async function kepLekerElso(p) {
       const c = (j.claims && j.claims.P18) || [];
       const jo = c.find(x => x.rank === 'preferred') || c[0];
       if (jo && jo.mainsnak && jo.mainsnak.datavalue) fajl = String(jo.mainsnak.datavalue.value).replace(/ /g, '_');
-    } catch (e) { /* tovább a cikk képére */ }
+    } catch (e) { /* continue with the article's image */ }
   }
-  if (!fajl && p.kep) {   // a commons_kepek.py által a címhez vagy a névhez párosított fotó
+  if (!fajl && p.kep) {   // the photo matched to the address or name by commons_kepek.py
     const [f, a, l, u, m, r] = p.kep;
     return { src: `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(f)}?width=800`,
              lap: `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(f)}`, szerzo: a, licenc: l, licencUrl: u, mod: m, reszlet: r };
   }
   if (!fajl && wikiCikkek(p).length) {
-    try { fajl = commonsFajl(await wikiKivonatLeker(wikiCikkek(p)[0])); } catch (e) { /* nincs kép */ }
+    try { fajl = commonsFajl(await wikiKivonatLeker(wikiCikkek(p)[0])); } catch (e) { /* no image */ }
   }
-  if (!fajl && p.hid && p.nev) {   // híd: keresés a Commonsban a nevére (több névváltozattal, egyre engedékenyebben)
+  if (!fajl && p.hid && p.nev) {   // bridge: search Commons for its name (with several name variants, increasingly permissive)
     const szavak = (p.kep_keres && p.kep_keres.length ? p.kep_keres : [p.nev]).slice(0, 6);
     const kerdesek = [];
     for (const sz of szavak) kerdesek.push(sz + ' Budapest', sz);
@@ -904,7 +904,7 @@ async function kepLekerElso(p) {
           .filter(r => r.imageinfo && r.imageinfo[0] && /jpeg|png/.test(r.imageinfo[0].mime) && r.imageinfo[0].width >= 640);
         const jo = lista.find(r => r.imageinfo[0].width >= r.imageinfo[0].height) || lista[0];
         if (jo) { fajl = jo.title.replace(/^File:/, '').replace(/ /g, '_'); break; }
-      } catch (e) { /* tovább a következő kereséssel */ }
+      } catch (e) { /* continue with the next search */ }
     }
   }
   if (!fajl) return null;
@@ -937,7 +937,7 @@ function kepBetolt(gid) {
         kep.addEventListener('load', () => kartyaHelye(parseFloat(kartya.style.left) - 18, parseFloat(kartya.style.top) - 18));
         kep.addEventListener('error', () => {
           if (i + 1 < k.azonositok.length) { oenyKep(i + 1); return; }
-          kepGyorsitotar.set(gid, kepLeker(Object.assign({}, p, { oeny_kep_hibas: true })).catch(() => null));   // egyik OENY-kép sem töltődött be: a többi forrás jön
+          kepGyorsitotar.set(gid, kepLeker(Object.assign({}, p, { oeny_kep_hibas: true })).catch(() => null));   // none of the OENY images loaded: the other sources follow
           hely.hidden = true;
           kepBetolt(gid);
         });
@@ -953,7 +953,7 @@ function kepBetolt(gid) {
         + `<small>${t('kep_forras')}: ${esc(host || 'link')}</small>`;
       const kep = hely.querySelector('img');
       kep.addEventListener('load', () => kartyaHelye(parseFloat(kartya.style.left) - 18, parseFloat(kartya.style.top) - 18));
-      kep.addEventListener('error', () => {      // ha a megadott fotó nem tölthető be, jön a többi forrás
+      kep.addEventListener('error', () => {      // if the given photo cannot be loaded, the other sources follow
         kepGyorsitotar.set(gid, kepLeker(Object.assign({}, p, { kep_url_hibas: true })).catch(() => null));
         hely.hidden = true;
         kepBetolt(gid);
@@ -966,7 +966,7 @@ function kepBetolt(gid) {
         + `<small>${t('kep_forras')}: <a href="${esc(k.lap)}" target="_blank" rel="noopener">Budapest Legenda</a> (budapestlegenda.hu)</small>`;
       const kep = hely.querySelector('img');
       kep.addEventListener('load', () => kartyaHelye(parseFloat(kartya.style.left) - 18, parseFloat(kartya.style.top) - 18));
-      kep.addEventListener('error', () => {      // ha a Legenda-kép nem tölthető be, jön a Commons-kép
+      kep.addEventListener('error', () => {      // if the Legenda image cannot be loaded, the Commons image follows
         kepGyorsitotar.set(gid, kepLeker(Object.assign({}, p, { legenda_kep: '' })).catch(() => null));
         hely.hidden = true;
         kepBetolt(gid);
@@ -979,7 +979,7 @@ function kepBetolt(gid) {
         + `<small>${t('kep_forras')}: ${k.foto ? '© ' + esc(k.foto) + ' · ' : ''}<a href="${esc(k.lap)}" target="_blank" rel="noopener">Budapest100</a> (budapest100.hu)</small>`;
       const kep = hely.querySelector('img');
       kep.addEventListener('load', () => kartyaHelye(parseFloat(kartya.style.left) - 18, parseFloat(kartya.style.top) - 18));
-      kep.addEventListener('error', () => {      // ha a Budapest100-kép nem tölthető be, jön a Commons-kép
+      kep.addEventListener('error', () => {      // if the Budapest100 image cannot be loaded, the Commons image follows
         kepGyorsitotar.set(gid, kepLeker(Object.assign({}, p, { budapest100_kep: '' })).catch(() => null));
         hely.hidden = true;
         kepBetolt(gid);
@@ -997,8 +997,8 @@ function kepBetolt(gid) {
 }
 
 const kartya = document.getElementById('kartya');
-// A rögzített kártya akkor is a képernyőn marad, ha utólag megnő (kép, Wikipédia-kivonat, Szerkesztés gomb töltődik be), vagy átméretezik az ablakot;
-// ha magasabb az ablaknál, a CSS max-height + overflow miatt görgethető.
+// The pinned card stays on screen even if it grows later (image, Wikipedia extract, Edit button load) or the window is resized;
+// if it is taller than the window, it scrolls thanks to CSS max-height + overflow.
 function kartyaBent() {
   if (!kartya.hidden && kartya.classList.contains('rogzitett') && kartya.style.left)
     kartyaHelye(parseFloat(kartya.style.left) - 18, parseFloat(kartya.style.top) - 18);
@@ -1013,7 +1013,7 @@ function kartyaHelye(x, y) {
   kartya.style.left = Math.max(12, Math.min(x + 18, innerWidth - r.width - 12)) + 'px';
   kartya.style.top = Math.max(12, Math.min(y + 18, innerHeight - r.height - 12)) + 'px';
 }
-// A rögzített kártya a képernyő jobb harmadában áll, hogy ne takarja a kiválasztott házat.
+// The pinned card sits in the right third of the screen so that it does not cover the selected building.
 function kartyaJobbSzel() {
   const ty = document.querySelector('.tally');
   return ty ? Math.round(ty.getBoundingClientRect().left) : innerWidth - 24;
@@ -1021,11 +1021,11 @@ function kartyaJobbSzel() {
 function kartyaJobbra() {
   if (innerWidth <= 700) return;
   const w = kartya.offsetWidth || 400, top = 150;
-  kartya.style.left = Math.max(12, kartyaJobbSzel() - w) + 'px';   // a jobb széle egybeesik az évszám-terület (jobb felül) bal szélével
+  kartya.style.left = Math.max(12, kartyaJobbSzel() - w) + 'px';   // its right edge coincides with the left edge of the year area (top right)
   kartya.style.top = top + 'px';
   kartya.style.maxHeight = Math.max(240, innerHeight - top - 110) + 'px';
 }
-// Ha a kattintott ház a kártya alá esne, a nézetet oldalra tolja, hogy a ház a szabad terület közepére kerüljön.
+// If the clicked building would fall under the card, the view is shifted sideways so that the building ends up in the middle of the free area.
 let eltolAz = 0;
 function nezetEltol(kx) {
   if (innerWidth <= 700) return;
@@ -1054,10 +1054,10 @@ function bezar() {
   kartya.classList.remove('rogzitett');
 }
 let hazKiem = false;
-function hazKiemel(gid) {      // a Stílusok fülön kiválasztott meghatározó házon kívül minden fehér; gid === null: vége
+function hazKiemel(gid) {      // on the Styles tab everything except the selected key building is white; gid === null: end
   if (gid === null) { if (hazKiem) { hazKiem = false; archSzuro = null; frissitKiemelest(); } return; }
   const p = epuletek[gid], ad = adatlapAdat(p), g = new Set(archGidIndex().get((p.osm_tipus === 'relation' ? 'r' : 'w') + p.id) || [gid]);
-  if (ad && ad.kiemel) epuletek.forEach((q, i) => {      // egy zóna / telep egésze együtt emelődik ki (adatlapok.json: kiemel.zona = zóna-azonosító, kiemel.wikipedia = a Wikipédia-címke része)
+  if (ad && ad.kiemel) epuletek.forEach((q, i) => {      // a whole zone / estate is highlighted together (adatlapok.json: kiemel.zona = zone id, kiemel.wikipedia = part of the Wikipedia label)
     if (q && !q.hid && !(ad.kiemel.kiveve || []).includes((q.osm_tipus || 'way') + '/' + q.id) && ((ad.kiemel.zona && q.zona_azon === ad.kiemel.zona) || (ad.kiemel.wikipedia && String(q.wikipedia || '').includes(ad.kiemel.wikipedia)))) g.add(i);
   });
   archSzuro = new Set(g); archZonaAzon = new Set(); hazKiem = true;
@@ -1114,7 +1114,7 @@ canvas.addEventListener('pointerleave', () => {
   uniforms.uHoverGrp.value = 0;
 });
 
-// ---------- Bal panel: mód, jelmagyarázat, kiemelés ----------
+// ---------- Left panel: mode, legend, highlighting ----------
 const maskTarget = periods.map(() => 1);
 function renderLegend() {
   document.getElementById('legend').innerHTML = periods.map((p, i) =>
@@ -1132,13 +1132,13 @@ function setMode(m) {
   document.getElementById('legend').hidden = m !== MODE.period;
   const lc = document.querySelector('#nez-period strong'); if (lc) lc.hidden = m !== MODE.period;
   document.getElementById('szintlegend').hidden = m !== MODE.floors;
-  frissitKiemelest();   // a hidaknak nincs szintszámuk: szintek módban szürkék
+  frissitKiemelest();   // bridges have no storey count: they are grey in storeys mode
 }
 document.getElementById('magassag-reteg').addEventListener('change', e => setMode(e.target.checked ? MODE.floors : MODE.period));
-// Korszak / Rétegek nézet a panel tetején
+// Era / Layers view at the top of the panel
 var aktNezet = null;
 function setNezet(n) {
-  if (aktNezet !== n) {      // fülváltáskor a korábbi fül szűrése (építész, stílus, telep) ne maradjon a térképen
+  if (aktNezet !== n) {      // when switching tabs, the previous tab's filter (architect, style, estate) must not stay on the map
     aktNezet = n;
     archSzuro = null; archZonaAzon = new Set(); hazKiem = false; epAktiv = null; epUnio = false; clearTimeout(epUnioIdo);
     epPopupTok++; archPopupTok++;
@@ -1148,13 +1148,13 @@ function setNezet(n) {
   document.querySelectorAll('.nez button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.nez === n)));
   document.getElementById('nez-period').hidden = n !== 'period';
   ['vedett', 'magassag', 'lakotelep'].forEach(r => { document.getElementById('nez-' + r).hidden = n !== r; });
-  // a három réteg külön fül: a kiválasztott fül kapcsolja be a saját rétegét, a többit kikapcsolja
+  // the three layers are separate tabs: the selected tab switches on its own layer and switches the others off
   document.getElementById('vedett').checked = n === 'vedett';
   document.getElementById('lakotelep').checked = n === 'lakotelep';
   if (n !== 'lakotelep') lakKiv = null;
   if (n === 'lakotelep') { lakotelepInfoRender(); lakFrissit(); }
   if (n === 'vedett') vedSzuroFrissit();
-  setMode(n === 'magassag' ? MODE.floors : MODE.period);      // frissitKiemelest-et is meghívja
+  setMode(n === 'magassag' ? MODE.floors : MODE.period);      // also calls frissitKiemelest
   document.getElementById('nez-arch').hidden = n !== 'arch';
   document.getElementById('nez-epitesz').hidden = n !== 'epitesz';
   archNezet(n === 'arch');
@@ -1162,7 +1162,7 @@ function setNezet(n) {
 }
 document.querySelectorAll('.nez button').forEach(b => b.addEventListener('click', () => setNezet(b.dataset.nez)));
 
-// ---------- Építész-kereső: korszakok -> építészek -> adatlap (Wikipédia) + az épületeik színesen, a többi fehér ----------
+// ---------- Architect search: eras -> architects -> data sheet (Wikipedia) + their buildings in colour, the rest white ----------
 const archWikiGyorsitotar = new Map();
 async function archBetolt() {
   if (!archAdat) {
@@ -1172,8 +1172,8 @@ async function archBetolt() {
   }
   return archAdat;
 }
-// A Stílusok panel „Meghatározó építészek" listája a stílus-táblázatból (adatlapok.json "tabla", forrása: forras/budapest_stilusok_final.xlsx) jön.
-// Akit az epitesz.json már ismer (Wikipédia-cikkek, épületek), annak a rekordját használja; a többieknek egyszerű rekord készül (a Tervező-mező alapján keres).
+// The Styles panel's "Key architects" list comes from the styles table (adatlapok.json "tabla", source: forras/budapest_stilusok_final.xlsx).
+// Whoever epitesz.json already knows (Wikipedia articles, buildings) uses that record; for the others a simple record is created (searched by the Designer field).
 function archKiemeltEpit() {
   const tabla = adatlapok && adatlapok.tabla;
   if (!tabla) return;
@@ -1186,7 +1186,7 @@ function archKiemeltEpit() {
     k.kiemelt = sor.tervezok.map(nev => {
       const van = idx.get(f(nev));
       if (van) return van;
-      const kot = nev.replace(/-\S+/, '');      // pl. „Neuschloss-Knüsli Kornél" az adatokban „Neuschloss Kornél"
+      const kot = nev.replace(/-\S+/, '');      // e.g. "Neuschloss-Knüsli Kornél" appears in the data as "Neuschloss Kornél"
       return { nev, l: '', w: [], m: kot !== nev ? [nev, kot] : [nev], e: [] };
     });
   });
@@ -1203,7 +1203,7 @@ function archGidIndex() {
   return archGidek;
 }
 function archWiki(nev0) {
-  const pontos = String(nev0).startsWith('='), nev = pontos ? String(nev0).slice(1) : nev0;      // „=Cím”: pontos cikkcím (nem építész): nincs építész-szűrés és keresés
+  const pontos = String(nev0).startsWith('='), nev = pontos ? String(nev0).slice(1) : nev0;      // "=Title": exact article title (not an architect): no architect filtering or search
   if (!archWikiGyorsitotar.has(nev0)) {
     archWikiGyorsitotar.set(nev0, (async () => {
       const sum = async cim => {
@@ -1212,7 +1212,7 @@ function archWiki(nev0) {
         return r.json();
       };
       const jo = j => j && j.type === 'standard' && (pontos || /építész/i.test((j.description || '') + ' ' + String(j.extract || '').slice(0, 500)));
-      try { const j = await sum(nev); if (jo(j)) return j; } catch { /* keresés */ }
+      try { const j = await sum(nev); if (jo(j)) return j; } catch { /* search */ }
       if (pontos) throw new Error('nincs ilyen cikk');
       const s = await (await fetch(`https://hu.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('"' + nev + '" építész')}&srlimit=1&format=json&origin=*`)).json();
       const h = s.query && s.query.search && s.query.search[0];
@@ -1222,7 +1222,7 @@ function archWiki(nev0) {
   }
   return archWikiGyorsitotar.get(nev0);
 }
-// az építész-fül saját korszakolása (az epitesz.json-ból), független a térkép korszakaitól
+// the architect tab's own era classification (from epitesz.json), independent of the map's eras
 const archKorNev = k => (NYELV === 'en' ? (k.en || k.hu) : (k.hu || k.korszak));
 async function archRender() {
   const lista = document.getElementById('arch-lista');
@@ -1259,16 +1259,16 @@ function archKivalaszt(kiv) {
   archSzuro = halmaz;
   frissitKiemelest();
   archLepteto(halmaz);
-  lap.hidden = true; lap.innerHTML = '';   // a név és az épületszám a popupban látszik, a lista alján nem
+  lap.hidden = true; lap.innerHTML = '';   // the name and the building count are shown in the popup, not at the bottom of the list
   archPopupMutat(e, kiv);
 }
-// ---------- Zónához rendelt tervező (pl. lakótelep): a telep minden háza az építészhez tartozik, de a számlálóban egy projekt ----------
+// ---------- Designer assigned to a zone (e.g. housing estate): every house of the estate belongs to the architect, but counts as one project in the counter ----------
 const archFold = x => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const archNevek = e => ((e.m && e.m.length) ? e.m : (/^(id|ifj)\./i.test(e.nev) ? [] : [e.nev])).map(archFold).filter(Boolean);
 let zonaTervIdx = null;
 const EP_PROJEKTEK = [
   { azon: 'projekt:kaposztasmegyer', nev: 'Káposztásmegyeri lakótelep', re: /^Káposztásmegyer/i },
-  { azon: 'projekt:len-pinceszer', nev: 'Len utcai és Pinceszer utcai lakóépületek', cim: /(^|;\s*)(Len|Pinceszer) (utca|u\.)/i },   // zona_nev (re) vagy cím (cim) alapján
+  { azon: 'projekt:len-pinceszer', nev: 'Len utcai és Pinceszer utcai lakóépületek', cim: /(^|;\s*)(Len|Pinceszer) (utca|u\.)/i },   // by zona_nev (re) or address (cim)
 ];
 function zonaTerv() {
   if (zonaTervIdx) return zonaTervIdx;
@@ -1279,7 +1279,7 @@ function zonaTerv() {
     if (!z) m.set(p.zona_azon, z = { azon: p.zona_azon, nev: p.zona_tervezo_nev || p.zona_azon, tv: archFold(p.zona_tervezo), gids: [] });
     z.gids.push(gid);
   });
-  // Telepek, amelyeknek a házain csak a telep neve (zona_nev) szerepel, tervezői zóna nincs: az építész-listában egy projektnek számítanak
+  // Estates whose houses carry only the estate name (zona_nev) and have no designer zone: in the architect list they count as one project
   EP_PROJEKTEK.forEach(pr => {
     const gids = [];
     epuletek.forEach((p, gid) => {
@@ -1294,7 +1294,7 @@ function archZonak(e) {
   const nv = archNevek(e);
   return nv.length ? [...zonaTerv().values()].filter(z => nv.some(n => z.tv.includes(n))) : [];
 }
-// Az építész kiemelt épületeinek halmaza: az `e` lista + a Tervező-mező alapján illeszkedők (kézi, párosított, épületrészek) + a zónák házai.
+// The set of an architect's highlighted buildings: the `e` list + those matching the Designer field (manual, paired, building parts) + the houses of the zones.
 const archFoldGyorsitotar = new Map();
 const archFoldC = x => { let v = archFoldGyorsitotar.get(x); if (v === undefined) { v = archFold(x); archFoldGyorsitotar.set(x, v); } return v; };
 function archHalmaz(e) {
@@ -1309,7 +1309,7 @@ function archHalmaz(e) {
   zk.forEach(z => z.gids.forEach(g => halmaz.add(g)));
   return { halmaz, zk };
 }
-// A léptető tételei: egyedi házak (az ugyanahhoz a házhoz tartozó részek egynek) + minden telep egy tétel. A név melletti szám és a legördülő lista ugyanezt használja.
+// The stepper's items: individual houses (parts of the same house count as one) + each estate as one item. The number beside the name and the dropdown use the same list.
 function archTetelek(halmaz, zonaAzon) {
   const lista = [], lattuk = new Set();
   halmaz.forEach(gid => {
@@ -1328,7 +1328,7 @@ function archTetelek(halmaz, zonaAzon) {
   });
   for (const z of zonaTerv().values()) {
     if (!zonaAzon.has(z.azon)) continue;
-    const gs = z.gids.filter(g => halmaz.has(g));      // csak a kiemelt (az építészhez tartozó) házak
+    const gs = z.gids.filter(g => halmaz.has(g));      // only the highlighted houses (those belonging to the architect)
     if (!gs.length) continue;
     const ps = gs.map(g => epuletek[g]), la = ps.reduce((a, p) => a + p.lat, 0) / ps.length, lo = ps.reduce((a, p) => a + p.lon, 0) / ps.length;
     let jo = gs[0], tav = Infinity;
@@ -1343,7 +1343,7 @@ function archSzam(e) {
   const { halmaz, zk } = archHalmaz(e);
   return archTetelek(halmaz, new Set(zk.map(z => z.azon))).length;
 }
-// ---------- Alsó léptető: a kiválasztott építész épületei egyenként (legördülő lista + előző/következő); a kamera ráközelít, megnyílik az adatlap ----------
+// ---------- Bottom stepper: the selected architect's buildings one by one (dropdown + previous/next); the camera zooms in, the data sheet opens ----------
 var archEpLista = [], archEpIdx = -1, archZonaAzon = new Set();
 function archLepHely() {
   let el = document.getElementById('arch-lep');
@@ -1369,7 +1369,7 @@ function archLepteto(halmaz) {
   sel.value = '-1';
   archLepFrissit();
 }
-// a léptető a két panel (építészlista + adatlap) alatt áll, azok teljes szélességében
+// the stepper sits below the two panels (architect list + data sheet), across their full width
 function archLepIgazit() {
   const el = document.getElementById('arch-lep'), pn = document.getElementById('panel');
   if (!el || !pn) return;
@@ -1395,10 +1395,10 @@ function mobilMenuZar() {
 function archLepj(i) {
   if (i < 0 || i >= archEpLista.length) { archEpIdx = -1; archLepFrissit(); return; }
   archEpIdx = i; archLepFrissit();
-  if (innerWidth <= 700) mobilMenuZar();      // mobil: az építész/stílus kártyája és a főpanel bezárul, a szűrés megmarad; az épületkártya alatt a térkép látszik
+  if (innerWidth <= 700) mobilMenuZar();      // mobile: the architect/style card and the main panel close, the filter stays; the map is visible below the building card
   const x = archEpLista[i];
   const pp = document.getElementById('arch-popup');
-  // a kártya a képernyő közepén álló háztól jobbra nyílik, teteje-alja az építész adatlapjához (bal panel) igazodik
+  // the card opens to the right of the house at the screen centre; its top and bottom follow the architect's data sheet (left panel)
   repulj(x.gid, innerWidth / 2 + 130, () => {
     const pn = document.getElementById('panel');
     if (!pn || innerWidth <= 700) return;
@@ -1406,9 +1406,9 @@ function archLepj(i) {
     Object.assign(kartya.style, { top: Math.round(r.top) + 'px', height: Math.round(r.height) + 'px', maxHeight: Math.round(r.height) + 'px' });
   });
 }
-// A Wikipédia-cikk teljes szövege + főkép (MediaWiki API, egy lekérdezéssel); a végén lévő jegyzet/forrás-szakaszok nélkül
+// The full text + lead image of a Wikipedia article (MediaWiki API, in one query); without the trailing notes/references sections
 const archCikkGyorsitotar = new Map();
-function archFejezet(szoveg, fej) {      // a cikk egy fejezete (az alfejezeteivel együtt); a fejezet címe nélkül
+function archFejezet(szoveg, fej) {      // one section of the article (with its subsections); without the section title
   const sorok = String(szoveg || '').split('\n'), fold = s => s.trim().toLowerCase();
   const fejSor = s => { const m = /^(=+)\s*(.+?)\s*=+$/.exec(s.trim()); return m ? { szint: m[1].length, cim: m[2] } : null; };
   const i = sorok.findIndex(s => { const h = fejSor(s); return h && fold(h.cim) === fold(fej); });
@@ -1417,7 +1417,7 @@ function archFejezet(szoveg, fej) {      // a cikk egy fejezete (az alfejezeteiv
   for (let j = i + 1; j < sorok.length; j++) { const h = fejSor(sorok[j]); if (h && h.szint <= szint) break; ki.push(sorok[j]); }
   return ki.join('\n');
 }
-function archCikk(nev) {      // „Cím" vagy „Cím#Fejezet": csak az adott fejezet jelenik meg
+function archCikk(nev) {      // "Title" or "Title#Section": only that section is shown
   if (!archCikkGyorsitotar.has(nev)) {
     const [cimNev, fejezet] = String(nev).split('#');
     archCikkGyorsitotar.set(nev, archWiki(cimNev).then(async j => {
@@ -1427,7 +1427,7 @@ function archCikk(nev) {      // „Cím" vagy „Cím#Fejezet": csak az adott f
         const r = await (await fetch(u)).json(), lap = Object.values(r.query.pages)[0];
         szoveg = String(lap.extract || '');
         if (lap.thumbnail && lap.thumbnail.source) kep = lap.thumbnail.source;
-      } catch { /* marad a kivonat */ }
+      } catch { /* the extract stays */ }
       if (!szoveg.trim()) szoveg = String(j.extract || '');
       if (fejezet) szoveg = archFejezet(szoveg, fejezet);
       let url = (j.content_urls && j.content_urls.desktop && j.content_urls.desktop.page) || `https://hu.wikipedia.org/wiki/${encodeURIComponent(String(j.title).replace(/ /g, '_'))}`;
@@ -1455,14 +1455,14 @@ function archPopupHely() {
     el.innerHTML = '<button type="button" class="arch-popup-bezar" aria-label="Bezár">×</button><div class="arch-popup-test"></div>';
     document.body.appendChild(el);
     el.querySelector('button').addEventListener('click', () => {
-      if (!document.getElementById('nez-epitesz').hidden) { if (epAktiv) epiteszValaszt(epAktiv); el.hidden = true; kezdoRepules(); return; }   // Építészek fül: a bezárás a kijelölést is megszünteti
+      if (!document.getElementById('nez-epitesz').hidden) { if (epAktiv) epiteszValaszt(epAktiv); el.hidden = true; kezdoRepules(); return; }   // Architects tab: closing also clears the selection
       archKivalaszt(null); kezdoRepules();
-    });   // az adatlap bezárása a szűrést is megszünteti, a kamera visszatér a kezdőnézetbe
+    });   // closing the data sheet also clears the filter, and the camera returns to the home view
     addEventListener('resize', () => archPopupIgazit(el));
   }
   return el;
 }
-// az ablak magassága, szélessége és felső széle a bal panelhez igazodik, közvetlenül mellette áll
+// the window's height, width and top edge follow the left panel; it sits right next to it
 function archPopupIgazit(el) {
   const panel = document.getElementById('panel');
   if (!panel || innerWidth <= 700) { el.style.cssText = ''; return; }
@@ -1477,9 +1477,9 @@ function archPopupMutat(e, kiv) {
   Promise.allSettled((e.nw ? [] : (e.w && e.w.length ? e.w : e.nev.split(' – '))).map(archCikk)).then(rs => {
     if (archKiv !== kiv || (e.tok && e.tok !== archPopupTok)) return;
     const jo = rs.filter(r => r.status === 'fulfilled').map(r => r.value);
-    if (e.stilus) {      // stílus-ismertető: cím, fejléc (időszak), kép, szöveg (a Wikipédia-cikk, ha van; különben a rövid leírás)
+    if (e.stilus) {      // style description: title, header (period), image, text (the Wikipedia article if there is one; otherwise the short description)
       const forras = c => `<small>${t('wiki_forras')}: <a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.cim)}</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">${t('wiki_licenc')}</a></small>`;
-      const tisztit = s => String(s || '').replace(/Ez a szócikk[^.]*(?:Monarchia|földrajzi területeket)[^.]*\.\s*/g, '');      // a Wikipédia-cikk bevezető megjegyzése nem releváns
+      const tisztit = s => String(s || '').replace(/Ez a szócikk[^.]*(?:Monarchia|földrajzi területeket)[^.]*\.\s*/g, '');      // the introductory note of the Wikipedia article is not relevant
       test.innerHTML = `<article class="arch-cikk arch-stilus"><h3>${esc(e.nev)}</h3>` + (e.ossz ? `<p class="arch-ossz" style="--sz:${esc(e.szin || '#999')}">${esc(e.ossz)}</p>` : '')
         + (jo.length ? jo.map(c => (c.kep ? `<img src="${esc(c.kep)}" alt="${esc(c.cim)}" referrerpolicy="no-referrer">` : '') + archSzovegHtml(tisztit(c.szoveg)) + forras(c)).join('')
           : `<p>${esc(e.l || '')}</p>`) + (e.f && e.f.length ? `<small>${NYELV === 'en' ? 'Sources' : 'Források'}: ` + e.f.map(x => `<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.n)}</a>`).join(' · ') + `</small>` : '') + `</article>`;
@@ -1494,7 +1494,7 @@ function archPopupMutat(e, kiv) {
       : (e.nw ? '' : `<p><small>${esc(t('arch_wiki_hiba'))}</small></p>`));
   });
 }
-// a stílus fejlécére kattintva a popupban megjelenik a stílus leírása (és ha van, a Wikipédia-cikke)
+// clicking the style's header shows the style's description in the popup (and its Wikipedia article, if any)
 function archStilusMutat(k) {
   const en = NYELV === 'en';
   const elsoMondat = s => { const m = /^.*?[.!?](?=\s|$)/s.exec(String(s || '').trim()); return m ? m[0] : String(s || ''); };
@@ -1503,7 +1503,7 @@ function archStilusMutat(k) {
 document.getElementById('arch-lista').addEventListener('click', ev => {
   const b = ev.target.closest('button');
   if (!b) return;
-  if (b.classList.contains('arch-haz')) {       // meghatározó ház: odarepül, megnyílik a kártya az adatlappal
+  if (b.classList.contains('arch-haz')) {       // key house: fly there, the card opens with the data sheet
     const [ot, oi] = b.dataset.azon.split('/');
     const gid = epuletek.findIndex(q => q && !q.hid && (q.osm_tipus || 'way') === ot && String(q.id) === oi);
     if (gid < 0) return;
@@ -1524,7 +1524,7 @@ document.getElementById('arch-lista').addEventListener('click', ev => {
   archKivalaszt(archKiv && archKiv.i === kiv.i && archKiv.j === kiv.j ? null : kiv);
 });
 
-// Védett épületek: az OSM-elemek (nem a körvonalak) száma. 'Műemlék' = minden országos szintű védettség (M, MJ, VK, MK, MJT); 'helyi védett' = csak helyi védelem alatt álló (HV).
+// Protected buildings: the number of OSM elements (not outlines). 'Monument' = every national-level protection (M, MJ, VK, MK, MJT); 'locally protected' = only under local protection (HV).
 function vedettStat() {
   const lattuk = new Set();
   let ossz = 0, oeny = 0, helyi = 0;
@@ -1553,7 +1553,7 @@ function frissitKiemelest() {
   document.getElementById('vedett-info').hidden = !document.getElementById('vedett').checked;
   const lt = document.getElementById('lakotelep').checked;
   document.getElementById('lakotelep-info').hidden = !lt;
-  const v = document.getElementById('vedett').checked, w = false, l = false, a = archSzuro;   // a Wikipédia- és Lechner-kiemelés kikerült a felületről
+  const v = document.getElementById('vedett').checked, w = false, l = false, a = archSzuro;   // the Wikipedia and Lechner highlighting has been removed from the interface
   pickData.fill(0);
   epuletek.forEach((p, gid) => {
     if (p.hid) return;
@@ -1562,13 +1562,13 @@ function frissitKiemelest() {
   });
   pickTex.needsUpdate = true;
   uniforms.uPickOn.value = (v || w || l || a || lt) ? 1 : 0;
-  // a hidak külön anyagot használnak: ha van kiemelés-szűrő, és a híd nem felel meg neki, ők is szürkék lesznek
+  // bridges use a separate material: if a highlight filter is active and the bridge does not match it, they turn grey as well
   const szurt = v || w || l || a || lt, maq = uniforms.uMaquette.value, szintMod = uniforms.uMode.value !== MODE.period;
   for (const m of hidMeshek) {
     const p = hidRek(m);
     const be = p && ((v && vedBe(p)) || (w && p.wikipedia) || (l && p.lechner_nev) || (a && m.userData.rek != null && a.has(m.userData.rek)));
     const g = szintMod || (szurt && !be) ? 1 : 0;
-    m.userData.draw.uniforms.uGrey.value = szintMod ? 1 : (szurt && !be ? 2 : 0);   // 1: szintek mód (szürke), 2: szűrő (fehér)
+    m.userData.draw.uniforms.uGrey.value = szintMod ? 1 : (szurt && !be ? 2 : 0);   // 1: storeys mode (grey), 2: filter (white)
   }
   for (const ln of hidVonalak) {
     const p = epuletek[EPULET_DB + ln.userData.hid];
@@ -1579,8 +1579,8 @@ function frissitKiemelest() {
     else if (szurt && !be) ln.material.color.setRGB(1, 1, 1);
   }
 }
-// ---------- Védett épületek keresője (Védett fül) ----------
-// szűrő: név/cím/törzsszám szavai + Műemlék / Helyi védett + kerület; a térképen csak a találatok maradnak színesek
+// ---------- Protected buildings search (Protected tab) ----------
+// filter: words of name/address/register number + Monument / Locally protected + district; on the map only the results stay coloured
 var vedSzuro = null, vedGyorsitotar = new Map();
 function vedAdat(p) {
   let a = vedGyorsitotar.get(p);
@@ -1626,7 +1626,7 @@ function vedSzuroFrissit() {
   epuletek.forEach((p, gid) => {
     if (!p || p.hid || !(p.vedettseg || p.vedettseg_helyi) || !vedEgyezik(p)) return;
     const k = (p.osm_tipus || 'way') + ':' + p.id;
-    if (lattuk.has(k)) return;      // egy elem több körvonala egy találat
+    if (lattuk.has(k)) return;      // the several outlines of one element count as one result
     lattuk.add(k); ki.push(gid);
   });
   const kulcs = g => { const p = epuletek[g]; return String(p.cim ? p.cim.split(';')[0] : (p.nev || '')); };
@@ -1649,9 +1649,9 @@ function vedSzuroFrissit() {
   document.getElementById('ved-lista').addEventListener('click', ev => { const b = ev.target.closest('button[data-gid]'); if (b) repulj(+b.dataset.gid); });
 })();
 document.getElementById('vedett').addEventListener('change', frissitKiemelest);
-var lakIpar = null, lakKiv = null, lakAdatCache = null;     // lakIpar: az ipari/kereskedelmi zónák nevei (zonak.json); ezek nem lakótelepek
+var lakIpar = null, lakKiv = null, lakAdatCache = null;     // lakIpar: names of the industrial/commercial zones (zonak.json); these are not housing estates
 function lakBe(p) { return !!p.zona_nev && !(lakIpar && lakIpar.has(p.zona_nev)) && (!lakKiv || p.zona_nev === lakKiv); }
-// zónák az épületadatból: név -> { db, lat, lon (medián), r (kb. 90%-os sugár, m), cikk (Wikipédia-cím) }
+// zones from the building data: name -> { db, lat, lon (median), r (about 90% radius, m), cikk (Wikipedia title) }
 function lakAdat() {
   if (lakAdatCache) return lakAdatCache;
   const m = new Map();
@@ -1667,7 +1667,7 @@ function lakAdat() {
   const ki = [...m.values()];
   for (const z of ki) {
     z.lat = med(z.la); z.lon = med(z.lo);
-    if (!z.cikk && z.wc) { const top = Object.entries(z.wc).sort((x, y) => y[1] - x[1])[0]; if (top && top[1] >= 2 && top[1] >= z.db * 0.5) z.cikk = String(top[0]); }   // a zóna cikke: az épületeinek többségén szereplő cikk
+    if (!z.cikk && z.wc) { const top = Object.entries(z.wc).sort((x, y) => y[1] - x[1])[0]; if (top && top[1] >= 2 && top[1] >= z.db * 0.5) z.cikk = String(top[0]); }   // the zone's article: the article that appears on most of its buildings
     delete z.wc;
     const d = z.la.map((la, i) => Math.hypot((z.lo[i] - z.lon) * COSLAT * 111320, (la - z.lat) * 110574)).sort((x, y) => x - y);
     z.r = d[Math.floor(d.length * 0.9)] || 100;
@@ -1675,7 +1675,7 @@ function lakAdat() {
     const j = (window.__zonak && window.__zonak[z.nev]) || {};
     z.t = j.t || ''; z.kr = j.k || ''; z.a = j.a || null; z.b = j.b || null;
   }
-  const kn = z => (z.kr && ROMAI_KER.indexOf(z.kr) > 0) ? ROMAI_KER.indexOf(z.kr) : 99;      // kerület nélküli zónák a lista végére
+  const kn = z => (z.kr && ROMAI_KER.indexOf(z.kr) > 0) ? ROMAI_KER.indexOf(z.kr) : 99;      // zones without a district go to the end of the list
   ki.sort((x, y) => kn(x) - kn(y) || x.nev.localeCompare(y.nev, 'hu'));
   return (lakAdatCache = ki);
 }
@@ -1720,7 +1720,7 @@ function lakValaszt(nev) {
   const z = lakKiv && lakAdat().find(x => x.nev === lakKiv);
   if (z) {
     repuljHelyre(z.lat, z.lon, Math.max(350, Math.min(1500, z.r * 2.4)));
-    const m = /^hu:(.+)$/.exec(z.cikk);        // saját Wikipédia-adatlap: popup, mint az építészeknél
+    const m = /^hu:(.+)$/.exec(z.cikk);        // own Wikipedia data sheet: popup, as for the architects
     if (m) { const tok = ++epPopupTok; archPopupTok = tok; archPopupMutat({ nev: z.nev, l: '', w: ['=' + m[1]], nw: false, tok }, archKiv); }
   }
   lakFrissit();
@@ -1806,7 +1806,7 @@ const ABOUT_HTML = {
 <h3>Let's talk</h3>
 <p>If the project caught your interest and you have a question or idea, get in touch: <a href="mailto:cselovszki.attila@gmail.com">cselovszki.attila@gmail.com</a></p>`
 };
-// A Névjegy számai a csempe-készítő méréséből (budapest.json stats): ismert évű épületek (egy épület részei egyszer számítanak)
+// The About window's numbers from the tile builder's measurements (budapest.json stats): buildings with a known year (the parts of one building count once)
 function nevjegySzamok(h) {
   const st = config.stats || {}, n = st.ismert_ev_epulet, ossz = st.epulet_egyedi || st.buildings;
   const hu = x => String(x).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'), en = x => String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1832,7 +1832,7 @@ function alkalmazSzoveg() {
   drawHist();
   kartyaUjra();
 }
-// Névjegy-ablak: gomb, ×, háttérre kattintás vagy Esc zárja
+// About window: closed by the button, ×, a click on the background or Esc
 const aboutAblak = document.getElementById('about');
 const aboutNyit = ki => { aboutAblak.hidden = !ki; if (ki) document.getElementById('about-bezar').focus(); };
 document.getElementById('about-gomb').addEventListener('click', () => aboutNyit(true));
@@ -1841,19 +1841,19 @@ aboutAblak.addEventListener('click', e => { if (e.target === aboutAblak) aboutNy
 window.addEventListener('keydown', e => { if (e.key === 'Escape' && !aboutAblak.hidden) aboutNyit(false); });
 document.querySelectorAll('#nyelv button').forEach(b => b.addEventListener('click', () => {
   NYELV = b.dataset.nyelv === 'en' ? 'en' : 'hu';
-  try { localStorage.setItem('nyelv', NYELV); } catch (e) { /* nincs tárhely */ }
+  try { localStorage.setItem('nyelv', NYELV); } catch (e) { /* no storage available */ }
   alkalmazSzoveg();
 }));
 
-// ---------- Keresés: OSM-azonosító (way/123, relation/123, osm.org-link vagy csak a szám), név, cím ----------
+// ---------- Search: OSM id (way/123, relation/123, osm.org link or just the number), name, address ----------
 const keresoBe = document.getElementById('kereso'), keresoLista = document.getElementById('kereso-lista');
-const LAT0 = 47.5015, LON0 = 19.0515, COSLAT = Math.cos(LAT0 * Math.PI / 180);   // ugyanaz, mint a csempek_keszites.py-ban
+const LAT0 = 47.5015, LON0 = 19.0515, COSLAT = Math.cos(LAT0 * Math.PI / 180);   // the same as in csempek_keszites.py
 const normal = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-const KERESO_MAX = 500;      // a találati lista legfeljebb ennyi sort mutat (görgethető)
+const KERESO_MAX = 500;      // the result list shows at most this many rows (scrollable)
 let keresoIndex = null;
 function keresoEpit() {
   keresoIndex = [];
-  const lattuk = new Set();       // egy több körvonalból álló OSM-elem (relation) csak egyszer szerepeljen a találatok között
+  const lattuk = new Set();       // an OSM element made of several outlines (relation) should appear only once among the results
   for (let gid = 0; gid < epuletek.length; gid++) {
     const p = epuletek[gid];
     if (!p || (!p.nev && !p.cim && !p.nev_kozepulet && !p.lechner_nev && !p.zona_nev)) continue;
@@ -1866,8 +1866,8 @@ function keresoEpit() {
   }
 }
 function keresoSzoveg() { if (keresoBe) keresoBe.placeholder = t('kereso_ph'); if (document.getElementById('utak-gomb')) document.getElementById('utak-gomb').title = t('utak_cim'); }
-// Közterület-típusok és rövidítéseik egymás helyett is elfogadottak (utca = u. = út = útja; krt. = körút; tér; rkp. = rakpart; köz; sétány);
-// ezek teljes szóként keresendők, a többi keresőszó részletként
+// Street types and their abbreviations are accepted in place of each other (utca = u. = út = útja; krt. = körút; tér; rkp. = rakpart; köz; sétány);
+// these are searched as whole words, the other search words as fragments
 const KERESO_CSOPORTOK = [['utca', 'u', 'ut', 'utja', 'uton'], ['korut', 'krt'], ['ter', 'tere'], ['rakpart', 'rkp'], ['koz', 'koze'], ['setany', 'stny']];
 const keresoSzoPar = w => {
   const cs = KERESO_CSOPORTOK.find(c => c.includes(w));
@@ -1878,20 +1878,20 @@ const keresoSzoPar = w => {
 function keres(q) {
   q = q.trim();
   if (!q) return [];
-  // OSM-azonosító: "way/123", "relation 123", "w123", "r123", osm.org-link, vagy csak a szám
+  // OSM id: "way/123", "relation 123", "w123", "r123", an osm.org link, or just the number
   const m = q.match(/^(?:https?:\/\/(?:www\.)?openstreetmap\.org\/)?(?:(way|relation|w|r)[\s\/:#-]*)?(\d{3,})\/?$/i);
   if (m) {
     const tip = m[1] ? (m[1][0].toLowerCase() === 'r' ? 'relation' : 'way') : null, id = +m[2];
     const ki = [];
     for (let gid = 0; gid < epuletek.length && ki.length < 12; gid++) {
       const p = epuletek[gid];
-      if (p && p.id === id && (!tip || (p.osm_tipus || 'way') === tip) && !ki.some(g => epuletek[g].osm_tipus === p.osm_tipus)) ki.push(gid);   // egy elem több körvonala egy találat
+      if (p && p.id === id && (!tip || (p.osm_tipus || 'way') === tip) && !ki.some(g => epuletek[g].osm_tipus === p.osm_tipus)) ki.push(gid);   // the several outlines of one element count as one result
     }
     return ki;
   }
   if (q.length < 3) return [];
   if (!keresoIndex) keresoEpit();
-  // a bemásolt címek írásjelei (házszám utáni pont, „u.", irányítószám, „Budapest") ne akadályozzák a keresést
+  // punctuation of pasted addresses (the full stop after a house number, "u.", postcode, "Budapest") must not hinder the search
   let szavak = normal(q).split(/[\s,;]+/).map(w => w.replace(/^[.,;:()]+|[.,;:()]+$/g, '')).filter(Boolean);
   const tisztabb = szavak.filter(w => !/^[1-2]\d{3}$/.test(w) && w !== 'budapest');
   if (tisztabb.length) szavak = tisztabb;
@@ -1901,9 +1901,9 @@ function keres(q) {
     if (talal.every(f => f(s))) { ki.push(gid); if (ki.length >= KERESO_MAX) break; }
   }
   const cimKulcs = g => { const p = epuletek[g]; return String(p.cim ? p.cim.split(';')[0] : (p.nev || p.lechner_nev || '')); };
-  return ki.sort((a, b) => cimKulcs(a).localeCompare(cimKulcs(b), 'hu', { numeric: true }));      // pl. egy utca házszámai sorrendben
+  return ki.sort((a, b) => cimKulcs(a).localeCompare(cimKulcs(b), 'hu', { numeric: true }));      // e.g. the house numbers of a street in order
 }
-// Kerület a találatok mellé: a koordinátából, a kerülethatárok.json alapján (késve töltődik be, addig nem írunk kerületet)
+// District next to the results: from the coordinate, using kerulethatarok.json (loaded late; until then no district is written)
 let kerHatar = null;
 fetch('kerulethatarok.json').then(r => r.ok ? r.json() : null).then(j => {
   if (!j) return;
@@ -1914,7 +1914,7 @@ fetch('kerulethatarok.json').then(r => r.ok ? r.json() : null).then(j => {
     kerHatar.push([+kn, g, x0, x1, y0, y1]);
   }
   if (keresoBe && !keresoLista.hidden && keresoBe.value.trim()) keresoFrissit();
-  if (document.getElementById('vedett').checked) vedSzuroFrissit();      // kerületszűrő/-sorrend a határok betöltése után
+  if (document.getElementById('vedett').checked) vedSzuroFrissit();      // district filter/ordering after the boundaries have loaded
 }).catch(() => {});
 const ROMAI_KER = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI', 'XXII', 'XXIII'];
 const kerCache = new Map();
@@ -1953,16 +1953,16 @@ function keresoFrissit() {
   keresoLista.hidden = false;
 }
 
-// ---------- Utcák és utcanevek (kapcsolható réteg; utak.json <- py utak_keszites.py) ----------
-// Vonalak: a domborzatra fektetett, osztályonként külön LineSegments; a nevek DOM-címkék, amelyek az utca irányába fordulnak,
-// és kölcsönösen kerülik egymást (a főutak elsőbbséget kapnak). Közelebbről egyre több utcanév jelenik meg.
+// ---------- Streets and street names (toggleable layer; utak.json <- py utak_keszites.py) ----------
+// Lines: laid onto the terrain, one LineSegments per class; the names are DOM labels that turn along the street,
+// and avoid each other (main roads take priority). More street names appear the closer you zoom.
 const utakGomb = document.getElementById('utak-gomb');
 const UT_STILUS = [{ szin: 0x4f5b63, alfa: 0.95 }, { szin: 0x5f6b73, alfa: 0.8 }, { szin: 0x7a858c, alfa: 0.6 }, { szin: 0x9aa4aa, alfa: 0.5 }];
-const UT_LATHATO_TAV = [Infinity, Infinity, 5500, 1500];     // a kamera-távolság, amin belül az osztály vonala látszik
-const UT_CIMKE_TAV = [3200, 3200, 1600, 450];               // ugyanez a nevekre (kb. 2x2 km-es képkivágástól közelebb)
-const UT_MEGALL_MS = 220;                                    // ennyi nyugalom után jelennek meg újra a nevek mozgatás után
+const UT_LATHATO_TAV = [Infinity, Infinity, 5500, 1500];     // the camera distance within which the class's line is visible
+const UT_CIMKE_TAV = [3200, 3200, 1600, 450];               // the same for the names (closer than about a 2x2 km view)
+const UT_MEGALL_MS = 220;                                    // after this much stillness the names reappear after moving
 let utakBetoltve = false, utakBetolt = null, utakBe = false, utakCsoport = null, utakVonalak = [];
-let utCim = null;       // {x, z, dx, dz, nev, osz, hossz} tömbök
+let utCim = null;       // arrays of {x, z, dx, dz, nev, osz, hossz}
 let utRacs = new Map();
 const UT_CELLA = 400;
 const utakKont = document.createElement('div');
@@ -1981,7 +1981,7 @@ function utakEpit(adat) {
     for (let i = 1; i < n; i++) { hossz += Math.hypot(f[2 * i] - f[2 * i - 2], f[2 * i + 1] - f[2 * i - 1]); cum.push(hossz); }
     if (hossz < 1) continue;
     const P = poz[osz];
-    for (let i = 0; i < n - 1; i++) {      // 25 m-es szakaszokra bontva, hogy a vonal kövesse a domborzatot
+    for (let i = 0; i < n - 1; i++) {      // split into 25 m segments so that the line follows the terrain
       const x0 = f[2 * i], z0 = f[2 * i + 1], x1 = f[2 * i + 2], z1 = f[2 * i + 3];
       const db = Math.max(1, Math.ceil(Math.hypot(x1 - x0, z1 - z0) / 25));
       for (let k = 0; k < db; k++) {
@@ -1989,7 +1989,7 @@ function utakEpit(adat) {
         P.push(ax, (terepMag ? terepMag(ax, az) : 0) + 2.5, az, bx, (terepMag ? terepMag(bx, bz) : 0) + 2.5, bz);
       }
     }
-    // címke-horgonyok: a közepén, hosszú útnál 350 m-enként
+    // label anchors: in the middle, every 350 m on a long road
     if (hossz >= 18) {
       const s0 = hossz / 2, db = Math.floor((hossz - 1) / 700);
       for (let q = -db; q <= db; q++) {
@@ -2055,7 +2055,7 @@ function utakCimkek() {
     if (ki.length >= 140) break;
     const nev = utCim.nev[c.i];
     const w = nev.length * (c.o === 0 ? 7 : 6.3) + 10, h = 15;
-    if (c.ppm * utCim.hossz[c.i] < w * 0.8) continue;           // az utcaszakasz képernyőn rövidebb a névnél
+    if (c.ppm * utCim.hossz[c.i] < w * 0.8) continue;           // the street segment is shorter on screen than its name
     const r = c.szog * Math.PI / 180, cw = Math.abs(w * Math.cos(r)) + Math.abs(h * Math.sin(r)), ch = Math.abs(w * Math.sin(r)) + Math.abs(h * Math.cos(r));
     const x0 = c.sx - cw / 2, x1 = c.sx + cw / 2, y0 = c.sy - ch / 2, y1 = c.sy + ch / 2;
     if (x1 < 0 || x0 > szelesseg || y1 < 0 || y0 > magassag) continue;
@@ -2092,7 +2092,7 @@ function utakFrissit() {
 function utakKor() {
   if (!utakBe) return;
   utakFrissit();
-  // mozgás közben a feliratok el vannak rejtve (a vibráló követés zavaró); nyugalom után egyszer újraszámoljuk őket
+  // the labels are hidden while moving (the jittery tracking is distracting); they are recomputed once after stillness
   const kulcs = utKulcs(), most = performance.now();
   if (kulcs !== utUtolso) {
     utUtolso = kulcs; utMozgas = most;
@@ -2132,7 +2132,7 @@ function repulj(gid, kx, utan) {
   const irany = camera.position.clone().sub(controls.target);
   const tav = Math.max(250, Math.min(irany.length(), 450));
   irany.setLength(tav);
-  if (irany.y < tav * 0.35) irany.y = tav * 0.5;      // ne laposan, hanem föntebbről nézzünk
+  if (irany.y < tav * 0.35) irany.y = tav * 0.5;      // do not look flat from the side, but from higher up
   const t0 = controls.target.clone(), c0 = camera.position.clone(), c1 = cel.clone().add(irany);
   const kezd = performance.now(), az = ++repulAz;
   const lep = now => {
@@ -2152,13 +2152,13 @@ if (keresoBe) {
     if (e.key === 'Escape') { keresoBe.value = ''; keresoLista.hidden = true; keresoBe.blur(); e.stopPropagation(); }
   });
   keresoLista.addEventListener('click', e => { const b = e.target.closest('button[data-gid]'); if (b) repulj(+b.dataset.gid); });
-  canvas.addEventListener('pointerdown', () => { repulAz++; });   // kézi mozgatás megszakítja a repülést
-  // mobil: a kereső összecsukva csak nagyító; kattintásra kinyílik, üresen elhagyva újra becsukódik (asztalon a CSS nem használja)
+  canvas.addEventListener('pointerdown', () => { repulAz++; });   // manual movement interrupts the flight
+  // mobile: the collapsed search is just a magnifier; it opens on tap, and collapses again if left empty (on desktop the CSS does not use it)
   const retegGomb = document.getElementById('reteg-gomb'), fopanel = document.getElementById('panel');
   const panelAllit = nyit => { fopanel.classList.toggle('mobil-nyitva', nyit); if (retegGomb) retegGomb.setAttribute('aria-pressed', String(nyit)); };
   if (retegGomb && fopanel) {
-    retegGomb.addEventListener('click', () => panelAllit(!fopanel.classList.contains('mobil-nyitva')));      // mobil: a főpanel a Rétegek gombbal nyílik/csukódik
-    // mobil: a térképre koppintva (nem húzva) a nyitott főpanel is becsukódik
+    retegGomb.addEventListener('click', () => panelAllit(!fopanel.classList.contains('mobil-nyitva')));      // mobile: the main panel opens/closes with the Layers button
+    // mobile: tapping the map (not dragging) also closes the open main panel
     let le = null;
     canvas.addEventListener('pointerdown', e => { le = e.isPrimary ? { x: e.clientX, y: e.clientY, t: performance.now() } : null; });
     canvas.addEventListener('pointerup', e => {
@@ -2174,7 +2174,7 @@ if (keresoBe) {
   }
 }
 
-// ---------- Időcsúszka (hisztogram) ----------
+// ---------- Time slider (histogram) ----------
 const hist = document.getElementById('hist');
 const hctx = hist.getContext('2d');
 const T0 = Math.floor(config.yearMin / 50) * 50, T1 = config.yearMax + 1;
@@ -2218,7 +2218,7 @@ function drawHist() {
   hctx.fillStyle = '#000';
   hctx.fillRect(xOf(Y) - 1, 0, 2, plotH);
   if (Yf >= T0) { hctx.fillStyle = '#5d6266'; hctx.fillRect(xOf(Yf) - 0.5, 0, 1, plotH); }
-  document.getElementById('year').textContent = Math.round(Math.min(Y, config.yearMax));   // a legutolsó év (pl. 2026) látszik, nem a 'Ma'
+  document.getElementById('year').textContent = Math.round(Math.min(Y, config.yearMax));   // the latest year (e.g. 2026) is shown, not 'Today'
   document.getElementById('count').textContent = fmt(visibleCount());
 }
 
@@ -2239,11 +2239,11 @@ function moveHandle(x) {
   drawHist();
 }
 
-// Lejátszás: a ritka századokon gyorsan, a sűrűn beépülteken lassan.
+// Playback: fast over the sparse centuries, slow over the densely built ones.
 let playing = false, playT0 = 0, playStart = 0;
 const playBtn = document.getElementById('play');
 const playIcon = document.getElementById('play-icon');
-const DURATION = (+new URLSearchParams(location.search).get('film') || 30) * 1000;   // ?film=6: rövid film
+const DURATION = (+new URLSearchParams(location.search).get('film') || 30) * 1000;   // ?film=6: short film
 function playYear(tt) {
   const k = 0.35;
   return tt < k ? T0 + (1850 - T0) * (tt / k) : 1850 + (config.yearMax - 1850) * ((tt - k) / (1 - k));
@@ -2265,7 +2265,7 @@ function stopPlay() {
 }
 playBtn.onclick = () => (playing ? stopPlay() : startPlay());
 
-// ---------- Ciklus ----------
+// ---------- Loop ----------
 function resize() {
   const w = innerWidth, h = innerHeight;
   renderer.setSize(w, h, false);
@@ -2282,7 +2282,7 @@ resize();
 let frame = 0, elozoIdo = 0, lassuDb = 0, pixelKicsi = false;
 renderer.setAnimationLoop(now => {
   frame++;
-  // a csillapítás (inercia) képkockánkénti, ezért lassú gépen (kevés fps) sokáig csúszna a kamera: az időhöz igazítjuk, és tartósan lassú rajzolásnál a képpont-arányt 1-re vesszük
+  // the damping (inertia) is per frame, so on a slow machine (low fps) the camera would glide for a long time: it is tied to time, and with persistently slow rendering the pixel ratio is set to 1
   const dt = elozoIdo ? Math.min(0.25, (now - elozoIdo) / 1000) : 1 / 60; elozoIdo = now;
   controls.dampingFactor = Math.min(0.4, 1 - Math.pow(0.95, Math.max(1, dt * 60)));
   lassuDb = dt > 0.04 ? lassuDb + 1 : Math.max(0, lassuDb - 1);
@@ -2308,8 +2308,8 @@ renderer.setAnimationLoop(now => {
   renderer.render(scene, camera);
 });
 
-// ---------- szerkesztési mód (csak a py szerkeszto_szerver.py mellett, http://localhost:8000/terkep3d/index.html) ----------
-// A javítások a forras/kezi_javitasok.csv-be kerülnek (ugyanaz, mint a 2D térképen), az "Újraépítés" gomb az egész várost építi újra.
+// ---------- Edit mode (only alongside py szerkeszto_szerver.py, http://localhost:8000/terkep3d/index.html) ----------
+// Corrections go into forras/kezi_javitasok.csv (the same as on the 2D map); the "Rebuild" button rebuilds the whole city.
 let szerkeszto = false, szerkFuggo = 0;
 const SZERK_MEZOK = [
   { mezo: 'nev', cimke: 'Az épület neve (üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
@@ -2337,7 +2337,7 @@ document.head.appendChild(szerkStilus);
 async function szerkKuldes(url, adat) {
   const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Szerkeszto': '1' }, body: JSON.stringify(adat) });
   let v = {};
-  try { v = await r.json(); } catch (e) { /* nem JSON */ }
+  try { v = await r.json(); } catch (e) { /* not JSON */ }
   if (!r.ok || !v.ok) throw new Error(v.hiba || 'A mentés nem sikerült.');
   return v;
 }
@@ -2386,7 +2386,7 @@ function szerkGomb(gid) {
   kartya.appendChild(sec);
 }
 
-// Az E-Örökség (OENY) adatok levétele az épületről: a szerver a forras/oeny_kizart.csv-be írja, az újraépítés után tűnik el végleg.
+// Removing E-Örökség (OENY) data from the building: the server writes it to forras/oeny_kizart.csv, and it disappears for good after the rebuild.
 async function oenyLevetel(gid, gomb, uzenet) {
   const p = epuletek[gid];
   const lista = String(p.oeny_azonosito || '').split('|').filter(Boolean).join(', ');
@@ -2405,12 +2405,12 @@ async function oenyLevetel(gid, gomb, uzenet) {
       gomb.disabled = false;
     }
   };
-  // ha több adatlap (törzsszám) kötődik az épülethez, egyenként is levehetők
+  // if several data sheets (register numbers) are tied to the building, they can be removed one by one
   let adatlapok = [];
   try {
     const v = await (await fetch(`/api/oeny_lista?tipus=${encodeURIComponent(p.osm_tipus || 'way')}&id=${encodeURIComponent(p.id)}`, { cache: 'no-store' })).json();
     adatlapok = (v && v.adatlapok) || [];
-  } catch (e) { /* régi szerver: marad a teljes levétel */ }
+  } catch (e) { /* old server: the full removal stays */ }
   if (adatlapok.length < 2) {
     return kuld({ torzsszam: p.muemlek_torzsszam || '' }, `Levegyed az E-Örökség (OENY) adatokat erről az épületről?\n\nAdatlap: ${lista}${p.muemlek_torzsszam ? ', törzsszám: ' + p.muemlek_torzsszam : ''}\n\nAz adatlap-hivatkozás, a törzsszám, a műemléki védettség és az OENY-ből jövő adatok (év, tervező) tűnnek el az újraépítés után. Más forrás adatai megmaradnak.`);
   }
@@ -2431,7 +2431,7 @@ async function oenyLevetel(gid, gomb, uzenet) {
   uzenet.appendChild(doboz);
 }
 
-// Kép linkek soronkénti szerkesztője: Év | Forrás / szerző | Link (+ Kiolvasás Fortepan-linkhez). Tárolás: „Év – Forrás | link” soronként (a galéria ebből veszi a címkét és a feliratot).
+// Line-by-line editor of image links: Year | Source / author | Link (+ Read-out for a Fortepan link). Stored as "Year – Source | link" per line (the gallery takes its label and caption from this).
 function kepSorokSzerkeszto(lab, ertek) {
   const rejtett = document.createElement('input'); rejtett.type = 'hidden';
   const lista = document.createElement('div'); lista.className = 'kepsorok';
@@ -2507,7 +2507,7 @@ function szerkUrlap(gid) {
     urlap.appendChild(lab);
     mezok[m.mezo] = { inp, eredeti, m };
   });
-  const ck = mezok.commons_kep;   // ha a kártyán éppen Commons-fotó látszik, annak a linkje előre kitöltődik, és átírható egy jobbra
+  const ck = mezok.commons_kep;   // if a Commons photo is currently shown on the card, its link is pre-filled and can be overwritten with a better one
   if (ck && !ck.inp.value && kepGyorsitotar.has(gid)) {
     kepGyorsitotar.get(gid).then(k => {
       if (k && /^https:\/\/commons\.wikimedia\.org\//.test(k.lap || '') && !ck.inp.value) { ck.inp.value = k.lap; ck.eredeti = k.lap; }
@@ -2545,7 +2545,7 @@ function szerkUrlap(gid) {
         if (ertek === '') delete p[o.m.mezo];
         else p[o.m.mezo] = o.m.tipus === 'number' ? +ertek : (o.m.mezo === 'budapest100_url' ? ertek.replace(/^(?:https?:\/\/)?(?:www\.)?/i, 'https://') : ertek);
         if (o.m.mezo === 'wikipedia') delete p.wikipedia_zona;
-        if (o.m.mezo === 'commons_kep') kepGyorsitotar.delete(gid);   // az új fotót újra le kell kérni
+        if (o.m.mezo === 'commons_kep') kepGyorsitotar.delete(gid);   // the new photo has to be requested again
         szerkFuggo++;
       }
       szerkAllapot(`${szerkFuggo} mentett javítás vár újraépítésre.`, 'ok');
@@ -2562,8 +2562,8 @@ function szerkAllapot(szoveg, osztaly) {
   if (el) { el.textContent = szoveg; el.className = 'szerk-uzenet' + (osztaly ? ' szerk-' + osztaly : ''); }
 }
 
-// ---------- Új alkotás (nem épület: köztéri installáció, szobor stb.): pont a térképen -> kicsi kézi elem (forras/kezi_epuletek.geojson) ----------
-// Az építész kiemelésénél a „Tervező” mező alapján együtt kiemelődik az épületeivel (a névnek egyeznie kell az építész-listabeli névvel).
+// ---------- New work (not a building: public installation, statue, etc.): a point on the map -> small manual item (forras/kezi_epuletek.geojson) ----------
+// When an architect is highlighted, the item is highlighted together with their buildings by the "Designer" field (the name must match the name in the architect list).
 let alkotasMod = false, alkotasJelolo = null, alkotasHely = null;
 function alkotasPont(cx, cy) {
   if (!terepMesh) { szerkAllapot('A domborzat még nem töltődött be, próbáld újra.', 'hiba'); return; }
@@ -2669,7 +2669,7 @@ function szerkPanel() {
   });
 }
 
-// Értékleltár-ellenőrzés: a forras/ertekleltar_kezi_parositas.csv sorainak átnézése (ajánlott jelöltek, kézi döntés, kézzel megadott OSM-elem)
+// Heritage-inventory check: reviewing the rows of forras/ertekleltar_kezi_parositas.csv (recommended candidates, manual decision, manually given OSM element)
 let ertSorok = null, ertAktiv = null, ertSzuro = 'nyitott', ertPoz = 0;
 function ertJeloltek(r) {
   const out = [], re = /(way|relation) (\d+) \((\d+) m(, saroképület)?\)/g;
@@ -2784,7 +2784,7 @@ function ertLep(d) {
   const c = j.find(x => x.tip + ' ' + x.id === javasolt) || j[0];
   if (c) { const g = idx.get((c.tip === 'relation' ? 'r' : 'w') + c.id); if (g) repulj(g[0]); }
 }
-// Gyanús OENY-párosítások átnézése (szerkesztő): léptetés, odarepülés, döntés (marad / átrakás / levétel)
+// Review of suspicious OENY pairings (editor): stepping, flying there, decision (keep / reassign / remove)
 let oenyGy = null, oenyPoz = 0;
 function oenyKulcsGid(k) {
   const m = /^(way|relation) (\d+)$/.exec(k); if (!m) return -1;
@@ -2862,9 +2862,9 @@ function oenyPanel(doboz) {
   });
 }
 
-// ---------- "Építész" próbapanel: az összes, a Tervező mezőben előforduló név abc-sorrendben; egy névre kattintva csak azok a házak maradnak kiemelve, ahol a név szerepel ----------
-const EP_EGYBEN = /(?<=^|[;,]\s*)(?:Brenstein\s+és\s+Káldor|Dénes\s+és\s+Weisz|Kondor\s+és\s+Feledi|Melczer\s+és\s+Wensky|Wawra\s+és\s+Pfeifer)(?=\s*(?:[;,]|$))|Preisz\s+és\s+Kirchenbaum|Zsuffa\s+és\s+Kalmár\s+Építész\s+Műterem|Lukács\s+és\s+Vikár\s+Építészstúdió/gi;   // kivétel: az „és"-sel összekötött név egy névnek számít (további kivételek: |-lel bővíthető)
-const EP_KIHAGY = /^([-–—]+|tervezo nem ismert)$/;   // nem névnek számító tételek: kihagyva a listából
+// ---------- "Architect" trial panel: all names occurring in the Designer field in alphabetical order; clicking a name keeps only the houses where the name appears highlighted ----------
+const EP_EGYBEN = /(?<=^|[;,]\s*)(?:Brenstein\s+és\s+Káldor|Dénes\s+és\s+Weisz|Kondor\s+és\s+Feledi|Melczer\s+és\s+Wensky|Wawra\s+és\s+Pfeifer)(?=\s*(?:[;,]|$))|Preisz\s+és\s+Kirchenbaum|Zsuffa\s+és\s+Kalmár\s+Építész\s+Műterem|Lukács\s+és\s+Vikár\s+Építészstúdió/gi;   // exception: a name joined with "és" ("and") counts as one name (further exceptions can be added with |)
+const EP_KIHAGY = /^([-–—]+|tervezo nem ismert)$/;   // items that are not names: left out of the list
 function epNevekEpit() {
   const m = new Map();
   epuletek.forEach((p, gid) => {
@@ -2884,22 +2884,22 @@ function epNevekEpit() {
   });
   epNevek = [...m.values()].map(e => ({ k: e.k, nev: [...e.alak.entries()].sort((a, b) => b[1] - a[1])[0][0], gids: e.gids }))
     .sort((a, b) => a.nev.localeCompare(b.nev, 'hu'));
-  // egy telep (zóna) házai, ha az építésznek legalább kettő van benne, együtt egy projektnek számítanak (mint az építész rétegben)
+  // the houses of an estate (zone), if the architect has at least two in it, count together as one project (as in the architect layer)
   const zt = zonaTerv();
   epNevek.forEach(e => {
     const db = new Map();
     e.gids.forEach(g => { const z = epuletek[g].zona_azon; if (z && zt.has(z)) db.set(z, (db.get(z) || 0) + 1); });
     e.zonak = new Set([...db].filter(([, n]) => n >= 2).map(([z]) => z));
-    e.szam = archTetelek(new Set(e.gids), e.zonak).length;    // ugyanaz a számolás, mint a léptetőben: egy épület több eleme (részek, azonos név és cím 150 m-en belül) egynek számít, egy telep is egynek
+    e.szam = archTetelek(new Set(e.gids), e.zonak).length;    // the same counting as in the stepper: several elements of one building (parts, same name and address within 150 m) count as one, and an estate counts as one
   });
 }
 const EP_NEM_SZEMELY = new Set(['iroda', 'intezmeny', 'tobb_szemely', 'nem_nev']);
-let epKeziKor = null;     // epitesz_korok_kezi.json: névkulcs -> { kor: [korszak-indexek 0–6] } vagy { elet: [születés, halál|null] } (kézi felülírás)
-let epElete = null;       // epitesz_elete.json: névkulcs -> [születés éve, halál éve | null] (Wikidata)
+let epKeziKor = null;     // epitesz_korok_kezi.json: name key -> { kor: [era indices 0-6] } or { elet: [birth, death|null] } (manual override)
+let epElete = null;       // epitesz_elete.json: name key -> [birth year, death year | null] (Wikidata)
 async function epKorokRendel() {
-  // Az Építészek fül korszűrője a térkép 7 korszakát használja: az építész abban a korban szerepel, amelyikben van (a saját életéhez
-  // illő) háza. Egy ház nem számít, ha az építés éve az építész 18. életéve előtt vagy a halála után 3 évnél későbbre esik
-  // (felújítás, átépítés, utólagos tervezői megjelölés). Ismeretlen életrajznál a ritka kor (a házak <10%-a) nem számít.
+  // The Architects tab's era filter uses the map's 7 eras: an architect appears in the era in which they have a house (fitting their own lifetime).
+  // A house does not count if its construction year is before the architect's 18th birthday or more than 3 years after their death
+  // (renovation, rebuilding, later attribution). With an unknown biography, a rare era (<10% of the houses) does not count.
   if (!epElete) { try { epElete = await (await fetch('epitesz_elete.json')).json(); } catch (h) { epElete = {}; } }
   if (!epKeziKor) { try { epKeziKor = await (await fetch('epitesz_korok_kezi.json', { cache: 'no-store' })).json(); } catch (h) { epKeziKor = {}; } }
   const korIdx = ev => periods.findIndex(q => q.to !== 0 && ev >= q.from && ev <= q.to);
@@ -2914,7 +2914,7 @@ async function epKorokRendel() {
     e.elet = null;
     if (el) {
       const [sz, ha] = el, bent = evek.filter(ev => ev >= sz + 18 && (ha == null || ev <= ha + 3));
-      // ha a házak többsége kívül esne, az egyezés valószínűleg egy azonos nevű másik személy: nem használjuk az életrajzot
+      // if most of the houses would fall outside, the match is probably another person with the same name: the biography is not used
       if (!evek.length || bent.length >= evek.length * 0.4) { jo = bent; e.elet = el; }
     }
     if (!e.elet && jo.length >= 10) {
@@ -2924,7 +2924,7 @@ async function epKorokRendel() {
     e.korDb = new Map();
     jo.forEach(ev => { const i = korIdx(ev); if (i >= 0) e.korDb.set(i, (e.korDb.get(i) || 0) + 1); });
     e.kors = new Set([...e.korDb.keys()].sort((a, b) => a - b)); e.korBecsult = false;
-    if (Array.isArray(kezi.kor)) {       // kézi korszak-besorolás: a megadott korok, függetlenül a házak évétől
+    if (Array.isArray(kezi.kor)) {       // manual era classification: the given eras, regardless of the houses' years
       e.kors = new Set(kezi.kor.filter(i => periods[i] && periods[i].to !== 0).sort((a, b) => a - b));
       e.korDb = new Map([...e.kors].map(i => [i, evek.filter(ev => korIdx(ev) === i).length]));
     }
@@ -2933,11 +2933,11 @@ async function epKorokRendel() {
   sel.innerHTML = `<option value="">${esc(t('ep_minden_kor'))}</option>` + periods.map((q, i) => q.to === 0 ? '' : `<option value="${i}">${esc(korNev(i))}</option>`).join('') + `<option value="nincs">${esc(t('ep_nincs_kor'))}</option>`;
   sel.value = regi;
 }
-let epUnio = false, epUnioIdo = 0;      // var: a setNezet('period') induláskor már a deklaráció előtt meghívja az epiteszNezet-et
+let epUnio = false, epUnioIdo = 0;      // var: setNezet('period') calls epiteszNezet at startup, before the declaration
 function epSzuroKiemel(sorok, aktiv) {
   clearTimeout(epUnioIdo);
   epUnioIdo = setTimeout(() => {
-    if (epAktiv || document.getElementById('nez-epitesz').hidden) return;      // kiválasztott építésznél az ő házai számítanak
+    if (epAktiv || document.getElementById('nez-epitesz').hidden) return;      // for a selected architect their own houses count
     if (!aktiv) {
       if (epUnio) { epUnio = false; archSzuro = null; archZonaAzon = new Set(); frissitKiemelest(); archLepteto(null); }
       return;
@@ -2946,7 +2946,7 @@ function epSzuroKiemel(sorok, aktiv) {
     sorok.forEach(e => { e.gids.forEach(g => s.add(g)); (e.zonak || []).forEach(x => z.add(x)); });
     epUnio = true; archSzuro = s; archZonaAzon = z;
     frissitKiemelest();
-    archLepteto(s.size <= 4000 ? s : null);      // a léptető csak mérsékelt számú épületnél (a lista összeállítása költséges)
+    archLepteto(s.size <= 4000 ? s : null);      // the stepper only for a moderate number of buildings (compiling the list is expensive)
   }, 150);
 }
 function epiteszRender() {
@@ -2956,23 +2956,23 @@ function epiteszRender() {
   const dijak = [...document.querySelectorAll('.ep-dijak input:checked')].map(c => c.dataset.dij);
   const sorrend = document.getElementById('ep-sorrend').value, min = Math.max(1, parseInt(document.getElementById('ep-min').value, 10) || 1);
   const nevek = epNevek.filter(e => !epKizart.has(e.k)), sorok = nevek.filter(e => (!ker || e.k.includes(ker)) && e.szam >= min && dijak.every(d => epDijak[d] && epDijak[d][e.k]) && (kor === '' || (kor === 'nincs' ? !e.kors.size : e.kors.has(+kor))));
-  if (sorrend === 'db') sorok.sort((a, b) => b.szam - a.szam || a.nev.localeCompare(b.nev, 'hu'));      // legtöbb épület elöl; azonos számnál abc
+  if (sorrend === 'db') sorok.sort((a, b) => b.szam - a.szam || a.nev.localeCompare(b.nev, 'hu'));      // most buildings first; alphabetical on a tie
   else if (sorrend === 'db_nov') sorok.sort((a, b) => a.szam - b.szam || a.nev.localeCompare(b.nev, 'hu'));
   document.getElementById('ep-db').textContent = sorok.length + ' / ' + nevek.length + ' ' + t('ep_szam');
   lista.innerHTML = sorok.map(e => `<div class="ep-sor${epAktiv === e.k ? ' aktiv' : ''}" data-k="${esc(e.k)}"${e.elet ? ` title="${e.elet[0]}–${e.elet[1] || ''}"` : ''}>${esc(e.nev)} <small>(${e.szam})</small>${[['ybl', 'Y', 'dij_ybl'], ['prima', 'P', 'dij_prima'], ['nivo', 'N', 'dij_nivo']].filter(([d]) => epDijak[d] && epDijak[d][e.k]).map(([d, j, c]) => ` <i class="dij" title="${esc(t(c))}: ${epDijak[d][e.k].join(', ')}">${j}</i>`).join('')}${[...e.kors].map(i => ` <i title="${esc(korNev(i))}${e.korDb.get(i) ? ' (' + e.korDb.get(i) + ')' : ''}" style="color:${periods[i].color || '#999'};font-style:normal">●</i>`).join('')}</div>`).join('');
-  // az építész-lista szűrői (keresés, korszak, díjak, legalább N épület) a 3D-n is látszanak: a szűrt lista összes építészének házai kiemeltek
+  // the architect list's filters (search, era, awards, at least N buildings) are also visible in 3D: the houses of all architects in the filtered list are highlighted
   epSzuroKiemel(sorok, !!(ker || kor !== '' || dijak.length || min > 1));
 }
-// ---------- Építészek fül: a kiválasztott építész személyes Wikipédia-adatlapja ugyanabban a popupban nyílik, mint a Stílusok fülön ----------
+// ---------- Architects tab: the selected architect's personal Wikipedia data sheet opens in the same popup as on the Styles tab ----------
 let archPopupTok = 0, epPopupTok = 0;
 const epWikiGyorsitotar = new Map();
 async function epWikiCimek(e) {
   if (epWikiGyorsitotar.has(e.k)) return epWikiGyorsitotar.get(e.k);
   const ered = (async () => {
     await archBetolt();
-    // 1) a kézzel gondozott építész-réteg (epitesz.json) cikkcímei
+    // 1) the article titles of the manually curated architect layer (epitesz.json)
     for (const k of archAdat) for (const x of k.epitesz || []) if (archNevek(x).includes(e.k) && x.w && x.w.length) return x.w;
-    // 2) pontos című cikk (vagy „Név (építész)"), amelynek leírása építészt említ; ha a cikk életéveket említ, a születési évnek egyeznie kell az ismerttel (névrokon ellen)
+    // 2) an article with the exact title (or "Name (építész)") whose description mentions an architect; if the article mentions years of life, the birth year must match the known one (against namesakes)
     const el = epElete && epElete[e.k];
     for (const cim of [e.nev, e.nev + ' (építész)']) {
       try {
@@ -2980,10 +2980,10 @@ async function epWikiCimek(e) {
         if (!r.ok) continue;
         const j = await r.json(), szoveg = (j.description || '') + ' ' + String(j.extract || '').slice(0, 500);
         if (j.type !== 'standard' || !/építész/i.test(szoveg)) continue;
-        const ev = szoveg.match(/\(\s*(\d{4})\s*[–-]/);       // csak akkor utasítjuk el, ha a cikk más születési évet említ (a legtöbb leírásban nincs évszám)
+        const ev = szoveg.match(/\(\s*(\d{4})\s*[–-]/);       // rejected only if the article mentions a different birth year (most descriptions have no year)
         if (el && ev && +ev[1] !== el[0]) continue;
         return [j.title];
-      } catch { /* következő változat */ }
+      } catch { /* next variant */ }
     }
     return [];
   })();
@@ -2998,15 +2998,15 @@ async function epHelyi(e) {
 async function epWikiPopup(e) {
   const tok = ++epPopupTok, pp = document.getElementById('arch-popup');
   if (pp) pp.hidden = true;
-  const helyi = await epHelyi(e);        // kézzel írt adatlap (nw): nem keresünk Wikipédia-cikket, mert névrokont találhatna
+  const helyi = await epHelyi(e);        // hand-written data sheet (nw): no Wikipedia article is searched for, since it could find a namesake
   if (helyi) { if (tok !== epPopupTok || epAktiv !== e.k) return; archPopupTok = tok; archPopupMutat({ nev: e.nev, l: helyi.l, f: helyi.f || [], w: [], nw: true, tok }, archKiv); return; }
   const cimek = await epWikiCimek(e);
-  if (tok !== epPopupTok || epAktiv !== e.k || !cimek.length) return;     // közben másik építészt választottak, vagy nincs személyes adatlap
+  if (tok !== epPopupTok || epAktiv !== e.k || !cimek.length) return;     // in the meantime another architect was chosen, or there is no personal data sheet
   archPopupTok = tok;
   archPopupMutat({ nev: e.nev, l: '', w: cimek, nw: false, tok }, archKiv);
 }
 function epiteszValaszt(k) {
-  if (epAktiv === k) k = null;                      // újra kattintva megszűnik a szűrés
+  if (epAktiv === k) k = null;                      // clicking again clears the filter
   epAktiv = k;
   const e = k && epNevek.find(x => x.k === k);
   archZonaAzon = e ? e.zonak : new Set();
@@ -3016,24 +3016,24 @@ function epiteszValaszt(k) {
   archLepteto(archSzuro);
   epiteszRender();
 }
-// Az "Építészek" fül: első megnyitáskor épül fel (a névlista a betöltött épületadatból, a kizárt nevek az epitesz_kizart.json-ból)
+// The "Architects" tab: built on first opening (the name list from the loaded building data, the excluded names from epitesz_kizart.json)
 async function epiteszNezet(be) {
   if (!be) { epUnio = false; clearTimeout(epUnioIdo); epPopupTok++; if (epAktiv) { epAktiv = null; if (epKesz) epiteszRender(); } return; }
   if (!epBetoltes) epBetoltes = (async () => {
     epNevekEpit();
     try { epKizart = new Set(await (await fetch('epitesz_kizart.json', { cache: 'no-store' })).json()); }
     catch (h) {
-      try {      // a szerkesztő szervere is kiszolgálja (ha a statikus fájl még nincs meg)
+      try {      // the editor's server also serves it (if the static file does not exist yet)
         const v = await (await fetch('/api/epitesz_tipusok', { cache: 'no-store' })).json();
         epKizart = new Set((v.sorok || []).filter(r => EP_NEM_SZEMELY.has(r.tipus)).map(r => r.kulcs));
       } catch (h2) { epKizart = new Set(); }
     }
-    try { epDijak = await (await fetch('epitesz_dijak.json')).json(); } catch (h) { /* díjszűrők nélkül is működik */ }
+    try { epDijak = await (await fetch('epitesz_dijak.json')).json(); } catch (h) { /* works without the award filters too */ }
     await epKorokRendel();
     epKesz = true;
   })();
   await epBetoltes;
-  if (document.getElementById('nez-epitesz').hidden) return;      // közben másik fülre váltottak
+  if (document.getElementById('nez-epitesz').hidden) return;      // in the meantime the user switched to another tab
   epiteszRender();
 }
 function epNyelvFrissit() {
@@ -3074,16 +3074,16 @@ async function ertPanel(doboz) {
   });
 }
 
-// Építész-párosítás (kézi): a Wikipédia művek-listáiból megmaradt bizonytalan / találat nélküli tételek párosítása OSM-épületekhez
+// Architect pairing (manual): pairing the uncertain / unmatched items left over from the Wikipedia works lists to OSM buildings
 let parAdat = null, parAktiv = null, parKesz = new Set(), parElvetett = new Set(), parLimit = 80;
-try { parKesz = new Set(JSON.parse(localStorage.getItem('parKesz') || '[]')); } catch (e) { /* nincs tároló */ }
-function parKulcs(it) { const n = x => String(x || '').replace(/\s+/g, ' ').trim(); return n(it.a).slice(0, 120) + '|' + n(it.t).slice(0, 400); }   // ugyanúgy normalizálva, mint a szerveren
+try { parKesz = new Set(JSON.parse(localStorage.getItem('parKesz') || '[]')); } catch (e) { /* no storage */ }
+function parKulcs(it) { const n = x => String(x || '').replace(/\s+/g, ' ').trim(); return n(it.a).slice(0, 120) + '|' + n(it.t).slice(0, 400); }   // normalised the same way as on the server
 async function parositas(gid, gomb, uzenet) {
   const p = epuletek[gid], it = parAktiv;
   const regi = String(p.tervezo || '').trim();
   const fold = x => String(x || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-  // Az "A és B" / "A, B és C" alakú tételnév külön építészekre bomlik; csak a ház tervezőjéből még hiányzó nevek kerülnek be (nem duplázódik).
-  // Zárójeles vagy kötőjeles (cégnév, megjegyzés) tételnevet nem bontunk.
+  // An item name of the form "A és B" / "A, B és C" splits into separate architects; only names still missing from the house's designer are added (no duplication).
+  // Item names with parentheses or hyphens (company name, remark) are not split.
   const nevek = /[(–]/.test(it.a) ? [it.a] : String(it.a).split(/\s*,\s*|\s+és\s+/).map(x => x.trim()).filter(Boolean);
   const hianyzik = nevek.filter(n => !fold(regi).includes(fold(n)));
   const ertek = !regi ? it.a : !hianyzik.length ? regi : regi + (regi.includes(',') ? ', ' : '; ') + hianyzik.join(', ');
@@ -3093,7 +3093,7 @@ async function parositas(gid, gomb, uzenet) {
     await szerkKuldes('/api/epitesz_parositas', { osm_tipus: p.osm_tipus || 'way', id: p.id, ertek, tetel: it.t, epitesz: it.a, tetel_teljes: it.t });
     p.tervezo = ertek;
     parKesz.add(parKulcs(it));
-    try { localStorage.setItem('parKesz', JSON.stringify([...parKesz])); } catch (e) { /* nincs tároló */ }
+    try { localStorage.setItem('parKesz', JSON.stringify([...parKesz])); } catch (e) { /* no storage */ }
     szerkFuggo++;
     szerkAllapot(`${szerkFuggo} mentett javítás vár újraépítésre.`, 'ok');
     parAktiv = null; parRender();
@@ -3112,7 +3112,7 @@ function parRender() {
   document.getElementById('par-db').textContent = `${mind.length} nyitott tétel összesen`;
   const legjobb = it => (it.c[0] && +it.c[0][3]) || 0;
   const allapotSzuro = it => !st || (st === 'jel' ? it.c.length : st === 'nincs' ? !it.c.length : st === 'eros' ? legjobb(it) >= 80 && !it.na : st === 'kozepes' ? legjobb(it) >= 60 && legjobb(it) < 80 && !it.na : st === 'na' ? it.na : st === 'uj' ? /^új.*díjazott/.test(it.s || '') : st === 'uj57' ? /^új.*1957/.test(it.s || '') : st === 'uj19' ? /^új.*1919/.test(it.s || '') : true);
-  // a legördülő: építészenként a még nyitott tételek száma (0 nyitott tételű építész nem jelenik meg)
+  // the dropdown: per architect the number of still open items (an architect with 0 open items does not appear)
   const szSel = document.getElementById('par-szuro'), szam = new Map();
   for (const it of mind) if (allapotSzuro(it)) szam.set(it.a, (szam.get(it.a) || 0) + 1);
   const nevek = [...szam.keys()].sort((a, b) => a.localeCompare(b, 'hu'));
@@ -3197,7 +3197,7 @@ async function parPanel(doboz) {
       try {
         const ev = await (await fetch('/api/epitesz_elvetett', { cache: 'no-store' })).json();
         parElvetett = new Set((ev.tetelek || []).map(x => parKulcs({ a: x.a, t: x.t })));
-      } catch (e) { /* nincs elvetett lista: minden tétel látszik */ }
+      } catch (e) { /* no rejected list: every item is visible */ }
       document.getElementById('par-szuro').addEventListener('change', () => { parLimit = 80; parRender(); });
       document.getElementById('par-allapot').addEventListener('change', () => { parLimit = 80; parRender(); });
     }
@@ -3205,18 +3205,18 @@ async function parPanel(doboz) {
   });
 }
 
-// a hibakereső objektum (window.__dbg, pl. __dbg.nezet()) csak szerkesztő módban (helyi szerverrel) érhető el, a nyilvános oldalon nem
+// the debug object (window.__dbg, e.g. __dbg.nezet()) is available only in editor mode (with the local server), not on the public site
 fetch('/api/ping', { cache: 'no-store' }).then(r => r.json()).then(d => {
   szerkeszto = !!d.szerkeszto;
   if (szerkeszto) { szerkPanel(); window.__dbg = { nezet: nezetErtekek, uniforms, camera, controls, pick, rogzit, bezar, epuletek, config }; }
 }).catch(() => {});
-// mélylink a szöveges oldalakról: ?e=w123 vagy ?e=r123 (OSM-azonosító) -> a térkép odarepül, megnyílik az épület kártyája
+// deep link from the text pages: ?e=w123 or ?e=r123 (OSM id) -> the map flies there and the building's card opens
 {
   const eAz = new URLSearchParams(location.search).get('e');
   if (eAz) { const talalat = keres(eAz); if (talalat.length) setTimeout(() => repulj(talalat[0]), 800); }
 }
 let melyLinkNincs = false;
-// mélylinkek: ?tab=period|arch|epitesz|vedett|lakotelep|magassag  ?architect=<név>  ?estate=<lakótelep neve>  ?lang=en|hu
+// deep links: ?tab=period|arch|epitesz|vedett|lakotelep|magassag  ?architect=<name>  ?estate=<estate name>  ?lang=en|hu
 {
   const q = new URLSearchParams(location.search);
   const tab = q.get('tab'), ar = q.get('architect'), tel = q.get('estate');
@@ -3234,4 +3234,4 @@ let melyLinkNincs = false;
   } else if (fulek.includes(tab)) setNezet(tab);
   else melyLinkNincs = true;
 }
-if (melyLinkNincs) setNezet('period');      // induláskor, a fájl végén: addigra minden let/const deklaráció már létezik
+if (melyLinkNincs) setNezet('period');      // at startup, at the end of the file: by then every let/const declaration exists
