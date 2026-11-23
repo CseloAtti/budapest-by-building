@@ -1382,7 +1382,8 @@ function archLepIgazit() {
   if (!el || !pn) return;
   if (innerWidth <= 700) { el.style.cssText = ''; return; }
   const r = pn.getBoundingClientRect(), pp = document.getElementById('arch-popup');
-  const jobb = pp && !pp.hidden ? pp.getBoundingClientRect().right : r.right;
+  const pr = pp && !pp.hidden ? pp.getBoundingClientRect() : null;
+  const jobb = pr && pr.bottom <= r.bottom + 1 ? pr.right : r.right;      // the bar spans under the popup only if the popup is not taller than the panel
   Object.assign(el.style, { left: Math.round(r.left) + 'px', top: Math.round(r.bottom + 12) + 'px', bottom: 'auto', width: Math.round(jobb - r.left) + 'px', transform: 'none', maxWidth: 'none', boxSizing: 'border-box' });
   Object.assign(el.querySelector('select').style, { flex: '1 1 0', width: '0', minWidth: '0' });
 }
@@ -1405,12 +1406,13 @@ function archLepj(i) {
   if (innerWidth <= 700) mobilMenuZar();      // mobile: the architect/style card and the main panel close, the filter stays; the map is visible below the building card
   const x = archEpLista[i];
   const pp = document.getElementById('arch-popup');
-  // the card opens to the right of the house at the screen centre; its top and bottom follow the architect's data sheet (left panel)
+  // the card opens to the right of the house at the screen centre; its top follows the architect's data sheet (left panel), its height depends on the data of the house
   repulj(x.gid, innerWidth / 2 + 130, () => {
     const pn = document.getElementById('panel');
     if (!pn || innerWidth <= 700) return;
     const r = pn.getBoundingClientRect();
-    Object.assign(kartya.style, { top: Math.round(r.top) + 'px', height: Math.round(r.height) + 'px', maxHeight: Math.round(r.height) + 'px' });
+    // the card keeps its natural height (it depends on how much data the building has); it is only limited so that it stays above the timeline
+    Object.assign(kartya.style, { top: Math.round(r.top) + 'px', height: '', maxHeight: Math.max(240, Math.round(innerHeight - r.top - 110)) + 'px' });
   });
 }
 // The full text + lead image of a Wikipedia article (MediaWiki API, in one query); without the trailing notes/references sections
@@ -1466,15 +1468,16 @@ function archPopupHely() {
       archKivalaszt(null); kezdoRepules();
     });   // closing the data sheet also clears the filter, and the camera returns to the home view
     addEventListener('resize', () => archPopupIgazit(el));
+    if (window.ResizeObserver) new ResizeObserver(() => { if (typeof archLepIgazit === 'function') archLepIgazit(); }).observe(el);   // when the text arrives the popup grows: the bar below follows
   }
   return el;
 }
-// the window's height, width and top edge follow the left panel; it sits right next to it
+// the window's top edge and width follow the left panel; it sits right next to it. Its height depends on the content (like the other cards), but it stays above the timeline
 function archPopupIgazit(el) {
   const panel = document.getElementById('panel');
   if (!panel || innerWidth <= 700) { el.style.cssText = ''; return; }
   const r = panel.getBoundingClientRect();
-  Object.assign(el.style, { left: Math.round(r.right + 12) + 'px', top: Math.round(r.top) + 'px', height: Math.round(r.height) + 'px', width: Math.round(r.width) + 'px', bottom: 'auto' });
+  Object.assign(el.style, { left: Math.round(r.right + 12) + 'px', top: Math.round(r.top) + 'px', height: 'auto', maxHeight: Math.max(240, Math.round(innerHeight - r.top - 110)) + 'px', width: Math.round(r.width) + 'px', bottom: 'auto' });
   if (typeof archLepIgazit === 'function') archLepIgazit();
 }
 function archPopupMutat(e, kiv) {
