@@ -38,6 +38,45 @@ Building footprints: [OpenStreetMap](https://www.openstreetmap.org/copyright) co
 
 The raw data downloads and third-party tables are **not** part of this repository; each source has its own terms.
 
+## Hungarian data field names
+
+Identifiers in the code are English, but the **data fields** (JSON/CSV column names) and data folder names are deliberately still Hungarian, because the data files use them. The most common ones:
+
+| Field | Meaning |
+|---|---|
+| `nev` | name |
+| `cim` | address |
+| `hazszam` | house number |
+| `utca` | street |
+| `kerulet / ker` | district (Budapest kerület) |
+| `hrsz` | land-registry lot number (helyrajzi szám) |
+| `ev` | construction year |
+| `ev_szoveg` | year as free text (e.g. “1890s”) |
+| `ev_tol / ev_ig` | start / end of a year range |
+| `ev_forras` | source of the year (documented, estimated, …) |
+| `kor / korszak` | construction era |
+| `tervezo / epitesz` | architect / designer |
+| `stilus` | architectural style |
+| `szintek / emelet` | number of storeys / floor |
+| `magassag` | building height (m) |
+| `magassag_forras` | source of the height |
+| `terulet` | footprint area (m²) |
+| `tipus` | building type |
+| `osm_tipus / osm_azonosito` | OpenStreetMap element type (`way`/`relation`) and id |
+| `vedettseg / vedelem` | heritage protection status |
+| `torzsszam / muemlek_torzsszam` | national heritage register number (törzsszám) |
+| `forras` | source |
+| `megjegyzes` | remark |
+| `allapot` | status |
+| `kep / foto` | image / photo |
+| `kulcs` | key (unique identifier of a record) |
+| `szulo_id / szulo_tipus` | parent building id / type (building parts) |
+| `resz` | part of a building |
+| `gyuru` | ring (polygon outline) |
+| `regi / uj` | old / new value |
+
+Folders: `forras/` = raw source data, `data/` = processed data, `data/tenyek/` = “facts” tables (one CSV per source), `terkep3d/` = the 3D viewer.
+
 ## Running it locally
 
 The repository contains the viewer, the editor server and the data-processing scripts. The processed data is large and built from third-party sources, so the repository alone is **not enough to rebuild the map from scratch**. With a prepared data folder:

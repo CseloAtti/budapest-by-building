@@ -38,6 +38,45 @@ Az épületek körvonala: [OpenStreetMap](https://www.openstreetmap.org/copyrigh
 
 A nyers letöltések és a harmadik féltől származó táblázatok **nem** részei ennek a tárhelynek; mindegyik forrásnak saját feltételei vannak.
 
+## Magyar adatmezőnevek
+
+A kód azonosítói angolok, de az **adatmezők** (a JSON/CSV oszlopnevek) és az adatmappák nevei szándékosan magyarok maradtak, mert az adatfájlok ezeket használják. A leggyakoribbak:
+
+| Mező | Jelentés |
+|---|---|
+| `nev` | név |
+| `cim` | cím |
+| `hazszam` | házszám |
+| `utca` | utca |
+| `kerulet / ker` | kerület |
+| `hrsz` | helyrajzi szám |
+| `ev` | építési év |
+| `ev_szoveg` | év szövegesen (pl. „1890-es évek”) |
+| `ev_tol / ev_ig` | évtartomány kezdete / vége |
+| `ev_forras` | az év forrása (dokumentált, becsült, …) |
+| `kor / korszak` | építési korszak |
+| `tervezo / epitesz` | építész / tervező |
+| `stilus` | építészeti stílus |
+| `szintek / emelet` | szintek száma / emelet |
+| `magassag` | épületmagasság (m) |
+| `magassag_forras` | a magasság forrása |
+| `terulet` | alapterület (m²) |
+| `tipus` | épülettípus |
+| `osm_tipus / osm_azonosito` | OpenStreetMap-elemtípus (`way`/`relation`) és azonosító |
+| `vedettseg / vedelem` | védettségi állapot |
+| `torzsszam / muemlek_torzsszam` | országos nyilvántartási törzsszám |
+| `forras` | forrás |
+| `megjegyzes` | megjegyzés |
+| `allapot` | állapot |
+| `kep / foto` | kép / fotó |
+| `kulcs` | kulcs (a rekord egyedi azonosítója) |
+| `szulo_id / szulo_tipus` | szülő épület azonosítója / típusa (épületrészek) |
+| `resz` | épületrész |
+| `gyuru` | gyűrű (sokszög körvonala) |
+| `regi / uj` | régi / új érték |
+
+Mappák: `forras/` = nyers forrásadatok, `data/` = feldolgozott adatok, `data/tenyek/` = „tények” táblák (forrásonként egy CSV), `terkep3d/` = a 3D megjelenítő.
+
 ## Futtatás helyben
 
 A tárhely tartalmazza a megjelenítőt, a szerkesztő szervert és az adatfeldolgozó szkripteket. A feldolgozott adat nagy méretű és külső forrásokból épül, ezért a tárhely **önmagában nem elég a térkép nulláról való újraépítéséhez**. Előkészített adatmappával:
