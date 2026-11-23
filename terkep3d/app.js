@@ -2230,7 +2230,7 @@ let handle = null;
 hist.addEventListener('pointerdown', e => {
   hist.setPointerCapture(e.pointerId);
   const x = e.offsetX;
-  handle = Math.abs(x - xOf(uniforms.uYearFrom.value)) < Math.abs(x - xOf(uniforms.uYear.value)) ? 'uYearFrom' : 'uYear';
+  handle = 'uYear';   // a click or drag always sets the end year: everything built before it is coloured, the rest stays white
   moveHandle(x);
   stopPlay();
 });
