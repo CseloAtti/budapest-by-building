@@ -1,30 +1,30 @@
 """
-csempek_keszites.py - a 3D nézet (terkep3d/) adatainak elkészítése.
+csempek_keszites.py - building the data for the 3D view (terkep3d/).
 
-Futtatás (a projekt mappájában):   py csempek_keszites.py          (a belváros)
-                                   py csempek_keszites.py varos     (az egész város -> terkep3d/data_varos/)
-Városi mód bemenete: data/varos/epuletek_vegleges.geojson, data/varos/viz_zold.json (budapest_pbf.py),
-                     data/varos/commons_kepek.json; gépigény: legalább 4 GB szabad memória, 15-40 perc.
-A városi 3D nézet: http://localhost:8000/terkep3d/?adat=varos
+Run (in the project folder):       py csempek_keszites.py          (the inner city)
+                                   py csempek_keszites.py varos     (the whole city -> terkep3d/data_varos/)
+City-mode input: data/varos/epuletek_vegleges.geojson, data/varos/viz_zold.json (budapest_pbf.py),
+                 data/varos/commons_kepek.json; requirements: at least 4 GB of free memory, 15-40 minutes.
+The city 3D view: http://localhost:8000/terkep3d/?adat=varos
 
-Csak a Python alap könyvtárát használja.
+Uses only the Python standard library.
 
-Bemenet:  data/belvaros_epuletek_vegleges.geojson   (osszeepit.py; az ev_becsles_* mezőkkel együtt)
-          data/viz_zold.json                         (viz_letoltes.py; elhagyható: víz és parkok)
-          data/N47E018.SRTMGL1_NC.nc, data/N47E019.SRTMGL1_NC.nc   (NASA SRTM magassági csempék; elhagyható)
-Kimenet:  terkep3d/data/budapest.json    - beállítások, csempék jegyzéke, évhisztogram
-          terkep3d/data/tiles.bin        - az épületek 600 m-es bináris csempékben
-          terkep3d/data/epuletek.json    - az épületek adatai a kártyához (a sorszám = az épület azonosítója)
-          terkep3d/data/terrain.bin      - domborzati háló (ha van SRTM-csempe)
-          terkep3d/data/landcover.png    - víz és parkok képként a domborzatra (ha van viz_zold.json)
+Input:    data/belvaros_epuletek_vegleges.geojson   (osszeepit.py; with the ev_becsles_* fields)
+          data/viz_zold.json                         (viz_letoltes.py; optional: water and parks)
+          data/N47E018.SRTMGL1_NC.nc, data/N47E019.SRTMGL1_NC.nc   (NASA SRTM elevation tiles; optional)
+Output:   terkep3d/data/budapest.json    - settings, tile index, year histogram
+          terkep3d/data/tiles.bin        - the buildings in 600 m binary tiles
+          terkep3d/data/epuletek.json    - the buildings' data for the card (the index = the building's id)
+          terkep3d/data/terrain.bin      - terrain mesh (if there is an SRTM tile)
+          terkep3d/data/landcover.png    - water and parks as an image onto the terrain (if there is a viz_zold.json)
 
-A csempe-formátum az amszterdami projektből való (alexbarakov/amsterdam-by-building, MIT licenc);
-a csempe-készítő itt újraírt, budapesti változat.
+The tile format comes from the Amsterdam project (alexbarakov/amsterdam-by-building, MIT licence);
+the tile builder here is a rewritten, Budapest version.
 
-A csúszkához minden épületnek kell év. Az ismert évű épület a saját évét kapja. A szürke épületnek a
-becsült korszakán belül, a közeli ismert évű épületek évei közül választunk egyet (az épület azonosítójából
-számolt, mindig ugyanaz az érték). Ez csak a megjelenítéshez kell: a kártya a becslést becslésként jelöli,
-és a pontos évet nem mutatja.
+For the slider every building needs a year. A building of known year gets its own year. For a grey building,
+within its estimated era, one year is chosen from the years of nearby buildings of known year (computed from the
+building's id, so always the same value). This is only needed for display: the card marks the estimate as an estimate
+and does not show the exact year.
 """
 import csv
 import json
@@ -39,7 +39,7 @@ from pathlib import Path
 
 try:
     from dem import Domborzat, HibasFajl
-except ImportError:          # dem.py hiányában domborzat nélkül dolgozunk
+except ImportError:          # without dem.py we work without terrain
     Domborzat = None
     HibasFajl = Exception
 
@@ -53,18 +53,18 @@ MAGIC = 0x34424241
 ELSO_EV_MIN = 1700
 MOST = 2026
 SZOMSZED_M = 150.0
-TEREP_LEPES = 20.0       # m: a domborzati háló lépésköze
-KEP_PX = 2.5             # m: a víz/park kép képpontjának mérete
-TEREP_MARGO = {"nyugat": 5000.0, "kelet": 2000.0, "eszak": 2000.0, "del": 2500.0}   # m, az épületek köré
-if VAROS:               # az egész város: durvább háló és kép, kisebb margó
+TEREP_LEPES = 20.0       # m: step of the terrain mesh
+KEP_PX = 2.5             # m: size of a pixel of the water/park image
+TEREP_MARGO = {"nyugat": 5000.0, "kelet": 2000.0, "eszak": 2000.0, "del": 2500.0}   # m, around the buildings
+if VAROS:               # the whole city: coarser mesh and image, smaller margin
     TEREP_LEPES = 40.0
     KEP_PX = 5.0
     TEREP_MARGO = {"nyugat": 2500.0, "kelet": 2500.0, "eszak": 2500.0, "del": 2500.0}
-SIMITAS_LEPES = 40       # az árterület erős simításának lépésszáma (3x3-as átlag)
-ARTER_SZINT = 96.0       # m: a Duna szintje (közelítés a simítási súlyhoz)
-VAROS_MIN_SUGAR = 3      # SRTM-cella: a beépített részen ekkora ablakban vesszük a legalacsonyabb pontot
+SIMITAS_LEPES = 40       # number of passes of the strong smoothing of the floodplain (3x3 average)
+ARTER_SZINT = 96.0       # m: the Danube's level (an approximation for the smoothing weight)
+VAROS_MIN_SUGAR = 3      # SRTM cell: in the built-up area the lowest point within a window of this size is taken
 
-# azonos az index.html és az ev_becsles.py korszaklistájával
+# identical to the era list of index.html and ev_becsles.py
 KORSZAKOK = [
     (1, 1866, "1866-ig – Kiegyezés előtt", "to 1866 – Before the Compromise", "#7a1f1f"),
     (1867, 1918, "1867–1918 – Dualizmus", "1867–1918 – Dualism", "#d9653b"),
@@ -74,12 +74,12 @@ KORSZAKOK = [
     (1990, 2010, "1990–2010 – Rendszerváltás utáni évek", "1990–2010 – Post-transition years", "#3d85c6"),
     (2011, 9999, "2011-től – Napjaink", "2011 onwards – Present day", "#8e5bb5"),
 ]
-ROM_KOR = 0     # az ókori és középkori romok nem külön kategória: az "1867 előtt" korszakba tartoznak (a "rom" mező a kártyán továbbra is látszik)
+ROM_KOR = 0     # ancient and medieval ruins are not a separate category: they belong to the "before 1867" era (the "rom" field is still shown on the card)
 
 
 def hidak_lechner():
-    """A Lechner Tudásközpont adatai a hidakra: a data/tenyek/lechner.csv-ben a hidak OSM-azonosítóihoz (kézi párosítás) kötött sorokat
-    átírja a hidak.json megfelelő hídjához (a hidak nem az épületadatban vannak, ezért az osszeepit.py nem látja őket)."""
+    """The data of the Lechner Knowledge Centre for bridges: the rows in data/tenyek/lechner.csv tied to the bridges' OSM ids (manual pairing)
+    are written to the corresponding bridge in hidak.json (bridges are not in the building data, so osszeepit.py does not see them)."""
     ut = KIMENET / "hidak.json"
     tenyek = Path("data/tenyek/lechner.csv")
     if not ut.exists() or not tenyek.exists():
@@ -124,7 +124,7 @@ KARTYA_MEZOK = [
 
 
 def lokalis(lon, lat):
-    """Fok -> méter a nézet koordinátarendszerében: x kelet, z dél."""
+    """Degrees -> metres in the view's coordinate system: x east, z south."""
     return ((lon - LON0) * COSLAT * 111320.0, -(lat - LAT0) * 110574.0)
 
 
@@ -140,7 +140,7 @@ def korszak_ev_szerint(ev):
 
 
 def gyuru_tisztitas(gyuru):
-    """Lokális méterekre vált, elhagyja a záró (ismétlődő) pontot és az egymás melletti azonos pontokat."""
+    """Converts to local metres, drops the closing (repeated) point and adjacent identical points."""
     pontok = []
     for lon, lat in gyuru:
         p = lokalis(lon, lat)
@@ -152,7 +152,7 @@ def gyuru_tisztitas(gyuru):
 
 
 def poligonok(geo):
-    """Az épület poligonjai: [[kulso, lyuk, lyuk...], ...] lokális méterekben."""
+    """The building's polygons: [[outer, hole, hole...], ...] in local metres."""
     if geo["type"] == "Polygon":
         lista = [geo["coordinates"]]
     elif geo["type"] == "MultiPolygon":
@@ -181,7 +181,7 @@ def kozeppont(poly):
 
 
 def doboz_elmos(g):
-    """3x3-as átlag (a szélén az utolsó érték ismétlődik). g: [[...], ...]"""
+    """3x3 average (at the edge the last value is repeated). g: [[...], ...]"""
     n, m = len(g), len(g[0])
     v = []
     for r in range(n):
@@ -195,23 +195,23 @@ def doboz_elmos(g):
 
 
 def minimum_szuro(g, sugar):
-    """Négyzet alakú ablak minimuma (elválasztható: előbb a sorokban, aztán az oszlopokban)."""
+    """Minimum of a square window (separable: first along the rows, then along the columns)."""
     n, m = len(g), len(g[0])
     v = [[min(sor[max(c - sugar, 0):c + sugar + 1]) for c in range(m)] for sor in g]
     return [[min(v[k][c] for k in range(max(r - sugar, 0), min(r + sugar, n - 1) + 1)) for c in range(m)]
             for r in range(n)]
 
 
-ALMINTA = 4   # függőleges részminta képpontonként a lágy (élsimított) széleshez
+ALMINTA = 4   # vertical sub-sampling per pixel for soft (anti-aliased) edges
 
 
 def kitolt(szakaszok, gyuruk, w, h):
-    """Páros-páratlan szabályú kitöltés: a gyűrűk belsejét szakaszokként (sor -> [(a, b), ...]) jegyzi fel,
-    ALMINTA részsorral soronként. A koordináták képpontegységben vannak."""
+    """Even-odd fill: records the inside of the rings as spans (row -> [(a, b), ...]),
+    with ALMINTA sub-rows per row. The coordinates are in pixel units."""
     ys = [p[1] for gy in gyuruk for p in gy]
     if not ys:
         return
-    vodrok = defaultdict(list)       # sor -> az azt érintő élek (különben minden sor minden élt végignézne)
+    vodrok = defaultdict(list)       # row -> the edges touching it (otherwise every row would look at every edge)
     for gy in gyuruk:
         for (x1, y1), (x2, y2) in zip(gy, gy[1:] + gy[:1]):
             if y1 != y2:
@@ -231,7 +231,7 @@ def kitolt(szakaszok, gyuruk, w, h):
 
 
 def lefed(szakaszok, w, h):
-    """A szakaszokból soronként 0..255 fedettség (bytes), ahol a szél törtrészei adják az élsimítást."""
+    """From the spans, 0..255 coverage per row (bytes), where the fractions at the edge give the anti-aliasing."""
     sorok = []
     suly = 255.0 / ALMINTA
     for r in range(h):
@@ -239,8 +239,8 @@ def lefed(szakaszok, w, h):
         if not sp:
             sorok.append(bytes(w))
             continue
-        d = {}                   # a belső, teljesen fedett cellák (csak ahol van szakasz: gyors a nagy képeknél)
-        p = {}                   # a szélső, részben fedett cellák
+        d = {}                   # the inner, fully covered cells (only where there is a span: fast for large images)
+        p = {}                   # the edge, partially covered cells
         for a, b in sp:
             ia, ib = int(a), int(b)
             if ia == ib:
@@ -261,7 +261,7 @@ def lefed(szakaszok, w, h):
             acc += d.get(c, 0.0)
             if c < w:
                 sor[c] = atvalt((acc + p.get(c, 0.0)) * suly)
-            if n + 1 < len(ks) and ks[n + 1] > c + 1 and acc > 1e-9:       # két érdekes cella között állandó a fedettség
+            if n + 1 < len(ks) and ks[n + 1] > c + 1 and acc > 1e-9:       # between two cells of interest the coverage is constant
                 hi = min(ks[n + 1], w)
                 if hi > c + 1:
                     sor[c + 1:hi] = bytes([atvalt(acc * suly)]) * (hi - c - 1)
@@ -270,7 +270,7 @@ def lefed(szakaszok, w, h):
 
 
 def png_iras(ut, w, h, sorok_rgb):
-    """Egyszerű RGB PNG (alap könyvtárral). sorok_rgb: h darab, soronként w*3 bájt."""
+    """A simple RGB PNG (with the standard library). sorok_rgb: h rows, w*3 bytes per row."""
     def chunk(tipus, adat):
         c = struct.pack(">I", len(adat)) + tipus + adat
         return c + struct.pack(">I", zlib.crc32(tipus + adat) & 0xFFFFFFFF)
@@ -284,7 +284,7 @@ def gyuru_terulet(gyuru):
 
 
 class Terep:
-    """Domborzat az SRTM-ből: háló a megjelenítéshez, és az épületek talpmagassága."""
+    """Terrain from SRTM: a mesh for display, and the base height of the buildings."""
 
     def __init__(self, ep, viz):
         xs = [e["x"] for e in ep]
@@ -302,12 +302,12 @@ class Terep:
         ny, kel = math.floor(lon_ny * fok) / fok, math.ceil(lon_k * fok) / fok
         de, ez = math.floor(lat_d * fok) / fok, math.ceil(lat_e * fok) / fok
         sor, osz, self.lat_f, self.lon_ny, g = d.racs(ny, kel, de, ez)
-        # hiányzó értékek (ha lennének) a medián magassággal
+        # missing values (if there were any) with the median height
         ervenyes = [v for r in g for v in r if v == v]
         med = statistics.median(ervenyes)
         g = [[v if v == v else med for v in r] for r in g]
         self.dsm_stat = (min(ervenyes), max(ervenyes))
-        # a beépített részeken az SRTM az épületeket is méri (felszínmodell): ott a közeli legalacsonyabb pontot vesszük
+        # in the built-up areas SRTM also measures the buildings (surface model): there the nearby lowest point is taken
         suruseg = [[0.0] * osz for _ in range(sor)]
         cella_m2 = (110574.0 / fok) * (111320.0 * COSLAT / fok)
         for e in ep:
@@ -320,9 +320,9 @@ class Terep:
         alacsony = doboz_elmos(minimum_szuro(g, VAROS_MIN_SUGAR))
         self.g = [[sima[r][c] + (alacsony[r][c] - sima[r][c]) * min(1.0, suruseg[r][c] * 2.5) for c in range(osz)]
                   for r in range(sor)]
-        # az árterületen (Pest) az SRTM zaja és az épületek maradványa hepehupás felszínt adna: ott erősen simítunk,
-        # a dombokon (a magasság a Duna szintje fölött 15-45 m között fokozatosan) megmarad a részletesség
-        self.g0 = self.g          # a víz szintjének méréséhez a simítatlan rács
+        # on the floodplain (Pest) the noise of SRTM and the remains of the buildings would give a bumpy surface: it is strongly smoothed there,
+        # on the hills (the height between 15 and 45 m above the Danube's level, gradually) the detail is kept
+        self.g0 = self.g          # the unsmoothed grid for measuring the water level
         eros = self.g
         for _ in range(SIMITAS_LEPES):
             eros = doboz_elmos(eros)
@@ -330,7 +330,7 @@ class Terep:
                    * min(1.0, max(0.0, (45.0 - (eros[r][c] - ARTER_SZINT)) / 30.0))
                    for c in range(osz)] for r in range(sor)]
         self.sor, self.osz = sor, osz
-        # víz és parkok képe
+        # image of water and parks
         self.kep_w = int((self.x1 - self.x0) / KEP_PX) + 1
         self.kep_h = int((self.z1 - self.z0) / KEP_PX) + 1
         park_sz = [[] for _ in range(self.kep_h)]
@@ -348,7 +348,7 @@ class Terep:
             self.van_kep = True
         self.park = lefed(park_sz, self.kep_w, self.kep_h)
         self.viz = lefed(viz_sz, self.kep_w, self.kep_h)
-        # a Duna szintje: a vízfelszín mediánja (ez lesz a nézet nulla szintje)
+        # the Danube's level: the median of the water surface (this becomes the view's zero level)
         vizi = []
         for r in range(0, self.kep_h, 4):
             sor_ = self.viz[r]
@@ -360,8 +360,8 @@ class Terep:
         self.part_racs()
 
     def part_racs(self):
-        """A tavak vízszintjéhez: a vízfelület közelében lévő szárazföld legalacsonyabb magassága (durva rácson).
-        A magasabban fekvő tavak (pl. a Naplás-tó) így a partjuk szintjén lesznek, nem a Duna szintjén (gödörben)."""
+        """For the water level of lakes: the lowest height of the land near the water surface (on a coarse grid).
+        Lakes lying higher (e.g. Lake Naplás) are therefore at their shore's level, not at the Danube's level (in a pit)."""
         K = 3
         fok = Domborzat.FOK
         nr, nc = (self.sor + K - 1) // K, (self.osz + K - 1) // K
@@ -376,12 +376,12 @@ class Terep:
                 x, z = lokalis(self.lon_ny + c / fok, self.lat_f - r / fok)
                 if not self.vizen(x, z):
                     szaraz[i][j] = self.g[r][c]
-        mn = minimum_szuro(szaraz, 8)                    # ~700 m-es környezet
+        mn = minimum_szuro(szaraz, 8)                    # ~700 m surroundings
         self.part = doboz_elmos([[mn[i][j] if mn[i][j] < INF else kozep[i][j] for j in range(nc)] for i in range(nr)])
         self.part_k = K
 
     def part_szint(self, x, z):
-        """A part szintje a (x, z) pont környékén (m tengerszint felett), kétvonalas interpolációval a durva rácson."""
+        """The shore level around the point (x, z) (m above sea level), with bilinear interpolation on the coarse grid."""
         lat, lon = vissza(x, z)
         fok = Domborzat.FOK
         K = self.part_k
@@ -396,7 +396,7 @@ class Terep:
         return (g[r0][c0] * (1 - fc) + g[r0][c0 + 1] * fc) * (1 - fr) + (g[r0 + 1][c0] * (1 - fc) + g[r0 + 1][c0 + 1] * fc) * fr
 
     def dsm(self, x, z, g=None):
-        """Az SRTM-ből számolt magasság (m tengerszint felett) a (x, z) pontban, kétvonalas interpolációval."""
+        """The height computed from SRTM (m above sea level) at the point (x, z), with bilinear interpolation."""
         lat, lon = vissza(x, z)
         fok = Domborzat.FOK
         r = (self.lat_f - lat) * fok
@@ -409,7 +409,7 @@ class Terep:
         return (g[r0][c0] * (1 - fc) + g[r0][c0 + 1] * fc) * (1 - fr) + (g[r0 + 1][c0] * (1 - fc) + g[r0 + 1][c0 + 1] * fc) * fr
 
     def talaj(self, x, z):
-        """A talaj magassága a Duna szintjéhez (a nézet 0 szintjéhez) képest, legalább 0."""
+        """The ground height relative to the Danube's level (the view's level 0), at least 0."""
         return max(0.0, self.dsm(x, z) - self.ref)
 
     def vizen(self, x, z):
@@ -418,7 +418,7 @@ class Terep:
         return 0 <= r < self.kep_h and 0 <= c < self.kep_w and self.viz[r][c] > 127
 
     def vizarany(self, x, z):
-        """A vízfedettség a pont ~20 m-es környezetében (0..1): a partvonal lágy átmenete a domborzatban."""
+        """Water coverage in the ~20 m surroundings of the point (0..1): the soft transition of the shoreline in the terrain."""
         c0 = (x - self.x0) / KEP_PX
         r0 = (z - self.z0) / KEP_PX
         fel = TEREP_LEPES * 0.75 / KEP_PX
@@ -437,7 +437,7 @@ class Terep:
         return db / (255.0 * n) if n else 0.0
 
     def iras(self, kimenet):
-        """terrain.bin és landcover.png."""
+        """terrain.bin and landcover.png."""
         hs = array("h")
         for j in range(self.nz):
             z = self.z0 + j * TEREP_LEPES
@@ -447,7 +447,7 @@ class Terep:
                 szaraz = max(0.0, self.dsm(x, z) - self.ref)
                 szint = 0.0
                 if f > 0.0:
-                    # a tó a partja szintjén áll (a Duna és az árterület kis tavai a nulla szinten maradnak)
+                    # the lake stands at its shore's level (the Danube and the small lakes of the floodplain stay at zero level)
                     p = self.part_szint(x, z) - self.ref
                     t = min(1.0, max(0.0, (p - 4.0) / 8.0))
                     szint = max(0.0, p) * t * t * (3 - 2 * t)
@@ -468,8 +468,8 @@ class Terep:
 
 
 def hid_tengelyek():
-    """A Duna-hidak víz fölötti tengelypontjai (terkep3d/data_varos/hidak.json, hidak_keszites.py): az OSM-ben szereplő
-    híd-épületek (pillérek, kőtornyok) helyett a saját hídmodell látszik. Rács: (cella) -> [(x, z, sugár)]."""
+    """The axis points of the Danube bridges over the water (terkep3d/data_varos/hidak.json, hidak_keszites.py): the dedicated bridge model is shown
+    instead of the bridge buildings in OSM (piers, stone towers). Grid: (cell) -> [(x, z, radius)]."""
     ut = KIMENET / "hidak.json"
     if not VAROS or not ut.exists():
         return {}
@@ -492,8 +492,8 @@ def hid_alatt(racs, x, z):
 
 
 def ismert_statisztika(ep):
-    """A Névjegy számai: hány különböző épületnek van pontos éve, és hány különböző épület van. Egy épület (OSM-elem) több
-    körvonala és a részekből kirajzolt épület részei egy épületnek számítanak; a híd-elemek és a romok nem számítanak."""
+    """The numbers of the About window: how many different buildings have an exact year, and how many different buildings there are. Several
+    outlines of one building (OSM element) and the parts of a building drawn from parts count as one building; bridge elements and ruins do not count."""
     def kulcs(e):
         pr = e["pr"]
         if pr.get("resz") and pr.get("szulo_id"):
@@ -505,7 +505,7 @@ def ismert_statisztika(ep):
 
 
 def veletlen(kulcs):
-    """0 és 1 közötti, az azonosítóból számolt (tehát mindig ugyanaz) érték."""
+    """A value between 0 and 1 computed from the id (so always the same)."""
     return (zlib.crc32(kulcs.encode()) % 10000 + 0.5) / 10000
 
 
@@ -524,7 +524,7 @@ def main():
         kp = [kozeppont(p) for p in polyk]
         x = sum(p[0] for p in kp) / len(kp)
         z = sum(p[1] for p in kp) / len(kp)
-        if hid_racs and hid_alatt(hid_racs, x, z):      # az OSM híd-épülete (pillér, kőtorony) a saját hídmodell helyett
+        if hid_racs and hid_alatt(hid_racs, x, z):      # the OSM bridge building (pier, stone tower) in place of the dedicated bridge model
             hid_elrejtve += 1
             continue
         ev = pr.get("ev")
@@ -542,7 +542,7 @@ def main():
     print(f"Épületek: {len(ep)}" + (f" (a Duna-hidak alatt/helyén kihagyva: {hid_elrejtve} OSM-épület, mert a hidakat a saját modell mutatja)" if hid_racs else ""))
     gj = None
 
-    # rács a szomszédkereséshez
+    # grid for the neighbour search
     racs = defaultdict(list)
     for i, e in enumerate(ep):
         racs[(int(e["x"] // SZOMSZED_M), int(e["z"] // SZOMSZED_M))].append(i)
@@ -559,12 +559,12 @@ def main():
                         ki.append(j)
         return ki
 
-    # 0) romok (ókori, középkori maradványok): az "1867 előtt" korszakba kerülnek, az első évtől látszanak, másra nem hatnak
+    # 0) ruins (ancient, medieval remains): they go into the "before 1867" era, are visible from the first year, and affect nothing else
     for e in ep:
         if e["rom"]:
             e["ev_kep"], e["fajta"], e["kor"] = ELSO_EV_MIN, 0, ROM_KOR
 
-    # 1) ismert évek
+    # 1) known years
     ismert_korszakonkent = defaultdict(list)
     for e in ep:
         if e["ev"]:
@@ -572,7 +572,7 @@ def main():
             e["kor"] = korszak_ev_szerint(e["ev"])
             ismert_korszakonkent[e["kor"]].append(e["ev"])
 
-    # 2) becsült korszakú épületek: év a közeli, azonos korszakú ismert évek közül
+    # 2) buildings of estimated era: a year from the nearby known years of the same era
     becsult = 0
     for e in ep:
         if e["fajta"] is not None or e["est"] is None:
@@ -587,17 +587,17 @@ def main():
         e["ev_kep"], e["fajta"], e["kor"] = lista[min(int(q * len(lista)), len(lista) - 1)], 1, k
         becsult += 1
 
-    # 3) a többi (pl. épületrészek becslés nélkül): a legközelebbi, már évvel rendelkező épület évét kapják
+    # 3) the rest (e.g. building parts without an estimate): they get the year of the nearest building that already has one
     maradek = [e for e in ep if e["fajta"] is None]
     if VAROS:
-        # az egész városban sok az évszám nélküli épület: a legközelebbi ismert évű (vagy becsült) épület évét kapják,
-        # ehhez külön rács készül csak az ismertekből (a gyors kereséshez)
+        # in the whole city many buildings have no year: they get the year of the nearest building with a known (or estimated) year,
+        # for this a separate grid is built from the known ones only (for fast lookup)
         ism = defaultdict(list)
         for e in ep:
             if e["fajta"] is not None and not e["rom"]:
                 ism[(int(e["x"] // SZOMSZED_M), int(e["z"] // SZOMSZED_M))].append(e)
-        # egy épület részei (building:part) együtt kapnak korszakot: a részek közös középpontjához legközelebbi épületét.
-        # Korábban részenként külön kerestünk, és egy ház részei eltérő színt kaphattak (42 épület).
+        # the parts (building:part) of one building get an era together: that of the building nearest to the parts' common centre.
+        # Earlier each part was searched separately, and the parts of one house could get different colours (42 buildings).
         csop = defaultdict(list)
         tavoli = 0
         for e in maradek:
@@ -638,7 +638,7 @@ def main():
     print(f"  ismert év: {sum(1 for e in ep if e['fajta'] == 0)}, becsült korszak: {becsult}, "
           f"szomszédtól átvett: {len(maradek)}")
 
-    # domborzat
+    # terrain
     terep = None
     viz = None
     viz_ut = ADAT / ("varos/viz_zold.json" if VAROS else "viz_zold.json")
@@ -661,8 +661,8 @@ def main():
         if terep:
             e["base"] = min(terep.talaj(x, z) for poly in e["poly"] for (x, z) in poly[0])
 
-    # szintszám minden elemhez; az egy épülethez tartozó részek (building:part) a legnagyobb szintszámot kapják,
-    # hogy a szintek nézetben az egész épület egyszínű legyen (pl. az Országház)
+    # number of storeys for every element; the parts (building:part) of one building get the largest number of storeys,
+    # so that in the storeys view the whole building has one colour (e.g. the Parliament)
     for e in ep:
         pr = e["pr"]
         szint = pr.get("szintek")
@@ -673,8 +673,8 @@ def main():
         if not szint:
             szint = int(round(max(3.0, float(pr.get("magassag") or 12.0)) / 3.2))
         elif pr.get("magassag_forras") == "height":
-            # a szintek nézet színe a tényleges magasságot kövesse: a kevés szintet rögzítő adat (pl. templom 4 'szinttel',
-            # amely 96 m magas) ne világítson halványan a vele egymagas, de szintes épületek mellett
+            # the storeys view's colour should follow the actual height: data that records few storeys (e.g. a church with 4 'storeys',
+            # 96 m tall) should not light up pale next to equally tall but multi-storey buildings
             try:
                 szint = max(szint, int(round(float(pr["magassag"]) / 3.2)))
             except (TypeError, ValueError, KeyError):
@@ -689,7 +689,7 @@ def main():
         if e["pr"].get("szulo_id"):
             e["szint"] = csoport[(e["pr"].get("szulo_tipus"), e["pr"]["szulo_id"])]
 
-    # csempék
+    # tiles
     csempek = defaultdict(list)
     for gid, e in enumerate(ep):
         e["gid"] = gid
@@ -713,12 +713,12 @@ def main():
             h = max(3.0, h)
             szint = e["szint"]
             gid_.append(e["gid"])
-            ev_.append(max(ELSO_EV_MIN, int(e["ev_kep"])))   # a 1700 előtti épületek is az első évben jelennek meg
+            ev_.append(max(ELSO_EV_MIN, int(e["ev_kep"])))   # buildings from before 1700 also appear in the first year
             flag_.append(e["fajta"])
             per_.append(e["kor"])
             flo_.append(szint)
             en_.append(0)
-            l0_.append(int(round((e["base"] + 100) * 10)))   # talpmagasság dm-ben, +100 m eltolással
+            l0_.append(int(round((e["base"] + 100) * 10)))   # base height in dm, with a +100 m offset
             l1_.append(0)
             ev_min = min(ev_min, e["ev_kep"])
             hisztogram[e["ev_kep"]][e["kor"]] += 1
@@ -752,7 +752,7 @@ def main():
         pack += tile
     (KIMENET / "tiles.bin").write_bytes(bytes(pack))
 
-    # a kártya adatai
+    # the card's data
     rekordok = []
     kepek = {}
     kepek_ut = ADAT / ("varos/commons_kepek.json" if VAROS else "commons_kepek.json")
@@ -795,7 +795,7 @@ def main():
         "packs": ["tiles.bin"], "tiles": jegyzek,
         "histogram": {str(max(y, ev_min)): v for y, v in sorted(hisztogram.items())},
     }
-    # az ev_min alatti évek (ha lennének) az első évbe kerülnek
+    # years below ev_min (if there were any) go into the first year
     hist = defaultdict(lambda: [0] * len(KORSZAKOK))
     for y, v in hisztogram.items():
         yy = max(y, int(ev_min))

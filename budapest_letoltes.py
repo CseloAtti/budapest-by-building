@@ -1,19 +1,19 @@
 """
-budapest_letoltes.py - Budapest teljes épületállományának és a Commons-fotók helyadatainak letöltése.
-Felügyelet nélkül futtatható, és megszakítás után folytatható.
+budapest_letoltes.py - downloading Budapest's whole building stock and the location data of the Commons photos.
+It can run unattended and can be resumed after an interruption.
 
-Futtatás (a projekt mappájában):   py budapest_letoltes.py
+Run (in the project folder):   py budapest_letoltes.py
 
-Három lépést végez, sorban (a kész lépéseket kihagyja, a félbemaradtat onnan folytatja):
-  1. A városhatár letöltése (OSM)                      -> data/budapest_hatar.json
-  2. Az épületek, épületrészek és címpontok letöltése  -> data/budapest_nyers/*.json.gz (kb. 1 km-es cellánként)
-  3. A Commons helyadatos fájljainak keresése          -> data/cache/commons_geo_budapest.json
-A napló a data/budapest_letoltes_naplo.txt fájlban van. Ha a program hibával megáll vagy a gép újraindul,
-egyszerűen indítsd újra ugyanazzal a paranccsal.
+It performs three steps in order (it skips the finished steps and resumes an unfinished one from where it stopped):
+  1. Download the city boundary (OSM)                   -> data/budapest_hatar.json
+  2. Download the buildings, building parts and address points  -> data/budapest_nyers/*.json.gz (about 1 km cells)
+  3. Search for Commons' geotagged files                -> data/cache/commons_geo_budapest.json
+The log is in the data/budapest_letoltes_naplo.txt file. If the program stops with an error or the machine restarts,
+just start it again with the same command.
 
-Fontos: a gép ne aludjon el közben! A program Windowson maga kéri, hogy ne aludjon el, amíg fut, de a képernyő
-kikapcsolhat. Az Overpass-szervereket kíméletesen használja (két kérés között szünet, hiba esetén várakozás).
-Csak a Python alap könyvtárát használja.
+Important: the machine must not go to sleep meanwhile! On Windows the program itself asks not to sleep while it runs, but the screen
+may switch off. It uses the Overpass servers gently (a pause between two requests, waiting after an error).
+Uses only the Python standard library.
 """
 import gzip
 import json
@@ -35,8 +35,8 @@ SZERVEREK = ["https://overpass.kumi.systems/api/interpreter",
 UA = {"User-Agent": "budapest-by-building/0.1 (https://github.com/CseloAtti/budapest-by-building; oktatasi projekt)"}
 CELLA_LAT = 0.01          # kb. 1,1 km
 CELLA_LON = 0.015         # kb. 1,1 km
-SZUNET = 4.0              # s, két Overpass-kérés között
-MAX_MELYSEG = 2           # ha egy cella túl nagy, legfeljebb ennyiszer bontjuk negyedekre
+SZUNET = 4.0              # s, between two Overpass requests
+MAX_MELYSEG = 2           # if a cell is too large, it is split into quarters at most this many times
 
 
 def naplo(uzenet):
@@ -48,7 +48,7 @@ def naplo(uzenet):
 
 
 def ne_aludjon():
-    """Windowson: amíg a program fut, a gép ne kapcsoljon alvó állapotba."""
+    """On Windows: while the program runs, the machine must not go into sleep mode."""
     if sys.platform == "win32":
         try:
             import ctypes
@@ -59,8 +59,8 @@ def ne_aludjon():
 
 # ---------- Overpass ----------
 def overpass(lekerdezes, idokorlat=240):
-    """Egy Overpass-lekérdezés. Visszaadja az elemeket; None, ha a szerver túl nagynak találta (remark/időkorlát);
-    kivételt dob, ha egyik szerver sem válaszol."""
+    """One Overpass query. Returns the elements; None if the server found it too large (remark/timeout);
+    raises an exception if no server answers."""
     adat = urllib.parse.urlencode({"data": lekerdezes}).encode("utf-8")
     for kor in range(4):
         for szerver in SZERVEREK:
@@ -79,7 +79,7 @@ def overpass(lekerdezes, idokorlat=240):
                 continue
             if j.get("remark"):
                 if "timed out" in j["remark"] or "out of memory" in j["remark"] or "memory" in j["remark"]:
-                    return None        # a cella túl nagy: bontani kell
+                    return None        # the cell is too large: it must be split
                 naplo(f"    a szerver figyelmeztet: {j['remark'][:120]}")
                 time.sleep(20)
                 continue
@@ -89,7 +89,7 @@ def overpass(lekerdezes, idokorlat=240):
     raise RuntimeError("Az Overpass-szerverek nem válaszolnak")
 
 
-# ---------- 1. a városhatár ----------
+# ---------- 1. the city boundary ----------
 def gyurukke_fuz(szakaszok):
     szakaszok = [list(s) for s in szakaszok if len(s) >= 2]
     gyuruk = []
@@ -155,7 +155,7 @@ def hatar_letoltese():
     return adat
 
 
-# ---------- 2. az épületek ----------
+# ---------- 2. the buildings ----------
 def cellak(hatar):
     gyuruk = [[tuple(p) for p in g] for g in hatar["gyuruk"]]
     del_, ny, eszak, kelet = hatar["bbox"]
@@ -166,7 +166,7 @@ def cellak(hatar):
             e, k = d + CELLA_LAT, n + CELLA_LON
             pontok = [(n + (k - n) * a / 6, d + (e - d) * b / 6) for a in range(7) for b in range(7)]
             bent = any(pont_gyuruben(x, y, g) for (x, y) in pontok for g in gyuruk)
-            if not bent:       # a határ csúcsa a cellában (vékony szelet)
+            if not bent:       # the boundary's vertex lies in the cell (a thin slice)
                 bent = any(d <= p[1] <= e and n <= p[0] <= k for g in gyuruk for p in g)
             if bent:
                 ki.append((i, j))
@@ -184,7 +184,7 @@ def epulet_lekerdezes(d, n, e, k):
 
 
 def terulet_letolt(d, n, e, k, melyseg=0):
-    """Egy téglalap elemei; ha a szerver túl nagynak találja, négy részre bontja."""
+    """The elements of a rectangle; if the server finds it too large, it splits it into four parts."""
     elemek = overpass(epulet_lekerdezes(d, n, e, k))
     time.sleep(SZUNET)
     if elemek is not None:
@@ -217,7 +217,7 @@ def epuletek_letoltese(hatar):
             eltelt = time.time() - kezdet
             hatra = eltelt / sorszam * (len(hianyzik) - sorszam)
             naplo(f"   épületek: {sorszam}/{len(hianyzik)} cella kész, kb. {hatra / 60:.0f} perc van hátra")
-    # összesítés
+    # summary
     db = {"way": 0, "relation": 0, "node": 0}
     for ut in NYERS.glob("c_*.json.gz"):
         with gzip.open(ut, "rt", encoding="utf-8") as f:
@@ -235,7 +235,7 @@ def commons_letoltese(hatar):
 
 
 def lepes_ujraprobalva(nev, fuggveny, *args):
-    """Felügyelet nélkül: ha egy lépés hibával megáll, 10 perc múlva újra próbálja, legfeljebb 30-szor."""
+    """Unattended: if a step stops with an error, it retries after 10 minutes, at most 30 times."""
     for kiserlet in range(1, 31):
         try:
             return fuggveny(*args)

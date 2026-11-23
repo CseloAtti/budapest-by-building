@@ -1,14 +1,14 @@
-"""Helyi szerver a térképhez, szerkesztési móddal.
+"""Local server for the map, with an editing mode.
 
-Elindítás (a projekt mappájában):   py szerkeszto_szerver.py
-Megnyitás a böngészőben:            http://localhost:8000
+Start (in the project folder):   py szerkeszto_szerver.py
+Open in the browser:             http://localhost:8000
 
-Ugyanazt tudja, mint a `py -m http.server 8000`, de a térképen az épületek adatait
-a popupban a "Szerkesztés" gombbal javítani lehet. A javítások a forras/kezi_javitasok.csv
-fájlba kerülnek (ezek mindig győznek). A "Térkép újraépítése" gomb lefuttatja az osszeepit.py-t.
+It can do the same as `py -m http.server 8000`, but on the map the buildings' data can be corrected
+in the popup with the "Edit" button. The corrections go into the forras/kezi_javitasok.csv
+file (these always win). The "Rebuild map" button runs osszeepit.py.
 
-Biztonság: a szerver csak a saját gépedről érhető el (127.0.0.1), csak ezt az egy fájlt írja,
-és minden beírt értéket ellenőriz.
+Security: the server is reachable only from your own machine (127.0.0.1), writes only this one file,
+and validates every value entered.
 """
 import csv
 import json
@@ -28,22 +28,22 @@ KEZI = Path("forras/kezi_javitasok.csv")
 FEJLEC = ["osm_tipus", "id", "mezo", "ertek", "forras", "megjegyzes", "lat", "lon"]
 SZAMOS = {"ev": (1000, 2100), "szintek": (1, 80), "magassag": (1, 500)}
 SZOVEGES = {"tervezo", "stilus"}
-EGYSOROS = {"nev": 120}                      # az épület neve
-HOSSZU_SZOVEG = {"about": 1500}              # szabad szöveges leírás (több bekezdés is lehet)
-VEDETTSEG_KODOK = {"M", "MJ", "VK", "MK", "MJT"}   # műemlék, műemlék jellegű, városképi, műemléki környezet, műemléki jelentőségű terület
+EGYSOROS = {"nev": 120}                      # the building's name
+HOSSZU_SZOVEG = {"about": 1500}              # free-text description (may have several paragraphs)
+VEDETTSEG_KODOK = {"M", "MJ", "VK", "MK", "MJT"}   # monument, monument-like, townscape, monument surroundings, area of monument significance
 ENGEDELYEZETT_ORIGIN = {f"http://localhost:{PORT}", f"http://127.0.0.1:{PORT}"}
 
-# --- zónák (poligonok) a zonak.html szerkesztőből ---
+# --- zones (polygons) from the zonak.html editor ---
 ZONAK = Path("forras/zonak_poligon.geojson")
 ZONA_TIPUSOK = {"lakotelep", "telep", "kertvaros", "negyed", "lakopark", "ipar_kereskedelem", "egyeb", "muemlek"}
 ZONA_ALLAPOTOK = {"helyismeret", "forrasolt", "ellenorizendo"}
 ZONA_EREDET = {"kezi", "osm", "nominatim", "epuletbol", "lista"}
 MAX_ZONA_KERES = 3_000_000
-ELVETETT = Path("forras/zona_elvetett.json")   # a szerkesztőben véglegesen törölt zónalista-tételek / jelöltek azonosítói
+ELVETETT = Path("forras/zona_elvetett.json")   # ids of zone-list items / candidates deleted for good in the editor
 
 
 def elvetett_mentese(adat):
-    """{"ids": [...]} -> forras/zona_elvetett.json (a régi állapot .bak.json-ban marad). Visszaad: (db, hiba)."""
+    """{"ids": [...]} -> forras/zona_elvetett.json (the old state stays in .bak.json). Returns: (count, error)."""
     ids = adat.get("ids") if isinstance(adat, dict) else None
     if not isinstance(ids, list) or len(ids) > 5000:
         return None, "Hibás kérés."
@@ -67,14 +67,14 @@ def elvetett_mentese(adat):
 
 
 def tiszta_szoveg(x, max_hossz):
-    x = " ".join(str(x).split())          # sortörések, tabok, dupla szóközök ki
+    x = " ".join(str(x).split())          # remove line breaks, tabs, double spaces
     if not x or len(x) > max_hossz or re.search(r"[\x00-\x1f;]", str(x)):
         return None
     return x
 
 
 def szabad_szoveg(x, max_hossz, tobb_sor):
-    """Szabad szöveg: a vezérlőkarakterek (a sortörés kivételével) tiltottak; ';' megengedett (a CSV idézi)."""
+    """Free text: control characters (except the line break) are forbidden; ';' is allowed (the CSV quotes it)."""
     x = str(x).replace("\r\n", "\n").replace("\r", "\n")
     if tobb_sor:
         sorok = [" ".join(s.split()) for s in x.split("\n")]
@@ -89,14 +89,14 @@ def szabad_szoveg(x, max_hossz, tobb_sor):
 
 
 def wikipedia_cim(x):
-    """Elfogad: 'https://hu.wikipedia.org/wiki/Cím' (a mobil 'hu.m.' és a séma nélküli alak is), 'hu:Cím', 'en:Cím',
-    vagy egy sima cím ('Vécsey utcai lakótelep' -> hu:Vécsey utcai lakótelep). Kimenet: 'hu:Cím' (csak hu/en)."""
+    """Accepts: 'https://hu.wikipedia.org/wiki/Title' (also the mobile 'hu.m.' and the form without a scheme), 'hu:Title', 'en:Title',
+    or a plain title ('Vécsey utcai lakótelep' -> hu:Vécsey utcai lakótelep). Output: 'hu:Title' (hu/en only)."""
     x = str(x).strip().strip("\"'“”„").strip()
     m = re.match(r"^(?:https?://)?(hu|en)(?:\.m)?\.wikipedia\.org/wiki/([^?#\s]+)(?:[#?].*)?$", x)
     if m:
         nyelv, cim = m.group(1), urllib.parse.unquote(m.group(2)).replace("_", " ")
     elif re.match(r"^(?:https?://)?(hu|en)(?:\.m)?\.wikipedia\.org/w/index\.php\?", x):
-        # szerkesztési/permalink alak: /w/index.php?title=Cím&oldid=123 -> a title paraméter
+        # edit/permalink form: /w/index.php?title=Title&oldid=123 -> the title parameter
         m = re.match(r"^(?:https?://)?(hu|en)(?:\.m)?\.wikipedia\.org/w/index\.php\?(.*)$", x)
         t = urllib.parse.parse_qs(m.group(2).split("#")[0]).get("title")
         if not t:
@@ -107,9 +107,9 @@ def wikipedia_cim(x):
         if m:
             nyelv, cim = m.group(1), m.group(2).strip()
         elif re.match(r"^(?:https?://|www\.)", x, re.I) or re.search(r"\.(org|com|hu|net)\b", x, re.I):
-            return None                      # más oldal linkje: nem Wikipedia-cikk
+            return None                      # a link to another page: not a Wikipedia article
         else:
-            nyelv, cim = "hu", x             # sima cím: magyar cikknek vesszük
+            nyelv, cim = "hu", x             # a plain title: taken as a Hungarian article
     cim = " ".join(cim.split()).rstrip("/")
     if not cim or len(cim) > 150 or re.search(r"[\x00-\x1f;|<>\[\]{}]", cim):
         return None
@@ -117,7 +117,7 @@ def wikipedia_cim(x):
 
 
 def wikipedia_cikkek(x):
-    """Több cikk '|' jellel elválasztva (legfeljebb 3); '-' = a mező eltávolítása."""
+    """Several articles separated by '|' (at most 3); '-' = remove the field."""
     x = str(x).strip()
     if x == "-":
         return "-"
@@ -128,7 +128,7 @@ def wikipedia_cikkek(x):
 
 
 def url_tiszta(x, csak_https=False):
-    """Webcím ellenőrzése (a CSV-be és a kártyára kerül): nincs szóköz, idézőjel, < > ; | és vezérlőkarakter."""
+    """Checks a web address (it goes into the CSV and onto the card): no space, quote, < > ; | or control character."""
     x = str(x).strip()
     if not 8 <= len(x) <= 400 or re.search(r"[\s<>\"'`;|\\\x00-\x1f\x7f]", x):
         return None
@@ -137,7 +137,7 @@ def url_tiszta(x, csak_https=False):
     return x
 
 
-ALKOTAS_ALAP_ID = 3_000_000_000          # a kézzel felvett alkotások azonosítói (az OSM-azonosítók ennél jóval kisebbek)
+ALKOTAS_ALAP_ID = 3_000_000_000          # ids of the manually added works (OSM ids are much smaller than this)
 KEZI_EPULETEK = Path("forras/kezi_epuletek.geojson")
 KERULETEK = Path("data/kerulethatarok.json")
 
@@ -151,9 +151,9 @@ def _gyuruben(x, y, gyuru):
 
 
 def alkotas_felvetel(adat):
-    """Köztéri alkotás (nem épület) felvétele egy pontból: egy kicsi, 3x3 m-es kézi 'épület' a forras/kezi_epuletek.geojson-ban
-    (az osszeepit.py ezt a többi épülettel együtt építi be), a név/év/tervező/leírás/fotó/link pedig kézi tényként
-    a forras/kezi_javitasok.csv-be kerül - így az építész-kiemelés, a kártya és a keresés ugyanúgy működik, mint az épületeknél."""
+    """Adding a public artwork (not a building) from a point: a small, 3x3 m manual 'building' in forras/kezi_epuletek.geojson
+    (osszeepit.py builds it in together with the other buildings), while the name/year/designer/description/photo/link go into
+    forras/kezi_javitasok.csv as manual facts - so the architect highlighting, the card and the search work the same as for buildings."""
     nev = szabad_szoveg(adat.get("nev", ""), 120, False)
     if not nev:
         return None, "Add meg az alkotás nevét (legfeljebb 120 karakter)."
@@ -207,7 +207,7 @@ def alkotas_felvetel(adat):
 
 
 def ellenoriz(adat):
-    """Visszaadja a CSV-sort vagy hibaüzenetet."""
+    """Returns the CSV row or an error message."""
     tipus = adat.get("osm_tipus")
     if tipus not in ("way", "relation"):
         return None, "Ismeretlen épülettípus."
@@ -282,7 +282,7 @@ def ellenoriz(adat):
     elif mezo == "commons_kep":
         ertek = str(adat.get("ertek", "")).strip()
         if ertek.lower() in ("nincs", "nincs kép", "nincs kep"):
-            ertek = "nincs"          # a kártyán egyáltalán nincs fotó (az automatikus párosítást is letiltja)
+            ertek = "nincs"          # there is no photo on the card at all (this also disables the automatic matching)
         elif ertek != "-":
             m_ = re.match(r"(?i)^(?:https?://)?(?:[a-z]+\.)?(?:commons\.)?wikimedia\.org/wiki/(?:File|F%C3%A1jl|Fájl):([^?#\s]+)$", ertek)
             nev = urllib.parse.unquote(m_.group(1)) if m_ else re.sub(r"(?i)^(?:File|Fájl):", "", ertek)
@@ -304,7 +304,7 @@ def ellenoriz(adat):
         if ertek is None:
             return None, "A Wikipedia-oldal legyen hu.wikipedia.org vagy en.wikipedia.org cikk (link, vagy pl. 'hu:Vigadó'); több cikket | jellel válassz el."
     elif mezo in SZOVEGES:
-        ertek = "-" if str(adat.get("ertek", "")).strip() == "-" else tiszta_szoveg(adat.get("ertek", ""), 150 if mezo == "stilus" else 100)    # '-' = a mező eltávolítása
+        ertek = "-" if str(adat.get("ertek", "")).strip() == "-" else tiszta_szoveg(adat.get("ertek", ""), 150 if mezo == "stilus" else 100)    # '-' = remove the field
         if ertek is None:
             return None, f"A(z) {mezo} értéke üres, túl hosszú, vagy tiltott karaktert tartalmaz."
     else:
@@ -323,7 +323,7 @@ def zona_szoveg(x, max_hossz):
 
 
 def zonak_ellenoriz(adat):
-    """A teljes zóna-FeatureCollection ellenőrzése. Visszaad: (tiszta adat, hiba)."""
+    """Checks the whole zone FeatureCollection. Returns: (clean data, error)."""
     if not isinstance(adat, dict) or adat.get("type") != "FeatureCollection" or not isinstance(adat.get("features"), list):
         return None, "Hibás zóna-fájl."
     if len(adat["features"]) > 600:
@@ -357,7 +357,7 @@ def zonak_ellenoriz(adat):
                 return None, f"A(z) {azon} típusa, állapota vagy eredete hibás."
             tiszta = {"id": azon, "tipus": tipus, "allapot": allapot, "eredet": eredet, "ev_tol": tol, "ev_ig": ig,
                       "mero": bool(p.get("mero")), "ig_hatar": bool(p.get("ig_hatar"))}
-            if "zona_nev_hozzaad" in p:     # háromállapotú: hiányzik = a zónatípus dönt (lakótelep: igen)
+            if "zona_nev_hozzaad" in p:     # three-state: missing = the zone type decides (housing estate: yes)
                 tiszta["zona_nev_hozzaad"] = bool(p["zona_nev_hozzaad"])
             for mezo, hossz in (("nev", 120), ("kerulet", 40), ("forras", 300), ("megjegyzes", 400), ("lista_id", 80), ("tervezo", 200)):
                 v = zona_szoveg(p.get(mezo), hossz)
@@ -366,7 +366,7 @@ def zonak_ellenoriz(adat):
                 tiszta[mezo] = v
             bp = str(p.get("budapest100") or "").strip()
             wiki = str(p.get("wikipedia") or "").strip()
-            if re.match(r"(?i)^(https?://)?(www\.)?budapest100\.hu/", wiki):      # tévedésből a Wikipédia-mezőbe írt Budapest100-link átkerül a sajátjába
+            if re.match(r"(?i)^(https?://)?(www\.)?budapest100\.hu/", wiki):      # a Budapest100 link mistakenly written into the Wikipedia field is moved to its own field
                 bp, wiki = bp or wiki, ""
             if bp:
                 bp = bp.strip().strip("\"'")
@@ -435,8 +435,8 @@ def ert_olvas():
 
 
 def ert_dontes(adat):
-    """Az értékleltár kézi párosító tábla egy sorának döntése: osm_azonosito (way/relation azonosító) vagy 'nem párosítható' megjegyzés.
-    A sort a sorszám + (kerület, cím, hrsz) kulcs azonosítja; a fájlt egészében, atomikusan írjuk újra (BOM, CRLF)."""
+    """A decision for one row of the heritage-inventory manual pairing table: osm_azonosito (way/relation id) or a 'not pairable' remark.
+    The row is identified by the serial number + the (district, address, lot number) key; the file is rewritten whole, atomically (BOM, CRLF)."""
     sorok = ert_olvas()
     kulcs = (str(adat.get("kerulet", "")), str(adat.get("cim", "")).strip(), str(adat.get("hrsz", "")).strip())
     try:
@@ -463,7 +463,7 @@ def ert_dontes(adat):
             w.writerows(sorok)
         try:
             tmp.replace(ERT_TABLA)
-        except OSError:                   # Windowson a csere elbukhat (a célfájlt valami nyitva tartja): közvetlen írás
+        except OSError:                   # on Windows the replacement may fail (something keeps the target file open): write directly
             with open(ERT_TABLA, "w", encoding="utf-8-sig", newline="") as f:
                 w = csv.DictWriter(f, fieldnames=ERT_OSZLOPOK, delimiter=";", extrasaction="ignore", lineterminator="\r\n")
                 w.writeheader()
@@ -477,7 +477,7 @@ def ert_dontes(adat):
     return i, None
 
 
-# ---- kézi döntési táblák (Budapest100 sarokházak, Wikipédia-konfliktusok) és az elvetett építész-tételek ----
+# ---- manual decision tables (Budapest100 corner houses, Wikipedia conflicts) and the rejected architect items ----
 TABLAK = {
     "bp100": {"ut": Path("forras/bp100_kezi_parositas.csv"),
               "oszlopok": ["cim", "ev", "url", "allapot", "javasolt_osm", "mod", "jeloltek", "osm_azonosito", "megjegyzes"],
@@ -489,8 +489,8 @@ TABLAK = {
                    "oszlopok": ["id", "epitesz", "tetel", "mod", "osm", "db_nev", "db_tervezo", "db_ev", "wiki_ev", "ok", "dontes", "megjegyzes"],
                    "kulcs": ("id",)},
 }
-EPITESZ_PAROSITOTT = Path("forras/epitesz_parositott.csv")    # epitesz;tetel;osm - a párosító listában már elvégzett párosítások (minden böngészőben eltűnnek a listából)
-EPITESZ_ELVETETT = Path("forras/epitesz_elvetett.csv")      # epitesz;tetel - a párosító listából kivett (lebontott, csak terv) tételek
+EPITESZ_PAROSITOTT = Path("forras/epitesz_parositott.csv")    # epitesz;tetel;osm - pairings already done in the pairing list (they disappear from the list in every browser)
+EPITESZ_ELVETETT = Path("forras/epitesz_elvetett.csv")      # epitesz;tetel - items removed from the pairing list (demolished, plan only)
 OSM_AZON = re.compile(r"(?:way|relation) \d{3,}(?: \| (?:way|relation) \d{3,})*")
 
 
@@ -503,7 +503,7 @@ def tabla_olvas(nev):
 
 
 def csv_atomikus_iras(ut, oszlopok, sorok):
-    """BOM + CRLF, ideiglenes fájlon át; Windowson a csere elbukhat: ilyenkor közvetlen írás. OSError-t dob, ha a fájl nem írható."""
+    """BOM + CRLF, via a temporary file; on Windows the replacement may fail: then a direct write. Raises OSError if the file cannot be written."""
     def ir(cel):
         with open(cel, "w", encoding="utf-8-sig", newline="") as f:
             w = csv.DictWriter(f, fieldnames=oszlopok, delimiter=";", extrasaction="ignore", lineterminator="\r\n")
@@ -522,7 +522,7 @@ def csv_atomikus_iras(ut, oszlopok, sorok):
 
 
 def tobb_tervezo(regi, uj):
-    """A meglévő tervező(k) + az új: 'A; B'; az évszámos zárójeleket (Hild József (1789–1867)) levesszük, a duplikátumot nem írjuk be."""
+    """The existing designer(s) + the new one: 'A; B'; parentheses with years (Hild József (1789-1867)) are removed, a duplicate is not written."""
     def fold(x):
         return re.sub(r"[^a-z]", "", unicodedata.normalize("NFD", str(x).lower()).encode("ascii", "ignore").decode())
     nevek = [re.sub(r"\s*\(\d{4}[^)]*\)", "", r).strip() for r in re.split(r"[;,]", regi or "") if r.strip()]
@@ -532,8 +532,8 @@ def tobb_tervezo(regi, uj):
 
 
 def tabla_dontes(adat):
-    """Egy sor döntése: bp100: osm_azonosito / megjegyzes; konfliktus: dontes (hozzaad / felulir / elvet) + megjegyzes.
-    A konfliktus 'hozzaad' és 'felulir' döntése a forras/kezi_javitasok.csv-be is beír egy tervezo sort a tétel minden épületére."""
+    """A decision for one row: bp100: osm_azonosito / megjegyzes; conflict: dontes (hozzaad / felulir / elvet) + megjegyzes.
+    The conflict's 'hozzaad' (add) and 'felulir' (overwrite) decision also writes a tervezo row to forras/kezi_javitasok.csv for every building of the item."""
     nev = adat.get("tabla")
     t = TABLAK.get(nev)
     if not t:
@@ -582,7 +582,7 @@ def tabla_dontes(adat):
 
 
 def elvetett_olvas():
-    """Az elvetett ÉS a már párosított tételek (mindkettő eltűnik a párosító listából)."""
+    """The rejected AND the already paired items (both disappear from the pairing list)."""
     ki = []
     for ut in (EPITESZ_ELVETETT, EPITESZ_PAROSITOTT):
         if ut.exists():
@@ -609,7 +609,7 @@ def epitesz_parositott_rogzit(epitesz, tetel, osm):
     try:
         csv_atomikus_iras(EPITESZ_PAROSITOTT, ["epitesz", "tetel", "osm"], sorok)
     except OSError:
-        pass       # a párosítás maga (kezi_javitasok.csv) már megvan; a lista-rejtés csak kényelmi
+        pass       # the pairing itself (kezi_javitasok.csv) already exists; hiding it from the list is only for convenience
 
 
 def epitesz_elvetes(adat):
@@ -628,8 +628,8 @@ def epitesz_elvetes(adat):
 
 
 def oeny_levetel(adat):
-    """Az E-Örökség (OENY) adatok levétele egy épületről: egy sor a forras/oeny_kizart.csv-be (az osszeepit.py eldobja az
-    épület minden oeny/oeny_koord tényét). Visszaad: (állapot, hiba); az állapot "uj" vagy "mar_szerepelt"."""
+    """Removing the E-Örökség (OENY) data from a building: one row in forras/oeny_kizart.csv (osszeepit.py drops
+    all oeny/oeny_koord facts of the building). Returns: (status, error); the status is "uj" (new) or "mar_szerepelt" (already listed)."""
     tipus = adat.get("osm_tipus")
     if tipus not in ("way", "relation"):
         return None, "Ismeretlen épülettípus."
@@ -641,7 +641,7 @@ def oeny_levetel(adat):
     torzs = str(adat.get("torzsszam") or "").strip()
     if re.fullmatch(r"\d{1,6}", torzs):
         megj += f" (törzsszám {torzs})"
-    egy = bool(adat.get("egy"))          # csak ezt az egy adatlapot (törzsszámot) vegyük le, a többit hagyjuk
+    egy = bool(adat.get("egy"))          # take off only this one data sheet (register number), leave the others
     if egy and not re.fullmatch(r"\d{1,6}", torzs):
         return None, "Az egyedi levételhez törzsszám kell."
     kulcs = f"{tipus};{azon};"
@@ -649,7 +649,7 @@ def oeny_levetel(adat):
     if not uj:
         szoveg = OENY_KIZART.read_text(encoding="utf-8-sig")
         sorok = szoveg.splitlines()
-        # teljes kizárás (nincs törzsszám-oszlop) már van -> minden adatlap le van véve; egyedi sor ugyanarra a törzsszámra
+        # a full exclusion (no register-number column) already exists -> every data sheet is removed; an individual row for the same register number
         if any(sor.startswith(kulcs) and (sor.count(";") < 3 or not sor.split(";")[3].strip()) for sor in sorok if not sor.startswith("osm_tipus")):
             return "mar_szerepelt", None
         if egy and any(sor.startswith(kulcs) and sor.rstrip().endswith(";" + torzs) for sor in sorok):
@@ -657,7 +657,7 @@ def oeny_levetel(adat):
         if not egy and any(sor.startswith(kulcs) for sor in sorok):
             return "mar_szerepelt", None
         vege_ujsor = szoveg.endswith(("\n", "\r"))
-        # a fejléc kiegészítése a torzsszam oszloppal (a régi sorok 3 mezősek maradhatnak)
+        # extending the header with the torzsszam column (the old rows may stay with 3 fields)
         if egy and "torzsszam" not in sorok[0]:
             szoveg = szoveg.replace(sorok[0], sorok[0].rstrip() + ";torzsszam", 1)
             OENY_KIZART.write_text(szoveg, encoding="utf-8-sig", newline="")
@@ -674,7 +674,7 @@ def oeny_levetel(adat):
 
 
 OENY_KEZI = Path("forras/oeny_kezi_parositas.csv")
-# A gyanús (az OSM-cím utcája nem egyezik az OENY-címmel) automatikus OENY-párosítások törzsszámai, és a címalapú javaslat
+# The register numbers of suspicious automatic OENY pairings (the OSM address's street does not match the OENY address), and the address-based suggestion
 OENY_GYANUS = ["15003", "15114", "15115", "15116", "15118", "15134", "15229", "15643", "15809", "15984", "16061",
                "16068", "16137", "16164", "16165", "16182", "16189", "16250", "16283"]
 OENY_JAVASLAT = {"15003": "way 323479222", "15114": "way 1308611895", "15115": "relation 3361170", "15116": "way 250065364",
@@ -705,7 +705,7 @@ def oeny_gyanus_lista():
 
 
 def oeny_atrak(adat):
-    """Egy gyanús OENY-párosítás döntése: 'ok' (marad), 'levetel' (jelölés; a levételt az /api/oeny_levetel végzi) vagy új OSM-azonosító."""
+    """A decision on one suspicious OENY pairing: 'ok' (stays), 'levetel' (removal mark; the removal is done by /api/oeny_levetel) or a new OSM id."""
     t = str(adat.get("t") or "").strip()
     cim = str(adat.get("cim") or "")
     uj = str(adat.get("uj") or "").strip()
@@ -759,7 +759,7 @@ def legenda_lista():
 
 
 def legenda_dontes(adat):
-    """Egy Legenda-sor párosítása: hozzaad (OSM-épület), torol (az összes párosítás), nincs (nem párosítható), nyitott (jelölés törlése)."""
+    """Pairing one Legenda row: hozzaad (OSM building), torol (all pairings), nincs (not pairable), nyitott (clear the mark)."""
     azon = str(adat.get("id") or "").strip()
     muvelet = adat.get("muvelet")
     if muvelet not in ("hozzaad", "torol", "nincs", "nyitott"):
@@ -805,8 +805,8 @@ KEZI_KORSZAK = Path("forras/kezi_korszak.csv")
 
 
 def korszak_mentes(adat):
-    """Egy épület kézi korszak-megadása (0-6, a térkép korszakainak sorrendjében; üres = törlés): forras/kezi_korszak.csv,
-    majd a data/varos/kezi_kozelito.csv újragenerálása (lásd tenyek_kezi_korszak.py)."""
+    """Manual era assignment for one building (0-6, in the order of the map's eras; empty = delete): forras/kezi_korszak.csv,
+    then regenerating data/varos/kezi_kozelito.csv (see tenyek_kezi_korszak.py)."""
     tipus = adat.get("osm_tipus")
     try:
         azon = int(adat.get("id"))
@@ -842,7 +842,7 @@ EPITESZ_IRODAK_OSZLOP = ["kulcs", "nev", "tipus", "forras", "megjegyzes"]
 
 
 def epitesz_tipusok_olvas():
-    """A Tervező mezőben előforduló nevek besorolása (forras/epitesz_irodak.csv): iroda / intezmeny / tobb_szemely / nem_nev; 'szemely' = kézzel személynek jelölt."""
+    """Classification of the names occurring in the Designer field (forras/epitesz_irodak.csv): iroda (office) / intezmeny (institution) / tobb_szemely (several persons) / nem_nev (not a name); 'szemely' = marked by hand as a person."""
     if not EPITESZ_IRODAK.exists():
         return []
     with open(EPITESZ_IRODAK, encoding="utf-8-sig", newline="") as f:
@@ -850,7 +850,7 @@ def epitesz_tipusok_olvas():
 
 
 def epitesz_tipus_mentes(adat):
-    """Egy név besorolásának kézi megadása; az automatikus sort felülírja (forras=kezi)."""
+    """Manual entry of a name's classification; it overwrites the automatic row (forras=kezi)."""
     kulcs = re.sub(r"\s+", " ", str(adat.get("kulcs") or "")).strip()
     nev = re.sub(r"\s+", " ", str(adat.get("nev") or "")).strip().replace(";", ",")
     tipus = str(adat.get("tipus") or "")
@@ -871,7 +871,7 @@ def epitesz_tipus_mentes(adat):
 
 
 def oeny_lista(tipus, azon):
-    """Az épülethez kötött OENY-adatlapok (törzsszám szerint csoportosítva), hogy egyenként levehetők legyenek."""
+    """The OENY data sheets tied to the building (grouped by register number), so that they can be removed one by one."""
     csop = {}
     for fn in ("oeny", "oeny_koord", "oeny_kezi"):
         ut = Path("data/tenyek") / f"{fn}.csv"
@@ -897,7 +897,7 @@ def oeny_lista(tipus, azon):
 
 
 def fortepan_adat(url):
-    """Fortepan-képlinkből (…fortepan_<id>…) kiolvassa az évet, a szerzőt és az adományozót: a fortepan.hu saját keresőszolgáltatását kérdezi (ugyanazt, amit az oldal használ)."""
+    """From a Fortepan image link (...fortepan_<id>...) reads the year, the author and the donor: it queries fortepan.hu's own search service (the same one the site uses)."""
     m = re.search(r"fortepan_(\d+)", url or "")
     if not m or not re.match(r"^https://(?:[a-z0-9-]+\.)?fortepan\.(?:hu|download)/", url):
         return {"ok": False, "hiba": "Csak Fortepan képlinkből olvasható ki."}
@@ -919,11 +919,11 @@ def fortepan_adat(url):
     return {"ok": True, "ev": ev, "szerzo": szerzo, "adomanyozo": adomanyozo, "leiras": egy("description")}
 
 
-IRAS_ZAR = threading.Lock()    # egyszerre csak egy mentés: a fájlt beolvasó-módosító-visszaíró végpontok párhuzamos kérésnél elveszítették egymás változtatásait
+IRAS_ZAR = threading.Lock()    # only one save at a time: the endpoints that read, modify and write back the file lost each other's changes on parallel requests
 
 
 class Kezelo(SimpleHTTPRequestHandler):
-    timeout = 30                # ha a kliens kevesebb adatot küld, mint amennyit bejelentett, a szál ne várjon örökké
+    timeout = 30                # if the client sends less data than it announced, the thread must not wait forever
     def _json(self, kod, adat):
         torzs = json.dumps(adat, ensure_ascii=False).encode("utf-8")
         self.send_response(kod)
@@ -939,8 +939,8 @@ class Kezelo(SimpleHTTPRequestHandler):
         super().end_headers()
 
     def _helyi_host(self):
-        """Csak a saját gépre szóló kérést szolgálunk ki. A 'Host' fejléc ellenőrzése nélkül egy rosszindulatú weboldal
-        (DNS rebinding: a saját domainje 127.0.0.1-re mutat) a böngésződön át kiolvashatná a projekt minden fájlját (.git, forras/, data/)."""
+        """Only requests meant for the local machine are served. Without checking the 'Host' header a malicious web page
+        (DNS rebinding: its own domain points to 127.0.0.1) could read every file of the project (.git, forras/, data/) through your browser."""
         port = self.server.server_address[1]
         return (self.headers.get("Host") or "").lower() in {f"localhost:{port}", f"127.0.0.1:{port}", "localhost", "127.0.0.1"}
 
@@ -1007,7 +1007,7 @@ class Kezelo(SimpleHTTPRequestHandler):
             hossz = int(self.headers.get("Content-Length") or 0)
         except ValueError:
             hossz = -1
-        if hossz < 0:          # negatív hossznál a beolvasás a kapcsolat végéig várna (a szál beragadna)
+        if hossz < 0:          # with a negative length the read would wait until the connection ends (the thread would hang)
             return self._json(400, {"ok": False, "hiba": "Hibás kérés."})
         if hossz > (MAX_ZONA_KERES if self.path == "/api/zonak" else 20_000):
             return self._json(413, {"ok": False, "hiba": "Túl nagy kérés."})
@@ -1015,9 +1015,9 @@ class Kezelo(SimpleHTTPRequestHandler):
             adat = json.loads(self.rfile.read(hossz) or b"{}")
         except (ValueError, RecursionError):
             return self._json(400, {"ok": False, "hiba": "Hibás kérés."})
-        if not isinstance(adat, dict):          # pl. '[]': korábban a szerver válasz nélkül bontotta a kapcsolatot
+        if not isinstance(adat, dict):          # e.g. '[]': previously the server dropped the connection without a response
             return self._json(400, {"ok": False, "hiba": "Hibás kérés."})
-        if self.path == "/api/ujraepit":         # hosszú futás: nem tartja fel a mentéseket
+        if self.path == "/api/ujraepit":         # a long run: it does not hold up the saves
             return self._post(adat)
         with IRAS_ZAR:
             return self._post(adat)
@@ -1056,7 +1056,7 @@ class Kezelo(SimpleHTTPRequestHandler):
         if self.path == "/api/ertekleltar_dontes":
             try:
                 i, hiba = ert_dontes(adat if isinstance(adat, dict) else {})
-            except Exception as kiv:          # ne szakadjon meg a kapcsolat: a hiba üzenetként jusson el a felületre
+            except Exception as kiv:          # the connection must not break: the error should reach the interface as a message
                 i, hiba = None, f"Szerverhiba: {kiv.__class__.__name__}: {kiv}"
                 print(hiba)
             if hiba:
@@ -1109,7 +1109,7 @@ class Kezelo(SimpleHTTPRequestHandler):
                 return self._json(400, {"ok": False, "hiba": hiba})
             return self._json(200, {"ok": True, "allapot": allapot})
         if self.path == "/api/ujraepit":
-            varos = ["varos"] if isinstance(adat, dict) and adat.get("varos") else []   # a 3D (egész város) nézetből
+            varos = ["varos"] if isinstance(adat, dict) and adat.get("varos") else []   # from the 3D (whole city) view
             try:
                 eredmeny = subprocess.run([sys.executable, "osszeepit.py", *varos], capture_output=True,
                                           text=True, encoding="utf-8", errors="replace", timeout=1800)
@@ -1117,7 +1117,7 @@ class Kezelo(SimpleHTTPRequestHandler):
                 return self._json(500, {"ok": False, "hiba": "Az újraépítés túl sokáig tartott."})
             if eredmeny.returncode != 0:
                 return self._json(500, {"ok": False, "hiba": (eredmeny.stderr or "")[-400:]})
-            # a 3D nézet adatai is újra elkészülnek (ha ez hibázik, a 2D térkép attól még frissül)
+            # the 3D view's data is rebuilt too (if this fails, the 2D map is still refreshed)
             harom_d = "ok"
             try:
                 e3 = subprocess.run([sys.executable, "csempek_keszites.py", *varos], capture_output=True, text=True,
@@ -1127,7 +1127,7 @@ class Kezelo(SimpleHTTPRequestHandler):
             except (subprocess.TimeoutExpired, OSError) as hiba:
                 harom_d = f"hiba: {hiba}"
             print(f"  3D adatok: {harom_d}")
-            try:      # a 3D Lakótelepek fül zónalistája (típus, kerület, évek)
+            try:      # the zone list of the 3D Housing estates tab (type, district, years)
                 subprocess.run([sys.executable, "zonak_json_keszites.py"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
             except (subprocess.TimeoutExpired, OSError):
                 pass
@@ -1135,7 +1135,7 @@ class Kezelo(SimpleHTTPRequestHandler):
         return self._json(404, {"ok": False, "hiba": "Ismeretlen kérés."})
 
     def log_message(self, fmt, *args):
-        if "/api/" in str(args[0] if args else ""):     # str(): a hibaüzenetek (pl. 404) első argumentuma szám, ettől korábban a szerver válasz nélkül bontotta a kapcsolatot
+        if "/api/" in str(args[0] if args else ""):     # str(): the first argument of error messages (e.g. 404) is a number, which previously made the server drop the connection without a response
             super().log_message(fmt, *args)
 
 

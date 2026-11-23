@@ -1,4 +1,4 @@
-"""EOV (HD72) -> WGS84 átváltás külső könyvtár nélkül (az IUGG67 ellipszoidon számolt ferdetengelyű hengervetület inverze + 7 paraméteres Helmert-transzformáció)."""
+"""EOV (HD72) -> WGS84 conversion without an external library (the inverse of the oblique cylindrical projection computed on the IUGG67 ellipsoid + a 7-parameter Helmert transformation)."""
 import math
 
 A67, F67 = 6378160.0, 1 / 298.25
@@ -7,7 +7,7 @@ LAT0 = math.radians(47 + 8 / 60 + 39.8174 / 3600)
 LON0 = math.radians(19 + 2 / 60 + 54.8584 / 3600)
 K0 = 0.99993
 FE, FN = 650000.0, 200000.0
-# HD72 -> WGS84 (EOTR; forgatás ívmásodpercben, méretarány ppm)
+# HD72 -> WGS84 (EOTR; rotation in arcseconds, scale in ppm)
 DX, DY, DZ = 52.684, -71.194, -13.975
 RX, RY, RZ = (math.radians(v / 3600) for v in (0.312, 0.1063, 0.3729))
 SC = -0.8157e-6
@@ -23,7 +23,7 @@ _K = (math.log(math.tan(math.pi / 4 + _b0 / 2)) - _al * math.log(math.tan(math.p
 
 
 def eov_hd72(y, x):
-    """EOV (Y kelet, X észak, méter) -> HD72 földrajzi (fok): (lat, lon)."""
+    """EOV (Y east, X north, metres) -> HD72 geographic (degrees): (lat, lon)."""
     yy, xx = (y - FE) / (_R * K0), (x - FN) / (_R * K0)
     bq = 2 * (math.atan(math.exp(xx)) - math.pi / 4)
     b = math.asin(math.cos(_b0) * math.sin(bq) + math.sin(_b0) * math.cos(bq) * math.cos(yy))
@@ -57,5 +57,5 @@ def eov_wgs84(y, x):
 
 
 if __name__ == "__main__":
-    # ellenőrzés: Budapest, a Gellért-hegy (kb. EOV 648300, 237700) -> kb. 47.486, 19.046
+    # check: Budapest, Gellért Hill (about EOV 648300, 237700) -> about 47.486, 19.046
     print(eov_wgs84(648300, 237700))

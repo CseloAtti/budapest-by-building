@@ -1,4 +1,4 @@
-"""Közös segédfüggvények a tény-tábla rendszerhez (ezt a fájlt nem kell futtatni)."""
+"""Shared helper functions for the fact-table system (this file does not need to be run)."""
 import csv
 import json
 import math
@@ -11,12 +11,12 @@ FEJLEC = ["osm_tipus", "id", "mezo", "ertek", "forras", "megjegyzes", "lat", "lo
 
 
 def kulcs(pr):
-    """Az épület azonosítója: (osm_tipus, id). A régi fájlokban nincs osm_tipus: akkor way."""
+    """The building's id: (osm_tipus, id). Old files have no osm_tipus: then it is way."""
     return (pr.get("osm_tipus") or "way", int(pr["id"]))
 
 
 def tenyek_irasa(ut, sorok):
-    """sorok: (osm_tipus, id, mezo, ertek, forras, megjegyzes) listája. Excelben is megnyitható."""
+    """sorok: a list of (osm_tipus, id, mezo, ertek, forras, megjegyzes). It can also be opened in Excel."""
     Path(ut).parent.mkdir(parents=True, exist_ok=True)
     with open(ut, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
@@ -26,7 +26,7 @@ def tenyek_irasa(ut, sorok):
 
 
 def tenyek_olvasasa(ut, alap_forras=None):
-    """Visszaadja a sorokat szótárként. Hiányzó 'forras' mezőt az alap_forras tölti ki."""
+    """Returns the rows as dictionaries. A missing 'forras' field is filled in by alap_forras."""
     sorok = []
     with open(ut, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
@@ -57,7 +57,7 @@ def pont_gyuruben(x, y, gyuru):
 
 
 def pont_poligonban(x, y, gyuruk):
-    """gyuruk[0] a külső körvonal, a többi udvar (lyuk)."""
+    """gyuruk[0] is the outer outline, the others are courtyards (holes)."""
     if not pont_gyuruben(x, y, gyuruk[0]):
         return False
     return not any(pont_gyuruben(x, y, lyuk) for lyuk in gyuruk[1:])
@@ -68,7 +68,7 @@ def pont_barmelyikben(x, y, polik):
 
 
 def teruletu_kozeppont(gyuru):
-    """(terület m², x, y) a külső körvonalból."""
+    """(area m², x, y) from the outer outline."""
     kx = 111320 * math.cos(math.radians(gyuru[0][1]))
     ky = 110540
     a = cx = cy = 0.0
@@ -85,7 +85,7 @@ def teruletu_kozeppont(gyuru):
 
 
 def belso_pont(polik):
-    """Egy pont, ami biztosan az épületen belül van."""
+    """A point that is certainly inside the building."""
     gyuru = polik[0][0]
     _, cx, cy = teruletu_kozeppont(gyuru)
     jeloltek = [(cx, cy)]
@@ -105,8 +105,8 @@ def legkozelebbi_csucs_m(x, y, gyuru):
 
 
 def kliens_nev():
-    """A kéréseknél megadott kliensnév. Ha van data/kapcsolat.txt (csak a te gépeden, a git nem
-    viszi fel), annak tartalmát hozzáfűzi: a Wikimedia így nem kezeli névtelen robotként."""
+    """The client name given in the requests. If data/kapcsolat.txt exists (only on your machine, git does not
+    upload it), its content is appended: Wikimedia then does not treat it as an anonymous bot."""
     nev = "budapest-by-building/1.0 (tanulasi projekt)"
     ut = Path("data/kapcsolat.txt")
     if ut.exists():
@@ -117,7 +117,7 @@ def kliens_nev():
 
 
 def http_json(url, fejlec=None, probak=6, alap_varakozas=60, timeout=120):
-    """JSON lekérése; 429/5xx hibánál vár (a szerver kérése szerint), majd újra próbálkozik."""
+    """Fetching JSON; on a 429/5xx error it waits (as the server requests), then retries."""
     fejlec = dict(fejlec or {})
     fejlec.setdefault("User-Agent", kliens_nev())
     for p in range(1, probak + 1):

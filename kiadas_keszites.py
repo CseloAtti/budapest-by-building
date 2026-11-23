@@ -1,17 +1,17 @@
-"""A nyilvános weboldal csomagja -> kiadas/ mappa (ezt kell feltölteni a Cloudflare Pagesre).
-Futtatás (a projekt mappájában):   py kiadas_keszites.py
+"""The public website's package -> the kiadas/ folder (this is what must be uploaded to Cloudflare).
+Run (in the project folder):   py kiadas_keszites.py
 
-Mit csinál?
-  1. Összeállítja a megjelenítőhöz SZÜKSÉGES fájlokat (szerkesztő, fejlesztői adatok és a nagy forrásfájlok nélkül).
-  2. Az epuletek.json-t kisebb darabokra bontja (a Cloudflare Pages egy fájlra legfeljebb 25 MiB-ot enged), és elhagyja
-     belőle az alapértelmezett "osm_tipus": "way" mezőt (a megjelenítő hiányzó mezőnél úgyis 'way'-t vesz).
-     A .bin fájlokat (tiles.bin, terrain.bin) gzip-pel tömöríti: a Cloudflare ezeket magától nem tömöríti, a JSON-t igen.
-     A megjelenítő (app.js, binarisBetolt) a tömörített fájlt felismeri és kibontja; a fájlnév nem változik.
-  3. A KIADÁSI MÁSOLATBAN (az eredeti terkep3d/app.js érintetlen marad) átírja:
-       - a betöltést, hogy a darabolt adatfájlokat olvassa,
-       - a szerkesztő bekapcsolását (a nyilvános oldalon nincs szerkesztő).
-  4. Ellenőrzi a méretkorlátokat, és kiírja a kiadás méretét.
-Csak a Python alap könyvtárát használja. A kiadas/ mappa minden futtatáskor újra létrejön (a régi tartalma törlődik)."""
+What does it do?
+  1. Assembles the files NEEDED by the viewer (without the editor, the development data and the large source files).
+  2. Splits epuletek.json into smaller pieces (Cloudflare allows at most 25 MiB per file), and drops from it
+     the default "osm_tipus": "way" field (for a missing field the viewer takes 'way' anyway).
+     The .bin files (tiles.bin, terrain.bin) are compressed with gzip: Cloudflare does not compress these by itself, but it does compress JSON.
+     The viewer (app.js, binarisBetolt) recognises and unpacks the compressed file; the file name does not change.
+  3. In the RELEASE COPY (the original terkep3d/app.js stays untouched) it rewrites:
+       - the loading, so that it reads the split data files,
+       - the editor's activation (the public site has no editor).
+  4. Checks the size limits, and prints the release's size.
+Uses only the Python standard library. The kiadas/ folder is recreated on every run (its old content is deleted)."""
 import gzip
 import json
 import math
@@ -27,12 +27,12 @@ import felfedezo_keszites
 GYOKER = Path(__file__).resolve().parent
 FORRAS = GYOKER / "terkep3d"
 KI = GYOKER / "kiadas"
-MARKER = ".kiadas_mappa"                   # ezzel ismerjük fel, hogy a mappát mi hoztuk létre (csak ilyet törlünk)
-LIMIT = 25 * 1024 * 1024                    # Cloudflare Pages: egy fájl legfeljebb 25 MiB
-DARAB_CEL = 15 * 1024 * 1024                # egy adatdarab célmérete (bőven a korlát alatt)
+MARKER = ".kiadas_mappa"                   # by this we recognise that we created the folder (we delete only such)
+LIMIT = 25 * 1024 * 1024                    # Cloudflare: at most 25 MiB per file
+DARAB_CEL = 15 * 1024 * 1024                # target size of one data piece (well below the limit)
 FAJL_LIMIT = 20000
 
-# a megjelenítőhöz szükséges fájlok és mappák (a terkep3d mappához képest)
+# the files and folders needed by the viewer (relative to the terkep3d folder)
 FAJLOK = ["index.html", "app.js", "styles.css", "worker.js", "hidak.js", "adatlapok.json", "epitesz.json", "epitesz_dijak.json",
           "favicon.svg", "epitesz_elete.json", "epitesz_korok_kezi.json", "epitesz_kizart.json", "kerulethatarok.json", "zonak.json",
           "LICENSE-amsterdam.txt", "LICENSE-threejs.txt", "megosztas_hu.png", "megosztas_en.png"]
@@ -51,7 +51,7 @@ EN_OG = {
 
 
 def en_oldal(html):
-    """A magyar kezdőlapból angol belépő oldal (/en/): saját cím/leírás/megosztási kép, angol felület (html lang), <base href="/"> a relatív útvonalakhoz."""
+    """An English entry page (/en/) from the Hungarian home page: its own title/description/share image, English interface (html lang), <base href="/"> for the relative paths."""
     m = re.search(r"<!--OG-->.*?<!--/OG-->", html, flags=re.S)
     if not m:
         hiba("az index.html-ből hiányzik a <!--OG--> ... <!--/OG--> blokk.")
@@ -82,12 +82,12 @@ def csere(szoveg, regi, uj, nev):
 
 
 def karcsusit(ep):
-    """Az alapértelmezett mezők elhagyása az épületlistából (a megjelenítő ugyanúgy olvassa): "osm_tipus": "way"."""
+    """Dropping the default fields from the building list (the viewer reads it the same way): "osm_tipus": "way"."""
     return [{k: v for k, v in p.items() if not (k == "osm_tipus" and v == "way")} if isinstance(p, dict) else p for p in ep]
 
 
 def gzip_iras(forras, cel):
-    """Bináris fájl gzip-tömörítve, ugyanazzal a névvel (mtime=0: ugyanabból a bemenetből mindig ugyanaz a kimenet)."""
+    """A binary file gzip-compressed, with the same name (mtime=0: the same input always gives the same output)."""
     adat = forras.read_bytes()
     cel.write_bytes(gzip.compress(adat, compresslevel=9, mtime=0))
     return len(adat), cel.stat().st_size
@@ -103,7 +103,7 @@ def main():
     KI.mkdir()
     (KI / MARKER).write_text("A kiadas_keszites.py hozta létre; biztonságosan törölhető.\n", encoding="utf-8")
 
-    # 1. egyszerű másolások
+    # 1. simple copies
     for f in FAJLOK:
         if not (FORRAS / f).exists():
             print(f"  figyelem: hiányzik a {f}, kimarad")
@@ -112,7 +112,7 @@ def main():
     for m in MAPPAK:
         if (FORRAS / m).exists():
             shutil.copytree(FORRAS / m, KI / m)
-    # képek: csak a képfájlok (a kepek.csv-k a szerkesztéshez kellenek, nem a látogatónak)
+    # images: only the image files (the kepek.csv files are needed for editing, not for the visitor)
     kepek = FORRAS / "kepek"
     if kepek.exists():
         db = 0
@@ -124,7 +124,7 @@ def main():
                 db += 1
         print(f"  adatlap-képek: {db} fájl")
 
-    # 2. az adatmappa, az epuletek.json darabolva
+    # 2. the data folder, epuletek.json split
     adat_be = FORRAS / ADAT
     adat_ki = KI / ADAT
     adat_ki.mkdir()
@@ -146,7 +146,7 @@ def main():
         (adat_ki / f"epuletek_{i}.json").write_text(json.dumps(resz, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"  epuletek.json: {len(ep)} épület, {teljes / 1e6:.1f} MB -> {n} darab")
 
-    # 3. a kiadási app.js
+    # 3. the release app.js
     js = (FORRAS / "app.js").read_text(encoding="utf-8")
     js = csere(js, "fetch(`${DATA}/epuletek.json`).then(r => r.json()),",
                f"Promise.all(Array.from({{ length: {n} }}, (_, i) => fetch(`${{DATA}}/epuletek_${{i}}.json`).then(r => r.json()))).then(a => a.flat()),",
@@ -162,19 +162,19 @@ def main():
         if r.returncode:
             hiba("a kiadási app.js szintaktikailag hibás: " + r.stderr[:300])
 
-    # 3b. szöveges oldalak a keresőknek és a megosztáshoz (explore/, e/, sitemap.xml, robots.txt); a térképről az About szövege linkel rájuk
+    # 3b. text pages for search engines and sharing (explore/, e/, sitemap.xml, robots.txt); the About text on the map links to them
     config = json.loads((adat_be / "budapest.json").read_text(encoding="utf-8"))
     szoveg = felfedezo_keszites.keszit(KI, ep_teljes, config["periods"], js)
     print(f"  szöveges oldalak: {szoveg['epulet']} épület, {szoveg['korszak']} korszak, {szoveg['epitesz']} építész ({szoveg['oldal']} oldal)")
 
-    # 3c. angol belépő oldal (/en/): a közösségi oldalak nem futtatnak JS-t, ezért az angol előnézethez külön HTML kell
+    # 3c. English entry page (/en/): social sites do not run JS, so the English preview needs a separate HTML
     (KI / "en").mkdir()
     (KI / "en" / "index.html").write_text(en_oldal((KI / "index.html").read_text(encoding="utf-8")), encoding="utf-8")
     for kep in ("megosztas_hu.png", "megosztas_en.png"):
         if not (KI / kep).exists():
             print(f"  FIGYELEM: hiányzik a terkep3d/{kep} (1200x630 megosztási kép) - addig a megosztott linkeknek nem lesz képe")
 
-    # 4. gyorsítótár-fejlécek (Cloudflare Pages)
+    # 4. cache headers (Cloudflare)
     (KI / "_headers").write_text(
         "/data_varos/*\n  Cache-Control: public, max-age=86400\n"
         "/vendor/*\n  Cache-Control: public, max-age=604800\n"
@@ -186,7 +186,7 @@ def main():
         "/*.json\n  Cache-Control: public, max-age=3600\n"
         "/*.css\n  Cache-Control: public, max-age=3600\n", encoding="utf-8")
 
-    # 5. ellenőrzés
+    # 5. check
     fajlok = [p for p in KI.rglob("*") if p.is_file()]
     nagyok = [p for p in fajlok if p.stat().st_size > LIMIT]
     if nagyok:

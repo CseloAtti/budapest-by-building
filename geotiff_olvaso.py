@@ -1,8 +1,8 @@
-"""Minimális GeoTIFF-olvasó tiszta Pythonban (csak az alap könyvtár kell).
+"""A minimal GeoTIFF reader in pure Python (only the standard library is needed).
 
-Tud: klasszikus TIFF és BigTIFF, sávos (strip) és csempés (tile) elrendezés, tömörítés: nincs, Deflate (8/32946), LZW (5),
-vízszintes predictor (2), 8/16/32 bites egész és 32 bites lebegőpontos érték, egy sáv. A pixelek helyét a ModelPixelScale (33550) és a
-ModelTiepoint (33922) címkékből számolja. Egyszerre csak a ténylegesen kért blokkokat bontja ki.
+It can do: classic TIFF and BigTIFF, strip and tile layouts, compression: none, Deflate (8/32946), LZW (5),
+horizontal predictor (2), 8/16/32-bit integer and 32-bit floating-point values, one band. It computes the pixels' position from the ModelPixelScale (33550) and
+ModelTiepoint (33922) tags. It decompresses only the blocks actually requested at a time.
 """
 import struct
 import zlib
@@ -12,7 +12,7 @@ TIPUS = {1: ("B", 1), 2: ("s", 1), 3: ("H", 2), 4: ("I", 4), 5: ("II", 8), 6: ("
 
 
 def lzw_kibont(adat):
-    """TIFF-LZW (MSB, korai kódszélesség-váltással)."""
+    """TIFF-LZW (MSB, with early code-width change)."""
     CLEAR, EOI = 256, 257
     ki = bytearray()
     tabla = None
@@ -97,7 +97,7 @@ class GeoTiff:
         if not skala or not tie:
             raise ValueError("nincs georeferencia (ModelPixelScale/Tiepoint)")
         self.sx, self.sy = skala[0], skala[1]
-        self.x0 = tie[3] - tie[0] * self.sx          # a bal felső sarok koordinátája
+        self.x0 = tie[3] - tie[0] * self.sx          # the coordinate of the top-left corner
         self.y0 = tie[4] + tie[1] * self.sy
         self.nodata = None
         if 42113 in t:
@@ -144,7 +144,7 @@ class GeoTiff:
         return ki
 
     def blokk(self, index):
-        """Egy blokk (sáv vagy csempe) kibontása: (blokk_szélesség, blokk_magasság, értékek listája soronként összefűzve)."""
+        """Decompressing one block (strip or tile): (block_width, block_height, list of values concatenated row by row)."""
         nyers = self.d[self.offs[index]: self.offs[index] + self.hossz[index]]
         if self.tomor in (8, 32946):
             nyers = zlib.decompress(nyers)
@@ -166,7 +166,7 @@ class GeoTiff:
                 o = sor * bw
                 for k in range(1, bw):
                     ertek[o + k] = (ertek[o + k] + ertek[o + k - 1]) & maszk
-            if self.forma == 2:       # előjeles: visszaalakítás
+            if self.forma == 2:       # signed: converting back
                 fel = 1 << (self.bit - 1)
                 ertek = [v - (1 << self.bit) if v >= fel else v for v in ertek]
         return bw, bh, ertek
@@ -175,7 +175,7 @@ class GeoTiff:
         return (x - self.x0) / self.sx, (self.y0 - y) / self.sy
 
     def ertekek(self, pontok):
-        """pontok: [(x, y)] a fájl vetületében. Visszaad: lista, a pont értéke vagy None (kívül van / nodata)."""
+        """points: [(x, y)] in the file's projection. Returns: a list, the point's value or None (outside / nodata)."""
         ki = [None] * len(pontok)
         csoport = {}
         for n, (x, y) in enumerate(pontok):

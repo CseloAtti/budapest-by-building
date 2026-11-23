@@ -1,11 +1,11 @@
-"""Az OSM-épületek címe (utca, házszám) -> data/osm_cimek.csv.
+"""The addresses of the OSM buildings (street, house number) -> data/osm_cimek.csv.
 
-Két forrásból gyűjti a címeket, egyetlen Overpass-lekérdezéssel:
-  1. maguk az épületek (way/relation), amelyeken van addr:housenumber;
-  2. a különálló címpontok (node, addr:housenumber), amelyeket az épület sokszögébe
-     (vagy a körvonal egyik csúcsához) rendelünk. Az OSM-ben sok házszám így szerepel,
-     ezért ez jelentősen növeli a címmel rendelkező épületek számát.
-Az épületek körvonalához a data/belvaros_epuletek.geojson kell (geojson_keszites.py)."""
+It collects the addresses from two sources, with a single Overpass query:
+  1. the buildings themselves (way/relation) that carry addr:housenumber;
+  2. standalone address points (node, addr:housenumber), which are assigned to the building's polygon
+     (or to one vertex of its outline). In OSM many house numbers appear this way,
+     so this significantly increases the number of buildings with an address.
+The buildings' outlines need data/belvaros_epuletek.geojson (geojson_keszites.py)."""
 import csv
 import json
 import time
@@ -22,7 +22,7 @@ DEL, NYUGAT, ESZAK, KELET = 47.490, 19.040, 47.513, 19.062
 KIMENET = "data/osm_cimek.csv"
 EPULETEK = "data/belvaros_epuletek.geojson"
 CELLA = 0.001
-CSUCS_TAV_M = 3.0         # a belépő-pont ennyi méteren belül van az épület egyik csúcsához
+CSUCS_TAV_M = 3.0         # the entrance point is within this many metres of one of the building's vertices
 
 
 def lekerdezes():
@@ -50,7 +50,7 @@ def lekerdezes():
 
 
 def epulet_index():
-    """Rács a pont-épület kereséshez: cella -> [(feature, kis_terulet)]"""
+    """Grid for the point-building lookup: cell -> [(feature, small_area)]"""
     if not Path(EPULETEK).exists():
         print(f"Figyelem: nincs {EPULETEK}, a címpontokat nem tudom épülethez rendelni.")
         return None, []
@@ -67,7 +67,7 @@ def epulet_index():
 
 
 def pont_epulete(x, y, racs):
-    """Az épület (feature), amelyikben a pont van; ha egyikben sem, amelyiknek a csúcsa a legközelebb (<=3 m)."""
+    """The building (feature) in which the point lies; if in none, the one whose vertex is nearest (<=3 m)."""
     jeloltek = {id(f): f for f in racs.get((int(x / CELLA), int(y / CELLA)), [])}
     bent = []
     for ft in jeloltek.values():

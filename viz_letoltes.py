@@ -1,11 +1,11 @@
 """
-viz_letoltes.py - a Duna, a tavak és a parkok sokszögei az OpenStreetMapból (a 3D nézet talajához).
+viz_letoltes.py - polygons of the Danube, the lakes and the parks from OpenStreetMap (for the 3D view's ground).
 
-Futtatás (a projekt mappájában):   py viz_letoltes.py
-Kimenet:  data/viz_zold.json   (utána futtasd: py csempek_keszites.py)
+Run (in the project folder):   py viz_letoltes.py
+Output:   data/viz_zold.json   (then run: py csempek_keszites.py)
 
-Csak a Python alap könyvtárát használja. Az Overpass-szervereket sorban próbálja.
-A sokszögeket a megjelenített területre vágja, így a Duna sem lesz túl nagy.
+Uses only the Python standard library. It tries the Overpass servers in turn.
+The polygons are clipped to the displayed area, so the Danube does not get too large either.
 """
 import json
 import time
@@ -21,7 +21,7 @@ OVERPASS_URLS = [
     "https://overpass-api.de/api/interpreter",
 ]
 
-# a megjelenített terület: a vizsgált épületterületnél kicsit nagyobb (dél, nyugat, észak, kelet)
+# the displayed area: slightly larger than the examined building area (south, west, north, east)
 DEL, NYUGAT, ESZAK, KELET = 47.480, 19.025, 47.523, 19.075
 BBOX = f"{DEL},{NYUGAT},{ESZAK},{KELET}"
 
@@ -67,7 +67,7 @@ def letolt():
 
 
 def gyurukke_fuz(szakaszok):
-    """Szétdarabolt körvonal-szakaszokat fűz össze zárt gyűrűkké (mint a geojson_keszites.py)."""
+    """Joins fragmented outline segments into closed rings (like geojson_keszites.py)."""
     szakaszok = [list(s) for s in szakaszok if len(s) >= 2]
     gyuruk = []
     while szakaszok:
@@ -94,9 +94,9 @@ def gyurukke_fuz(szakaszok):
 
 
 def vag(gyuru):
-    """Sutherland–Hodgman: a sokszöget a megjelenített téglalapra vágja. gyuru: [(lon, lat), ...] zárt."""
+    """Sutherland-Hodgman: clips the polygon to the displayed rectangle. gyuru: [(lon, lat), ...] closed."""
     pontok = gyuru[:-1] if gyuru[0] == gyuru[-1] else list(gyuru)
-    # (belül-e, metszéspont) a négy éllel
+    # (inside?, intersection point) with the four edges
     hatarok = [
         (lambda p: p[0] >= NYUGAT, lambda a, b: (NYUGAT, a[1] + (b[1] - a[1]) * (NYUGAT - a[0]) / (b[0] - a[0]))),
         (lambda p: p[0] <= KELET, lambda a, b: (KELET, a[1] + (b[1] - a[1]) * (KELET - a[0]) / (b[0] - a[0]))),

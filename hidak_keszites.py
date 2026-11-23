@@ -1,21 +1,21 @@
-"""A Duna és mellékágai fölött átívelő hidak -> vázlatos 3D-adat (terkep3d/data_varos/hidak.json)
+"""The bridges spanning the Danube and its branches -> schematic 3D data (terkep3d/data_varos/hidak.json)
 
-Mit csinál?
-  1. Letölti az OpenStreetMap-ből (Overpass) a Dunát és mellékágait (waterway, name ~ "Duna") és azokat a hidakat (bridge),
-     amelyek áthaladnak rajtuk (data/hidak_overpass.json; ha a fájl megvan, nem tölt le újra, hacsak nem adod meg: py hidak_keszites.py ujra).
-  2. A Budapest közigazgatási határán belül (data/budapest_hatar.json) átkelő hidakat csoportosítja (egy híd több OSM-vonal:
-     pályatestek, villamos- és vasúti sínek, gyalog- és kerékpárút).
-  3. A híd magasságát a domborzati hálóból (terkep3d/data_varos/terrain.bin) és a Duna szintjéből számolja (a víz fölött a
-     szabad magasság, a parton a terep), majd vázlatos szerkezetet ad hozzá: pillérek, pilonok, láncok/kábelek, ív vagy rácsos tartó.
-  4. A híd adatait (név, építés éve, tervező, Wikipédia-cikk, szerkezet) a forras/hidak_adatok.csv-ből veszi (te szerkesztheted;
-     a név-minta szerint párosít), ennek hiányában az OSM-címkékből (name, wikipedia, wikidata, start_date, bridge:structure).
+What does it do?
+  1. Downloads from OpenStreetMap (Overpass) the Danube and its branches (waterway, name ~ "Duna") and the bridges (bridge)
+     that cross them (data/hidak_overpass.json; if the file exists it is not downloaded again, unless you ask: py hidak_keszites.py ujra).
+  2. Groups the bridges crossing within Budapest's administrative boundary (data/budapest_hatar.json) (one bridge is several OSM lines:
+     carriageways, tram and railway tracks, footpath and cycle path).
+  3. Computes the bridge's height from the terrain mesh (terkep3d/data_varos/terrain.bin) and the Danube's level (over the water the
+     clearance, on the bank the terrain), then adds a schematic structure: piers, pylons, chains/cables, arch or truss.
+  4. Takes the bridge's data (name, year built, designer, Wikipedia article, structure) from forras/hidak_adatok.csv (you can edit it;
+     matched by a name pattern), and failing that from the OSM tags (name, wikipedia, wikidata, start_date, bridge:structure).
 
-Futtatás (előbb a py csempek_keszites.py varos legyen kész, mert a domborzati háló onnan jön):
-    py hidak_keszites.py            (az OSM-adatot csak az első alkalommal tölti le)
-    py hidak_keszites.py ujra       (újra letölti az OSM-adatot)
-    py hidak_keszites.py teszt      (önellenőrzés, hálózat és adat nélkül)
+Run (py csempek_keszites.py varos must be done first, because the terrain mesh comes from there):
+    py hidak_keszites.py            (downloads the OSM data only the first time)
+    py hidak_keszites.py ujra       (downloads the OSM data again)
+    py hidak_keszites.py teszt      (self-check, without network and data)
 
-Kimenet: terkep3d/data_varos/hidak.json (+ data/hidak_jelentes.md). A 3D nézet (app.js, hidak.js) ezt tölti be.
+Output: terkep3d/data_varos/hidak.json (+ data/hidak_jelentes.md). The 3D view (app.js, hidak.js) loads this.
 """
 import csv
 import json
@@ -33,7 +33,7 @@ from pathlib import Path
 
 LAT0, LON0 = 47.5015, 19.0515
 COSLAT = math.cos(math.radians(LAT0))
-BBOX = (47.34, 18.90, 47.65, 19.35)             # dél, nyugat, észak, kelet
+BBOX = (47.34, 18.90, 47.65, 19.35)             # south, west, north, east
 OVERPASS = ["https://overpass.kumi.systems/api/interpreter", "https://overpass.private.coffee/api/interpreter",
             "https://overpass-api.de/api/interpreter"]
 NYERS = Path("data/hidak_overpass.json")
@@ -43,12 +43,12 @@ ADATOK = Path("forras/hidak_adatok.csv")
 KIMENET = Path("terkep3d/data_varos/hidak.json")
 JELENTES = Path("data/hidak_jelentes.md")
 
-MIN_HOSSZ_M = 60.0          # ennél rövidebb átkelőt nem tekintünk hídnak
-LEPES_M = 10.0              # a pálya magasságprofiljának lépésköze
-VIZ_MAGASSAG = 0.6          # m: ennél alacsonyabb terep = víz (a terrain.bin a Duna szintjét 0-nak veszi)
-SZABAD_M = 9.0              # a pálya alapértelmezett magassága a víz fölött
-FUGGO_KABEL = False         # függőhidaknál nincs kábel (csak pilonok és pálya)
-HAJO_PILLER_M = 65.0        # átlagos pillértávolság
+MIN_HOSSZ_M = 60.0          # a shorter crossing is not considered a bridge
+LEPES_M = 10.0              # step of the deck's height profile
+VIZ_MAGASSAG = 0.6          # m: terrain lower than this = water (terrain.bin takes the Danube's level as 0)
+SZABAD_M = 9.0              # the deck's default height above the water
+FUGGO_KABEL = False         # suspension bridges have no cable (only pylons and deck)
+HAJO_PILLER_M = 65.0        # average pier spacing
 
 
 def lok(lon, lat):
@@ -59,7 +59,7 @@ def ascii_(s):
     return unicodedata.normalize("NFKD", s.lower()).encode("ascii", "ignore").decode()
 
 
-# ---------------------------------------------------------------- letöltés
+# ---------------------------------------------------------------- download
 LEKERDEZES = """[out:json][timeout:240];
 way["waterway"~"^(river|canal)$"]["name"~"Duna"]({b})->.viz;
 (way(around.viz:8)["bridge"]["bridge"!="no"]["highway"];
@@ -89,7 +89,7 @@ def letoltes(ujra=False):
     raise SystemExit(f"Az Overpass nem válaszolt ({utolso}). Próbáld később újra.")
 
 
-# ---------------------------------------------------------------- geometria
+# ---------------------------------------------------------------- geometry
 def pont_gyuruben(x, y, g):
     be = False
     j = len(g) - 1
@@ -116,7 +116,7 @@ class Hatar:
 
 
 def metszet(a, b, c, d):
-    """Két szakasz metszéspontja (x, z) vagy None."""
+    """Intersection point (x, z) of two segments, or None."""
     r = (b[0] - a[0], b[1] - a[1])
     s = (d[0] - c[0], d[1] - c[1])
     den = r[0] * s[1] - r[1] * s[0]
@@ -130,7 +130,7 @@ def metszet(a, b, c, d):
 
 
 class Racs:
-    """Szakaszok gyors keresése cellák szerint."""
+    """Fast lookup of segments by cells."""
     def __init__(self, cella=200.0):
         self.c = cella
         self.k = defaultdict(list)
@@ -158,7 +158,7 @@ def hossz(pl):
 
 
 def mintaz(pl, lepes):
-    """Töröttvonal újramintázása ~lepes m-enként; visszaad: [(x, z, s)] (s = ívhossz)."""
+    """Resamples a polyline every ~lepes m; returns: [(x, z, s)] (s = arc length)."""
     ki = [(pl[0][0], pl[0][1], 0.0)]
     s0 = 0.0
     for i in range(len(pl) - 1):
@@ -175,7 +175,7 @@ def mintaz(pl, lepes):
 
 
 def pont_s(pl, s):
-    """Az ívhossz-pozícióhoz tartozó (x, z, irányszög)."""
+    """The (x, z, heading) belonging to an arc-length position."""
     ered = 0.0
     for i in range(len(pl) - 1):
         a, b = pl[i], pl[i + 1]
@@ -227,7 +227,7 @@ def simit(v, ablak, kor):
     return v
 
 
-# ---------------------------------------------------------------- az OSM-elemek
+# ---------------------------------------------------------------- the OSM elements
 def vonal_tipus(c):
     hw = c.get("highway", "")
     rw = c.get("railway", "")
@@ -257,7 +257,7 @@ def cimke_nev(c):
 
 
 def csoportosit(vonalak):
-    """Union-find: azonos nevű, vagy (név nélkül) egymáshoz közeli átkelők egy hídba kerülnek."""
+    """Union-find: crossings with the same name, or (without a name) close to each other, go into one bridge."""
     sz = list(range(len(vonalak)))
 
     def gy(i):
@@ -266,11 +266,11 @@ def csoportosit(vonalak):
             i = sz[i]
         return i
     nevek = [ascii_(cimke_nev(v["cimke"])).strip() for v in vonalak]
-    for i in range(len(vonalak)):                  # 1. azonos nevűek
+    for i in range(len(vonalak)):                  # 1. those with the same name
         for j in range(i + 1, len(vonalak)):
             if nevek[i] and nevek[i] == nevek[j]:
                 sz[gy(i)] = gy(j)
-    for i in range(len(vonalak)):                  # 2. a név nélküli vonal a legközelebbi (90 m-en belüli) vonalhoz csatlakozik
+    for i in range(len(vonalak)):                  # 2. a line without a name joins the nearest line (within 90 m)
         if nevek[i]:
             continue
         legjobb, tav = None, 90.0
@@ -290,7 +290,7 @@ def csoportosit(vonalak):
 
 
 def lancol(mag, osszes, hasznalt, max_hossz=4000.0, tol=3.0):
-    """A magot (a Dunát metsző vonalat) mindkét végén megtoldja az érintkező hídvonalakkal (azonos fajta, nem ellentmondó név, egyenesen folytatódó)."""
+    """Extends the core (the line crossing the Danube) at both ends with the adjoining bridge lines (same kind, no conflicting name, continuing straight)."""
     tip0 = vonal_tipus(mag["cimke"])[0]
     nev0 = mag["cimke"].get("name", "")
     pl = list(mag["pl"])
@@ -337,7 +337,7 @@ def lancol(mag, osszes, hasznalt, max_hossz=4000.0, tol=3.0):
 
 
 def osszevon(csopok, tav=45.0, arany=0.6):
-    """Az egymást fedő (párhuzamos, ~tav m-en belüli) hídcsoportokat egyesíti, hogy ne legyen két egymásra csúszó modell."""
+    """Merges overlapping (parallel, within ~tav m) bridge groups, so there are no two models sliding over each other."""
     def fo_pl(cs):
         return max(cs, key=lambda v: hossz(v["pl"]))["pl"]
 
@@ -381,11 +381,11 @@ def adat_keres(sorok, nevek, ll=None, ut=True):
     t = ascii_(" ".join(nevek))
     for r in sorok:
         if (r.get("szerkezet") or "").strip() == "kihagy_ut" and not ut:
-            continue                         # 'kihagy_ut': csak közúti hidat hagy ki (a vasúti azonos nevű marad)
+            continue                         # 'kihagy_ut': skips only a road bridge (a railway bridge with the same name stays)
         for m in r["minta"].split("|"):
             if m.strip() and ascii_(m.strip()) in t:
                 return r
-    if ll:                                   # név nélküli (vagy ismeretlen nevű) híd: a 'hely' oszlop (lat;lon;sugár_m) szerint
+    if ll:                                   # a bridge without a name (or with an unknown name): by the 'hely' column (lat;lon;radius_m)
         for r in sorok:
             p = [szam(q) for q in str(r.get("hely") or "").split(";")]
             if len(p) >= 2 and None not in p[:2]:
@@ -404,7 +404,7 @@ def szam(s, alap=None):
         return alap
 
 
-# ---------------------------------------------------------------- egy híd összeállítása
+# ---------------------------------------------------------------- assembling one bridge
 def hid_epites(csop, terep, adatsor):
     cimkek = [v["cimke"] for v in csop]
     nevek = [cimke_nev(c) for c in cimkek if cimke_nev(c)]
@@ -415,7 +415,7 @@ def hid_epites(csop, terep, adatsor):
     L = hossz(fo["pl"])
     ten = lambda x, z: terep.mag(x, z)
 
-    # --- a pálya magasságprofilja (minden vonalra külön, de azonos módszerrel)
+    # --- the deck's height profile (separately for every line, but with the same method)
     szabad = szam((adatsor or {}).get("magassag_m"), SZABAD_M)
 
     def profil(pl, szabad_m):
@@ -423,7 +423,7 @@ def hid_epites(csop, terep, adatsor):
         h = [ten(x, z) for x, z, _ in mt]
         viz = [hh <= VIZ_MAGASSAG for hh in h]
         y = [(szabad_m if v else hh + 1.0) for hh, v in zip(h, viz)]
-        # a víz két oldalán a pálya fokozatosan emelkedik/ereszkedik a parti magasságig
+        # on both sides of the water the deck gradually rises/descends to the bank's height
         y = simit(y, 4, 5)
         y = [max(yy, (szabad_m * 0.7 if v else hh + 0.5)) for yy, hh, v in zip(y, h, viz)]
         return mt, y, viz
@@ -432,7 +432,7 @@ def hid_epites(csop, terep, adatsor):
     vi = [i for i, v in enumerate(viz_fo) if v]
     if vi:
         u0, u1 = mt_fo[vi[0]][2], mt_fo[vi[-1]][2]
-    else:                                    # nincs domborzati adat: a híd közepe a vízfelület
+    else:                                    # no terrain data: the middle of the bridge is the water surface
         u0, u1 = L * 0.2, L * 0.8
     Lw = max(u1 - u0, 1.0)
 
@@ -447,7 +447,7 @@ def hid_epites(csop, terep, adatsor):
 
     vonalak = []
     max_ol = 0.0
-    # oldalirányú kiterjedés a főpálya legközelebbi pontjához mérve (görbülő hídnál a közepes normális hibás lenne)
+    # lateral extent measured from the nearest point of the main deck (for a curving bridge the mean normal would be wrong)
     suru = mintaz(fo["pl"], 6.0)
     suru_ir = [pont_s(fo["pl"], s_)[2] for _, _, s_ in suru]
 
@@ -461,12 +461,12 @@ def hid_epites(csop, terep, adatsor):
         mt, y, _ = profil(v["pl"], szabad)
         for x, z, _ in mt[:: max(1, len(mt) // 20)]:
             o_, tav = oldalt(x, z)
-            if tav <= 45:                     # a messzi, nem párhuzamos szakaszok ne szélesítsék a hidat
+            if tav <= 45:                     # distant, non-parallel segments must not widen the bridge
                 max_ol = max(max_ol, o_ + szel / 2)
     hw = min(max(max_ol, 5.0), 22.0)
-    # a híd egyetlen tömb: egy pályaszalag a főpálya mentén, a teljes szélességgel
+    # the bridge is a single block: one deck ribbon along the main deck, with the full width
     vonalak = [{"t": "ut", "sz": round(max(2 * hw, 8.0), 1), "p": [[round(x, 1), round(yy, 2), round(z, 1)] for (x, z, _), yy in zip(mt_fo, y_fo)]}]
-    # az OSM-ben szereplő híd-épületek (pillérek, kőtornyok) elrejtéséhez: a víz fölötti tengelypontok (kissé kitágítva)
+    # to hide the bridge buildings in OSM (piers, stone towers): the axis points over the water (slightly widened)
     tengely = []
     for i, (x, z, _) in enumerate(mt_fo):
         if any(viz_fo[max(0, i - 2): i + 3]):
@@ -478,7 +478,7 @@ def hid_epites(csop, terep, adatsor):
         x, z, ir = pont_s(fo["pl"], u)
         return x, z, ir
 
-    # --- tornyok
+    # --- towers
     torony_u = []
     if szerk in ("fuggo", "kabeles"):
         arany = [szam(a) for a in str((adatsor or {}).get("torony_aranyok") or "").split(";") if a.strip()]
@@ -491,7 +491,7 @@ def hid_epites(csop, terep, adatsor):
             yt = y_at(u)
             tornyok.append({"x": round(x, 1), "z": round(z, 1), "r": round(ir, 4), "hsz": round(hw + 0.8, 1), "y0": -4.0,
                             "y1": round(yt + th, 1), "yd": round(yt, 1)})
-    # --- pillérek
+    # --- piers
     pilleru = []
     if szerk not in ("fuggo", "kabeles"):
         n = max(0, int(round(Lw / HAJO_PILLER_M)) - 1) if Lw > 90 else 0
@@ -503,7 +503,7 @@ def hid_epites(csop, terep, adatsor):
             pilleru.append(u)
             piler.append({"x": round(x, 1), "z": round(z, 1), "r": round(ir, 4), "w": round(2 * hw * 0.8, 1), "d": 3.5,
                           "y0": -4.0, "y1": round(y_at(u) - 0.8, 1)})
-    # --- kábelek, ívek, tartók (két oldalon: lateral = ±hw)
+    # --- cables, arches, girders (on both sides: lateral = +-hw)
     def oldal(u, o):
         x, z, ir = pozicio(u)
         return (x - math.sin(ir) * o, z + math.cos(ir) * o)
@@ -527,7 +527,7 @@ def hid_epites(csop, terep, adatsor):
                 pts.append([round(x, 1), round(yy, 1), round(z, 1)])
                 s += 8.0
             kabelek.append(pts)
-            # függesztők
+            # hangers
             s = torony_u[0] + 10
             while s < torony_u[1] - 5:
                 uc = (torony_u[0] + torony_u[1]) / 2
@@ -549,7 +549,7 @@ def hid_epites(csop, terep, adatsor):
                         xt, zt = oldal(u, o * 0.1)
                         kabelek.append([[round(xt, 1), round(t["y1"] - 2.0 - 0.9 * k, 1), round(zt, 1)], [round(x, 1), round(y_at(s) + 0.4, 1), round(z, 1)]])
     elif szerk == "iv":
-        # a pálya alatti, fesztávonként külön ív (mint a Margit hídnál): csúcsa a pálya alatt, a pillérnél legalacsonyabb
+        # the arch under the deck, one per span (as at Margit Bridge): its crown is below the deck, lowest at the pier
         tamasz = [u0] + pilleru + [u1]
         for a, b in zip(tamasz[:-1], tamasz[1:]):
             f = min(0.20 * (b - a), 14.0)
@@ -594,7 +594,7 @@ def hid_epites(csop, terep, adatsor):
                 elozo = le
                 s += 10.0
 
-    # --- adatok
+    # --- data
     kerm = [nev] + [m.strip() for m in str((adatsor or {}).get("minta") or "").split("|") if m.strip()]
     kerm += [k.replace("híd", "bridge").replace("Híd", "Bridge") for k in kerm if "híd" in k.lower()]
     keresesek = []
@@ -693,7 +693,7 @@ def main():
             print(f"Kihagyva (forras/hidak_adatok.csv): {adatsor.get('nev') or nevek}")
             continue
         hidak.append(hid_epites(csop, terep, adatsor))
-    hidak.sort(key=lambda h: h["lat"], reverse=True)       # északról délre
+    hidak.sort(key=lambda h: h["lat"], reverse=True)       # from north to south
     KIMENET.parent.mkdir(parents=True, exist_ok=True)
     json.dump({"hidak": hidak}, open(KIMENET, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     sor = ["# Duna-hidak\n\n", f"{len(hidak)} híd, {len(vonalak)} OSM-vonalból.\n\n",
@@ -706,10 +706,10 @@ def main():
     print(f"Mentve: {KIMENET}")
 
 
-# ---------------------------------------------------------------- önellenőrzés
+# ---------------------------------------------------------------- self-check
 def teszt():
     global TEREP
-    # a hálózat és a valódi adat nélküli ellenőrzés: egy képzelt híd egy képzelt folyó fölött
+    # a check without network and real data: an imaginary bridge over an imaginary river
     assert metszet((0, 0), (10, 10), (0, 10), (10, 0)) == (5.0, 5.0)
     assert metszet((0, 0), (1, 0), (0, 1), (1, 1)) is None
     pl = [(0, 0), (100, 0)]
@@ -720,7 +720,7 @@ def teszt():
 
     class Ter:
         van = True
-        def mag(self, x, z):          # a 150 és 350 m között víz (0 m), mindkét oldalon 6 m-es part
+        def mag(self, x, z):          # between 150 and 350 m there is water (0 m), with a 6 m bank on both sides
             return 0.0 if 150 <= x <= 350 else 6.0
     hid = [(0, 0), (500, 0)]
     for szerk, mind in (("gerenda", 0), ("fuggo", 1), ("kabeles", 1), ("iv", 1), ("racsos", 1)):

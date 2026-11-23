@@ -1,14 +1,14 @@
-"""Közös segédek a koordináta alapú szkriptekhez (tenyek_wikipedia_terulet.py, tenyek_wikidata_api.py):
-  - adaptiv_geokeres: a területet cellákra osztja, és ahol egy keresés eléri a 500-as korlátot, négyfelé vágja
-  - EpuletIndex: rácsos keresés az épületek között (az egész városnál a teljes végigpásztázás túl lassú lenne)"""
+"""Shared helpers for the coordinate-based scripts (tenyek_wikipedia_terulet.py, tenyek_wikidata_api.py):
+  - adaptiv_geokeres: divides the area into cells, and where a search reaches the limit of 500, cuts it into four
+  - EpuletIndex: grid search among the buildings (for the whole city a full scan would be too slow)"""
 import math
 
 from kozos import legkozelebbi_csucs_m, pont_barmelyikben, poligonok
 
 LIMIT = 500
-VAROS_DOBOZ = (47.34, 18.92, 47.62, 19.35)         # dél, nyugat, észak, kelet (a városhatárnál kicsit nagyobb)
-KEZDO_LAT, KEZDO_LON = 0.07, 0.09                  # kezdő cellaméret (fok), ~7 km: a GeoData legfeljebb 10 km-es dobozt enged
-MIN_CELLA = 0.0015                                 # ennél kisebbre már nem vágunk
+VAROS_DOBOZ = (47.34, 18.92, 47.62, 19.35)         # south, west, north, east (slightly larger than the city boundary)
+KEZDO_LAT, KEZDO_LON = 0.07, 0.09                  # initial cell size (degrees), ~7 km: GeoData allows a box of at most 10 km
+MIN_CELLA = 0.0015                                 # we do not cut smaller than this
 
 
 def cellak(doboz, lat_lepes=KEZDO_LAT, lon_lepes=KEZDO_LON):
@@ -22,7 +22,7 @@ def cellak(doboz, lat_lepes=KEZDO_LAT, lon_lepes=KEZDO_LON):
 
 
 def adaptiv_geokeres(geokeres, doboz):
-    """geokeres(d0, w0, d1, w1) -> az adott dobozban talált elemek listája (dict-ek). Eredmény: az összes találat."""
+    """geokeres(d0, w0, d1, w1) -> the list (of dicts) of the elements found in the given box. Result: all the hits."""
     osszes, vago = [], 0
 
     def menj(d0, w0, d1, w1):

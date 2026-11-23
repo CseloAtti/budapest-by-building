@@ -1,12 +1,12 @@
-"""utcakep.py - a kártya "Utcakép" linkjéhez: minden címmel rendelkező épülethez egy pont az utcán, a ház előtt.
+"""utcakep.py - for the card's "Street view" link: for every building with an address, a point on the street, in front of the house.
 
-A Google Street View a megadott ponthoz a legközelebbi felvételt keresi; az épület középpontjából ez gyakran a házon belüli
-udvar vagy egy melléksikátor. Az utca vonalát itt a címadatokból becsüljük: az azonos nevű utca (osm_cimek.csv) házainak
-középpontjai az utca két oldalán sorakoznak. Az épület 110 m-es környezetében lévő, azonos utcanevű házak főtengelyt adnak
-(az utca iránya), a két oldal házsorának középvonala között félúton van az utca tengelye; az 'sv_lat'/'sv_lon' ennek az
-épület melletti pontja. Nem ad pontot, ha nincs elég szomszéd, az utca nem egyenes (tér, kanyar), a házak csak az utca
-egyik oldalán vannak, vagy a pont épület belsejébe esne - ilyenkor a kártya az épület középpontját használja.
-Csak a Python alap könyvtárát használja.
+Google Street View looks for the nearest image to the given point; from the building's centre this is often the courtyard
+inside the house or a side alley. Here the street's line is estimated from the address data: the centres of the houses of the same-named street (osm_cimek.csv)
+line up on the two sides of the street. The houses with the same street name in the building's 110 m surroundings give a principal axis
+(the street's direction), and the street's axis lies halfway between the centre lines of the house rows of the two sides; 'sv_lat'/'sv_lon' is this axis's
+point next to the building. It gives no point if there are not enough neighbours, the street is not straight (square, bend), the houses are only on
+one side of the street, or the point would fall inside a building - in that case the card uses the building's centre.
+Uses only the Python standard library.
 """
 import csv
 import math
@@ -16,11 +16,11 @@ from pathlib import Path
 LON0, LAT0 = 19.05, 47.5
 KX = math.cos(math.radians(LAT0)) * 111320.0
 KY = 110574.0
-SUGAR = 110.0             # m: az utca vonalát ennyi sugarú környezet azonos utcás házaiból illesztjük
-MIN_SZOMSZED = 4          # legalább ennyi ház kell az illesztéshez (a ház magával együtt)
-MIN_NYUJTOTTSAG = 1.6     # a főtengely mentén legalább ennyiszer nagyobb a szórás, mint rá merőlegesen
-MIN_UTCASZELESSEG = 14.0  # m: a két oldal házsorának középvonala között legalább ennyi legyen
-MAX_TAVOLSAG = 45.0       # m: ennél messzebb lévő pontot nem fogadunk el (udvari ház, hibás illesztés)
+SUGAR = 110.0             # m: the street's line is fitted from the houses of the same street within a surrounding of this radius
+MIN_SZOMSZED = 4          # at least this many houses are needed for the fit (including the house itself)
+MIN_NYUJTOTTSAG = 1.6     # along the principal axis the spread must be at least this many times larger than perpendicular to it
+MIN_UTCASZELESSEG = 14.0  # m: there must be at least this much between the centre lines of the two sides' house rows
+MAX_TAVOLSAG = 45.0       # m: a point farther than this is not accepted (courtyard house, faulty fit)
 CELLA = 110.0
 
 
@@ -77,8 +77,8 @@ def szamol(feats, cimek_csv):
         for r in csv.DictReader(f, delimiter=";"):
             if r["utca"] and r["hazszam"]:
                 utca.setdefault((r["osm_tipus"], int(r["id"])), r["utca"].strip())
-    alap = Racs(CELLA)               # az összes épület alaprajza: az utcai pont nem eshet épület belsejébe
-    csoport = defaultdict(list)      # utcanév -> [(feature, x, y)]
+    alap = Racs(CELLA)               # the footprints of all buildings: the street point must not fall inside a building
+    csoport = defaultdict(list)      # street name -> [(feature, x, y)]
     for ft in feats:
         if ft["geometry"]["type"] not in ("Polygon", "MultiPolygon"):
             continue
@@ -117,13 +117,13 @@ def szamol(feats, cimek_csv):
             if kicsi <= 1e-9 or math.sqrt(nagy / kicsi) < MIN_NYUJTOTTSAG:
                 continue
             fi = 0.5 * math.atan2(2 * sxy, sxx - syy)
-            dx, dy = math.cos(fi), math.sin(fi)          # az utca iránya
-            nx, ny = -dy, dx                              # rá merőleges
+            dx, dy = math.cos(fi), math.sin(fi)          # the street's direction
+            nx, ny = -dy, dx                              # perpendicular to it
             s_ = [(p[0] - mx) * nx + (p[1] - my) * ny for p in q]
             fent = [v for v in s_ if v > 0]
             lent = [v for v in s_ if v <= 0]
             if len(fent) < 2 or len(lent) < 2:
-                continue                  # csak az utca egyik oldalán vannak azonos nevű házak: nem tudjuk, merre van az utca
+                continue                  # there are same-named houses only on one side of the street: we do not know which way the street is
             af, al = sum(fent) / len(fent), sum(lent) / len(lent)
             if af - al < MIN_UTCASZELESSEG:
                 continue

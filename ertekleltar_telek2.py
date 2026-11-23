@@ -1,8 +1,8 @@
-"""2. kör: a kézzel gyűjtött telekadatok (forras/ertekleltar_telekadatok_kesz.xlsx) ellenőrzése és párosítása.
-A 362 tétel az értékleltár (279) és a Kataszter III. (83) eddig nem párosított tételei. Minden sorra: a telek poligonja
-(EOV -> WGS84), a telekre eső OSM-épületek, döntés (auto / valószínű / bizonytalan / nincs) és ellenőrzési megjegyzések.
-Kimenet: data/ertekleltar_telek2_jelentes.csv (nem ír a forrás-táblákba).
-Futtatás: py ertekleltar_telek2.py"""
+"""Round 2: checking and pairing the manually collected lot data (forras/ertekleltar_telekadatok_kesz.xlsx).
+The 362 items are the heritage inventory's (279) and the Kataszter III's (83) items not paired so far. For every row: the lot's polygon
+(EOV -> WGS84), the OSM buildings falling on the lot, a decision (auto / probable / uncertain / none) and check remarks.
+Output: data/ertekleltar_telek2_jelentes.csv (it does not write to the source tables).
+Run: py ertekleltar_telek2.py"""
 import csv, json, re
 from collections import Counter
 from pathlib import Path
@@ -53,7 +53,7 @@ def main():
         if "Nincs találat" in mai or not cimek:
             megj.append("nincs mai cím")
         allapot, epuletek, indok = E.dontes(T, ov, cimek)
-        # ellenőrzés: a telek a kért kerületben van-e (a legközelebbi épületek kerületkulcsa)
+        # check: is the lot in the requested district (the district key of the nearest buildings)
         ker_b = Counter(str(T.b[e].get("ker") or T.b[e].get("kn") or "") for e in ov if ov[e] >= .3)
         azon = " | ".join(f"{e[0]} {e[1]}" for e in epuletek)
         jelolt = " | ".join(f"{e[0]} {e[1]} ({round(((T.b[e]['c'][0]-kozep[0])**2+(T.b[e]['c'][1]-kozep[1])**2)**.5)} m)" for e in epuletek[:6])

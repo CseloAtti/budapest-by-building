@@ -1,15 +1,15 @@
-"""Szöveges (JavaScript nélküli) oldalak a kereséshez és megosztáshoz -> kiadas/explore/ és kiadas/e/
-A kiadas_keszites.py hívja meg; önállóan nem kell futtatni.
+"""Text (JavaScript-free) pages for search and sharing -> kiadas/explore/ and kiadas/e/
+Called by kiadas_keszites.py; it does not need to be run on its own.
 
-Mi készül?
-  /explore/                      kezdőoldal: korszakok táblázata, építészek listája
-  /explore/era/<szlug>/      egy korszak épületei (csak az ismert évszámúak)
-  /explore/architect/<szlug>/      egy tervező épületei
-  /e/<w|r><OSM-id>/                egy épület adatlapja (csak ahol van ismert építési év, tervező vagy link)
-  /sitemap.xml, /robots.txt        a keresőknek
-Egy épület akkor kap oldalt, ha NEM épületrész, VAN neve vagy címe, és legalább egyik igaz rá:
-  ismert építési év, tervező, Budapest100 / Építészfórum / Budapest Legendák / E-Örökség (OENY) / Wikidata link,
-  vagy saját (nem a telepről örökölt) Wikipédia-cikk."""
+What is made?
+  /explore/                      home page: table of eras, list of architects
+  /explore/era/<slug>/           the buildings of one era (only those with a known year)
+  /explore/architect/<slug>/     the buildings of one designer
+  /e/<w|r><OSM-id>/              the data page of one building (only where there is a known construction year, designer or link)
+  /sitemap.xml, /robots.txt      for search engines
+A building gets a page if it is NOT a building part, HAS a name or address, and at least one of these is true:
+  known construction year, designer, Budapest100 / Építészfórum / Budapest Legendák / E-Örökség (OENY) / Wikidata link,
+  or its own (not inherited from the estate) Wikipedia article."""
 import html
 import json
 import re
@@ -20,7 +20,7 @@ from urllib.parse import quote
 
 ALAP_URL = "https://budapestbuildings.com"
 OLDAL_NEV = "Budapest épületei"
-MIN_EPITESZ_DB = 4          # ennyi épületnél kevesebbhez nem készül tervezői oldal
+MIN_EPITESZ_DB = 4          # for fewer buildings than this no designer page is made
 EV_FORRAS = {"start_date": "OpenStreetMap", "budapest100": "Budapest100", "wikipedia_lista": "Wikipédia",
              "wikidata": "Wikidata", "oeny": "E-Örökség (OENY)", "lechner": "Lechner Tudásközpont", "kezi": "kézi javítás"}
 VEDETTSEG = {"M": "műemlék", "MJ": "műemlék jellegű", "VK": "városképi jelentőségű", "MK": "műemléki környezet",
@@ -76,7 +76,7 @@ def tervezok(p):
 
 
 def tipus_szotar(app_js):
-    """A TIPUS_HU szótár az app.js-ből (hogy a típusnevek ugyanúgy magyarul jelenjenek meg, mint a térképen)."""
+    """The TIPUS_HU dictionary from app.js (so that the type names appear in Hungarian just as on the map)."""
     m = re.search(r"var TIPUS_HU = \{(.*?)\};", app_js, re.S)
     return dict(re.findall(r"(\w+):\s*'([^']*)'", m.group(1))) if m else {}
 
@@ -171,17 +171,17 @@ def epulet_oldal(p, szotar, kor_lista, ep_szlug):
 
 
 def keszit(ki, epuletek, korszakok, app_js=""):
-    """ki: a kiadas/ mappa; epuletek: a TELJES épületlista; korszakok: budapest.json 'periods' listája.
-    Visszatér: az elkészült oldalak száma szótárban."""
+    """ki: the kiadas/ folder; epuletek: the FULL building list; korszakok: the 'periods' list of budapest.json.
+    Returns: the number of pages made, in a dictionary."""
     ki = Path(ki)
     szotar = tipus_szotar(app_js)
-    # korszakok: (szlug, tól, ig, felirat)
+    # eras: (slug, from, to, label)
     kor_lista = []
     for k in korszakok:
         a, b = int(k["from"]), int(k["to"])
         kor_lista.append((szlug(k["label"]), a, b, k["label"]))
     lista = [p for p in epuletek if isinstance(p, dict) and kell_oldal(p)]
-    # építész-szlugok (legalább MIN_EPITESZ_DB épülettel)
+    # architect slugs (with at least MIN_EPITESZ_DB buildings)
     db = defaultdict(list)
     for p in lista:
         for n in set(tervezok(p)):
@@ -204,7 +204,7 @@ def keszit(ki, epuletek, korszakok, app_js=""):
         f.write_text(tartalom, encoding="utf-8")
         urlok.append(url)
 
-    # épületoldalak
+    # building pages
     for p in lista:
         url, t = epulet_oldal(p, szotar, kor_lista, ep_szlug)
         ir(url, t)
@@ -218,13 +218,13 @@ def keszit(ki, epuletek, korszakok, app_js=""):
         li = "".join(f'<li>{e(p["ev"])} – <a href="/e/{gazd(p)}/">{e(cim_cikk(p))}</a>{" (" + e(cim_elso(p)) + ")" if p.get("nev") and cim_elso(p) else ""}</li>' for p in tagok)
         torzs = f"<h1>{e(cimke)}</h1><p class=\"k\">{len(tagok)} épület ismert építési évvel</p><div class=\"lap\"><ul>{li}</ul></div>"
         ir(f"/explore/era/{sz}/", oldal(cimke, f"{cimke}: {len(tagok)} budapesti épület ismert építési évvel.", torzs, f"/explore/era/{sz}/"))
-    # építészoldalak
+    # architect pages
     for n, sz in ep_szlug.items():
         tagok = sorted(db[n], key=lambda p: (int(p["ev"]) if p.get("ev") else 9999, cim_cikk(p)))
         li = "".join(f'<li>{(e(p["ev"]) + " – ") if p.get("ev") else ""}<a href="/e/{gazd(p)}/">{e(cim_cikk(p))}</a>{" (" + e(cim_elso(p)) + ")" if p.get("nev") and cim_elso(p) else ""}</li>' for p in tagok)
         torzs = f"<h1>{e(n)}</h1><p class=\"k\">{len(tagok)} épülete a térképen</p><div class=\"lap\"><ul>{li}</ul></div>"
         ir(f"/explore/architect/{sz}/", oldal(f"{n} épületei", f"{n} tervezte épületek Budapesten: {len(tagok)} épület.", torzs, f"/explore/architect/{sz}/"))
-    # kezdőoldal
+    # home page
     ossz = defaultdict(int)
     for p in epuletek:
         k = p.get("kor") if isinstance(p, dict) else None

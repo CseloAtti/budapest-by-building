@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Egymásra rajzolt (duplikált) épületgeometriák keresése az egész városban.
+"""Finding building geometries drawn on top of each other (duplicates) across the whole city.
 
-Futtatás:  py duplikatok_kereso.py [varos]
+Run:  py duplikatok_kereso.py [varos]
 
-Amit talál, azt a forras/duplikatumok.csv végére FŰZI (meglévő sort soha nem ír át, nem töröl):
-  mod=gyuru  – ugyanannak az OSM-elemnek egy körvonala egy másik körvonalán belül van (azonos id) → a belső körvonal törlődik,
-               adat nem vész el (ugyanaz az elem).
-  mod=elem   – két különböző OSM-elem fedi egymást: a törölt elem tényei (Legenda, Wikipédia, Budapest100, OENY …) átkerülnek a
-               megtartottra, az OSM-tulajdonságai közül az hiányzik a megtartotton, azt átveszi.
-  alkalmaz   – 'igen': az osszeepit.py alkalmazza; üres: csak jelölt, a térképen marad (te döntesz, írd át 'igen'-re).
-Tiszta Python, nem kell hozzá semmi telepítés."""
+What it finds is APPENDED to the end of forras/duplikatumok.csv (an existing row is never rewritten or deleted):
+  mod=gyuru  - one outline of the same OSM element lies inside another outline of it (same id) -> the inner outline is deleted,
+               no data is lost (same element).
+  mod=elem   - two different OSM elements overlap each other: the deleted element's facts (Legenda, Wikipedia, Budapest100, OENY ...) go to the
+               kept one, and whichever of its OSM properties the kept one lacks, it takes over.
+  alkalmaz   - 'igen' (yes): osszeepit.py applies it; empty: only marked, it stays on the map (you decide, change it to 'igen').
+Pure Python, nothing needs to be installed."""
 import csv, json, math, sys
 from collections import defaultdict
 from pathlib import Path
@@ -20,8 +20,8 @@ KIZART = Path("forras/kizart_epuletek.csv")
 KIMENET = Path("forras/duplikatumok.csv")
 OSZLOPOK = ["mod", "torolt_tipus", "torolt_id", "torolt_gyuru_pontok", "megtartott_tipus", "megtartott_id", "alkalmaz", "megjegyzes"]
 KX = 111000 * math.cos(math.radians(47.5)); KY = 111000
-AUTO_ARANY = 0.85      # kisebb/nagyobb terület ennél több → ugyanaz az épület kétszer
-LEFEDES = 0.90         # a kisebb pontjainak ennyied része a nagyobb tömör részén belül
+AUTO_ARANY = 0.85      # the smaller/larger area is more than this -> the same building twice
+LEFEDES = 0.90         # this fraction of the smaller one's points lies within the larger one's solid part
 
 
 def ter(r):
@@ -120,7 +120,7 @@ def main():
         auto = arany >= LEFEDES and hasonlo >= AUTO_ARANY
         t, m = (kis, nagy)
         if auto and pontossag(kis["p"]) > pontossag(nagy["p"]):
-            t, m = nagy, kis       # a gazdagabb adatú maradjon
+            t, m = nagy, kis       # the one with richer data stays
         sorok.append(dict(mod="elem", torolt_tipus=t["k"][0], torolt_id=t["k"][1], torolt_gyuru_pontok="",
                           megtartott_tipus=m["k"][0], megtartott_id=m["k"][1], alkalmaz="igen" if auto else "",
                           megjegyzes=("azonos alakú, kétszer berajzolva" if auto else

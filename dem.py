@@ -1,14 +1,14 @@
 """
-dem.py - NASA SRTM magassági csempék (N47E019.SRTMGL1_NC.nc stb.) beolvasása, csak Python alap könyvtárral.
+dem.py - reading NASA SRTM elevation tiles (N47E019.SRTMGL1_NC.nc etc.), with only the Python standard library.
 
-Ezt a fájlt nem kell futtatni, a csempek_keszites.py használja.
+This file does not need to be run, csempek_keszites.py uses it.
 
-A fájl NetCDF-4 (belül HDF5). A NASA fájljaiban a magassági adat 3601 x 3601 egész szám (méter), tömörítés
-nélkül, egybefüggően tárolva, ezért elég megtalálni a helyét a fájlban. Ha egy fájl tömörített lenne vagy más
-felépítésű, a beolvasás érthető hibaüzenettel áll le.
+The file is NetCDF-4 (HDF5 inside). In NASA's files the elevation data is 3601 x 3601 integers (metres), stored uncompressed
+and contiguously, so it is enough to find its place in the file. If a file were compressed or structured
+differently, the reader stops with a clear error message.
 
-Csempe: a fájlnév adja a sarkát (N47E019 = 47-48° északi szélesség, 19-20° keleti hosszúság), a sorok
-északról délre, az oszlopok nyugatról keletre haladnak.
+Tile: the file name gives its corner (N47E019 = 47-48 degrees north latitude, 19-20 degrees east longitude), the rows
+run from north to south, the columns from west to east.
 """
 import array
 import re
@@ -22,7 +22,7 @@ class HibasFajl(Exception):
 
 
 def _uzenetek(b, pos):
-    """Egy HDF5 objektumfejléc (OHDR, 2. változat) üzenetei: [(típus, adat), ...]."""
+    """The messages of an HDF5 object header (OHDR, version 2): [(type, data), ...]."""
     if b[pos:pos + 4] != b"OHDR" or b[pos + 4] != 2:
         raise HibasFajl("nem 2-es változatú HDF5 objektumfejléc")
     fl = b[pos + 5]
@@ -67,8 +67,8 @@ class Csempe:
             raise HibasFajl(f"a fájlnévből nem olvasható ki a csempe sarka: {ut.name}")
         lat = int(m.group(2)) * (1 if m.group(1) == "N" else -1)
         lon = int(m.group(4)) * (1 if m.group(3) == "E" else -1)
-        self.lat_felso = lat + 1      # a csempe északi széle
-        self.lon_nyugati = lon        # a csempe nyugati széle
+        self.lat_felso = lat + 1      # the tile's northern edge
+        self.lon_nyugati = lon        # the tile's western edge
         b = ut.read_bytes()
         if b[:8] != b"\x89HDF\r\n\x1a\n":
             raise HibasFajl(f"{ut.name}: nem HDF5/NetCDF-4 fájl")
@@ -108,7 +108,7 @@ class Csempe:
 
 
 class Domborzat:
-    """A mappában lévő összes SRTM-csempe egyben."""
+    """All the SRTM tiles in the folder as one."""
 
     FOK = 3600  # minta / fok
 
@@ -126,8 +126,8 @@ class Domborzat:
         return None
 
     def racs(self, lon_ny, lon_k, lat_d, lat_e):
-        """Az adott téglalap magasságai az SRTM saját rácsán (méter, lebegőpontos).
-        Visszaad: (sorok, oszlopok, lat_felso, lon_nyugati, [[...], ...]) - a sorok északról délre."""
+        """The heights of the given rectangle on SRTM's own grid (metres, floating point).
+        Returns: (rows, columns, lat_top, lon_west, [[...], ...]) - the rows from north to south."""
         sor0 = int(round((lat_e - lat_d) * self.FOK))
         j0 = int(round(lat_e * self.FOK))
         i0 = int(round(lon_ny * self.FOK))

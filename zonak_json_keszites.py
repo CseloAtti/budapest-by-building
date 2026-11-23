@@ -1,6 +1,6 @@
-"""A rajzolt zónák (forras/zonak_poligon.geojson) típusa, kerülete és évei -> terkep3d/zonak.json
-A 3D nézet Lakótelepek fülének listája ezt használja: az ipar_kereskedelem típusú zónák nem lakótelepek,
-ezért nem szerepelnek a listában és a kiemelésben. Futtatás: py zonak_json_keszites.py (az "Újraépítés" gomb is lefuttatja)."""
+"""Type, district and years of the drawn zones (forras/zonak_poligon.geojson) -> terkep3d/zonak.json
+The 3D view's Housing estates tab list uses this: zones of the ipar_kereskedelem (industry/commerce) type are not housing estates,
+so they do not appear in the list or in the highlighting. Run: py zonak_json_keszites.py (the "Rebuild" button also runs it)."""
 import json
 from pathlib import Path
 

@@ -1,13 +1,13 @@
-"""Utcák és utcanevek a 3D nézet kapcsolható rétegéhez -> terkep3d/data_varos/utak.json
+"""Streets and street names for the 3D view's toggleable layer -> terkep3d/data_varos/utak.json
 
-Futtatás (a projekt mappájában):   py utak_keszites.py
-Mit csinál? Az Overpassról letölti Budapest névvel ellátott közútjait és sétányait (3x3 részletben, hogy a szerver bírja),
-a kerülethatárok (data/kerulethatarok.json) alapján elhagyja a városon kívülieket, egyszerűsíti a vonalakat, és a 3D nézet
-helyi méterkoordinátáiba (ugyanaz, mint a csempek_keszites.py: LAT0/LON0) átszámolva elmenti.
-A nyers letöltés a data/utak_nyers.json-ben marad (újrafuttatásnál nem tölti le újra; --ujra: újra letölti).
-Kimenet: {"v":1,"utak":[[nev, osztaly, [x0,z0,x1,z1,...]], ...]}
-  osztály: 0 főút (autópálya, gyorsforgalmi, főút), 1 gyűjtőút, 2 lakóutca / sétálóutca, 3 gyalogút, lépcső, kerékpárút
-A 3D nézet a "Utcák" gombbal kapcsolja a réteget; újraépítés (csempek_keszites.py) nem érinti ezt a fájlt.
+Run (in the project folder):   py utak_keszites.py
+What does it do? From Overpass it downloads Budapest's named public roads and promenades (in 3x3 parts, so the server can cope),
+drops those outside the city based on the district boundaries (data/kerulethatarok.json), simplifies the lines, and saves them converted
+into the 3D view's local metre coordinates (the same as in csempek_keszites.py: LAT0/LON0).
+The raw download stays in data/utak_nyers.json (a rerun does not download it again; --ujra: downloads it again).
+Output: {"v":1,"utak":[[name, class, [x0,z0,x1,z1,...]], ...]}
+  class: 0 main road (motorway, expressway, main road), 1 collector road, 2 residential street / pedestrian street, 3 footpath, steps, cycle path
+The 3D view switches the layer with the "Streets" button; a rebuild (csempek_keszites.py) does not touch this file.
 """
 import json
 import math
@@ -26,7 +26,7 @@ SZERVEREK = ["https://overpass.kumi.systems/api/interpreter",
              "https://overpass.private.coffee/api/interpreter",
              "https://overpass-api.de/api/interpreter"]
 DEL, NYUGAT, ESZAK, KELET = 47.33, 18.90, 47.65, 19.35
-LAT0, LON0 = 47.5015, 19.0515                      # ugyanaz, mint a csempek_keszites.py-ban és az app.js-ben
+LAT0, LON0 = 47.5015, 19.0515                      # the same as in csempek_keszites.py and app.js
 KX, KZ = 111320 * math.cos(math.radians(LAT0)), 110574
 OSZTALY = {"motorway": 0, "motorway_link": 0, "trunk": 0, "trunk_link": 0, "primary": 0, "primary_link": 0,
            "secondary": 1, "secondary_link": 1, "tertiary": 1, "tertiary_link": 1,
@@ -97,7 +97,7 @@ def varosban(gyuruk):
 
 
 def dp(pontok, tol):
-    """Douglas-Peucker (iteratív)."""
+    """Douglas-Peucker (iterative)."""
     if len(pontok) < 3:
         return pontok
     tart = [False] * len(pontok)
@@ -145,7 +145,7 @@ def main():
         g = el["g"]
         if len(g) < 2:
             continue
-        # a városon belül van, ha a kezdő-, közép- vagy végpontja valamelyik kerületben van
+        # it is within the city if its start, middle or end point is in one of the districts
         if not any(bent(*g[i]) for i in {0, len(g) // 2, len(g) - 1}):
             continue
         m = [((x - LON0) * KX, -(y - LAT0) * KZ) for x, y in g]

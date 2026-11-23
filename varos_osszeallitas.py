@@ -1,17 +1,17 @@
 """
-varos_osszeallitas.py - A teljes Budapest épületeinek összeállítása a letöltött nyers adatokból.
+varos_osszeallitas.py - assembling the buildings of the whole of Budapest from the downloaded raw data.
 
-Futtatás (a projekt mappájában, miután a budapest_pbf.py - vagy a budapest_letoltes.py - lefutott):
+Run (in the project folder, after budapest_pbf.py - or budapest_letoltes.py - has finished):
     py varos_osszeallitas.py
 
-Bemenet:  data/budapest_nyers/*.json.gz     (budapest_pbf.py / budapest_letoltes.py)
-Kimenet:  data/varos/epuletek.geojson       (OSM-épületek, mint a belvaros_epuletek.geojson, de az egész városra)
-          data/varos/reszek.geojson         (building:part elemek)
-          data/varos/osm_cimek.csv          (OSM-címek, mint az osm_cimek.csv)
+Input:    data/budapest_nyers/*.json.gz     (budapest_pbf.py / budapest_letoltes.py)
+Output:   data/varos/epuletek.geojson       (OSM buildings, like belvaros_epuletek.geojson, but for the whole city)
+          data/varos/reszek.geojson         (building:part elements)
+          data/varos/osm_cimek.csv          (OSM addresses, like osm_cimek.csv)
 
-A meglévő belvárosi fájlokhoz (data/belvaros_*.geojson, data/osm_cimek.csv) NEM nyúl.
-Az elemek feldolgozása ugyanaz, mint a geojson_keszites.py-ban és a cimek_letoltes.py-ban (év, magasság, részek,
-összetett épületek, címek). A tények és a kézi javítások azonosító szerint érvényesek: py osszeepit.py varos
+It does NOT touch the existing inner-city files (data/belvaros_*.geojson, data/osm_cimek.csv).
+The processing of the elements is the same as in geojson_keszites.py and cimek_letoltes.py (year, height, parts,
+composite buildings, addresses). Facts and manual corrections apply by id: py osszeepit.py varos
 """
 import csv
 import gzip
@@ -28,7 +28,7 @@ NYERS = Path("data/budapest_nyers")
 KI = Path("data/varos")
 
 
-# ---- ugyanazok a szabályok, mint a geojson_keszites.py-ban ----
+# ---- the same rules as in geojson_keszites.py ----
 def szam(ertek):
     if ertek is None:
         return None
@@ -40,7 +40,7 @@ EV_CIMKEK = ["start_date", "building:start_date", "construction_date", "year_of_
 
 
 def evszam(tags):
-    """Csak pontos év: 1890, 1890-05, 1890-05-12. A tartomány/évtized/évszázad ("1890s", "C19") nem pontos év."""
+    """Only an exact year: 1890, 1890-05, 1890-05-12. A range/decade/century ("1890s", "C19") is not an exact year."""
     for cimke in EV_CIMKEK:
         ertek = tags.get(cimke)
         if ertek:
@@ -122,13 +122,13 @@ def feature_keszit(elem, koordinatak):
 
 
 class Keruletek:
-    """Melyik kerületben van egy pont (data/kerulethatarok.json, a budapest_pbf.py készíti)."""
+    """Which district a point is in (data/kerulethatarok.json, made by budapest_pbf.py)."""
     R = 0.002
 
     def __init__(self):
         ut = Path("data/kerulethatarok.json")
         self.van = ut.exists()
-        self.gyuruk = []          # (kerület, gyűrű, doboz)
+        self.gyuruk = []          # (district, ring, box)
         self.hatar = set()
         self.cache = {}
         if not self.van:
@@ -164,7 +164,7 @@ class Keruletek:
 
 
 def nyers_beolvasasa():
-    """Az összes nyers cellafájl elemei, a (típus, id) szerinti duplikátumok nélkül."""
+    """The elements of all the raw cell files, without duplicates by (type, id)."""
     elemek = {}
     fajlok = sorted(NYERS.glob("*.json.gz"))
     if not fajlok:
@@ -241,7 +241,7 @@ def main():
         print(f"  magasság forrása '{forras}': {sum(1 for ft in features if ft['properties']['magassag_forras'] == forras)}")
     print(f"  építési évvel: {sum(1 for ft in features if ft['properties']['ev'])}")
 
-    # ---- címek ----
+    # ---- addresses ----
     print("Címek hozzárendelése...")
     sorok = []
     for e in elemek:

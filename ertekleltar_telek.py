@@ -1,19 +1,19 @@
-"""Értékleltár-kártyák automatikus párosítása a helyszínrajzi szám (telek) poligonja és a pontos mai cím alapján.
+"""Automatic pairing of heritage-inventory cards by the polygon of the lot (parcel) and the exact current address.
 
-Bemenet:  forras/ertekleltar_cimekkel_es_geometriaval.csv   (kerulet;cim;new cím;hrsz;...;Geometria (GeoJSON) - EOV koordinátákkal)
-          forras/ertekleltar_kezi_parositas.csv             (a kézi ellenőrzés táblája; a már kitöltött sorokhoz NEM nyúl)
+Input:    forras/ertekleltar_cimekkel_es_geometriaval.csv   (kerulet;cim;new cím;hrsz;...;Geometria (GeoJSON) - with EOV coordinates)
+          forras/ertekleltar_kezi_parositas.csv             (the manual-check table; it does NOT touch the already filled rows)
           data/varos/epuletek.geojson, data/varos/osm_cimek.csv
-Kimenet:  forras/ertekleltar_kezi_parositas.csv  - a nyitott sorokba beírja az osm_azonosito-t (egyértelmű esetben) vagy a javaslatot
-          data/ertekleltar_telek_jelentes.csv    - minden sor: döntés, indok, jelöltek; és ahol a kézi döntésed eltér a telek szerintitől
+Output:   forras/ertekleltar_kezi_parositas.csv  - writes the osm_azonosito into the open rows (in unambiguous cases) or the suggestion
+          data/ertekleltar_telek_jelentes.csv    - every row: decision, reason, candidates; and where your manual decision differs from the lot-based one
 
-FIGYELEM: a "new cím" oszlop a forrásfájlban egy sorral el van csúszva (a helyes cím a KÖVETKEZŐ sorban áll). Ezt a szkript kezeli;
-ha a forrásfájlt kijavítod, állítsd a CIM_ELTOLAS értékét 0-ra.
+WARNING: the "new cím" column in the source file is shifted by one row (the correct address is in the NEXT row). This script handles it;
+if you fix the source file, set the value of CIM_ELTOLAS to 0.
 
-Módszer: az EOV-poligont WGS84-be váltjuk (eov.py), kiszámoljuk, az OSM-épületek mekkora része esik a telekre (mintavételezéssel).
-  - ahol a telekre eső (>= 50%) épületek valamelyikén az OSM-ben szereplő cím egyezik a mai címmel: ezek az épületek (max. 3) -> automatikus
-  - ha cím-egyezés nincs, de a telekre pontosan egy (>= 20 m²) épület esik, vagy egy épület legalább 3-szor akkora, mint a többi: automatikus
-  - egyébként: a javaslat a legnagyobb telekre eső épület, kézi megerősítéssel (valószínű / bizonytalan)
-Futtatás:  py ertekleltar_telek.py
+Method: the EOV polygon is converted to WGS84 (eov.py), and we compute (by sampling) what part of the OSM buildings falls on the lot.
+  - where one of the buildings falling on the lot (>= 50%) has an address in OSM that matches the current address: these buildings (max. 3) -> automatic
+  - if there is no address match, but exactly one building (>= 20 m²) falls on the lot, or one building is at least 3 times as large as the others: automatic
+  - otherwise: the suggestion is the largest building on the lot, with manual confirmation (probable / uncertain)
+Run:  py ertekleltar_telek.py
 """
 import csv
 import io
@@ -30,8 +30,8 @@ from tenyek_oeny import tisztit_utca
 GEO = Path("forras/ertekleltar_cimekkel_es_geometriaval.csv")
 TABLA = Path("forras/ertekleltar_kezi_parositas.csv")
 JELENTES = Path("data/ertekleltar_telek_jelentes.csv")
-CIM_ELTOLAS = 1          # a "new cím" a forrásban ennyi sorral korábban áll, mint amelyikhez tartozik
-MIN_TER = 12.0           # ennél kisebb épületet (kis fészer) nem tekintünk jelöltnek
+CIM_ELTOLAS = 1          # the "new cím" in the source comes this many rows earlier than the one it belongs to
+MIN_TER = 12.0           # a building smaller than this (a small shed) is not considered a candidate
 OSZLOPOK = ["kerulet", "cim", "hrsz", "epites_ideje", "tervezo", "allapot", "javasolt_osm", "jeloltek", "osm_azonosito", "megjegyzes"]
 
 
@@ -39,7 +39,7 @@ HONAP = {"jan": 1, "febr": 2, "márc": 3, "ápr": 4, "máj": 5, "jún": 6, "júl
 
 
 def hrsz_javit(h):
-    """Az Excel a '3/15' helyrajzi számot dátumnak olvasta ('márc.15'): visszaalakítjuk '3/15'-re."""
+    """Excel read the lot number '3/15' as a date ('márc.15'): converted back to '3/15'."""
     m = re.fullmatch(r"\s*([a-záéíóöőúüű]+)\.?\s*(\d+)\s*", h or "", flags=re.I)
     if m and m.group(1).lower() in HONAP:
         return f"{HONAP[m.group(1).lower()]}/{m.group(2)}"
@@ -104,7 +104,7 @@ def cim_egyezik(T, e, cimek):
 
 
 def dontes(T, ov, cimek):
-    """-> (allapot, [épületek], indok)"""
+    """-> (status, [buildings], reason)"""
     jel = {e: f for e, f in ov.items() if f >= 0.5 and T.b[e]["ter"] >= MIN_TER}
     if not jel:
         jel = {e: f for e, f in ov.items() if f >= 0.2 and T.b[e]["ter"] >= MIN_TER}
@@ -176,7 +176,7 @@ def main():
         else:
             stat["már megjegyzéssel lezárva"] += 1
         jelentes.append([k[0], k[1], k[2], mai[:80], allapot, azon, indok, eltero, kezi])
-    # a kézi tábla visszaírása (csak a módosult sorok változtak)
+    # writing back the manual table (only the modified rows changed)
     b = io.StringIO(newline="")
     w = csv.DictWriter(b, fieldnames=OSZLOPOK, delimiter=";", lineterminator="\r\n", extrasaction="ignore")
     w.writeheader()

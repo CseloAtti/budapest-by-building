@@ -1,22 +1,22 @@
 """
-commons_wikidata.py - Fotók az épületekhez a Wikidata (P18 kép, P373 Commons-kategória) és az OSM
-`wikidata` / `wikimedia_commons` címkéi alapján. Az egész városra.
+commons_wikidata.py - Photos for the buildings based on Wikidata (P18 image, P373 Commons category) and the OSM
+`wikidata` / `wikimedia_commons` tags. For the whole city.
 
-Futtatás (a projekt mappájában; előtte: py varos_osszeallitas.py és py osszeepit.py varos, valamint a
-py commons_kepek.py varos, hogy legyen data/varos/commons_kepek.json):
+Run (in the project folder; first: py varos_osszeallitas.py and py osszeepit.py varos, as well as
+py commons_kepek.py varos, so that data/varos/commons_kepek.json exists):
     py commons_wikidata.py
 
-Mit csinál?
-  1. Az épületek OSM-címkéi: a `wikidata` címke (Q-azonosító) és a `wikimedia_commons` címke (File: vagy Category:).
-  2. A Wikidata-elemek lekérése: a címkézett elemek P18/P373 adata + egy SPARQL-lekérdezés Budapest összes olyan
-     elemére, amelynek van koordinátája és képe vagy Commons-kategóriája. Ezeket az épületek körvonalába illeszti.
-  3. A Commons-kategóriák tagjaiból a legjobb homlokzati fotót választja.
-  4. A képek licencét/szerzőjét lekérdezi (csak szabad licenc, legalább 600 px széles kép).
-  5. A találatokat összefésüli a data/varos/commons_kepek.json fájllal. A sorrend (jó -> gyengébb):
-       wd (Wikidata-kép) > cim (címes fájlnév) > nev (nevet tartalmazó fájlnév) > kat (Commons-kategória) > hely (helyadat)
-     Meglévő jobb találatot nem ír felül.
-Minden lépés gyorsítótárazott (data/cache/), megszakítás után folytatható. A napló a konzolon és a
-data/varos/commons_wikidata_jelentes.md fájlban van.
+What does it do?
+  1. The buildings' OSM tags: the `wikidata` tag (Q id) and the `wikimedia_commons` tag (File: or Category:).
+  2. Fetching the Wikidata items: the P18/P373 data of the tagged items + a SPARQL query for all items of Budapest
+     that have a coordinate and an image or a Commons category. These are fitted into the buildings' outlines.
+  3. From the members of the Commons categories it selects the best facade photo.
+  4. It queries the images' licence/author (only a free licence, an image at least 600 px wide).
+  5. It merges the results with the data/varos/commons_kepek.json file. The order (good -> weaker):
+       wd (Wikidata image) > cim (file name with address) > nev (file name containing the name) > kat (Commons category) > hely (location data)
+     It does not overwrite an existing better match.
+Every step is cached (data/cache/), and can be resumed after an interruption. The log is on the console and in the
+data/varos/commons_wikidata_jelentes.md file.
 """
 import json
 import math
@@ -38,10 +38,10 @@ SPARQL = "https://query.wikidata.org/sparql"
 UA = ck.UA
 SZUNET = 1.2
 RANG = {"wd": 5, "cim": 4, "nev": 3, "kat": 2, "hely": 1}
-VAROS_DOBOZ = (47.34, 18.92, 47.62, 19.35)          # dél, nyugat, észak, kelet (a városhatárnál kicsit nagyobb)
+VAROS_DOBOZ = (47.34, 18.92, 47.62, 19.35)          # south, west, north, east (slightly larger than the city boundary)
 
 
-# ---------- hálózat ----------
+# ---------- network ----------
 def kerj(url, params, fejlec=None, timeout=120):
     for kiserlet in range(8):
         try:
@@ -72,7 +72,7 @@ def cache_ki(nev, adat):
 
 
 def fajl_cim(nev):
-    """'Valami_fájl.jpg' vagy a Special:FilePath URL -> 'File:Valami fájl.jpg'."""
+    """'Some_file.jpg' or the Special:FilePath URL -> 'File:Some file.jpg'."""
     nev = urllib.parse.unquote(str(nev))
     nev = nev.rsplit("Special:FilePath/", 1)[-1]
     nev = re.sub(r"^(?:File|Fájl):", "", nev, flags=re.I)
@@ -81,7 +81,7 @@ def fajl_cim(nev):
 
 # ---------- 2. Wikidata ----------
 def entitasok(qidek):
-    """{Q: {"p18": [fájlcímek], "p373": kategória|None}} a címkézett elemekre (wbgetentities, 50/kérés)."""
+    """{Q: {"p18": [file titles], "p373": category|None}} for the tagged items (wbgetentities, 50 per request)."""
     ered = cache_be("wd_entitasok.json", {})
     kell = sorted(q for q in set(qidek) if re.fullmatch(r"Q\d+", q) and q not in ered)
     print(f"Wikidata-elemek lekérése: {len(kell)} új ({len(ered)} már megvan)", flush=True)
@@ -104,7 +104,7 @@ def entitasok(qidek):
 
 
 def sparql_elemek():
-    """Budapest összes Wikidata-eleme, amelynek van koordinátája és (P18 vagy P373): 3x3-as rácsban, időkorlát ellen."""
+    """All of Budapest's Wikidata items that have a coordinate and (P18 or P373): in a 3x3 grid, against the timeout."""
     ered = cache_be("wd_budapest.json", {"kesz": [], "elemek": {}})
     d, ny, e, k = VAROS_DOBOZ
     n = 3
@@ -147,9 +147,9 @@ def sparql_elemek():
     return ered["elemek"]
 
 
-# ---------- 3. kategóriák ----------
+# ---------- 3. categories ----------
 def kategoria_tagjai(kategoriak):
-    """{kategória: [fájlcímek]} (legfeljebb 100 fájl kategóriánként)."""
+    """{category: [file titles]} (at most 100 files per category)."""
     ered = cache_be("commons_kategoriak.json", {})
     kell = sorted(k for k in set(kategoriak) if k not in ered)
     print(f"Commons-kategóriák: {len(kell)} új ({len(ered)} már megvan)", flush=True)
@@ -170,7 +170,7 @@ def kategoria_tagjai(kategoriak):
 
 
 def cimpont(fajl):
-    """Fájlnév alapján pontszám a kategóriában: homlokzati kép előre, részletfotó hátra."""
+    """A score within the category by file name: facade image first, detail photo last."""
     t = ck.norm(re.sub(r"\.[A-Za-z0-9]{3,4}$", "", fajl.split(":", 1)[-1]))
     if any(ck.norm(x) in t for x in ck.TILTOTT):
         return None
@@ -185,7 +185,7 @@ def legjobb_fajlok(tagok, db=3):
     return [f for _, f in jel[:db]]
 
 
-# ---------- épületkeresés koordináta szerint ----------
+# ---------- finding buildings by coordinate ----------
 def racs_epitese(ep):
     racs = defaultdict(list)
     for kulcs, e in ep.items():
@@ -210,7 +210,7 @@ def hol_van(ep, racs, lat, lon):
     return legjobb
 
 
-# ---------- fő ----------
+# ---------- main ----------
 def main():
     ck.VAROS = True
     ep = ck.epuletek_beolvasasa()
@@ -218,10 +218,10 @@ def main():
     meglevo_ut = ADAT / "varos" / "commons_kepek.json"
     meglevo = json.loads(meglevo_ut.read_text(encoding="utf-8")) if meglevo_ut.exists() else {}
 
-    # 1. az OSM-címkék
+    # 1. the OSM tags
     csoport_qid = defaultdict(set)          # csoportkulcs -> {Q}
-    csoport_fajl = defaultdict(list)        # csoportkulcs -> [(mód, fájlcím)]
-    csoport_kat = defaultdict(list)         # csoportkulcs -> [(mód, kategória)]
+    csoport_fajl = defaultdict(list)        # group key -> [(mode, file title)]
+    csoport_kat = defaultdict(list)         # group key -> [(mode, category)]
     osm_wd = osm_commons = 0
     for e in ep.values():
         if e.get("wikidata"):
@@ -256,9 +256,9 @@ def main():
             if e.get("p373"):
                 csoport_kat[csoport].append(("kat", e["p373"]))
 
-    # 3. kategóriák
+    # 3. categories
     tagok = kategoria_tagjai([k for lista in csoport_kat.values() for _, k in lista])
-    jeloltek = defaultdict(list)            # csoport -> [(mód, fájlcím)] sorrendben
+    jeloltek = defaultdict(list)            # group -> [(mode, file title)] in order
     for csoport in set(csoport_fajl) | set(csoport_kat):
         lista = list(csoport_fajl.get(csoport, []))
         for mod, kat in csoport_kat.get(csoport, []):
@@ -267,10 +267,10 @@ def main():
         lista = [x for i, x in enumerate(lista) if x not in lista[:i]]
         jeloltek[csoport] = lista[:6]
 
-    # 4. képadatok
+    # 4. image data
     ii = ck.imageinfo([f for lista in jeloltek.values() for _, f in lista])
 
-    # 5. összefésülés
+    # 5. merging
     uj = dict(meglevo)
     stat = defaultdict(int)
     for csoport, lista in jeloltek.items():
@@ -289,7 +289,7 @@ def main():
             reszlet = 1 if ck.RESZLET.search(ck.norm(re.sub(r"\.[A-Za-z0-9]{3,4}$", "", cim.split(":", 1)[-1]))) else 0
             regi = uj.get(csoport)
             if regi:
-                # jobb módú találat győz; azonos módnál a nem részletfotó
+                # a better-mode match wins; with the same mode, the non-detail photo
                 if RANG.get(regi.get("m"), 0) > RANG[mod] or (RANG.get(regi.get("m"), 0) == RANG[mod] and (regi.get("r", 0) <= reszlet)):
                     break
             uj[csoport] = {"f": cim.split(":", 1)[-1].replace(" ", "_"),

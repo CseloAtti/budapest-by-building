@@ -1,22 +1,22 @@
 """
-zonak_epuletbol.py - a zonak_osm_jeloltek.py által nem talált LAKÓTELEPEKHEZ jelölt határt számol az épületekből.
+zonak_epuletbol.py - computes a candidate boundary from the buildings for the HOUSING ESTATES not found by zonak_osm_jeloltek.py.
 
-Futtatás (a projekt mappájában, a zonak_osm_jeloltek.py után):
+Run (in the project folder, after zonak_osm_jeloltek.py):
     py zonak_epuletbol.py
 
-Módszer (minden hiányzó lakótelepre):
-  1. A telep nevéből utcanevet képez ("Gyakorló utcai lakótelep" -> Gyakorló...), és megkeresi azokat a 4+ szintes
-     (vagy 'apartments' típusú) épületeket, amelyek címe ilyen utcán van, a zóna kerületében. Ezek a magok.
-  2. A magokból összefüggő nagyépület-foltot növeszt (70 m-en belüli szomszédok), a lakásszámból becsült sugáron belül.
-  3. A folt köré konvex burkot húz (+12 m), ez a jelölt határ.
-Ahol a telep neve nem utcanév (pl. Békásmegyeri, Újhegyi, Havanna), ott nincs mag: azokat kézzel kell megrajzolni
-(vagy az OSM-es keresés találta meg).
+Method (for every missing housing estate):
+  1. From the estate's name it forms a street name ("Gyakorló utcai lakótelep" -> Gyakorló...), and finds the buildings of 4+ storeys
+     (or of 'apartments' type) whose address is on such a street, in the zone's district. These are the seeds.
+  2. From the seeds it grows a connected patch of large buildings (neighbours within 70 m), within a radius estimated from the number of dwellings.
+  3. Around the patch it draws a convex hull (+12 m); this is the candidate boundary.
+Where the estate's name is not a street name (e.g. Békásmegyeri, Újhegyi, Havanna), there is no seed: those must be drawn by hand
+(or the OSM search found them).
 
-Kimenet:
-    data/zonak_jeloltek_epuletbol.geojson   a számolt burkok (egyezes = 'epuletbol')
-    data/zonak_jeloltek_epuletbol.csv       zónánként: magok, folt épületszáma, terület (ha), megjegyzés
-    data/zonak_hianyzo_vegso.csv            ami még így sincs meg
-A burok durva jelölt: túlnyúlhat szomszédos nagyépületekre. A zónarajzolóban javítsd.
+Output:
+    data/zonak_jeloltek_epuletbol.geojson   the computed hulls (match = 'epuletbol')
+    data/zonak_jeloltek_epuletbol.csv       per zone: seeds, the patch's building count, area (ha), remark
+    data/zonak_hianyzo_vegso.csv            what is still missing even so
+The hull is a rough candidate: it may extend to neighbouring large buildings. Fix it in the zone drawer.
 """
 import csv
 import json
@@ -83,7 +83,7 @@ def terulet(gyuru):
 
 
 def utcanev_toredekek(nev):
-    """'Bécsi–Bojtár utcai lakótelep' -> ['becsi', 'bojtar']; a 'lakótelep', 'utcai', 'úti', 'téri' szavakat elhagyja."""
+    """'Bécsi–Bojtár utcai lakótelep' -> ['becsi', 'bojtar']; it drops the words 'lakótelep' (housing estate), 'utcai', 'úti', 'téri'."""
     nev = re.sub(r"\(.*?\)", " ", nev)
     nev = re.sub(r"\b\d+\.?\s*(ütem|ph)\b.*", " ", nev, flags=re.I)
     nev = re.sub(r"(lakótelep|rekonstrukciós|kibővített|városközpont)", " ", nev, flags=re.I)
@@ -175,7 +175,7 @@ def main():
         kx, ky = xs[len(xs) // 2], ys[len(ys) // 2]
         db = lakasszam(z["megjegyzes"])
         sugar = 150 + 9 * math.sqrt(db) if db else 400.0
-        # a magok közül csak a medián közeliek (egy hosszú utca távoli végét ne vegyük)
+        # of the seeds only those near the median (the far end of a long street should not be taken)
         magok = [i for i in magok if math.hypot(nagyok[i]["x"] - kx, nagyok[i]["y"] - ky) <= sugar * 1.2]
         if not magok:
             maradt.append([zid, h["nev"], h["kerulet"], "a magok szétszórtak"])

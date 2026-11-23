@@ -1,20 +1,20 @@
 """
-budapest_pbf.py - Budapest épületállománya egyetlen OSM-kivonatból (Overpass nélkül).
+budapest_pbf.py - Budapest's building stock from a single OSM extract (without Overpass).
 
-Futtatás (a projekt mappájában):   py budapest_pbf.py
-  vagy már letöltött fájllal:        py budapest_pbf.py utvonal\\fajl.osm.pbf
+Run (in the project folder):   py budapest_pbf.py
+  or with an already downloaded file:        py budapest_pbf.py path\\file.osm.pbf
 
-Mit csinál?
-  1. Letölti a Budapest-kivonatot (BBBike, kb. 100-200 MB), és ha az nem fedi le a várost, a Geofabrik
-     magyarországi kivonatát (kb. 350 MB). A letöltés megszakítás után újra elindul.
-  2. Kiolvassa belőle az épületeket, épületrészeket és címpontokat (saját PBF-olvasó, csak a Python alap könyvtára kell).
-  2b. Kiolvassa a 23 kerület határát is (data/kerulethatarok.json), a címek kerületenkénti párosításához.
-  3. A városhatáron (data/budapest_hatar.json) belüli elemeket ugyanabban a formátumban menti, mint az Overpass-letöltő:
-     data/budapest_nyers/pbf_<i>_<j>.json.gz   (elemenként egyszer, cellahatár-duplikátum nélkül)
+What does it do?
+  1. Downloads the Budapest extract (BBBike, about 100-200 MB), and if that does not cover the city, Geofabrik's
+     Hungary extract (about 350 MB). The download resumes after an interruption.
+  2. Reads the buildings, building parts and address points from it (own PBF reader, only the Python standard library is needed).
+  2b. Also reads the boundaries of the 23 districts (data/kerulethatarok.json), for pairing addresses per district.
+  3. Saves the elements within the city boundary (data/budapest_hatar.json) in the same format as the Overpass downloader:
+     data/budapest_nyers/pbf_<i>_<j>.json.gz   (each element once, with no cell-boundary duplicates)
 
-A városhatárt a budapest_letoltes.py már letöltötte (data/budapest_hatar.json). Ha az Overpass-letöltő közben is fut,
-nem baj: a feldolgozó a type+id alapján úgyis kiszűri a duplikátumokat.
-A napló: data/budapest_pbf_naplo.txt. Futási idő: kb. 10-30 perc, memória: 1-2 GB.
+The city boundary has already been downloaded by budapest_letoltes.py (data/budapest_hatar.json). If the Overpass downloader is also
+running meanwhile, no problem: the processor filters out duplicates by type+id anyway.
+The log: data/budapest_pbf_naplo.txt. Running time: about 10-30 minutes, memory: 1-2 GB.
 """
 import gzip
 import json
@@ -34,10 +34,10 @@ NAPLO = ADAT / "budapest_pbf_naplo.txt"
 UA = {"User-Agent": "budapest-by-building/0.1 (https://github.com/CseloAtti/budapest-by-building; oktatasi projekt)"}
 FORRASOK = [("BBBike Budapest", "https://download.bbbike.org/osm/bbbike/Budapest/Budapest.osm.pbf", "bbbike_budapest.osm.pbf"),
             ("Geofabrik Magyarország", "https://download.geofabrik.de/europe/hungary-latest.osm.pbf", "geofabrik_hungary.osm.pbf")]
-MARGO = 0.02            # fok; a városhatár körüli sáv, amelynek csomópontjait megtartjuk
+MARGO = 0.02            # degrees; the strip around the city boundary whose nodes we keep
 CELLA_LAT = 0.01
 CELLA_LON = 0.015
-EGYSEG = 1e7            # a csomópontokat 1e-7 fokban tároljuk
+EGYSEG = 1e7            # nodes are stored in units of 1e-7 degrees
 
 
 def naplo(uzenet):
@@ -71,7 +71,7 @@ def varint(b, p):
 
 
 def mezok(b):
-    """(mezoszam, tipus, ertek) hármasok egy üzenetből. tipus 0: szám, 2: bájtok, 1/5: nyers bájtok."""
+    """(field_number, type, value) triples from a message. type 0: number, 2: bytes, 1/5: raw bytes."""
     p = 0
     n = len(b)
     while p < n:
@@ -118,7 +118,7 @@ def delta(lista):
 
 
 def blokkok(ut):
-    """A PBF-fájl blokkjai: (tipus, kitömörített adat)."""
+    """The blocks of the PBF file: (type, decompressed data)."""
     with open(ut, "rb") as f:
         while True:
             h = f.read(4)
@@ -144,7 +144,7 @@ def blokkok(ut):
 
 
 def blokk_olvasas(adat):
-    """Egy PrimitiveBlock: (stringek, granularitás, lat_eltolás, lon_eltolás, csoportok)."""
+    """One PrimitiveBlock: (strings, granularity, lat_offset, lon_offset, groups)."""
     szotar = []
     gran = 100
     lat0 = lon0 = 0
@@ -168,7 +168,7 @@ def cimkek(szotar, kulcsok, ertekek):
 
 
 def fejlec_bbox(ut):
-    """A fájl fejlécében megadott befoglaló téglalap: (dél, nyugat, észak, kelet) fokban, vagy None."""
+    """The bounding rectangle given in the file header: (south, west, north, east) in degrees, or None."""
     for tipus, adat in blokkok(ut):
         if tipus == "OSMHeader":
             for sz, t, v in mezok(adat):
@@ -181,7 +181,7 @@ def fejlec_bbox(ut):
         return None
 
 
-# ---------- 1. menet: az épület-kapcsolatok ----------
+# ---------- pass 1: the building relations ----------
 def epulet_e(cimke):
     return (("building" in cimke and cimke["building"] != "roof") or
             ("building:part" in cimke and cimke["building:part"] != "roof"))
@@ -199,7 +199,7 @@ def romai_szam(s):
 
 
 def kerulet_szama(c):
-    """A budapesti kerület száma egy admin_level=9 kapcsolat címkéiből ('XIII. kerület' -> 13), vagy None."""
+    """The number of a Budapest district from the tags of an admin_level=9 relation ('XIII. kerület' -> 13), or None."""
     if c.get("boundary") != "administrative" or c.get("admin_level") != "9":
         return None
     m = re.search(r"\b([IVXL]+)\.?\s*ker", c.get("name", ""))
@@ -210,7 +210,7 @@ def kerulet_szama(c):
 
 
 def vizzold_fajta(c):
-    """'viz' a Duna és a tavak, 'park' a parkok és gyepek (ugyanazok a szabályok, mint a viz_letoltes.py-ban)."""
+    """'viz' is the Danube and the lakes, 'park' is parks and lawns (the same rules as in viz_letoltes.py)."""
     if c.get("natural") == "water" or c.get("waterway") == "riverbank":
         return "viz"
     if c.get("leisure") in ("park", "garden") or c.get("landuse") in ("grass", "recreation_ground"):
@@ -221,8 +221,8 @@ def vizzold_fajta(c):
 def menet_kapcsolatok(ut):
     kapcsolatok = {}
     tagok = set()
-    vizrel = {}             # azon -> (fajta, [(vonal azon, szerep)])
-    keruletek = {}          # kerületszám -> [(vonal azon, szerep)]
+    vizrel = {}             # id -> (kind, [(way id, role)])
+    keruletek = {}          # district number -> [(way id, role)]
     for tipus, adat in blokkok(ut):
         if tipus != "OSMData":
             continue
@@ -269,9 +269,9 @@ def menet_kapcsolatok(ut):
     return kapcsolatok, tagok, keruletek, vizrel
 
 
-# ---------- 2. menet: a csomópontok ----------
+# ---------- pass 2: the nodes ----------
 def menet_csomopontok(ut, doboz):
-    """doboz = (dél, nyugat, észak, kelet) fokban. Visszaadja: {azon: lat*2^32+lon (1e-7 fokban, eltolva)}, címpontok."""
+    """box = (south, west, north, east) in degrees. Returns: {id: lat*2^32+lon (in 1e-7 degrees, offset)}, address points."""
     d, ny, e, k = (int(round(x * EGYSEG)) for x in doboz)
     pontok = {}
     cimpontok = []
@@ -282,7 +282,7 @@ def menet_csomopontok(ut, doboz):
         szotar, gran, lat0, lon0, csoportok = blokk_olvasas(adat)
         for cs in csoportok:
             for sz, t, v in mezok(cs):
-                if sz == 2:                       # sűrű csomópontok
+                if sz == 2:                       # dense nodes
                     azonok = lat = lon = kv = None
                     for s2, t2, x in mezok(v):
                         if s2 == 1:
@@ -296,7 +296,7 @@ def menet_csomopontok(ut, doboz):
                     if azonok is None:
                         continue
                     db += len(azonok)
-                    # a címkék: kulcs, érték, ..., 0 minden csomóponthoz
+                    # the tags: key, value, ..., 0 for every node
                     cimke_poz = {}
                     if kv:
                         i = 0
@@ -313,7 +313,7 @@ def menet_csomopontok(ut, doboz):
                                 cimke_poz[sorsz] = kv[i:j]
                                 i = j
                     for idx, (a, la, lo) in enumerate(zip(azonok, lat, lon)):
-                        la_e = (lat0 + gran * la) // 100          # 1e-9 -> 1e-7 fok
+                        la_e = (lat0 + gran * la) // 100          # 1e-9 -> 1e-7 degrees
                         lo_e = (lon0 + gran * lo) // 100
                         if la_e < d or la_e > e or lo_e < ny or lo_e > k:
                             continue
@@ -323,7 +323,7 @@ def menet_csomopontok(ut, doboz):
                             c = {szotar[kp[q]]: szotar[kp[q + 1]] for q in range(0, len(kp), 2)}
                             if "addr:housenumber" in c and "addr:street" in c:
                                 cimpontok.append({"type": "node", "id": a, "lat": la_e / EGYSEG, "lon": lo_e / EGYSEG, "tags": c})
-                elif sz == 1:                     # ritka: nem sűrű csomópont
+                elif sz == 1:                     # sparse: a non-dense node
                     azon = la = lo = 0
                     kulcsok = ertekek = []
                     for s2, t2, x in mezok(v):
@@ -353,10 +353,10 @@ def pont(kod):
     return {"lat": (kod >> 32) / EGYSEG, "lon": (kod & 0xFFFFFFFF) / EGYSEG}
 
 
-# ---------- 3. menet: a vonalak ----------
+# ---------- pass 3: the ways ----------
 def menet_vonalak(ut, pontok, tagok):
-    vonalak = {}      # azon -> (cimke, [pontkodok])
-    vizvonalak = {}   # azon -> fajta (a saját címkéjű víz/park vonalak)
+    vonalak = {}      # id -> (tag, [point codes])
+    vizvonalak = {}   # id -> kind (the water/park ways with their own tags)
     for tipus, adat in blokkok(ut):
         if tipus != "OSMData":
             continue
@@ -386,7 +386,7 @@ def menet_vonalak(ut, pontok, tagok):
                 if None in kodok:
                     if epulet:
                         continue
-                    # víz/park/határ: a kivonat szélén elvágott vonalból a leghosszabb ép szakaszt tartjuk meg
+                    # water/park/boundary: from a way cut off at the extract's edge we keep the longest intact section
                     legjobb, akt = [], []
                     for q in kodok + [None]:
                         if q is None:
@@ -437,7 +437,7 @@ def tav_m(a, b):
 
 
 def kifele(lanc, vegen, hossz_m=4000.0):
-    """A lánc végén (vegen=True) vagy elején túli pont: a végső szakasz irányában, hossz_m méterre."""
+    """The point beyond the end (vegen=True) or the start of the chain: in the direction of the final segment, hossz_m metres away."""
     if vegen:
         a, b = lanc[-2], lanc[-1]
     else:
@@ -453,10 +453,10 @@ def szelen_van(p, doboz, sav=0.02):
 
 
 def lancok_zarasa(lancok, max_m=2500.0, doboz=None):
-    """A kivonat szélén elvágott láncok (pl. a Duna két partja) összekötése: a legközelebbi végpontok egymáshoz,
-    ha max_m méternél közelebb vannak; egy magában álló lánc az önmagához záródik, ha a vége is közel van.
-    Ha az összekötés a kivonat szélén van, a víz a vonal irányában kinyúlik a kivonaton túlra is (a folyó folytatódik),
-    így a 3D terep szélén sem szakad meg."""
+    """Joining chains cut off at the extract's edge (e.g. the Danube's two banks): the nearest end points to each other,
+    if they are closer than max_m metres; a lone chain closes on itself if its end is also close.
+    If the join is at the extract's edge, the water extends along the line's direction beyond the extract too (the river continues),
+    so it does not break off at the edge of the 3D terrain either."""
     lancok = [list(l) for l in lancok if len(l) >= 2]
     gyuruk = []
     lim = max_m ** 2
@@ -487,7 +487,7 @@ def lancok_zarasa(lancok, max_m=2500.0, doboz=None):
 
 
 def vizzold_iras(vonalak, vizvonalak, vizrel, doboz=None):
-    """Víz és parkok sokszögei -> data/varos/viz_zold.json (mint a viz_letoltes.py kimenete, de az egész városra)."""
+    """Polygons of water and parks -> data/varos/viz_zold.json (like the output of viz_letoltes.py, but for the whole city)."""
     lista = []
     stat = {"viz": 0, "park": 0, "nem_zarhato": 0}
 
@@ -517,7 +517,7 @@ def vizzold_iras(vonalak, vizvonalak, vizrel, doboz=None):
             stat[f] += 1
     (ADAT / "varos").mkdir(parents=True, exist_ok=True)
     (ADAT / "varos" / "viz_zold.json").write_text(json.dumps(lista), encoding="utf-8")
-    # diagnosztika: a vizek határolódoboza (a Duna és ágai a kivonat szélén érnek-e véget)
+    # diagnostics: the bounding box of the waters (whether the Danube and its branches end at the extract's edge)
     sor = []
     for q in lista:
         if q["fajta"] != "viz":
@@ -535,7 +535,7 @@ def pont_gyuruben_lonlat(p, gyuru):
     return pont_gyuruben(p[0], p[1], [tuple(q) for q in gyuru])
 
 
-# ---------- városhatár ----------
+# ---------- city boundary ----------
 def pont_gyuruben(x, y, gyuru):
     bent = False
     for (x1, y1), (x2, y2) in zip(gyuru, gyuru[1:] + gyuru[:1]):
@@ -545,8 +545,8 @@ def pont_gyuruben(x, y, gyuru):
 
 
 class Hatar:
-    """Gyors „a városban van-e” vizsgálat: a határtól távoli rácscellákra előre kiszámolt válasz, a határmenti
-    cellákra pontos sokszögvizsgálat."""
+    """A fast "is it in the city" test: a precomputed answer for the grid cells far from the boundary, an exact
+    polygon test for the cells along the boundary."""
     R = 0.002
 
     def __init__(self, hatar):
@@ -577,7 +577,7 @@ class Hatar:
         return self.bent_cache[c]
 
 
-# ---------- letöltés ----------
+# ---------- download ----------
 def letoltes(nev, url, ut):
     PBF_MAPPA.mkdir(parents=True, exist_ok=True)
     kesz = ut.with_suffix(ut.suffix + ".kesz")
@@ -607,7 +607,7 @@ def letoltes(nev, url, ut):
             naplo(f"   kész: {ut.stat().st_size / 1e6:.0f} MB")
             return
         except Exception as h:
-            if getattr(h, "code", None) == 416 and tmp.exists():     # már teljes
+            if getattr(h, "code", None) == 416 and tmp.exists():     # already complete
                 tmp.replace(ut)
                 kesz.write_text("ok")
                 return
@@ -617,7 +617,7 @@ def letoltes(nev, url, ut):
 
 
 def forras_kivalasztasa(doboz):
-    """Az első olyan kivonat, amelynek a fejléce lefedi a várost."""
+    """The first extract whose header covers the city."""
     d, ny, e, k = doboz
     for nev, url, fajl in FORRASOK:
         ut = PBF_MAPPA / fajl
@@ -634,7 +634,7 @@ def forras_kivalasztasa(doboz):
     raise RuntimeError("Egyik forrás sem használható")
 
 
-# ---------- fő ----------
+# ---------- main ----------
 def main():
     ne_aludjon()
     naplo("=== Budapest épületei OSM-kivonatból ===")
@@ -646,8 +646,8 @@ def main():
     doboz = (d - MARGO, ny - MARGO, e + MARGO, k + MARGO)
 
     ut = Path(sys.argv[1]) if len(sys.argv) > 1 else forras_kivalasztasa(doboz)
-    # a csomópontokat a kivonat teljes területéről megtartjuk (legfeljebb a város körüli 0,15 fokig): így a Duna és
-    # más hosszú vizek nem vágódnak le a városhatár körüli sávban
+    # we keep the nodes from the whole area of the extract (at most up to 0.15 degrees around the city): so the Danube and
+    # other long waters are not cut off in the strip around the city boundary
     fb = fejlec_bbox(ut)
     if fb:
         doboz = (max(fb[0], d - 0.15), max(fb[1], ny - 0.15), min(fb[2], e + 0.15), min(fb[3], k + 0.15))
@@ -693,7 +693,7 @@ def main():
             elemek.append({"type": "relation", "id": azon, "tags": c, "members": tagsag})
     elemek += cimpontok
 
-    # szűrés a városhatárra és cellákba rendezés (az első pont szerint)
+    # filtering to the city boundary and sorting into cells (by the first point)
     cellak = {}
     bent = 0
     for el in elemek:

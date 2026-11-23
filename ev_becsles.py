@@ -1,42 +1,42 @@
 """
-ev_becsles.py - a szürke (ismeretlen építési évű) épületek korszakának BECSLÉSE.
+ev_becsles.py - ESTIMATING the era of the grey buildings (those of unknown construction year).
 
-Futtatás (a projekt mappájában):   py ev_becsles.py
+Run (in the project folder):   py ev_becsles.py
 
-Csak a Python alap könyvtárát használja (nincs pip install).
+Uses only the Python standard library (no pip install).
 
-Mit csinál?
-  1. Beolvassa a data/belvaros_epuletek_vegleges.geojson-t. Ahol van ismert év (ev), az
-     "címkézett" épület; ahol nincs, azt becsüljük.
-  2. Minden szürke épületre kiszámol egy valószínűség-eloszlást a 7 korszak fölött, négy
-     bizonyítékból:
-        szomszédok   - a közeli, ismert korú épületek (a közvetlenül összeépültek erősebben)
-        utca         - az ugyanazon utcán lévő, ismert korú épületek
-        alak         - szintszám, alapterület, épülettípus (naiv Bayes)
-        zóna         - forras/varosfejlodes.json (a forrásolt zóna teljes, az ellenőrizendő 0,4 súllyal)
-  3. A bizonyítékok súlyait az ismert épületeken méri ki: minden ismert épületet egyenként
-     "elrejt", és megnézi, eltalálná-e. A mérésről jelentés készül.
-  4. A becslés KÜLÖN fájlba kerül (data/ev_becsles.csv), az 'ev' mezőt soha nem írja át.
+What does it do?
+  1. Reads data/belvaros_epuletek_vegleges.geojson. A building with a known year (ev) is a
+     "labelled" building; the ones without one are estimated.
+  2. For every grey building it computes a probability distribution over the 7 eras, from four
+     pieces of evidence:
+        neighbours   - nearby buildings of known age (directly attached ones count more)
+        street       - buildings of known age on the same street
+        shape        - number of storeys, footprint, building type (naive Bayes)
+        zone         - forras/varosfejlodes.json (a sourced zone counts fully, one to be checked with weight 0.4)
+  3. The weights of the evidence are measured on the known buildings: each known building is "hidden"
+     in turn, and the program checks whether it would be guessed right. A report is written about the measurement.
+  4. The estimate goes into a SEPARATE file (data/ev_becsles.csv); the 'ev' field is never overwritten.
 
-Az egész városra:   py ev_becsles.py varos
-  Bemenet: data/varos/epuletek_vegleges.geojson, data/varos/osm_cimek.csv, forras/varosfejlodes.json,
-           forras/varosfejlodes_kerulet.json (kerületi zónák, utcalistával), data/varos/ertekleltar_kozelito.csv
-  Kimenet: data/varos/ev_becsles.csv, ev_becsles_jelentes.md, ev_becsles_munkalista.csv
-  Városi módban az utca és a zóna a (kerület, utcanév) párra vonatkozik, a szomszédok sugara nagyobb (400 m),
-  és az értékleltárak "az 1930-as évek" jellegű adatai (ha egyetlen korszakba esnek) is címkének számítanak (minden data/varos/*_kozelito.csv) -
-  ezek az épületek a becslés-fájlban "magas" bizonyossággal, az értékleltár megjelölésével szerepelnek.
+For the whole city:   py ev_becsles.py varos
+  Input:   data/varos/epuletek_vegleges.geojson, data/varos/osm_cimek.csv, forras/varosfejlodes.json,
+           forras/varosfejlodes_kerulet.json (district zones, with street lists), data/varos/ertekleltar_kozelito.csv
+  Output:  data/varos/ev_becsles.csv, ev_becsles_jelentes.md, ev_becsles_munkalista.csv
+  In city mode the street and the zone refer to the (district, street name) pair, the neighbour radius is larger (400 m),
+  and the "1930s"-type data of the heritage inventories (if they fall into a single era) also count as labels (all data/varos/*_kozelito.csv) -
+  these buildings appear in the estimate file with "high" certainty, marked with the heritage inventory as source.
 
-Városi módban (v2) a szürke épületek előzetes eloszlása épülettípus x a városmagtól mért távolság (gyűrű) szerint
-  jön a forras/becsles_gyuru.json-ból, és a szomszéd/utca-bizonyíték súlya gyűrűnként csökkenthető (külső gyűrűben 0:
-  az ismert évű épület nem hat a szomszédaira). 
-  A forras/zonak_poligon.geojson (a zonak.html rajzolóból) poligon-zónái a legerősebb bizonyíték:
-  a bennük lévő szürke épületek a megadott évekre kapnak súlyt. A "mérőpróba" zónákat a becslő nem használja,
-  csak megméri rajtuk magát (a jelentésben).
+In city mode (v2) the prior distribution of the grey buildings comes from building type x distance from the city core (ring)
+  in forras/becsles_gyuru.json, and the weight of the neighbour/street evidence can be reduced per ring (0 in the outer ring:
+  a building of known year does not affect its neighbours).
+  The polygon zones of forras/zonak_poligon.geojson (from the zonak.html drawing tool) are the strongest evidence:
+  the grey buildings in them get weight for the given years. The "test" zones are not used by the estimator,
+  it only measures itself on them (in the report).
 
-Kimenetek:
-  data/ev_becsles.csv            - a becslés épületenként
-  data/ev_becsles_jelentes.md    - mérési jelentés (pontosság, kalibráció, ablációk)
-  data/ev_becsles_munkalista.csv - mely szürke épületeket érdemes kézzel utánanézni
+Outputs:
+  data/ev_becsles.csv            - the estimate per building
+  data/ev_becsles_jelentes.md    - measurement report (accuracy, calibration, ablations)
+  data/ev_becsles_munkalista.csv - which grey buildings are worth checking by hand
 """
 import csv
 import json
@@ -53,7 +53,7 @@ _ARGOK = [a for a in sys.argv[1:] if a != "varos"]
 GYOKER = Path(_ARGOK[0]) if _ARGOK else Path(__file__).resolve().parent
 ADAT = GYOKER / "data" / "varos" if VAROS else GYOKER / "data"
 
-# Azonos az index.html KORSZAKOK tömbjével (ha ott változik, itt is át kell írni).
+# Identical to the KORSZAKOK array of index.html (if it changes there, change it here too).
 KORSZAKOK = [
     (1, 1866, "1867 előtt"),
     (1867, 1918, "1867–1918"),
@@ -65,40 +65,40 @@ KORSZAKOK = [
 ]
 K = len(KORSZAKOK)
 
-SZOMSZED_SUGAR = 400.0 if VAROS else 150.0     # m: eddig számít egy ismert épület szomszédnak
-SZOMSZED_LECSENGES = 80.0 if VAROS else 40.0   # m: a súly exp(-d/lecsengés)
-MAX_SZOMSZED = 40          # városi módban: legfeljebb ennyi (legközelebbi) ismert szomszédot tartunk meg
-ERINTKEZES_M = 1.0         # m: ha két épületnek van 1 m-en belüli csúcsa, összeépültnek vesszük
+SZOMSZED_SUGAR = 400.0 if VAROS else 150.0     # m: up to this distance a known building counts as a neighbour
+SZOMSZED_LECSENGES = 80.0 if VAROS else 40.0   # m: the weight is exp(-d/decay)
+MAX_SZOMSZED = 40          # in city mode: keep at most this many (nearest) known neighbours
+ERINTKEZES_M = 1.0         # m: if two buildings have a vertex within 1 m, they are considered attached
 ERINTKEZES_SZORZO = 3.0
-BLOKK_M = 300.0            # m: a "blokk-kizárásos" próba rácsmérete
+BLOKK_M = 300.0            # m: grid size of the "block-exclusion" test
 
 
-ZONA_TOL_HATAR = True      # a rajzolt zóna "építés ettől" éve KEMÉNY alsó határ a szürke épületeknél (a tudott évű épületet nem érinti);
-                           # az "építés eddig" csak akkor határ, ha a zónán az 'ig_hatar' kapcsoló be van kapcsolva
-PZ_SULY = 1.5                                  # a poligon-zóna rögzített súlya (nem hangolt: a címkék torzak)
+ZONA_TOL_HATAR = True      # the drawn zone's "built from" year is a HARD lower bound for grey buildings (it does not affect a building of known year);
+                           # "built until" is a bound only if the 'ig_hatar' switch is on for the zone
+PZ_SULY = 1.5                                  # fixed weight of a polygon zone (not tuned: the labels are distorted)
 PZ_ALLAPOT_SULY = {"helyismeret": 1.0, "forrasolt": 1.0, "ellenorizendo": 0.4}
 PZ_LISTA = []
 GYURU_NEVEK = ["belváros (0–2 km)", "belső gyűrű (2–3 km)", "középső gyűrű (3–6 km)", "külső gyűrű (6+ km)"]
-KSH_ILLESZTES = True       # városi mód: a kerületi KSH-arányokhoz igazítja a becslés végeredményét (data/KSH/budapest_ksh_keruleti_eloszlas.csv)
-ZARVANY_SULY = 0.1         # a "zárvány" épületek (templom, kápolna, zsinagóga, kolostor, rom stb.) szomszédsági és utca-hatásának szorzója:
-                           # egy öreg templom az újabb környezetében nem teszi idősebbé a körülötte lévő házakat (0 = nincs hatása, 1 = mint bármelyik ház)
-ELSO_KORSZAK_MIN_P = 0.10  # a KSH-kvóta csak akkor oszthatja az "1867 előtt" korszakot egy szürke épületre, ha az A-modell (szomszéd, utca, zóna, alak)
-                           # önmagában legalább ennyi valószínűséget ad neki; bizonyíték nélkül a kvóta nem "szór" 1867 előtti épületeket (0 = kikapcsolva)
-ELSO_KORSZAK_KERULET_MAX = 0.10   # ...de csak azokban a kerületekben, ahol a KSH szerint az 1867 előtti épületek aránya ennél kisebb (a Várnegyedben/Vízivárosban, ahol sok a régi ház, nincs korlát)
-HELYI_KVOTA = True         # a KSH-kvótát kerületen belül HELYI_CELLA_M-es foltonként osztja ki (a régi házak ott maradnak, ahol a modell várja őket)
+KSH_ILLESZTES = True       # city mode: adjusts the final estimate to the district KSH proportions (data/KSH/budapest_ksh_keruleti_eloszlas.csv)
+ZARVANY_SULY = 0.1         # multiplier of the neighbourhood and street effect of "enclave" buildings (church, chapel, synagogue, monastery, ruin etc.):
+                           # an old church does not make the houses around it older in its newer surroundings (0 = no effect, 1 = like any house)
+ELSO_KORSZAK_MIN_P = 0.10  # the KSH quota may assign the "before 1867" era to a grey building only if the A model (neighbour, street, zone, shape)
+                           # on its own gives it at least this probability; without evidence the quota does not "scatter" pre-1867 buildings (0 = off)
+ELSO_KORSZAK_KERULET_MAX = 0.10   # ...but only in districts where, according to KSH, the proportion of pre-1867 buildings is smaller than this (in the Castle District/Víziváros, where there are many old houses, there is no limit)
+HELYI_KVOTA = True         # the KSH quota is distributed within a district in patches of HELYI_CELLA_M (old houses stay where the model expects them)
 HELYI_CELLA_M = 500.0
-HELYI_CSAK_KULSO = True    # a helyi kvóta csak a külső gyűrűben (6 km+, a rajzolt zónákkal együtt); a belső gyűrűkben a kerületi kiosztás marad
-ZAJ_SULY = 6.0             # a sorrend véletlen (de determinisztikus) része: nagyobb = szórtabb régi házak
-KULSO_REGI_SZORZO = 0.25    # külső gyűrű: a modell szerint várható régi (1945 előtti) házak ekkora része marad meg (lebontások)
-KSH_TURES = 0.5           # százalékpont: ennyivel nőhet a kerület KSH-eltérése a lebontási szorzó miatt
-REGI_KORSZAKOK = (1, 2)    # a "régi" korszakok indexei (1867–1918, 1919–1944)
-FOUT_SULY = 1.0            # külső gyűrű, helyi kvótán belül: a főúttól 300 m-rel messzebbi ház a sorrendben kb. egy korszakkal "fiatalabb" (szabály, nem mért)
-SORREND_KAPPA = 2.0        # a sorrend erőssége a kvóta kiosztásában (0 = nincs sorrend; nagyobb = a sorrend jobban felülírja a gyenge bizonyítékot)
+HELYI_CSAK_KULSO = True    # the local quota only in the outer ring (6 km+, together with the drawn zones); in the inner rings the district-level distribution stays
+ZAJ_SULY = 6.0             # the random (but deterministic) part of the ordering: larger = more scattered old houses
+KULSO_REGI_SZORZO = 0.25    # outer ring: this share of the old (pre-1945) houses expected by the model remains (demolitions)
+KSH_TURES = 0.5           # percentage points: by this much the district's KSH deviation may grow because of the demolition multiplier
+REGI_KORSZAKOK = (1, 2)    # indices of the "old" eras (1867-1918, 1919-1944)
+FOUT_SULY = 1.0            # outer ring, within the local quota: a house more than 300 m from the main road ranks about one era "younger" (a rule, not measured)
+SORREND_KAPPA = 2.0        # strength of the ordering in distributing the quota (0 = no ordering; larger = the ordering overrides weak evidence more)
 GYURU_KM = [2.0, 3.0, 6.0]
 SZOMSZED_SULY = [1.0, 1.0, 0.5, 0.0, 1.0, 0.5]
-ALAK_SULY = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]      # az alak-bizonyíték (F) szorzója gyűrűnként; az F is az ismert évű épületekből tanul
+ALAK_SULY = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]      # multiplier of the shape evidence (F) per ring; F also learns from buildings of known year
 GLOBAL_KEVERES = 0.1
-GH = {"min_m2": 300.0, "suly": 0.7, "eps": 0.05, "max": 5.0, "utolso": 0.03}   # GHSL-bizonyíték (forras/becsles_gyuru.json: "ghsl")
+GH = {"min_m2": 300.0, "suly": 0.7, "eps": 0.05, "max": 5.0, "utolso": 0.03}   # GHSL evidence (forras/becsles_gyuru.json: "ghsl")
 GHSL_STAT = Counter()
 KOZPONT = (47.4979, 19.0540)
 PRIOR_TIPUSOK = {}
@@ -122,7 +122,7 @@ def korszak_index(ev):
 
 
 def prior_beolvasasa():
-    """forras/becsles_gyuru.json -> a globális táblák. Hiányzó fájl esetén a beépített alapértékek."""
+    """forras/becsles_gyuru.json -> the global tables. If the file is missing, the built-in defaults are used."""
     global GYURU_KM, SZOMSZED_SULY, ALAK_SULY, GH, GLOBAL_KEVERES, KOZPONT, PRIOR_TIPUSOK
     ut = GYOKER / "forras" / "becsles_gyuru.json"
     if not ut.exists():
@@ -155,7 +155,7 @@ def prior_beolvasasa():
 
 
 def poligon_zonak_beolvasasa():
-    """forras/zonak_poligon.geojson -> PZ_LISTA (helyi méteres gyűrűk)."""
+    """forras/zonak_poligon.geojson -> PZ_LISTA (local ring zones in metres)."""
     PZ_LISTA.clear()
     ut = GYOKER / "forras" / "zonak_poligon.geojson"
     if not ut.exists():
@@ -164,7 +164,7 @@ def poligon_zonak_beolvasasa():
         try:
             p = f["properties"]
             if p.get("tipus") == "muemlek":
-                continue  # OENY-műemlék sokszög: nem évszám-bizonyíték
+                continue  # OENY monument polygon: not year evidence
             gy = f["geometry"]["coordinates"][0]
             ring = [((x - 19.05) * math.cos(math.radians(47.5)) * 111320.0, (y - 47.5) * 110574.0) for x, y in gy]
             xs, ys = [q[0] for q in ring], [q[1] for q in ring]
@@ -186,7 +186,7 @@ def pont_gyuruben_xy(x, y, ring):
 
 
 def poligon_zonak_hozzarendelese(ep):
-    """Minden épületnek: e['pz'] = a legkisebb tartalmazó, NEM mérőpróba zóna (becsléshez); e['pz_tag'] = minden tartalmazó zóna."""
+    """For every building: e['pz'] = the smallest containing, NON-test zone (for the estimate); e['pz_tag'] = every containing zone."""
     for e in ep:
         e["pz"] = None
         e["pz_tag"] = []
@@ -209,7 +209,7 @@ def gyuru_index(x, y):
 
 
 def kapcsolatok_szama(ep):
-    """Hány másik épülettel osztozik csúcson (kb. közös fal)? Gyors: 0,5 m-es rácsra kerekített csúcsok."""
+    """With how many other buildings does it share a vertex (roughly a shared wall)? Fast: vertices rounded to a 0.5 m grid."""
     tar = defaultdict(set)
     for i, e in enumerate(ep):
         for x, y in e["pts"]:
@@ -271,7 +271,7 @@ def kerulet_szam(v):
 
 
 def ksh_beolvasasa():
-    """data/KSH/budapest_ksh_keruleti_eloszlas.csv -> {kerület: [7 arány]} (összegük 1). Hiányzó fájl: None."""
+    """data/KSH/budapest_ksh_keruleti_eloszlas.csv -> {district: [7 proportions]} (they sum to 1). Missing file: None."""
     ut = GYOKER / "data" / "KSH" / "budapest_ksh_keruleti_eloszlas.csv"
     if not ut.exists():
         return None
@@ -290,7 +290,7 @@ NEM_LAKAS = MELLEK | KOZEPULET | IPARI | KERESK
 
 
 def lakas_suly(e):
-    """Lakás-egyenérték (a KSH lakást számol): alapterület x szintszám; melléképület, közület, ipar, kereskedelem: 0."""
+    """Dwelling equivalent (KSH counts dwellings): footprint x number of storeys; outbuilding, public, industry, commerce: 0."""
     if e["tipus"] in NEM_LAKAS or e["terulet"] < 40.0:
         return 0.0
     sz = e.get("szintek")
@@ -304,10 +304,10 @@ def lakas_suly(e):
 
 
 def kvota_kiosztas(gray, res, R, Q, sulyok, oreg, tiltott0):
-    """Kvótatartó kiosztás egy épületcsoporton (kerület vagy helyi folt). R: korszakonkénti cél (lakás-egyenérték) a res
-    (lakás-súlyú) épületekre. A sorrend (oreg) szerinti súlyozott percentilist a korszak kvóta-sávjához illeszti, a mu
-    eltolás pedig a kiosztott tömegeket a célhoz állítja. tiltott0: akik nem kaphatják az '1867 előtt' korszakot.
-    Visszaadja: {i: korszakonkénti pontszám}; a kiosztott korszak a legnagyobb pontszámú."""
+    """Quota-keeping allocation over a group of buildings. R: per-era target (dwelling equivalent) for the
+    (dwelling-weighted) buildings. The weighted percentile by the order (oreg) is fitted to the era's quota band, and the mu
+    shift adjusts the allocated masses to the target. tiltott0: those who may not receive the 'before 1867' era.
+    Returns: {i: per-era scores}; the allocated era is the one with the highest score."""
     rend = sorted(gray, key=oreg)
     ossz_w = sum(sulyok[i] for i in gray) or 1.0
     pct, kum = {}, 0.0
@@ -327,7 +327,7 @@ def kvota_kiosztas(gray, res, R, Q, sulyok, oreg, tiltott0):
 
 
 def tomeg_illesztes(res, pont, R, sulyok):
-    """Korszakonkénti eltolás (mu), amellyel a pontszám szerinti legjobb korszakok lakás-súlyos összege a cél (R) közelébe kerül."""
+    """Per-era shift (mu) by which the dwelling-weighted sum of the best eras by score gets close to the target (R)."""
     U = sum(sulyok[i] for i in res)
     mu = [0.0] * K
     if res and U > 0:
@@ -351,9 +351,9 @@ def tomeg_illesztes(res, pont, R, sulyok):
 
 
 def foutak_tavolsaga(ep):
-    """Külső gyűrű (6 km+): a szürke épületek távolsága a legközelebbi főúttól (OSM primary/secondary/tertiary/trunk) és
-    főút-kereszteződéstől (két különböző nevű főút közös pontja). e['fout_pont'] = min(út, 600 m)/300 + min(kereszteződés, 1200 m)/1200:
-    kisebb = közelebb a régi településszerkezethez. Bemenet: data/utak_nyers.json (utak_keszites.py). Visszaadja a kiszámolt épületek számát."""
+    """Outer ring (6 km+): the distance of the grey buildings from the nearest main road (OSM primary/secondary/tertiary/trunk) and
+    from a main-road junction (a shared point of two main roads with different names). e['fout_pont'] = min(road, 600 m)/300 + min(junction, 1200 m)/1200:
+    smaller = closer to the old settlement structure. Input: data/utak_nyers.json (utak_keszites.py). Returns the number of buildings computed."""
     ut = GYOKER / "data" / "utak_nyers.json"
     if not ut.exists():
         print("Figyelem: nincs data/utak_nyers.json - a helyi kvóta főút-sorrend nélkül fut.")
@@ -406,12 +406,12 @@ def foutak_tavolsaga(ep):
 
 
 def ksh_kvota(ep, szurke, PP, ksh):
-    """Kerületi KSH-illesztés. PP: {i: az A-modell eloszlása}. Visszaadja: ({i: (top, q, lambda_top, atrendezve)}, diagnosztika).
-    1) kerületenként kiszámolja, mennyi lakás-egyenérték tömeg hiányzik a KSH-célhoz a tudott évű épületek után (R);
-    2) korszakonkénti szorzókkal (lambda) úgy tolja az A valószínűségeit, hogy várható értékben R jöjjön ki;
-    3) kiosztás: a legvalószínűbb osztály helyett log q + sorrend-tag + mu: a sorrend-tag az épület várható korszaka szerinti
-       percentilist illeszti a korszak kvóta-sávjához (idősebbnek tűnő épület kap idősebb korszakot), a mu pedig a kiosztott
-       tömegeket állítja a kvótára. Erős A-bizonyíték (zóna, szomszédok) felülírja a sorrendet, gyengénél a sorrend dönt."""
+    """District KSH fitting. PP: {i: the A model's distribution}. Returns: ({i: (top, q, lambda_top, rearranged)}, diagnostics).
+    1) per district, computes how much dwelling-equivalent mass is missing for the KSH target after the buildings of known year (R);
+    2) with per-era multipliers (lambda) it shifts the A probabilities so that R comes out in expectation;
+    3) allocation: instead of the most probable class, log q + order term + mu: the order term fits the percentile by the building's
+       expected era to the era's quota band (a building that looks older gets an older era), and mu adjusts the allocated
+       masses to the quota. Strong A evidence (zone, neighbours) overrides the order, with weak evidence the order decides."""
     szurke_halmaz = set(szurke)
     sulyok = [lakas_suly(e) for e in ep]
     kerek = defaultdict(list)
@@ -461,28 +461,28 @@ def ksh_kvota(ep, szurke, PP, ksh):
 
             def oreg(i):
                 e = ep[i]
-                # az A-modell várható korszak-indexe (a kvóta-szorzós eloszlásból) + apró, determinisztikus döntetlen-törő
+                # the A model's expected era index (from the quota-multiplied distribution) + a tiny, deterministic tie-breaker
                 v = sum(c * Q[i][c] for c in range(K)) + 0.02 * ((zlib.crc32(str(e.get("id", i)).encode()) % 10000) / 10000.0)
                 if HELYI_KVOTA and e.get("fout_pont") is not None:
-                    # külső gyűrű: a főúthoz / főút-kereszteződéshez közelebbi ház NAGYOBB ESÉLLYEL idősebb, de nem mind:
-                    # a determinisztikus zaj szétszórja a régi házakat (különben az út menti házsor mind régi lenne)
+                    # outer ring: a house closer to the main road / junction is MORE LIKELY older, but not all of them:
+                    # the deterministic noise scatters the old houses (otherwise the row of houses along the road would all be old)
                     zaj = (zlib.crc32(("zaj" + str(e.get("id", i))).encode()) % 100000) / 100000.0
                     v += FOUT_SULY * e["fout_pont"] + ZAJ_SULY * zaj
                 return v
 
             if HELYI_KVOTA:
-                # helyi kvóta: a kerületen belül HELYI_CELLA_M-es foltonként a (KSH-szorzós) valószínűségek összegét osztjuk ki,
-                # így a régi házak ott maradnak, ahol a modell várja őket (pl. Pesthidegkút), és a kerületi összeg nem változik
+                # local quota: within the district, per patch of HELYI_CELLA_M, the sum of the (KSH-multiplied) probabilities is allocated,
+                # so the old houses stay where the model expects them (e.g. Pesthidegkút), and the district total does not change
                 foltok = defaultdict(list)
                 for i in gray:
                     if HELYI_CSAK_KULSO and ep[i].get("gyuru") != 3:
-                        foltok["kerulet"].append(i)       # belső gyűrűk (6 km-en belül): a régi, kerületi kiosztás; ez veszi át a lebontási hiányt is
+                        foltok["kerulet"].append(i)       # inner rings (within 6 km): the old, district-level allocation; this also takes over the demolition deficit
                     else:
                         foltok[(int(ep[i]["x"] // HELYI_CELLA_M), int(ep[i]["y"] // HELYI_CELLA_M))].append(i)
                 def helyi_pont(szorzo):
                     pont, Rd = {}, [0.0] * K
                     celok = {}
-                    attolt = [0.0] * K           # a külső foltokból a kerület többi részére átkerülő cél (régi korszakok +, újak -)
+                    attolt = [0.0] * K           # the target passed from the outer patches to the rest of the district (old eras +, new ones -)
                     for kulcs, tagok in foltok.items():
                         fres = [i for i in tagok if sulyok[i] > 0]
                         Rf = [0.0] * K
@@ -492,7 +492,7 @@ def ksh_kvota(ep, szurke, PP, ksh):
                             for c in range(K):
                                 Rf[c] += sulyok[i] * q[c] / z
                         if kulcs != "kerulet" and szorzo < 1.0:
-                            # kertváros: a régi házak nagy részét lebontották -> a foltban kevesebb régi, több újabb ház
+                            # garden suburb: most of the old houses were demolished -> fewer old, more recent houses in the patch
                             el = sum(Rf[c] * (1 - szorzo) for c in REGI_KORSZAKOK)
                             uj = [c for c in range(K) if c not in REGI_KORSZAKOK and c > max(REGI_KORSZAKOK)]
                             uj_ossz = sum(Rf[c] for c in uj) or 1.0
@@ -504,13 +504,13 @@ def ksh_kvota(ep, szurke, PP, ksh):
                                 Rf[c] += d
                                 attolt[c] -= d
                         celok[kulcs] = (tagok, fres, Rf)
-                    if "kerulet" in celok:            # a kerület többi része (belső gyűrűk, zónák) átveszi a hiányt, így a KSH-összeg nem változik
+                    if "kerulet" in celok:            # the rest of the district (inner rings, zones) takes over the shortfall, so the KSH total does not change
                         tagok, fres, Rf = celok["kerulet"]
                         celok["kerulet"] = (tagok, fres, [max(a + b, 0.0) for a, b in zip(Rf, attolt)])
                     for tagok, fres, Rf in celok.values():
                         pont.update(kvota_kiosztas(tagok, fres, Rf, Q, sulyok, oreg, tiltott0))
                         Rd = [a + b for a, b in zip(Rd, Rf)]
-                    # kerületi kiegyenlítés: a kis foltok kerekítési hibája összeadódna, ezért egy közös eltolással a kerület összegét a célra állítjuk
+                    # district equalisation: the rounding error of the small patches would add up, so a common shift sets the district total to the target
                     mu2 = tomeg_illesztes(res, pont, Rd, sulyok)
                     pont = {i: [v + m for v, m in zip(pont[i], mu2)] for i in gray}
                     return pont
@@ -523,7 +523,7 @@ def ksh_kvota(ep, szurke, PP, ksh):
                             mm[cc] += sulyok[i]
                     z = sum(mm) or 1.0
                     return max(abs(100 * mm[cc] / z - 100 * T[cc]) for cc in range(K))
-                # a lebontási szorzót kerületenként a lehető legerősebbre állítjuk, amelynél a KSH-eltérés legfeljebb KSH_TURES ponttal nő
+                # the demolition multiplier is set per district to the strongest value at which the KSH deviation grows by at most KSH_TURES points
                 pont = helyi_pont(1.0)
                 hasznalt = 1.0
                 if KULSO_REGI_SZORZO < 1.0:
@@ -575,7 +575,7 @@ def ksh_jelentes(diag):
 
 def gyuru_es_tipus(ep):
 
-    """Városi mód: minden épületnek gyűrű, típus és előzetes eloszlás (e['prior']). A gyűrű a Deák tértől mért távolságból jön."""
+    """City mode: for every building a ring, type and prior distribution (e['prior']). The ring comes from the distance from Deák tér."""
     kapcsolatok_szama(ep)
     atlag = {}
     for gy in range(len(GYURU_KM) + 1):
@@ -595,16 +595,16 @@ def egyszerusit(s):
     return "".join(c for c in s if c.isalnum())
 
 
-# ---------------------------------------------------------------- beolvasás
+# ---------------------------------------------------------------- reading input
 def epuletek_beolvasasa():
     g = json.load(open(ADAT / ("epuletek_vegleges.geojson" if VAROS else "belvaros_epuletek_vegleges.geojson"), encoding="utf-8"))
     lista = []
     for f in g["features"]:
         p = f["properties"]
         if p.get("resz"):
-            continue  # épületrészeket nem becslünk (öröklik a szülő épületet)
+            continue  # building parts are not estimated (they inherit the parent building)
         if p.get("rom"):
-            continue  # ókori/középkori rom: saját, fix kategória (tenyek_romok.py), nem becsüljük
+            continue  # ancient/medieval ruin: a category of its own, fixed (tenyek_romok.py), not estimated
         geo = f["geometry"]
         if geo["type"] == "Polygon":
             gyuru = geo["coordinates"][0]
@@ -637,7 +637,7 @@ def epuletek_beolvasasa():
             "tipus": p.get("tipus") or "yes", "ev": ev,
             "kor": korszak_index(ev) if ev else None,
             "vedett": bool(p.get("vedettseg")), "nev": p.get("nev") or "",
-            "zarvany": (p.get("tipus") in ZARVANY_TIPUSOK) or bool(ZARVANY_NEV.search(p.get("nev") or "")) or bool(p.get("csoport")),   # az egy névre vont épületcsoport (pl. fürdő) egy zárvány
+            "zarvany": (p.get("tipus") in ZARVANY_TIPUSOK) or bool(ZARVANY_NEV.search(p.get("nev") or "")) or bool(p.get("csoport")),   # a building group merged under one name (e.g. a bath) is one enclave
             "kerulet": p.get("kerulet"), "mforras": p.get("magassag_forras"),
         })
     return lista
@@ -663,7 +663,7 @@ def utcak_beolvasasa(epuletek):
 
 
 class ZonaTar:
-    """Városi módban: (kerület, utca) -> zóna; a kerület nélküli (belvárosi) zónák bármely kerületben érvényesek."""
+    """In city mode: (district, street) -> zone; zones without a district (inner city) apply in any district."""
 
     def __init__(self):
         self.d = {}
@@ -701,7 +701,7 @@ def zonak_beolvasasa():
         for z in d["zonak"]:
             kerulet_zona = fn != "varosfejlodes.json"
             if not z.get("idoszak") or not z.get("utcak"):
-                continue  # a sokszög-zónákhoz és az utcalista nélküli zónákhoz nincs határ
+                continue  # there is no boundary for polygon zones and zones without a street list
             if not kerulet_zona and z.get("tipus") != "utcak":
                 continue
             tol, ig = z["idoszak"]
@@ -715,10 +715,10 @@ def zonak_beolvasasa():
     return utca_zona
 
 
-# ---------------------------------------------------------------- térbeli kapcsolatok
+# ---------------------------------------------------------------- spatial relations
 def szomszedok_epitese_varos(ep):
-    """Városi mód: csak az ismert (címkézett) épületeket tartjuk szomszédnak, épületenként a legközelebbi MAX_SZOMSZED-et.
-    Az érintkezést (közös fal) csak az ismert épületekkel vizsgáljuk."""
+    """City mode: only the known (labelled) buildings are kept as neighbours, the nearest MAX_SZOMSZED per building.
+    Contact (shared wall) is examined only with the known buildings."""
     cimk = [j for j, e in enumerate(ep) if e["kor"] is not None]
     cella = defaultdict(list)
     for j in cimk:
@@ -793,7 +793,7 @@ def szomszedok_epitese(ep):
     return szomsz
 
 
-# ---------------------------------------------------------------- alak-jellemzők
+# ---------------------------------------------------------------- shape features
 def tipus_csoport(t):
     if t == "apartments":
         return "lakoepulet"
@@ -828,13 +828,13 @@ def jellemzok(e):
     return {"szint": szs, "terulet": ter, "tipus": tipus_csoport(e["tipus"]), "forma": kom}
 
 
-FELT_ERTEKEK = {  # a laplace-simításhoz: hány lehetséges érték van
+FELT_ERTEKEK = {  # for the Laplace smoothing: how many possible values there are
     "szint": 6, "terulet": 5, "tipus": 4, "forma": 2,
 }
 
 
 class Modell:
-    """A címkézett épületekből számolt táblák (osztály-gyakoriságok, alak-táblák)."""
+    """Tables computed from the labelled buildings (class frequencies, shape tables)."""
 
     def __init__(self, ep, tanito):
         self.ep = ep
@@ -864,27 +864,27 @@ class Modell:
 
 
 def komponensek(i, ep, szomsz, m, utca_index, zonak, kizart):
-    """Visszaadja az i. épület négy bizonyítékát log-valószínűségként (K hosszú listák).
-    kizart: azok az indexek, amelyek címkéjét nem szabad látnia (önmaga, ill. a blokk)."""
+    """Returns the four pieces of evidence of the i-th building as log-probabilities (lists of length K).
+    kizart: the indices whose label it must not see (itself, or the block)."""
     e = ep[i]
     kiz = set(kizart) | {i}
     alap = m.alapeloszlas(kiz)
     if VAROS and e.get("prior"):
         b = GLOBAL_KEVERES
         alap = [(1 - b) * p + b * g for p, g in zip(e["prior"], alap)]
-    # szomszédok
+    # neighbours
     N = [0.0] * K
     for j, d, erint in szomsz[i]:
         if j in kiz or j not in m.tanito:
             continue
         w = math.exp(-d / SZOMSZED_LECSENGES) * (ERINTKEZES_SZORZO if erint else 1.0)
-        if ep[j].get("zarvany"):          # templom, rom: zárvány, nem a környezet jellemzője
+        if ep[j].get("zarvany"):          # church, ruin: an enclave, not a characteristic of the surroundings
             w *= ZARVANY_SULY
         N[ep[j]["kor"]] += w
     ossz = sum(N)
     a = 0.5
     lN = [math.log((N[y] + a * alap[y]) / (ossz + a)) for y in range(K)]
-    # utca
+    # street
     lS = [0.0] * K
     if e["utca"]:
         C = [0] * K
@@ -893,7 +893,7 @@ def komponensek(i, ep, szomsz, m, utca_index, zonak, kizart):
                 C[ep[j]["kor"]] += ZARVANY_SULY if ep[j].get("zarvany") else 1
         n = sum(C)
         lS = [math.log((C[y] + 2 * alap[y]) / (n + 2)) for y in range(K)]
-    # alak (naiv Bayes)
+    # shape (naive Bayes)
     j = jellemzok(e)
     db = list(m.db)
     for t in kiz:
@@ -907,7 +907,7 @@ def komponensek(i, ep, szomsz, m, utca_index, zonak, kizart):
                 if t in m.tanito and ep[t]["kor"] == y and m.jell[t][f] == v:
                     c -= 1
             lF[y] += math.log((c + 1) / (db[y] + FELT_ERTEKEK[f]))
-    # zóna
+    # zone
     lZ = [0.0] * K
     zsuly = 0.0
     z = zonak.get(e["utca"]) if e["utca"] else None
@@ -925,7 +925,7 @@ def komponensek(i, ep, szomsz, m, utca_index, zonak, kizart):
 
 
 def zona_tiltott(e):
-    """A legkisebb tartalmazó (nem mérőpróba) rajzolt zóna által kizárt korszakok indexei (üres lista, ha nincs zóna)."""
+    """Indices of the eras excluded by the smallest containing (non-test) drawn zone (an empty list if there is no zone)."""
     if not VAROS or e.get("pz") is None:
         return []
     z = PZ_LISTA[e["pz"]]
@@ -950,16 +950,16 @@ def eloszlas(k, w):
     return [v / t for v in ex]
 
 
-# ---------------------------------------------------------------- mérés
+# ---------------------------------------------------------------- measurement
 def metrikak(par):
-    """par: [(igazi_index, eloszlas)] -> szótár"""
+    """par: [(true_index, distribution)] -> dictionary"""
     if not par:
         return {"n": 0}
     n = len(par)
     pont = sum(1 for y, p in par if max(range(K), key=lambda q: p[q]) == y)
     top2 = sum(1 for y, p in par if y in sorted(range(K), key=lambda q: -p[q])[:2])
     ll = -sum(math.log(max(p[y], 1e-9)) for y, p in par) / n
-    # egy korszakot lépő tévedés: az igazihoz képest szomszédos korszak
+    # a one-era error: an era adjacent to the true one
     kozel = sum(1 for y, p in par if abs(max(range(K), key=lambda q: p[q]) - y) <= 1)
     return {"n": n, "pontossag": pont / n, "top2": top2 / n, "logloss": ll, "legfeljebb_1_korszak_tevedes": kozel / n}
 
@@ -974,17 +974,17 @@ def sulyok_racs():
 
 
 def bizonyossagi_kuszob(egyed, cel, felso=None, min_db=20):
-    """egyed: [(a legvalószínűbb korszak valószínűsége, eltalálta-e)], csökkenő sorrendben.
-    Visszaadja a legkisebb p küszöböt, amelyre a [p, felso) sávba eső épületek SAJÁT találati aránya legalább 'cel'
-    (felso=None: nincs felső határ). Korábban a felső sávok találatai is beleszámítottak (halmozott arány), ezért a
-    'közepes' sáv a jelentés szerint >=70%-os volt, valójában ~52%-os. Ha egyik küszöb sem teljesíti: None."""
+    """egyed: [(probability of the most probable era, whether it hit)], in descending order.
+    Returns the smallest threshold p for which the buildings falling into the band [p, felso) have an OWN hit rate of at least 'cel'
+    (felso=None: no upper bound). Earlier the hits of the upper bands were included too (cumulative rate), so the
+    'medium' band was reported as >=70% when it was really ~52%. If no threshold satisfies it: None."""
     lista = [(p, ok) for p, ok in egyed if felso is None or p < felso]
     legjobb = None
     talalt = 0
     for n, (p, ok) in enumerate(lista, 1):
         talalt += ok
         if n < len(lista) and lista[n][0] == p:
-            continue          # azonos valószínűségű tippek csak együtt kerülhetnek egy sávba
+            continue          # guesses of equal probability can only go into a band together
         if n >= min_db and talalt / n >= cel:
             legjobb = p
     return legjobb
@@ -995,12 +995,12 @@ def kiertekel(rendezett, komp, w):
 
 
 def ghsl_beolvasasa(ep):
-    """data/varos/ghsl.csv (tenyek_ghsl.py): az épület 100 m-es cellájának beépített m2-e több évszámra.
-    Elv: az épület a cella mai (utolsó évszámú) épületállományának egy véletlen tagja. Ha a cella beépítettségének f1 része már az
-    első évszámnál megvolt, f2-f1 része az első és második között épült, stb., akkor az épület építési ideje ezekből az
-    ablakokból való, az ablakok súlyával. Az ablakon belül egyenletes az eloszlás; a korszakok valószínűsége az ablakok és a
-    korszak átfedéséből jön (az egyenletes eloszláshoz viszonyítva, [eps, max] közé vágva).
-    Az adat a térképből jön, nem az ismert évű épületekből, ezért a próbában sem szivárog át."""
+    """data/varos/ghsl.csv (tenyek_ghsl.py): the built-up m2 of the building's 100 m cell for several years.
+    Principle: the building is a random member of the cell's present (last-year) building stock. If a share f1 of the cell's built-up area already existed
+    at the first year, and f2-f1 was built between the first and second, etc., then the building's construction time comes from these
+    windows, weighted by the windows. Within a window the distribution is uniform; the probability of the eras comes from the overlap of the windows with the
+    era (relative to the uniform distribution, clipped to [eps, max]).
+    The data comes from the map, not from the buildings of known year, so it does not leak into the test either."""
     ut = ADAT / "ghsl.csv"
     if not VAROS or not ut.exists():
         return 0
@@ -1022,7 +1022,7 @@ def ghsl_beolvasasa(ep):
         if ossz < GH["min_m2"]:
             GHSL_STAT["a cella 2020-ra sem érdemben beépített (nincs információ)"] += 1
             continue
-        # ablakok: (kezdet, vég, tömeg)
+        # windows: (start, end, mass)
         hatarok = [KEZD] + evek + [VEG]
         resz = [fut[0] / ossz] + [(fut[k] - fut[k - 1]) / ossz for k in range(1, len(fut))] + [0.0]
         u = GH["utolso"]
@@ -1035,7 +1035,7 @@ def ghsl_beolvasasa(ep):
             if hossz <= 0:
                 l.append(math.log(1.0))
                 continue
-            atfedes = sum(max(0, min(b, h1) - max(a - 1, h0)) * d for h0, h1, d in sur)      # az ablak (h0, h1] évei
+            atfedes = sum(max(0, min(b, h1) - max(a - 1, h0)) * d for h0, h1, d in sur)      # the years of the window (h0, h1]
             arany = atfedes / hossz * (VEG - KEZD)
             l.append(math.log(min(GH["max"], max(GH["eps"], arany))))
         ep[i]["ghsl_l"] = l
@@ -1049,8 +1049,8 @@ def ghsl_beolvasasa(ep):
 
 
 def kozelito_cimkek(ep):
-    """Városi mód: az értékleltárak közelítő korszakadata ('az 1930-as évek') címkének számít, ha a tartomány
-    egyetlen korszakba esik, és az épületnek nincs pontos éve. Visszaadja: {index: szöveg}."""
+    """City mode: the approximate era data of the heritage inventories ('the 1930s') counts as a label if the range
+    falls into a single era and the building has no exact year. Returns: {index: text}."""
     utak = sorted(ADAT.glob("*_kozelito.csv")) if VAROS else []      # ertekleltar_, osm_, wikidata_kozelito.csv...
     if not utak:
         return {}
@@ -1076,9 +1076,9 @@ def kozelito_cimkek(ep):
 
 
 def kozelito_tartomanyok(ep):
-    """Városi mód: a több korszakot átfogó közelítő adat ('1920-1930-as évek', 'XIX. század') szintén szűkíti a becslést: a szürke épület
-    valószínűsége a tartományba eső korszakokra korlátozódik (az egyetlen korszakba eső adat címke lesz, lásd kozelito_cimkek).
-    Több forrás esetén a tartományok metszete; ha a metszet üres, az adatokat figyelmen kívül hagyjuk. Visszaadja: {index: (korszakok, szöveg)}."""
+    """City mode: approximate data spanning several eras ('1920-1930-as évek' i.e. 1920s-30s, 'XIX. század' i.e. 19th century) also narrows the estimate: the grey building's
+    probability is restricted to the eras in the range (data falling into a single era becomes a label, see kozelito_cimkek).
+    With several sources, the intersection of the ranges; if the intersection is empty, the data are ignored. Returns: {index: (eras, text)}."""
     utak = sorted(ADAT.glob("*_kozelito.csv")) if VAROS else []
     if not utak:
         return {}
@@ -1130,9 +1130,9 @@ def main():
             utca_index[e["utca"]].append(i)
     m = Modell(ep, cimkezett)
 
-    # --- 1) "egyenként elrejtős" komponensek
+    # --- 1) "hide one at a time" components
     kp_loo = {i: komponensek(i, ep, szomsz, m, utca_index, zonak, ()) for i in cimkezett}
-    # --- 2) blokk-kizárásos komponensek (szigorúbb próba)
+    # --- 2) block-exclusion components (a stricter test)
     blokk = defaultdict(list)
     for i in cimkezett:
         blokk[(int(ep[i]["x"] // BLOKK_M), int(ep[i]["y"] // BLOKK_M))].append(i)
@@ -1141,7 +1141,7 @@ def main():
         for i in tagok:
             kp_blokk[i] = komponensek(i, ep, szomsz, m, utca_index, zonak, tagok)
 
-    # --- 3) súlyok keresztillesztése: az egyik fél térbeli blokkjain hangolunk, a másikon mérünk
+    # --- 3) cross-fitting the weights: tuning on one half's spatial blocks, measuring on the other
     def fel(i):
         b = (int(ep[i]["x"] // BLOKK_M), int(ep[i]["y"] // BLOKK_M))
         return (b[0] * 7 + b[1] * 13) % 2
@@ -1161,7 +1161,7 @@ def main():
                         [(ep[i]["kor"], eloszlas(kp_loo[i], wB)) for i in A]
     w_vegso = legjobb_suly(cimkezett)
 
-    # --- 4) jelentés
+    # --- 4) report
     ures = {"0": 0, "N": 0, "S": 0, "F": 0, "Z": 0, "G": 0}
     alap_csak = dict(ures, **{"0": 1.0})
     sor = {}
@@ -1174,8 +1174,8 @@ def main():
         w = dict(w_vegso)
         w[kulcs] = 0.0
         abl[nev] = metrikak([(ep[i]["kor"], eloszlas(kp_loo[i], w)) for i in cimkezett])
-    # a rajzolt (poligon-) zónák a tudott évű épületek ismeretében készültek (pl. Wekerle-telep), ezért a mérésben is "látják" a választ:
-    # ez a sor mutatja, mennyi a pontosság a rajzolt zóna bizonyítéka nélkül
+    # the drawn (polygon) zones were made with knowledge of the buildings of known year (e.g. Wekerle estate), so in the measurement they also "see" the answer:
+    # this row shows the accuracy without the drawn zone's evidence
     abl["rajzolt zóna nélkül"] = metrikak([(ep[i]["kor"], eloszlas(dict(kp_loo[i], P2=None, p2suly=0.0), w_vegso)) for i in cimkezett])
 
     nem_vedett = [i for i in cimkezett if not ep[i]["vedett"]]
@@ -1196,7 +1196,7 @@ def main():
         zsor["zónával" if kp_loo[i]["zsuly"] > 0 else "zóna nélkül"] += 1
     ossz_szurke_zona = sum(1 for i in szurke if zonak.get(ep[i]["utca"]))
 
-    # zavaró mátrix és kalibráció
+    # confusion matrix and calibration
     zav = [[0] * K for _ in range(K)]
     kal = defaultdict(lambda: [0, 0])
     for i in cimkezett:
@@ -1206,7 +1206,7 @@ def main():
         sav = min(int(p[top] * 10), 9) / 10
         kal[sav][0] += 1
         kal[sav][1] += (top == ep[i]["kor"])
-    # bizonyossági küszöbök
+    # certainty thresholds
     egyed = sorted(((max(eloszlas(kp_loo[i], w_vegso)),
                      max(range(K), key=lambda q: eloszlas(kp_loo[i], w_vegso)[q]) == ep[i]["kor"])
                     for i in cimkezett), reverse=True)
@@ -1215,13 +1215,13 @@ def main():
     k_kozepes = bizonyossagi_kuszob(egyed, 0.70, felso=k_magas)
 
     nem_vedett_kal = [i for i in cimkezett if not ep[i]["vedett"]]
-    # --- kalibráció a kártyán/CSV-ben megjelenő valószínűséghez ---
-    # A nyers valószínűség túlzottan magabiztos (a 90–100%-osnak mondott tippek ~2/3-a talál). A megjelenített érték ezért az, amit a
-    # modell a mérésben ténylegesen elért: a legvalószínűbb korszak nyers valószínűségéhez tartozó találati arány, a térbeli
-    # 300 m-es blokk kizárásával (a szomszéd épület évszáma nélkül), NEM védett ismert épületeken, izotonikus (PAV) simítással.
+    # --- calibration for the probability shown on the card/in the CSV ---
+    # The raw probability is overconfident (about 2/3 of the guesses called 90-100% hit). The displayed value is therefore what the
+    # model actually achieved in the measurement: the hit rate belonging to the raw probability of the most probable era, with the spatial
+    # 300 m block excluded (without the neighbour's year), on NON-protected known buildings, with isotonic (PAV) smoothing.
     kal_parok = sorted(((max(pp_), max(range(K), key=lambda q: pp_[q]) == ep[i]["kor"])
                         for i in nem_vedett_kal for pp_ in [eloszlas(kp_blokk[i], w_vegso)]))
-    blokkok = []                                       # [találat, db, nyers valószínűségek összege]
+    blokkok = []                                       # [hits, count, sum of raw probabilities]
     for pv, ok in kal_parok:
         blokkok.append([float(ok), 1, pv])
         while len(blokkok) > 1 and blokkok[-2][0] / blokkok[-2][1] >= blokkok[-1][0] / blokkok[-1][1]:
@@ -1237,12 +1237,12 @@ def main():
                 return y0 + (y1 - y0) * (pv - x0) / (x1 - x0 or 1.0)
         return kal_pontok[-1][1]
 
-    # --- 5) a szürke épületek becslése
+    # --- 5) estimating the grey buildings
     ut_becsles = ADAT / "ev_becsles.csv"
     szur_eredmeny = []
     PP = {i: eloszlas(komponensek(i, ep, szomsz, m, utca_index, zonak, ()), w_vegso) for i in szurke}
     zona_hatar_db = 0
-    for i in szurke:                                   # zónahatár: a kizárt korszakok valószínűsége 0
+    for i in szurke:                                   # zone boundary: the probability of the excluded eras is 0
         tilt = zona_tiltott(ep[i])
         if tilt:
             v = [0.0 if c in tilt else PP[i][c] for c in range(K)]
@@ -1252,7 +1252,7 @@ def main():
     print(f"Zónahatár (építés ettől / eddig) alkalmazva {zona_hatar_db} szürke épületen")
     kozel_tart = kozelito_tartomanyok(ep)
     kozel_jel = {}
-    for i in szurke:                                   # közelítő (több korszakos) forrásadat: csak a tartományba eső korszakok maradnak
+    for i in szurke:                                   # approximate (multi-era) source data: only the eras within the range remain
         if i in kozel_tart:
             ok, szoveg = kozel_tart[i]
             v = [PP[i][c] if c in ok else 0.0 for c in range(K)]
@@ -1308,7 +1308,7 @@ def main():
         for i, p, top, biz, ent, _, indok in szur_eredmeny:
             w.writerow([ep[i]["kulcs"][0], ep[i]["kulcs"][1], KORSZAKOK[top][2], f"{kalibralt(p[top]):.2f}", biz]
                        + [f"{v:.3f}" for v in p] + [indok, f"{p[top]:.2f}"])
-        for i, szoveg in lagy.items():      # értékleltár: közelítő, de forrásolt korszak
+        for i, szoveg in lagy.items():      # heritage inventory: an approximate but sourced era
             k = ep[i]["kor"]
             p = [0.94 if y == k else 0.06 / (K - 1) for y in range(K)]
             w.writerow([ep[i]["kulcs"][0], ep[i]["kulcs"][1], KORSZAKOK[k][2], f"{p[k]:.2f}", "magas"]

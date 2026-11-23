@@ -1,22 +1,22 @@
-"""Nem-épületként címkézett építmények (tornyok, kilátók, emlékművek) felvétele a térképre.
+"""Adding structures tagged as non-buildings (towers, lookouts, memorials) to the map.
 
-Az OSM-ben a kilátók, tornyok, emlékművek gyakran nem 'building', hanem man_made=tower / tourism=viewpoint / historic=monument
-címkét kapnak, ezért a varos_osszeallitas.py kihagyja őket. Ez a szkript ezeket a meglévő kézi épületlistába
-(forras/kezi_epuletek.geojson) teszi - a többi adathoz nem nyúl, az osszeepit.py a már meglévő kulcsokat úgyis kihagyja.
+In OSM lookouts, towers and memorials are often tagged not 'building' but man_made=tower / tourism=viewpoint / historic=monument,
+so varos_osszeallitas.py leaves them out. This script puts them into the existing manual building list
+(forras/kezi_epuletek.geojson) - it does not touch the other data, and osszeepit.py skips the already existing keys anyway.
 
-Futtatás:  py nem_epulet_felvetel.py            (az Overpassról letölti a nyers adatot: data/nem_epulet_nyers.json, ha még nincs)
-           py nem_epulet_felvetel.py --ujra     (a nyers adatot újra letölti)
-Bemenet:   data/nem_epulet_nyers.json (Overpass), data/varos/epuletek.geojson (átfedés-szűrés), data/kerulethatarok.json
-Kimenet:   forras/kezi_epuletek.geojson - a korábbi, kézzel felvett elemek MARADNAK; a szkript elemeit 'nem_epulet_auto': true jelöli,
-           ezeket minden futásnál újraépíti. Kézi finomítás: töröld a jelölést, és az elem megmarad.
+Run:  py nem_epulet_felvetel.py            (downloads the raw data from Overpass: data/nem_epulet_nyers.json, if it does not exist yet)
+      py nem_epulet_felvetel.py --ujra     (downloads the raw data again)
+Input:   data/nem_epulet_nyers.json (Overpass), data/varos/epuletek.geojson (overlap filter), data/kerulethatarok.json
+Output:  forras/kezi_epuletek.geojson - the earlier, manually added items STAY; the script's own items are marked 'nem_epulet_auto': true,
+         and are rebuilt on every run. Manual refinement: delete the mark and the item stays.
 
-Szabályok (a gyakorlatban a 800+ találat nagy része adótorony-pont, pad-'kilátó' pont - ezek nem épületek):
-  - sokszögű elem (way / relation) kell, 8 m² és 300 m² között; a nagyobbak terek, sziklák (pl. Erzsébet-szikla)
-  - a csak 'tourism=viewpoint' (torony nélkül) sokszög kilátóterasz/pad: kihagyjuk
-  - pontként csak megnevezett, 'tower:type=observation' kilátókat veszünk fel (4x4 m-es becsült alapterülettel, 'pont_alapu': true)
-  - ahol az elem középpontja egy meglévő épület alapterületén belül van, kihagyjuk (az már épületként szerepel)
-  - csak a budapesti kerületekbe eső elemek
-Magasság: a 'height' címke, különben torony 12 m, emlékmű 4 m, kilátó 10 m.
+Rules (in practice most of the 800+ hits are transmission-tower points and bench-"lookout" points - these are not buildings):
+  - a polygon element (way / relation) is needed, between 8 m² and 300 m²; larger ones are squares, rocks (e.g. Erzsébet Rock)
+  - a polygon with only 'tourism=viewpoint' (without a tower) is a viewing terrace/bench: left out
+  - as points we take only named 'tower:type=observation' lookouts (with an estimated 4x4 m footprint, 'pont_alapu': true)
+  - where the element's centre lies within an existing building's footprint, it is left out (it is already there as a building)
+  - only elements falling in the Budapest districts
+Height: the 'height' tag, otherwise tower 12 m, memorial 4 m, lookout 10 m.
 """
 import json
 import math
@@ -32,7 +32,7 @@ NYERS = Path("data/nem_epulet_nyers.json")
 EPULETEK = Path("data/varos/epuletek.geojson")
 KERULETEK = Path("data/kerulethatarok.json")
 KEZI = Path("forras/kezi_epuletek.geojson")
-TENYEK = "data/tenyek/nem_epulet.csv"      # az OSM-címkékből ismert építész / évszám tényei (forrás: osm)
+TENYEK = "data/tenyek/nem_epulet.csv"      # facts about the architect / year known from the OSM tags (source: osm)
 LAT0, LON0 = 47.5, 19.05
 KX, KY = 111320 * math.cos(math.radians(LAT0)), 110574
 LEKERDEZES = ('[out:json][timeout:240];(nwr["man_made"="tower"][!"building"](47.33,18.90,47.65,19.35);'
@@ -79,7 +79,7 @@ def main():
         letoltes()
     nyers = json.loads(NYERS.read_text(encoding="utf-8"))
     kerulethatar = [(int(k), g) for k, gyuruk in json.loads(KERULETEK.read_text(encoding="utf-8")).items() for g in gyuruk]
-    # meglévő épületek rácsa az átfedés-szűréshez
+    # grid of the existing buildings for the overlap filter
     racs = {}
     for ft in json.loads(EPULETEK.read_text(encoding="utf-8"))["features"]:
         g = ft["geometry"]
@@ -172,7 +172,7 @@ def main():
         if mforras == "kezi":
             tenyek.add((tipus, e["i"], "magassag", mag, "kezi", f"becsült magasság ({nev}): {mag:g} m"))
         uj.append({"type": "Feature", "properties": pr, "geometry": {"type": "Polygon", "coordinates": [gyuru]}})
-    # a korábban kézzel felvett elemek 'kezi' magassága is csak tényként érvényesül (az osszeepit.py a geojson-beli értéket nem veszi át)
+    # the 'kezi' height of the earlier manually added items also only counts as a fact (osszeepit.py does not take over the height in the geojson)
     for f in marad:
         pr = f["properties"]
         if pr.get("magassag_forras") == "kezi" and pr.get("magassag"):

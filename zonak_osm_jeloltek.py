@@ -1,18 +1,18 @@
 """
-zonak_osm_jeloltek.py - a forras/zona_lista.csv zónáihoz név szerint keres poligont az OSM-kivonatban.
+zonak_osm_jeloltek.py - for the zones of forras/zona_lista.csv, searches for a polygon by name in the OSM extract.
 
-Futtatás (a projekt mappájában, ahol a budapest_pbf.py is van):
-    py zonak_osm_jeloltek.py                 # csak a data/pbf/*.osm.pbf fájlból, hálózat nélkül
-    py zonak_osm_jeloltek.py --nominatim     # a hiányzókat a Nominatimtól is megkérdezi (1 kérés/mp)
+Run (in the project folder, where budapest_pbf.py is too):
+    py zonak_osm_jeloltek.py                 # only from the data/pbf/*.osm.pbf file, without network
+    py zonak_osm_jeloltek.py --nominatim     # it also asks Nominatim for the missing ones (1 request/s)
 
-Kimenet:
-    data/zonak_jeloltek.geojson   a megtalált poligonok (WGS84, lon/lat), az évszámmal és forrással
-    data/zonak_jeloltek.csv       zónánként: találat típusa, OSM-azonosító, OSM-név
-    data/zonak_hianyzo.csv        amit nem találtunk (ezeket kell kézzel megrajzolni)
+Output:
+    data/zonak_jeloltek.geojson   the polygons found (WGS84, lon/lat), with the year and the source
+    data/zonak_jeloltek.csv       per zone: type of match, OSM id, OSM name
+    data/zonak_hianyzo.csv        what we did not find (these have to be drawn by hand)
 
-A lakótelepek (lt_*) és szabály-sorok (sz_*) közül csak a lakótelepeket keresi, a telepeket (ze_*) is.
-A találat 'pontos', ha az OSM-név szavai megegyeznek a zónanévvel, és 'reszleges', ha a zónanév szavai
-mind benne vannak az OSM-névben. A kerületet NEM ellenőrzi: nézd át a találatokat a térképen!
+Of the housing estates (lt_*) and rule rows (sz_*) it searches only for the housing estates, and the estates (ze_*) too.
+A match is 'pontos' (exact) if the words of the OSM name equal the zone name, and 'reszleges' (partial) if the words of the zone name
+are all contained in the OSM name. It does NOT check the district: review the matches on the map!
 """
 import csv
 import json
@@ -110,7 +110,7 @@ def pbf_keresese():
 
 
 def menet_kapcsolatok_es_vonalak(ut, zonak):
-    """1. menet: a nevesített, jelölt vonalak és kapcsolatok. 2. menet: a kapcsolatok tagvonalai."""
+    """Pass 1: the named, tagged ways and relations. Pass 2: the member ways of the relations."""
     vonal_talalat = {}      # vonal azon -> (cimke, hivatkozasok, [(zona, tipus, nev)])
     kapcs_talalat = {}      # kapcsolat azon -> (cimke, [(tagvonal, szerep)], talalatok)
     for tipus, adat in blokkok(ut):
@@ -163,7 +163,7 @@ def menet_kapcsolatok_es_vonalak(ut, zonak):
                         if tl:
                             tagok = [(mid, szotar[sid]) for sid, mid, mt in zip(szerepek, azonok, tipusok) if mt == 1]
                             kapcs_talalat[azon] = (c, tagok, tl)
-    # a kapcsolatok tagvonalai
+    # the member ways of the relations
     kell = {mid for _, tagok, _ in kapcs_talalat.values() for mid, _ in tagok}
     tag_vonalak = {}
     if kell:
@@ -188,7 +188,7 @@ def menet_kapcsolatok_es_vonalak(ut, zonak):
 
 
 def csomopontok_olvasasa(ut, kellek):
-    """Csak a kért csomópont-azonosítók koordinátái: {azon: (lon, lat)}."""
+    """Coordinates of only the requested node ids: {id: (lon, lat)}."""
     ki = {}
     maradt = set(kellek)
     for tipus, adat in blokkok(ut):
@@ -235,7 +235,7 @@ def terulet(gyuru):
 
 
 def geometria(vonalak, csomagok):
-    """vonalak: [refs listák] -> GeoJSON Polygon/MultiPolygon (külső gyűrűk, lyukak nélkül)."""
+    """ways: [lists of refs] -> GeoJSON Polygon/MultiPolygon (outer rings, without holes)."""
     gyuruk = gyurukke_fuz([list(v) for v in vonalak])
     ki = []
     for g in gyuruk:
@@ -260,7 +260,7 @@ def nominatim_kerdes(q, bounded):
 
 
 def nominatim(zona):
-    """Több lekérdezés-változat; az első poligont adó találatot adja vissza. Naplózza, mit kapott."""
+    """Several query variants; returns the hit that gives the first polygon. It logs what it got."""
     nev = re.sub(r"\(.*?\)", " ", zona["nev"]).strip()
     mag = re.sub(r"\b(lakótelep|telep)\b", " ", nev, flags=re.I).strip()
     valtozatok = [(nev + ", Budapest", True), (nev + ", Budapest", False), (mag + ", Budapest", True)]
@@ -291,7 +291,7 @@ def main():
         kellek.update(refs)
     csomagok = csomopontok_olvasasa(ut, kellek)
 
-    jeloltek = {}   # zona id -> lista (pontosság, forrás, geometria, osm név, osm azon)
+    jeloltek = {}   # zone id -> list (accuracy, source, geometry, osm name, osm id)
     rang = {"pontos": 0, "reszleges": 1}
     for azon, (c, hiv, tl) in vonal_t.items():
         g = geometria([hiv], csomagok)

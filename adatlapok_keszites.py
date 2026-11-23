@@ -1,11 +1,11 @@
-"""Meghatározó épületek adatlapjai -> terkep3d/adatlapok.json
+"""Data sheets of key buildings -> terkep3d/adatlapok.json
 
-Futtatás (a projekt mappájában):   py adatlapok_keszites.py
-Bemenet:  forras/adatlapok.json                 (szöveg, források, a stílusonkénti házlista)
-          terkep3d/kepek/<kepmappa>/kepek.csv   (képenként: fajl;szerzo;forras_url;licenc;megjegyzes) és a képfájlok maguk
-Kimenet:  terkep3d/adatlapok.json               (ezt olvassa a 3D nézet; az újraépítés nem érinti)
-Ellenőrzés: kiírja, melyik képnek hiányzik a szerzője, forrása vagy licence, és melyik fájl nincs a csv-ben / a mappában.
-Nyilvános indítás előtt a figyelmeztetés nélküli állapot a cél: minden képhez legyen szerző, forrás és licenc (vagy engedély).
+Run (in the project folder):   py adatlapok_keszites.py
+Input:    forras/adatlapok.json                 (text, sources, the per-style list of houses)
+          terkep3d/kepek/<image_folder>/kepek.csv   (per image: fajl;szerzo;forras_url;licenc;megjegyzes) and the image files themselves
+Output:   terkep3d/adatlapok.json               (read by the 3D view; the rebuild does not touch it)
+Check:    prints which image lacks its author, source or licence, and which file is not in the csv / the folder.
+Before going public the goal is a state with no warnings: every image should have an author, a source and a licence (or a permission).
 """
 import csv
 import json
@@ -18,13 +18,13 @@ BE = Path("forras/adatlapok.json")
 KEPEK = Path("terkep3d/kepek")
 KI = Path("terkep3d/adatlapok.json")
 KEPEK_KIT = {".jpg", ".jpeg", ".png", ".webp"}
-TABLA = Path("forras/budapest_stilusok_final.xlsx")      # stílusonként: időszak, meghatározó tervezők, házak (a 'Stílus' és 'Tervezők' oszlop kell)
-JAVITASOK = {"Skardelli Gyögy": "Skardelli György"}        # a táblázat elírásai
+TABLA = Path("forras/budapest_stilusok_final.xlsx")      # per style: period, key designers, houses (the 'Stílus' and 'Tervezők' columns are needed)
+JAVITASOK = {"Skardelli Gyögy": "Skardelli György"}        # typos of the table
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 
 
 def tabla_olvas():
-    """A stílus-táblázat (xlsx) beolvasása csak a Python alap könyvtárával. -> {stílus: {"ido": ..., "tervezok": [...], "hazak": ...}}"""
+    """Reads the style table (xlsx) with only the Python standard library. -> {style: {"ido": ..., "tervezok": [...], "hazak": ...}}"""
     if not TABLA.exists():
         print(f"  Nincs {TABLA}: a meghatározó építészek a régi lista szerint maradnak.")
         return {}

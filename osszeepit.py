@@ -1,16 +1,16 @@
-"""Az összes forrás tényeiből előállítja a térkép végleges adatfájlját.
+"""Builds the map's final data file from the facts of all sources.
 
-Bemenet:  data/belvaros_epuletek.geojson     (OSM-épületek, geojson_keszites.py)
-          data/tenyek/*.csv                  (tenyek_*.py szkriptek)
-          forras/kezi_javitasok.csv          (a te kézi javításaid, mindig ezek győznek)
-          forras/prioritas.json              (melyik forrás győz melyik mezőnél)
-Kimenet:  data/belvaros_epuletek_vegleges.geojson
-          data/utkozesek.csv                 (ahol a források eltérnek, átnézésre)
+Input:    data/belvaros_epuletek.geojson     (OSM buildings, geojson_keszites.py)
+          data/tenyek/*.csv                  (tenyek_*.py scripts)
+          forras/kezi_javitasok.csv          (your manual corrections, these always win)
+          forras/prioritas.json              (which source wins for which field)
+Output:   data/belvaros_epuletek_vegleges.geojson
+          data/utkozesek.csv                 (where sources disagree, for review)
 
-Városi mód:  py osszeepit.py varos
-  Bemenet:  data/varos/epuletek.geojson, reszek.geojson, osm_cimek.csv (varos_osszeallitas.py)
-  Kimenet:  data/varos/epuletek_vegleges.geojson, data/varos/utkozesek.csv
-  (a tények és a kézi javítások azonosító szerint ugyanúgy érvényesek; a belvárosi fájlokhoz nem nyúl)
+City mode:  py osszeepit.py varos
+  Input:    data/varos/epuletek.geojson, reszek.geojson, osm_cimek.csv (varos_osszeallitas.py)
+  Output:   data/varos/epuletek_vegleges.geojson, data/varos/utkozesek.csv
+  (facts and manual corrections apply the same way by id; the inner-city files are not touched)
 """
 import csv
 import math
@@ -25,20 +25,20 @@ from kozos import belso_pont, kulcs, pont_gyuruben, pont_poligonban, tenyek_olva
 OSM = "data/belvaros_epuletek.geojson"
 TENYEK_MAPPA = Path("data/tenyek")
 KEZI = "forras/kezi_javitasok.csv"
-KEZI_EPULETEK = "forras/kezi_epuletek.geojson"          # kézzel felvett, az OSM-ben nem épületként szereplő elemek (pl. emlékművek): GeoJSON, a szokásos mezőkkel
-CSOPORTOK = "forras/epulet_csoportok.csv"       # több OSM-elemből álló épület (pl. fürdő, kórház): csoport;nev;osm_tipus;id;fo
-OENY_KIZART = "forras/oeny_kizart.csv"   # osm_tipus;id;megjegyzes - a listán szereplő OSM-elemekről minden E-Örökség (oeny, oeny_koord) tényt eldob (adatlap, törzsszám, védettség, év, tervező)
-KIZART = "forras/kizart_epuletek.csv"   # osm_tipus;id;megjegyzes - a listán szereplő OSM-elemeket (pl. udvar, nem épület) kihagyja a térképről
-KEZI_CIMEK = "forras/kezi_cimek.csv"       # a kártyán látszó cím kézi felülírása (osm_tipus;id;cim;megjegyzes)
-FELOSZTAS = "forras/kezi_felosztas.csv"   # egy OSM-körvonal kettévágása egy egyenes mentén (pl. két házat egy poligonba rajzoltak)
-DUPLIKATUMOK = "forras/duplikatumok.csv"   # duplikatok_kereso.py + kézi döntés: egymásra rajzolt épületek tisztítása adatvesztés nélkül
-ALIAS = {}                                  # törölt (duplikált) elem kulcsa -> megtartott elem kulcsa
+KEZI_EPULETEK = "forras/kezi_epuletek.geojson"          # manually added items that are not buildings in OSM (e.g. memorials): GeoJSON, with the usual fields
+CSOPORTOK = "forras/epulet_csoportok.csv"       # a building made of several OSM elements (e.g. bath, hospital): group;nev;osm_tipus;id;fo
+OENY_KIZART = "forras/oeny_kizart.csv"   # osm_tipus;id;megjegyzes - drops every E-Örökség (oeny, oeny_koord) fact for the listed OSM elements (data sheet, register number, protection, year, designer)
+KIZART = "forras/kizart_epuletek.csv"   # osm_tipus;id;megjegyzes - leaves the listed OSM elements (e.g. courtyard, not a building) off the map
+KEZI_CIMEK = "forras/kezi_cimek.csv"       # manual override of the address shown on the card (osm_tipus;id;cim;megjegyzes)
+FELOSZTAS = "forras/kezi_felosztas.csv"   # splitting one OSM outline in two along a straight line (e.g. two houses drawn as one polygon)
+DUPLIKATUMOK = "forras/duplikatumok.csv"   # duplikatok_kereso.py + manual decision: cleaning up buildings drawn on top of each other without losing data
+ALIAS = {}                                  # key of the removed (duplicate) element -> key of the kept element
 PRIORITAS = "forras/prioritas.json"
-RESZEK = "data/belvaros_reszek.geojson"           # building:part elemek (geojson_keszites.py)
+RESZEK = "data/belvaros_reszek.geojson"           # building:part elements (geojson_keszites.py)
 KIMENET = "data/belvaros_epuletek_vegleges.geojson"
 UTKOZESEK = "data/utkozesek.csv"
-CIMEK = "data/osm_cimek.csv"                      # cimek_letoltes.py kimenete (OSM-címpontok)
-BECSLES = "data/ev_becsles.csv"                   # ev_becsles.py kimenete (csak becslés, nem adat)
+CIMEK = "data/osm_cimek.csv"                      # output of cimek_letoltes.py (OSM address points)
+BECSLES = "data/ev_becsles.csv"                   # output of ev_becsles.py (an estimate only, not data)
 VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"
 if VAROS:
     OSM = "data/varos/epuletek.geojson"
@@ -50,7 +50,7 @@ if VAROS:
 BECSLES_KORSZAKOK = ["1867 előtt", "1867–1918", "1919–1944", "1945–1956", "1957–1989", "1990–2010", "2011-től"]
 
 DONTO_MEZOK = ["ev", "szintek", "tervezo", "magassag"]
-TOROL = object()          # a kézi '-' jelölője a számos mezőkben
+TOROL = object()          # the marker of a manual '-' in the numeric fields
 SZAMOS = {"ev", "szintek", "magassag", "lechner_ev_kezdet", "lechner_ev_veg", "szintek_kep",
           "eubucco_magassag_min", "eubucco_magassag_max", "eubucco_szintek"}
 
@@ -64,7 +64,7 @@ def szam(x):
 
 
 def tervezo_nevek(x):
-    """'Feszl Frigyes (1821–1884)' és 'Feszl Frigyes' ugyanaz; több név: ',' ';' ' és ' elválasztja."""
+    """Normalises names: 'Feszl Frigyes (1821–1884)' and 'Feszl Frigyes' are the same; several names are separated by ',' ';' ' és '."""
     x = re.sub(r"\u00ad\s*|\u200b", "", re.sub(r"\([^)]*\)", "", str(x)))
     reszek = re.split(r",|;|\bés\b", x)
     ki = set()
@@ -79,19 +79,19 @@ TERVEZO_NEM_NEV = re.compile(r"[-–—]+|tervező\s+nem\s+ismert", re.I)
 
 
 def tervezo_tisztit(x):
-    """Tervező-név egységesítése, 1. lépés: minden zárójeles tartalom törlése (életrajzi évek, alternatív névalak, megjegyzés)."""
+    """Designer-name normalisation, step 1: delete all parenthesised content (years of life, alternative name form, remark)."""
     x = str(x or "")
     while True:
         y = re.sub(r"\([^()]*\)", "", x)
         if y == x:
             break
         x = y
-    x = re.sub(r"[()]", "", x)                       # párosítatlan zárójel
+    x = re.sub(r"[()]", "", x)                       # unpaired parenthesis
     x = re.sub(r"\u00ad|\u200b", "", x)
     x = re.sub(r"\s+([,;])", r"\1", " ".join(x.split()))
-    x = re.sub(r"([,;])(\s*[,;])+", r"\1", x)       # a törlés után üresen maradt elválasztók
+    x = re.sub(r"([,;])(\s*[,;])+", r"\1", x)       # separators left empty after the deletion
     x = x.strip(" ,;")
-    if TERVEZO_NEM_NEV.search(x):                    # "Tervező nem ismert" és a magában álló "-" nem név: a tétel törlése (a többi név marad)
+    if TERVEZO_NEM_NEV.search(x):                    # "Tervező nem ismert" ("designer unknown") and a lone "-" are not names: the item is deleted (the other names stay)
         reszek = re.split(r"(\s*[;,]\s*|\s+és\s+)", x)
         ki = ""
         for i in range(0, len(reszek), 2):
@@ -103,7 +103,7 @@ def tervezo_tisztit(x):
 
 
 def tervezo_tisztitas(feats):
-    """A tervező-mezők (az épületé és a zónából örökölté) zárójel nélküli alakja; ha semmi nem marad, a mező megszűnik."""
+    """The designer fields (of the building and the one inherited from the zone) without parentheses; if nothing remains, the field is removed."""
     db = 0
     for ft in feats:
         pr = ft["properties"]
@@ -126,27 +126,27 @@ def tervezo_egyezik(a, b):
     return bool(na and nb and (na <= nb or nb <= na))
 
 
-# A részek ezeket a tulajdonságokat az épülettől örökölhetik, ha magukhoz nincs saját adatuk
+# The parts may inherit these properties from the building if they have no data of their own
 NEM_OROKOLT = {"id", "osm_tipus", "resz", "szulo_id", "szulo_tipus"}
 EV_CSOPORT = ("ev", "ev_forras")
 SZINT_CSOPORT = ("szintek", "szintek_forras", "szintek_osm", "szint_eltero")
 MAGASSAG_CSOPORT = ("magassag", "magassag_forras", "magassag_szintbol")
-TOVABB_FEDETT = 0.5          # ennél kisebb arányban lefedett épületnél a részeket figyelmen kívül hagyjuk
+TOVABB_FEDETT = 0.5          # for a building covered by parts to a lesser degree than this, the parts are ignored
 
 
-KIS_EPULET_M2 = 50.0          # ennél kisebb alapterületű, adat nélküli épület kis melléképület
+KIS_EPULET_M2 = 50.0          # a data-less building with a smaller footprint than this is a small outbuilding
 KIS_EPULET_MAGASSAG = 3.5     # m
-KIOSZK_M2 = 15.0              # ennél kisebb alapterületű épület (kioszk, trafó) mindig a kis magasságot kapja
-KIS_EPULET_MAX_BECSLT = 6.0   # m: a kis épület becsült EUBUCCO-magassága legfeljebb ennyi
+KIOSZK_M2 = 15.0              # a building with a smaller footprint than this (kiosk, transformer) always gets the low height
+KIS_EPULET_MAX_BECSLT = 6.0   # m: the estimated EUBUCCO height of a small building is at most this
 
 
 def gyuru_terulet(gyuruk):
-    """Terület m²-ben: a külső gyűrű mínusz a lyukak (udvarok)."""
+    """Area in m²: the outer ring minus the holes (courtyards)."""
     return max(teruletu_kozeppont(gyuruk[0])[0] - sum(teruletu_kozeppont(h)[0] for h in gyuruk[1:]), 1e-9)
 
 
 def orokol(rp, sp):
-    """A rész (rp) megkapja az épület (sp) tulajdonságait, ha a sajátjából hiányoznak."""
+    """The part (rp) receives the building's (sp) properties if it lacks them itself."""
     rp["szulo_id"] = sp["id"]
     rp["szulo_tipus"] = sp["osm_tipus"]
     if rp.get("tipus") in (None, "yes"):
@@ -173,16 +173,16 @@ def kozos_csucsok(gy_a, gy_b):
 
 
 def reszek_kezelese(feats):
-    """Az épületrészeket (building:part) hozzárendeli az őket tartalmazó épülethez.
+    """Assigns the building parts (building:part) to the building containing them.
 
-    1. Ha egy rész belső pontja az épület külső körvonalán belül van (az udvarok is
-       az épülethez tartoznak), a rész az épületé.
-    2. Ha a részek legalább felét lefedik az épület kontúrjának, a kontúr helyett a részeket
-       rajzoljuk ki; ha kevésbé, a részeket hagyjuk el, és a kontúr marad.
-    3. Az épületen kívül álló, de hozzá kapcsolódó részek (közös csúcsok, vagy a rész egyik
-       csúcsa az épületen belül van) is öröklik az épület adatait, de önállóan jelennek meg.
-    A név, a védettség stb. örökölt; a saját (OSM-ben megadott vagy kézzel javított) év,
-    szintszám és magasság a résznél marad."""
+    1. If a part's interior point lies within the building's outer outline (courtyards
+       also belong to the building), the part belongs to the building.
+    2. If the parts cover at least half of the building's outline, the parts are drawn
+       instead of the outline; if less, the parts are dropped and the outline stays.
+    3. Parts outside the building but connected to it (shared vertices, or one of the
+       part's vertices lies inside the building) also inherit the building's data, but appear on their own.
+    Name, protection etc. are inherited; the part keeps its own year, number of storeys
+    and height (given in OSM or corrected by hand)."""
     reszek = [ft for ft in feats if ft["properties"].get("resz")]
     szulok = [ft for ft in feats if not ft["properties"].get("resz")]
     stat = Counter()
@@ -194,7 +194,7 @@ def reszek_kezelese(feats):
         xs = [p[0] for p in gy[0]]
         ys = [p[1] for p in gy[0]]
         adatok.append((min(xs), max(xs), min(ys), max(ys), gyuru_terulet(gy), s))
-    RACS = 0.002                                  # fok: gyors keresés a környező épületek között
+    RACS = 0.002                                  # degrees: fast lookup among the surrounding buildings
     racs = defaultdict(list)
     for a in adatok:
         for ci in range(int(a[0] / RACS), int(a[1] / RACS) + 1):
@@ -209,8 +209,8 @@ def reszek_kezelese(feats):
                     lat[id(a)] = a
         return list(lat.values())
 
-    csoportok = defaultdict(list)                 # id(szülő) -> [rész]
-    kapcsolodo = []                               # (rész, szülő-feature)
+    csoportok = defaultdict(list)                 # id(parent) -> [part]
+    kapcsolodo = []                               # (part, parent feature)
     for r in reszek:
         gy = r["geometry"]["coordinates"]
         x, y = belso_pont([gy])
@@ -220,7 +220,7 @@ def reszek_kezelese(feats):
             szulo = min(jeloltek, key=lambda a: a[4])
             csoportok[id(szulo[5])].append((r, szulo))
             continue
-        # nincs benne egyik kontúrban sem: kapcsolódik-e valamelyikhez?
+        # not in any outline: is it connected to one of them?
         rx = [p[0] for p in gy[0]]
         ry = [p[1] for p in gy[0]]
         legjobb, pont = None, 0
@@ -260,8 +260,8 @@ def reszek_kezelese(feats):
 
 
 def becsles_hozzafuzese(feats):
-    """Az ev_becsles.csv-ből külön 'ev_becsles_*' mezőket tesz a SZÜRKE (ev nélküli) épületekre.
-    Az 'ev' mezőhöz nem nyúl: a becslés sosem számít adatnak."""
+    """From ev_becsles.csv, adds separate 'ev_becsles_*' fields to the GREY (year-less) buildings.
+    The 'ev' field is not touched: an estimate never counts as data."""
     if not Path(BECSLES).exists():
         print(f"Becslés: nincs {BECSLES} (futtasd: py ev_becsles.py)")
         return 0
@@ -275,8 +275,8 @@ def becsles_hozzafuzese(feats):
         if pr.get("ev"):
             continue
         if pr.get("resz"):
-            # az épülethez kapcsolódó rész (building:part) a szülő épület becslését örökli, ha a szülőnek van becslése;
-            # korábban a rész becslés nélkül maradt, és a csempézés a legközelebbi épület korszakát adta neki (32 rész)
+            # a building part (building:part) inherits the estimate of its parent building if the parent has one
+            # previously the part was left without an estimate, and the tiling gave it the era of the nearest building (32 parts)
             if not pr.get("szulo_id"):
                 continue
             r = becsles.get((pr.get("szulo_tipus") or "way", int(pr["szulo_id"])))
@@ -293,8 +293,8 @@ def becsles_hozzafuzese(feats):
 
 
 def kozelito_hozzafuzese(feats):
-    """A data/varos/*_kozelito.csv szöveges korszakadataiból ('1920-1930-as évek') 'ev_kozelito_*' mezők az évszám nélküli épületekre.
-    Ez is adat (a forrás szerint nagyjából ekkor épült), de nem pontos év: az 'ev' mezőhöz nem nyúl. Több forrásnál a legszűkebb tartomány kerül ki."""
+    """From the textual era data of data/varos/*_kozelito.csv ('1920-1930-as évek', i.e. "the 1920s-30s"), 'ev_kozelito_*' fields for year-less buildings.
+    This is data too (roughly when it was built, according to the source), but not an exact year: the 'ev' field is not touched. With several sources the narrowest range is output."""
     if not VAROS:
         return 0
     jelolt = defaultdict(list)
@@ -324,7 +324,7 @@ def kozelito_hozzafuzese(feats):
 
 
 def cimek_hozzafuzese(feats):
-    """A 'cim' (első cím, pl. 'Alkotmány utca 2') és 'cim_tobb' (hány további cím) mezők a kártyához."""
+    """The 'cim' (first address, e.g. 'Alkotmány utca 2') and 'cim_tobb' (how many further addresses) fields for the card."""
     if not Path(CIMEK).exists():
         return 0
     cimek = defaultdict(list)
@@ -337,7 +337,7 @@ def cimek_hozzafuzese(feats):
         pr = x["properties"]
         lista = cimek.get(kulcs(pr))
         if not lista and pr.get("szulo_id") and pr.get("szulo_tipus"):
-            lista = cimek.get((pr["szulo_tipus"], int(pr["szulo_id"])))   # épületrész: a szülő címe
+            lista = cimek.get((pr["szulo_tipus"], int(pr["szulo_id"])))   # building part: the parent's address
         if lista:
             lista = list(dict.fromkeys(lista))
             pr["cim"] = lista[0]
@@ -348,9 +348,9 @@ def cimek_hozzafuzese(feats):
 
 
 def zona_wikipedia_hozzafuzese(feats):
-    """A zónaszerkesztőben megadott Wikipédia-cikk (forras/zonak_poligon.geojson, 'wikipedia' mező) a zónába eső épületek
-    alapértelmezett cikke. Ha az épületnek van saját cikke (bármely forrásból, vagy kézzel), az marad; több zónánál
-    a legkisebb, cikkel rendelkező zóna győz. Az épületen 'wikipedia_zona' jelzi, melyik zónától származik."""
+    """The Wikipedia article given in the zone editor (forras/zonak_poligon.geojson, 'wikipedia' field) is the default article of the
+    buildings falling in the zone. If the building has its own article (from any source, or by hand), that stays; with several zones
+    the smallest zone that has an article wins. The 'wikipedia_zona' field on the building shows which zone it came from."""
     ut = Path("forras/zonak_poligon.geojson")
     if not ut.exists():
         return 0
@@ -365,11 +365,11 @@ def zona_wikipedia_hozzafuzese(feats):
         zonak.append((terulet, min(xs), min(ys), max(xs), max(ys), g["coordinates"], p["wikipedia"], p.get("nev") or p["id"]))
     if not zonak:
         return 0
-    zonak.sort(key=lambda z: z[0])               # kicsitől a nagyig: az első találat a legkisebb
+    zonak.sort(key=lambda z: z[0])               # from small to large: the first match is the smallest
     db = 0
     for ft in feats:
         pr = ft["properties"]
-        if pr.get("wikipedia"):          # (a romok is megkapják a zóna cikkét, ha nincs sajátjuk)
+        if pr.get("wikipedia"):          # (ruins also get the zone's article if they have none of their own)
             continue
         g = ft["geometry"]
         if g["type"] == "Polygon":
@@ -387,12 +387,12 @@ def zona_wikipedia_hozzafuzese(feats):
     return db
 
 
-ZONA_NEV_TIPUSOK = {"lakotelep"}   # ezeknek a rajzolt zónatípusoknak a neve az épület "zona_nev" mezőjébe kerül (a kártya címe, ha az épületnek nincs saját neve)
+ZONA_NEV_TIPUSOK = {"lakotelep"}   # the name of these drawn zone types goes into the building's "zona_nev" field (the card's title, if the building has no name of its own)
 
 
 def zona_nev_hozzarendeles(feats):
-    """A rajzolt lakótelep-zónák (forras/zonak_poligon.geojson, tipus: lakotelep) neve a zónába eső épületekre: 'zona_nev'.
-    Több zónánál a legkisebb győz. Az épület saját neve (nev, lechner_nev, nev_kozepulet) ettől függetlenül megmarad."""
+    """The names of the drawn housing-estate zones (forras/zonak_poligon.geojson, tipus: lakotelep) for the buildings falling in the zone: 'zona_nev'.
+    With several zones the smallest wins. The building's own name (nev, lechner_nev, nev_kozepulet) stays regardless."""
     ut = Path("forras/zonak_poligon.geojson")
     if not ut.exists():
         return 0
@@ -400,7 +400,7 @@ def zona_nev_hozzarendeles(feats):
     for f in json.load(open(ut, encoding="utf-8")).get("features", []):
         p, g = f.get("properties", {}), f.get("geometry", {})
         nev = (p.get("nev") or "").strip()
-        jel = p.get("zona_nev_hozzaad")          # a zónaszerkesztő pipája; ha nincs beállítva, a zónatípus dönt
+        jel = p.get("zona_nev_hozzaad")          # the zone editor's tick box; if not set, the zone type decides
         if jel is None:
             jel = p.get("tipus") in ZONA_NEV_TIPUSOK
         if not jel or not nev:
@@ -413,7 +413,7 @@ def zona_nev_hozzarendeles(feats):
             zonak.append((terulet, min(xs), min(ys), max(xs), max(ys), koord, nev))
     if not zonak:
         return 0
-    zonak.sort(key=lambda z: z[0])               # kicsitől a nagyig
+    zonak.sort(key=lambda z: z[0])               # from small to large
     db = 0
     for ft in feats:
         pr = ft["properties"]
@@ -437,9 +437,9 @@ def zona_nev_hozzarendeles(feats):
 
 
 def zona_tervezo_hozzarendeles(feats):
-    """A zónaszerkesztőben megadott tervező(k) (forras/zonak_poligon.geojson, 'tervezo' mező, pl. egy lakótelepé) a zónába eső
-    épületekre: 'zona_tervezo' (a szöveg), 'zona_azon' (a zóna azonosítója) és 'zona_tervezo_nev' (a zóna neve). Az épület saját 'tervezo' mezőjét
-    nem írja át. Több zónánál a legkisebb győz. A 3D nézet az építész kiemelésekor ezt is figyeli, és a telepet 1 projektként számolja."""
+    """The designer(s) given in the zone editor (forras/zonak_poligon.geojson, 'tervezo' field, e.g. of a housing estate) for the buildings
+    falling in the zone: 'zona_tervezo' (the text), 'zona_azon' (the zone's id) and 'zona_tervezo_nev' (the zone's name). The building's own 'tervezo'
+    field is not overwritten. With several zones the smallest wins. When an architect is highlighted, the 3D view also watches this, and counts the estate as 1 project."""
     ut = Path("forras/zonak_poligon.geojson")
     if not ut.exists():
         return 0
@@ -455,7 +455,7 @@ def zona_tervezo_hozzarendeles(feats):
             xs, ys = [q[0] for q in gy], [q[1] for q in gy]
             terulet = abs(sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(gy, gy[1:]))) / 2
             zonak.append((terulet, min(xs), min(ys), max(xs), max(ys), koord, terv, p.get("id") or "", (p.get("nev") or "").strip()))
-    for ft in feats:                                  # az előző futás eredménye ne maradjon meg
+    for ft in feats:                                  # the result of the previous run must not remain
         for k in ("zona_tervezo", "zona_azon", "zona_tervezo_nev"):
             ft["properties"].pop(k, None)
     if not zonak:
@@ -482,14 +482,14 @@ def zona_tervezo_hozzarendeles(feats):
     return db
 
 
-GYENGE_EV_FORRASOK = {"eubucco", "wikidata_kozeli"}   # a legkevésbé megbízható évszám-források
-ZONA_FELULIRJA_GYENGE_EVET = True                      # a rajzolt zóna határán kívül eső, gyenge forrású évszámot a zóna felülírja
+GYENGE_EV_FORRASOK = {"eubucco", "wikidata_kozeli"}   # the least reliable year sources
+ZONA_FELULIRJA_GYENGE_EVET = True                      # a weak-source year outside the drawn zone's boundary is overridden by the zone
 
 
 def zona_gyenge_ev_felulirasa(feats):
-    """Ha egy épület évszáma gyenge forrásból (EUBUCCO, közeli Wikidata-találat) való és kívül esik a rajzolt zóna kemény határán
-    (építés ettől; az 'ig_hatar' kapcsolóval az építés eddig is), akkor az évszámot eldobjuk: az épület szürke lesz, és a becslés
-    a zónahatáron belül dönt. Az erős források (kézi, OSM, műemlék, OENY, értékleltár, Budapest100 stb.) évszámát nem bántjuk."""
+    """If a building's year comes from a weak source (EUBUCCO, a nearby Wikidata match) and falls outside the hard boundary of the drawn zone
+    (built from this year on; with the 'ig_hatar' switch also up to this year), the year is dropped: the building turns grey and the estimate
+    decides within the zone boundary. The year of strong sources (manual, OSM, monument, OENY, heritage inventory, Budapest100 etc.) is left alone."""
     ut = Path("forras/zonak_poligon.geojson")
     if not ZONA_FELULIRJA_GYENGE_EVET or not ut.exists():
         return 0
@@ -534,8 +534,8 @@ def zona_gyenge_ev_felulirasa(feats):
 
 
 def _zona_b100_linkek(feats):
-    """A zónaszerkesztőben megadott Budapest100-link ('budapest100' mező) a zónába eső épületek alapértelmezett linkje, ha az
-    épületnek nincs saját 'budapest100_url'-je. Több zónánál a legkisebb, linkkel rendelkező zóna győz."""
+    """The Budapest100 link given in the zone editor ('budapest100' field) is the default link of the buildings in the zone, if the
+    building has no 'budapest100_url' of its own. With several zones the smallest zone that has a link wins."""
     ut = Path("forras/zonak_poligon.geojson")
     if not ut.exists():
         return 0
@@ -543,7 +543,7 @@ def _zona_b100_linkek(feats):
     for f in json.load(open(ut, encoding="utf-8")).get("features", []):
         p, g = f.get("properties", {}), f.get("geometry", {})
         b100 = p.get("budapest100")
-        if not b100:                       # a zónalistából átvett zónáknál az URL gyakran csak a megjegyzésben áll
+        if not b100:                       # for zones taken over from the zone list the URL often appears only in the remark
             m_ = re.search(r"https?://(?:www\.)?budapest100\.hu/[^\s;,)\"]+", str(p.get("megjegyzes") or ""))
             b100 = m_.group(0) if m_ else None
         if not b100 or g.get("type") != "Polygon":
@@ -574,8 +574,8 @@ def _zona_b100_linkek(feats):
 
 
 def zona_budapest100_hozzafuzese(feats):
-    """Zónából örökölt link + a Budapest100-oldal képe és fényképésze minden olyan épületre, amelynek van budapest100_url-je
-    (zónából, kézi szerkesztésből vagy az épületes párosításból), de még nincs saját budapest100_kep-je (data/bp100/kepek.json)."""
+    """The link inherited from the zone + the Budapest100 page's image and photographer for every building that has a budapest100_url
+    (from the zone, from manual editing or from the building pairing) but no budapest100_kep of its own yet (data/bp100/kepek.json)."""
     db = _zona_b100_linkek(feats)
     try:
         kepek = json.load(open("data/bp100/kepek.json", encoding="utf-8"))
@@ -587,8 +587,8 @@ def zona_budapest100_hozzafuzese(feats):
         k = kepek.get((pr.get("budapest100_url") or "").strip())
         if k is None:
             continue
-        # a kép és a fényképész mindig ahhoz az oldalhoz tartozik, amelyiknek a linkje a kártyán áll
-        # (ha az épülethez több Budapest100-oldal is tartozik, a link, a kép és a fotós nem keveredhet)
+        # the image and the photographer always belong to the page whose link is on the card
+        # (if several Budapest100 pages belong to the building, the link, the image and the photographer must not get mixed up)
         if k.get("kep"):
             if pr.get("budapest100_kep") != k["kep"] or pr.get("budapest100_foto", "") != k.get("foto", ""):
                 kep_db += 1
@@ -604,32 +604,32 @@ def zona_budapest100_hozzafuzese(feats):
     return db
 
 
-# Egy épületcsoport (pl. a Rudas-fürdő sok OSM-darabja) darabonként más a geometriájában, de egy épület: egy név, egy kártya.
+# A building group (e.g. the many OSM pieces of the Rudas bath) differs in geometry piece by piece, but is one building: one name, one card.
 CSOPORT_RESZENKENT = {"wikipedia_zona", "id", "osm_tipus", "tipus", "resz", "szulo_id", "szulo_tipus", "kerulet", "lat", "lon", "csoport", "csoport_nev",
                       "csoport_reszek", "csoport_osm", "cim_tobb", "sv_lat", "sv_lon", "ev", "ev_forras", "nev", "wikidata_nev", "kep"}
-CSOPORT_EGYESITETT = {"wikipedia", "oeny_azonosito"}                 # a csoport darabjainak cikkei/adatlapjai egyesítve (legfeljebb 3)
-CSOPORT_SZOVEG_EGYESITETT = {"tervezo", "about"}                      # a különböző szövegek egymás mellé kerülnek
+CSOPORT_EGYESITETT = {"wikipedia", "oeny_azonosito"}                 # the articles/data sheets of the group's pieces combined (at most 3)
+CSOPORT_SZOVEG_EGYESITETT = {"tervezo", "about"}                      # the different texts are placed side by side
 
 
-# Automatikus csoportok: egy épület körvonala helyett kirajzolt részek (building:part) egy épületként kezelődnek,
-# ha ezzel semmilyen link nem veszne el (lásd auto_csoportok).
+# Automatic groups: parts (building:part) drawn instead of a building's outline are treated as one building,
+# if no link would be lost by it (see auto_csoportok).
 AUTO_CSOPORT = True
-LINK_EGYEDI = ("budapest100_url", "budapest100_kep", "legenda_url", "legenda_kep", "epforum_url", "commons_kep")     # darabonként legfeljebb egy különböző érték
-LINK_EGYESITETT = ("oeny_azonosito", "wikipedia")                                      # az egyesítés legfeljebb 3 különböző értéket visz át
+LINK_EGYEDI = ("budapest100_url", "budapest100_kep", "legenda_url", "legenda_kep", "epforum_url", "commons_kep")     # at most one different value per piece
+LINK_EGYESITETT = ("oeny_azonosito", "wikipedia")                                      # the merge carries over at most 3 different values
 
 
 def auto_csoportok(feats, kulcsok_kezi, index):
-    """Az épület körvonalát felváltó részekből (azonos szulo_id, a szülő nincs a kimenetben) csoportot csinál, de csak ha
-    a csoport egyesítése nem veszítene el semmit: az OENY-azonosító, a Wikipédia (együtt legfeljebb 3), a Budapest100- és
-    Legenda-link (kép is) legfeljebb egy-egy különböző értékű, és nem szerepel két különböző évszám (az Építészfórum/OENY/...
-    évét a csoport egységesen venné át). Visszaad: (sorok a csoportok-táblához, statisztika)."""
+    """From the parts that replace a building's outline (same szulo_id, the parent is not in the output) it forms a group, but only if
+    merging the group would lose nothing: the OENY id, Wikipedia (at most 3 together), the Budapest100 and
+    Legenda link (and image) have at most one different value each, and no two different years occur (the year of Építészfórum/OENY/...
+    would be taken over uniformly by the group). Returns: (rows for the groups table, statistics)."""
     stat = Counter()
     csopi = defaultdict(list)
     for ft in feats:
         p = ft["properties"]
         if p.get("resz") and p.get("szulo_id") and p.get("szulo_tipus") and kulcs(p) not in kulcsok_kezi:
             if (p["szulo_tipus"], int(p["szulo_id"])) in index:
-                continue                      # a szülő megmaradt: ez a rész csak kapcsolódik hozzá, önálló marad
+                continue                      # the parent remained: this part is only connected to it, it stays independent
             csopi[(p["szulo_tipus"], int(p["szulo_id"]))].append(ft)
     sorok = {}
     for (st, sid), tagok in csopi.items():
@@ -659,12 +659,12 @@ def auto_csoportok(feats, kulcsok_kezi, index):
 
 
 def csoportok_osszevonasa(feats):
-    """forras/epulet_csoportok.csv: több OSM-elem egy épületként. A csoport minden darabja
-    - ugyanazt a nevet kapja (nev), és a csoport 'fo' darabjának évszámát (ev) – a szín és a kártya egységes;
-    - megkapja a csoport összes darabjának adatát: ami a darabon nincs meg, azt a többitől veszi (cím, védettség, Wikipédia,
-      Lechner, tervező …), a Wikipédia-cikkek és a tervezők egyesítve;
-    - a kártyán 'Az épület részei' szakaszban megjelenik minden darab saját adata (csoport_reszek) és az OSM-linkje (csoport_osm).
-    A darabok saját geometriája, szintszáma és magassága nem változik."""
+    """forras/epulet_csoportok.csv: several OSM elements as one building. Every piece of the group
+    - gets the same name (nev) and the year (ev) of the group's 'fo' (main) piece - so the colour and the card are uniform;
+    - gets the data of all the group's pieces: what a piece lacks it takes from the others (address, protection, Wikipedia,
+      Lechner, designer ...), with the Wikipedia articles and designers combined;
+    - the card shows each piece's own data (csoport_reszek) and its OSM link (csoport_osm) in the 'Parts of the building' section.
+    The pieces' own geometry, number of storeys and height do not change."""
     sorok = defaultdict(list)
     if Path(CSOPORTOK).exists():
         with open(CSOPORTOK, encoding="utf-8-sig", newline="") as f:
@@ -682,12 +682,12 @@ def csoportok_osszevonasa(feats):
     for azon, lista in sorok.items():
         nev = next(((r.get("nev") or "").strip() for r in lista if (r.get("nev") or "").strip()), None)
         if nev is None and not azon.startswith(("auto_", "kez_")):
-            nev = azon     # a szerkesztőben felvett (kez_) csoport neve a darabok közös, örökölt neve, nem a csoport azonosítója
-        if nev is None:   # automatikus csoport: a darabok közös, örökölt neve (ha van)
+            nev = azon     # the name of a group created in the editor (kez_) is the pieces' shared, inherited name, not the group's id
+        if nev is None:   # automatic group: the pieces' shared, inherited name (if any)
             nev = next((index[(r.get("osm_tipus") or "way", int(r["id"]))]["properties"].get("nev") for r in lista
                         if (r.get("osm_tipus") or "way", int(r["id"])) in index
                         and index[(r.get("osm_tipus") or "way", int(r["id"]))]["properties"].get("nev")), "")
-        tagok = []                                   # [(feature, fo?)]
+        tagok = []                                   # [(feature, main?)]
         for r in lista:
             _k = ((r.get("osm_tipus") or "way").strip(), int(r["id"]))
             ft = index.get(ALIAS.get(_k, _k))
@@ -702,7 +702,7 @@ def csoportok_osszevonasa(feats):
         fo = next((ft for ft, f_ in tagok if f_), tagok[0][0])
         tagok_sorrend = [fo] + [ft for ft, _ in tagok if ft is not fo]
         fo_azon = "%s:%s" % kulcs(fo["properties"])
-        # darabonkénti összefoglaló (a saját adatok, mielőtt az évszámot egységesítjük)
+        # per-piece summary (the own data, before the year is unified)
         reszek = []
         for ft in tagok_sorrend:
             p = ft["properties"]
@@ -728,7 +728,7 @@ def csoportok_osszevonasa(feats):
             if p.get("ev_becsles_korszak") is not None and not p.get("ev"):
                 adat.append("évszáma becsült")
             reszek.append("%s %s: %s" % (*kulcs(p), "; ".join(adat) if adat else "nincs külön adat"))
-        # összegyűjtött adatok
+        # collected data
         osszes = {}
         for ft in tagok_sorrend:
             for k, v in ft["properties"].items():
@@ -747,8 +747,8 @@ def csoportok_osszevonasa(feats):
                     osszes[k] = "; ".join(jelen)
                 elif k not in osszes:
                     osszes[k] = v
-        # A zónától örökölt Wikipédia-cikk jelzése ('wikipedia_zona') csak akkor terjed a csoportra, ha a csoport egyetlen cikke sem a
-        # darab saját cikke; különben a saját cikkel rendelkező darab zónásnak látszana (és kimaradna a Wikipédia-rétegből).
+        # The mark of a Wikipedia article inherited from a zone ('wikipedia_zona') spreads to the group only if none of the group's articles is
+        # the piece's own article; otherwise a piece with its own article would look zone-derived (and drop out of the Wikipedia layer).
         zona_cikk = [ft["properties"] for ft in tagok_sorrend if ft["properties"].get("wikipedia")]
         zona_jelzes = next((p["wikipedia_zona"] for p in zona_cikk if p.get("wikipedia_zona")), None) \
             if zona_cikk and all(p.get("wikipedia_zona") for p in zona_cikk) else None
@@ -781,9 +781,9 @@ def csoportok_osszevonasa(feats):
 
 
 def zona_muemlek_hozzafuzese(feats):
-    """A zónaszerkesztőben berajzolt 'muemlek' típusú zónák (azonosító: oeny_<törzsszám>[_…]) a beléjük eső épületekre
-    ráírják a műemléki törzsszámot, a védettséget és az E-Örökség (OENY) adatlap-azonosítóját. Amelyik épületnek már van
-    saját műemléki törzsszáma (az OENY címalapú párosításából vagy kézzel), azt nem bántjuk."""
+    """The 'muemlek' (monument) type zones drawn in the zone editor (id: oeny_<register number>[_...]) write the monument register number,
+    the protection and the E-Örökség (OENY) data-sheet id onto the buildings falling in them. A building that already has its
+    own monument register number (from the address-based OENY pairing or by hand) is left alone."""
     ut = Path("forras/zonak_poligon.geojson")
     if not ut.exists():
         return 0
@@ -829,8 +829,8 @@ def ertek(mezo, x):
 
 
 def _felvag(gyuru, p1, p2, bal):
-    """Sutherland-Hodgman: a gyűrű (lon, lat) egyik oldalán lévő része a p1->p2 egyenesnek (bal=True: a haladási irány bal oldala).
-    Méterarányos síkban számol (a hosszúsági fok rövidebb)."""
+    """Sutherland-Hodgman: the part of the ring (lon, lat) on one side of the line p1->p2 (bal=True: the left side of the direction of travel).
+    Computed in a metric-proportional plane (a degree of longitude is shorter)."""
     kx = math.cos(math.radians(47.5))
     def oldal(p):
         v = ((p2[0] - p1[0]) * kx) * (p[1] - p1[1]) - (p2[1] - p1[1]) * ((p[0] - p1[0]) * kx)
@@ -852,9 +852,9 @@ def _felvag(gyuru, p1, p2, bal):
 
 
 def felosztas(feats):
-    """forras/kezi_felosztas.csv: egy körvonalat a (lat1,lon1)->(lat2,lon2) egyenes mentén két épületre vág.
-    a_id/b_id: az új elemek azonosítója (üres: az eredeti id*10+1 / *10+2); a = az egyenes haladási irányának bal, b = jobb oldala.
-    a_cim/b_cim: az új házak címe. Az új elemek tényeit (ev, tervezo, szintek …) a kezi_javitasok.csv-ben add meg az új azonosítóval."""
+    """forras/kezi_felosztas.csv: cuts one outline into two buildings along the line (lat1,lon1)->(lat2,lon2).
+    a_id/b_id: ids of the new elements (empty: the original id*10+1 / *10+2); a = the left, b = the right side of the line's direction of travel.
+    a_cim/b_cim: addresses of the new houses. Give the new elements' facts (ev, tervezo, szintek ...) in kezi_javitasok.csv under the new id."""
     if not Path(FELOSZTAS).exists():
         return feats
     sorok = [r for r in csv.DictReader(open(FELOSZTAS, encoding="utf-8-sig", newline=""), delimiter=";") if (r.get("id") or "").strip().isdigit()]
@@ -866,7 +866,7 @@ def felosztas(feats):
         k = ((pr.get("osm_tipus") or "way"), int(pr.get("id") or 0))
         r = next((x for x in sorok if ((x.get("osm_tipus") or "way").strip(), int(x["id"])) == k), None)
         gy = ft["geometry"]["coordinates"]
-        if r is None or len(gy) != 1:        # lyukas körvonalat nem vágunk
+        if r is None or len(gy) != 1:        # an outline with a hole is not cut
             ki.append(ft)
             continue
         p1, p2 = (float(r["lon1"]), float(r["lat1"])), (float(r["lon2"]), float(r["lat2"]))
@@ -894,10 +894,10 @@ def felosztas(feats):
 
 
 def duplikatok_kezelese(feats):
-    """forras/duplikatumok.csv ('alkalmaz' = igen) soraiból tisztítja az egymásra rajzolt geometriákat, adat elvesztése nélkül:
-    - mod=gyuru: ugyanannak az elemnek a belső, fölösleges körvonala törlődik (a gyuru_pontok az külső gyűrű csúcsszáma);
-    - mod=elem: a törölt elem összes körvonala törlődik; a tényei (ALIAS) a megtartott elemhez kerülnek, az OSM-tulajdonságai közül
-      ami a megtartotton hiányzik, azt átveszi (név, Wikidata, pontosabb típus, tényleges szintszám/magasság)."""
+    """Cleans geometries drawn on top of each other from the rows of forras/duplikatumok.csv ('alkalmaz' = igen), without losing data:
+    - mod=gyuru: the same element's inner, redundant outline is deleted (gyuru_pontok is the vertex count of the outer ring);
+    - mod=elem: all outlines of the deleted element are deleted; its facts (ALIAS) go to the kept element, and of its OSM properties
+      it hands over whatever the kept one lacks (name, Wikidata, a more precise type, the actual number of storeys/height)."""
     if not Path(DUPLIKATUMOK).exists():
         return feats
     sorok = []
@@ -925,7 +925,7 @@ def duplikatok_kezelese(feats):
     for t, pontok in gyuru_torles.items():
         lista = kulcsok.get(t, [])
         torlendo = [ft for ft in lista if len(ft["geometry"]["coordinates"][0]) in pontok]
-        if torlendo and len(torlendo) < len(lista):      # legalább egy körvonal mindig marad
+        if torlendo and len(torlendo) < len(lista):      # at least one outline always remains
             kidob.update(id(ft) for ft in torlendo)
             gy_db += len(torlendo)
     el_db = 0
@@ -954,7 +954,7 @@ def duplikatok_kezelese(feats):
             kidob.add(id(ft))
         ALIAS[t] = m
         el_db += 1
-    for t in list(ALIAS):                                  # láncok feloldása
+    for t in list(ALIAS):                                  # resolving chains
         m = ALIAS[t]
         for _ in range(5):
             if m in ALIAS:
@@ -1009,14 +1009,14 @@ def main():
     for ft in feats:
         index[kulcs(ft["properties"])].append(ft)
 
-    # ---- tények összegyűjtése ----
+    # ---- collecting the facts ----
     tenyek = []
     for ut in sorted(TENYEK_MAPPA.glob("*.csv")):
         sorok = tenyek_olvasasa(ut)
         tenyek += sorok
         print(f"  {ut.name}: {len(sorok)} sor")
     if Path(OENY_KIZART).exists():
-        oeny_ki, oeny_reszleges = set(), defaultdict(set)   # teljes kizárás / csak egy-egy törzsszám (adatlap) levétele
+        oeny_ki, oeny_reszleges = set(), defaultdict(set)   # full exclusion / removal of only one register number (data sheet)
         with open(OENY_KIZART, encoding="utf-8-sig", newline="") as f:
             for r in csv.DictReader(f, delimiter=";"):
                 if (r.get("id") or "").strip().isdigit():
@@ -1047,7 +1047,7 @@ def main():
         r["forras"] = "kezi"
     print(f"  kézi javítások: {len(kezi_sorok)} sor")
 
-    # kézi sor azonosító nélkül: koordináta alapján keressük meg az épületet
+    # manual row without an id: the building is found by coordinates
     nem_talalt = 0
     for r in kezi_sorok:
         if (r.get("id") or "").strip():
@@ -1067,7 +1067,7 @@ def main():
             r["id"] = ""
     tenyek += kezi_sorok
 
-    szedett = defaultdict(lambda: defaultdict(list))   # kulcs -> mező -> [(forras, érték, megjegyzés)]
+    szedett = defaultdict(lambda: defaultdict(list))   # key -> field -> [(source, value, remark)]
     ismeretlen = 0
     for r in tenyek:
         try:
@@ -1081,7 +1081,7 @@ def main():
             continue
         v = ertek(r["mezo"], r["ertek"])
         if r["forras"] == "kezi" and r["mezo"] in SZAMOS and str(r["ertek"]).strip() == "-":
-            v = TOROL           # '-' a kézi javításban: a számos mező (év, szint, magasság) törlése; korábban csendben elveszett
+            v = TOROL           # '-' in a manual correction: deletes the numeric field (year, storeys, height); it used to be lost silently
         if v in (None, ""):
             continue
         szedett[k][r["mezo"]].append((r["forras"], v, r.get("megjegyzes", "")))
@@ -1095,7 +1095,7 @@ def main():
         for ft in lista:
             pr = ft["properties"]
             tn = szedett.get(k, {})
-            # az OSM saját adatai is forrásnak számítanak
+            # OSM's own data count as a source too
             jel = {m: list(tn.get(m, [])) for m in DONTO_MEZOK}
             if pr.get("ev"):
                 jel["ev"].append(("osm", pr["ev"], pr.get("ev_forras") or ""))
@@ -1104,21 +1104,21 @@ def main():
             if pr.get("magassag_forras") == "height":
                 jel["magassag"].append(("osm_height", pr["magassag"], "height"))
             osm_ev_forras = pr.get("ev_forras")
-            for m in DONTO_MEZOK:          # kézi törlés ('-'): ha a legutolsó kézi sor törlés, a mező minden forrása kiesik
+            for m in DONTO_MEZOK:          # manual deletion ('-'): if the latest manual row is a deletion, every source of the field drops out
                 kezi_m = [x for x in jel[m] if x[0] == "kezi"]
                 jel[m] = [] if kezi_m and kezi_m[-1][1] is TOROL else [x for x in jel[m] if x[1] is not TOROL]
 
             for m in ("ev", "tervezo", "szintek"):
                 valasztott = None
                 for forras in pri[m]:
-                    # a kézi javításnál a legutoljára beírt érték győz
+                    # for the manual correction the last value entered wins
                     for f_, v, megj in (reversed(jel[m]) if forras == "kezi" else jel[m]):
                         if f_ == forras:
                             valasztott = (f_, v, megj)
                             break
                     if valasztott:
                         break
-                for f_, v, megj in jel[m]:   # ütközések
+                for f_, v, megj in jel[m]:   # conflicts
                     if valasztott and f_ != valasztott[0] and v != valasztott[1] and (
                             m != "ev" or abs(v - valasztott[1]) > tol) and (
                             m != "tervezo" or not tervezo_egyezik(v, valasztott[1])):
@@ -1150,7 +1150,7 @@ def main():
             if pr.get("szintek") is None:
                 pr.pop("szintek_forras", None)
 
-            # magasság: a szintszámból számolt és az alapértelmezett is jelölt
+            # height: the one computed from the number of storeys and the default are also marked
             if pr.get("szintek"):
                 jel["magassag"].append(("szintbol", pr["szintek"] * pri["meter_szintenkent"], ""))
                 pr["magassag_szintbol"] = pr["szintek"] * pri["meter_szintenkent"]
@@ -1165,8 +1165,8 @@ def main():
                     break
             f_, v = valasztott
             if f_ in ("alapertelmezett", "eubucco_becsles"):
-                # nincs mért magasság-adat: a kis melléképület (fészer, kamra, kioszk) ne kapjon 15 m-t, és a becsült EUBUCCO-magasságot
-                # se vegyük át, ha az az EUBUCCO egy nagyobb szomszéd-épületéből ered (a kioszk a nagy épület alaprajzába esik)
+                # no measured height data: a small outbuilding (shed, pantry, kiosk) must not get 15 m, and the estimated EUBUCCO height
+                # should not be taken over either if it comes from a larger neighbouring building of EUBUCCO (the kiosk falls into the large building's footprint)
                 g_ = ft.get("geometry") or {}
                 if g_.get("type") == "Polygon" and g_.get("coordinates"):
                     ter_ = gyuru_terulet(g_["coordinates"])
@@ -1181,21 +1181,21 @@ def main():
             else:
                 pr["magassag_forras"] = f_
 
-            # minden egyéb tény egyszerű tulajdonságként (a lista utolsó eleme érvényes)
+            # every other fact as a simple property (the last item of the list is valid)
             for mezo, vals in tn.items():
                 if mezo in DONTO_MEZOK:
                     continue
                 kezi = [x for x in vals if x[0] == "kezi"]
-                if not kezi and mezo == "oeny_azonosito":   # az OENY koordinátái alapján párosított adatlap pontosabb a törzsszám/cím alapúnál
+                if not kezi and mezo == "oeny_azonosito":   # a data sheet paired by OENY coordinates is more precise than one based on register number/address
                     kezi = [x for x in vals if x[0] == "oeny_koord"]
-                if kezi:                            # a kézi javítás az egyéb mezőknél is győz
+                if kezi:                            # the manual correction wins for the other fields as well
                     pr[mezo] = kezi[-1][1]
-                elif mezo in ("wikipedia", "oeny_azonosito"):   # több forrás cikkei / adatlapjai egyesítve (legfeljebb 3)
+                elif mezo in ("wikipedia", "oeny_azonosito"):   # articles / data sheets from several sources combined (at most 3)
                     egyedi = list(dict.fromkeys(str(x[1]) for x in vals))
                     pr[mezo] = "|".join(egyedi[:3])
                 else:
                     pr[mezo] = vals[-1][1]
-                if pr.get(mezo) is TOROL or pr.get(mezo) in ("-", ""):       # '-' = a kézi javítás eltávolítja a mezőt
+                if pr.get(mezo) is TOROL or pr.get(mezo) in ("-", ""):       # '-' = the manual correction removes the field
                     pr.pop(mezo, None)
 
     gj["features"], resz_stat = reszek_kezelese(feats)
@@ -1206,11 +1206,11 @@ def main():
     cim_db = cimek_hozzafuzese(gj["features"])
     import utcakep
     print(f"  Utcai pont (utcakép-link): {utcakep.szamol(gj['features'], CIMEK)} épület")
-    for ft in gj["features"]:                       # a felosztott házak kézzel megadott címe
+    for ft in gj["features"]:                       # manually given address of the split houses
         if ft["properties"].get("felosztas_cim"):
             ft["properties"]["cim"] = ft["properties"].pop("felosztas_cim")
             ft["properties"].pop("cim_tobb", None)
-    kezi_cimek = {}                                  # forras/kezi_cimek.csv: osm_tipus;id;cim;megjegyzes - a kártyán látszó cím kézi felülírása
+    kezi_cimek = {}                                  # forras/kezi_cimek.csv: osm_tipus;id;cim;megjegyzes - manual override of the address shown on the card
     if Path(KEZI_CIMEK).exists():
         with open(KEZI_CIMEK, encoding="utf-8-sig", newline="") as f:
             for r in csv.DictReader(f, delimiter=";"):
@@ -1226,10 +1226,10 @@ def main():
     print(f"  lakótelep-zóna neve: {zona_nev_db} épületen")
     zona_terv_db = zona_tervezo_hozzarendeles(gj["features"])
     print(f"  zónából tervezőt kapott: {zona_terv_db} épület")
-    tervezo_tisztitas(gj["features"])        # a csoportok összevonása előtt is: így az ugyanazon név nem duplázódik
+    tervezo_tisztitas(gj["features"])        # before the groups are merged as well: so the same name is not duplicated
     zona_muemlek_db = zona_muemlek_hozzafuzese(gj["features"])
     zona_bp100_db = zona_budapest100_hozzafuzese(gj["features"])
-    for ft in gj["features"]:   # helyi védelem = önálló védettségi típus (HV), ha nincs magasabb szintű (M, MJ, VK, MK, MJT) védettség
+    for ft in gj["features"]:   # local protection = a protection type of its own (HV), if there is no higher-level (M, MJ, VK, MK, MJT) protection
         pr = ft["properties"]
         if pr.get("vedettseg_helyi") and not pr.get("vedettseg"):
             pr["vedettseg"] = "HV"
@@ -1238,7 +1238,7 @@ def main():
     print(f"  tervező-mező zárójeles tartalma törölve: {tervezo_zarojel_db} elemnél (az utolsó körben)")
     with open(KIMENET, "w", encoding="utf-8") as f:
         json.dump(gj, f, ensure_ascii=False)
-    kiz_ut = Path("forras/epitesz_irodak.csv")      # az Építészek fül kizárt (nem személy) nevei statikus fájlként a nyilvános oldalnak
+    kiz_ut = Path("forras/epitesz_irodak.csv")      # the names excluded (not persons) from the Architects tab as a static file for the public site
     kizart = []
     if kiz_ut.exists():
         with open(kiz_ut, encoding="utf-8-sig", newline="") as f:
