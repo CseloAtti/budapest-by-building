@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kozos_teszt
 
-TESZTEK = ["teszt_kliens", "teszt_adatlapok", "teszt_adatok", "teszt_becsles", "teszt_becsles_kuszob", "teszt_helyi_kvota", "teszt_kereso", "teszt_reszek", "teszt_szerver", "teszt_letoltes", "teszt_felfedezo"]
+TESZTEK = ["teszt_kliens", "teszt_adatlapok", "teszt_adatok", "teszt_becsles", "teszt_becsles_kuszob", "teszt_helyi_kvota", "teszt_kereso", "teszt_reszek", "teszt_szerver", "teszt_letoltes", "teszt_felfedezo", "teszt_megosztas", "teszt_visszajelzes"]
 
 
 def main():

@@ -31,7 +31,7 @@ let archSzuro = null, archKiv = null, archAdat = null, archGidek = null;   // é
 // ---------- Nyelv (magyar / angol) ----------
 const SZOVEG = {
   hu: {
-    cim: 'Budapest, épületenként', varos: 'Budapest', alcim: 'Minden ma álló épület kor és alapinformációk szerint rendezve.', about_gomb: 'Névjegy', vedett_leiras: 'Nagyjából minden {n}. épület védett az Országos Építésügyi Nyilvántartás és a kerületi szabályozások szerint.', vedett_muemlek: 'Műemlék', vedett_helyi: 'Helyi védett', vedett_ossz: 'Összesen', about_cim: 'Budapest épületei projekt', about_szoveg: 'A szöveg hamarosan.', about_alap: 'A felület alapja az Amszterdam, épületenként projekt (Alex Barakov, MIT licenc). Adatok: OpenStreetMap, E-Örökség, Wikipédia, Wikimedia Commons; domborzat: NASA SRTM.', nez_period: 'Korok', nez_layers: 'Rétegek', nez_vedett: 'Védett', nez_magassag: 'Magasság', nez_lakotelep: 'Lakótelepek', nez_arch: 'Stílusok', nez_epitesz: 'Építészek', reteg_lakotelep: 'Lakótelepek', lakotelep_leiras: '{e} lakótelep, összesen {n} épület.', ep_ker: 'Keresés az építészek között', dij_ybl: 'Ybl Miklós-díj', dij_prima: 'Prima Primissima díj', dij_nivo: 'Budapest Építészeti Nívódíja', dij_cimke: 'Díjak', ep_sorrend: 'Sorrend', ep_s_abc: 'ABC', ep_s_tobb: 'Legtöbb épület elöl', ep_s_kevesebb: 'Legkevesebb épület elöl', ep_korszak: 'Korszak', ep_minden_kor: 'Minden korszak', ep_nincs_kor: 'Nincs korszakba sorolva', ep_min1: 'Legalább', ep_min2: 'épület', ep_szam: 'építész', ep_becsult: '(becsült: a házak építési éve alapján)', arch_galeria: 'Képgaléria', arch_epulet: 'épület a térképen', arch_wiki_hiba: 'A Wikipédia-adatlap most nem érhető el.', arch_ures: 'Nincs adat.', legend_cim: 'Építés ideje', reteg_magassag: 'Magasság (szintek száma)', mod_korszak: 'Korszak', mod_szint: 'Szintek', szint_kicsi: '1 szint', szint_nagy: '40 szint',
+    cim: 'Budapest, épületenként', varos: 'Budapest', forras_sor: 'Domborzat: NASA SRTM · Adatok: OpenStreetMap', oldal_cim: 'Budapest épületeinek kora, interaktív 3D térkép', alcim: 'Minden ma álló épület kor és alapinformációk szerint rendezve.', about_gomb: 'Névjegy', vedett_leiras: 'Nagyjából minden {n}. épület védett az Országos Építésügyi Nyilvántartás és a kerületi szabályozások szerint.', vedett_muemlek: 'Műemlék', vedett_helyi: 'Helyi védett', vedett_ossz: 'Összesen', about_cim: 'Budapest épületei projekt', about_szoveg: 'A szöveg hamarosan.', about_alap: 'A felület alapja az Amszterdam, épületenként projekt (Alex Barakov, MIT licenc). Adatok: OpenStreetMap, E-Örökség, Wikipédia, Wikimedia Commons; domborzat: NASA SRTM.', nez_period: 'Korok', nez_layers: 'Rétegek', nez_vedett: 'Védett', nez_magassag: 'Magasság', nez_lakotelep: 'Lakótelepek', nez_arch: 'Stílusok', nez_epitesz: 'Építészek', reteg_lakotelep: 'Lakótelepek', lakotelep_leiras: '{e} lakótelep, összesen {n} épület.', ep_ker: 'Keresés az építészek között', dij_ybl: 'Ybl Miklós-díj', dij_prima: 'Prima Primissima díj', dij_nivo: 'Budapest Építészeti Nívódíja', dij_cimke: 'Díjak', ep_sorrend: 'Sorrend', ep_s_abc: 'ABC', ep_s_tobb: 'Legtöbb épület elöl', ep_s_kevesebb: 'Legkevesebb épület elöl', ep_korszak: 'Korszak', ep_minden_kor: 'Minden korszak', ep_nincs_kor: 'Nincs korszakba sorolva', ep_min1: 'Legalább', ep_min2: 'épület', ep_szam: 'építész', ep_becsult: '(becsült: a házak építési éve alapján)', arch_galeria: 'Képgaléria', arch_epulet: 'épület a térképen', arch_wiki_hiba: 'A Wikipédia-adatlap most nem érhető el.', arch_ures: 'Nincs adat.', legend_cim: 'Építés ideje', reteg_magassag: 'Magasság (szintek száma)', mod_korszak: 'Korszak', mod_szint: 'Szintek', szint_kicsi: '1 szint', szint_nagy: '40 szint',
     kiemel: 'Kiemelés', vedett: 'Védett épületek', wiki: 'Wikipédia-cikkel rendelkezők', lechner: 'Lechner-épületek',
     kereso_ph: 'Keresés: név, cím, OSM-id', utak_gomb: 'Utak', utak_cim: 'Utak és utcanevek ki/be', utak_nincs: 'nincs utak.json', kereso_nincs: 'Nincs találat', ved_ph: 'Keresés: név, cím, törzsszám', lak_ph: 'Keresés a lakótelepek között', lak_db: '{n} lakótelep', lak_ker: 'ker.', mag_cim: 'Honnan származnak a magassági adatok?', mag_1: 'A legtöbb épület (kb. 95%) magasságát az EUBUCCO nyílt épületadatbázis becslése adja; ez gépi tanulással készült, kb. ±4 m pontosságú.', mag_2: 'Ahol az OpenStreetMapban szerepel a magasság (height) vagy a szintszám (building:levels, szintenként 3 m), azt használjuk (kb. 3 300 épület).', mag_3: 'Néhány épületnél a kerületi szintszám-térkép, a műemléki adat vagy kézi javítás ad pontosabb értéket.', mag_4: 'Ahol semmilyen adat nincs, 15 m az alapértelmezett magasság (kb. 10 000 épület).', mag_5: 'A szín a szintek számát mutatja; ha nincs szintszám, a magasságot 3,2 m-rel osztjuk. A Duna szintje a nulla szint (kb. 96 m).', ved_mind: 'Minden kerület', ved_db: '{n} védett épület', ved_tobb: 'Az első {k} találat látszik; szűkítsd a keresést.',
     epulet: 'épület', ma: 'Ma', betoltes: 'A város építése',
@@ -52,7 +52,7 @@ const SZOVEG = {
     ev_kozeli: 'Közeli találat alapján párosítva, ellenőrizendő.',
   },
   en: {
-    cim: 'Budapest, building by building', varos: 'Budapest', alcim: 'Every building standing today, sorted by age and basic information.', about_gomb: 'About', vedett_leiras: 'About one building in {n} is protected under the National Building Register (OÉNY) and district regulations.', vedett_muemlek: 'Listed monument', vedett_helyi: 'Locally protected', vedett_ossz: 'Total', about_cim: 'Budapest building by building', about_szoveg: 'Text coming soon.', about_alap: 'The interface is based on Amsterdam, building by building (Alex Barakov, MIT licence). Data: OpenStreetMap, E-Örökség, Wikipedia, Wikimedia Commons; terrain: NASA SRTM.', nez_period: 'Eras', nez_layers: 'Layers', nez_vedett: 'Protected', nez_magassag: 'Height', nez_lakotelep: 'Estates', nez_arch: 'Styles', nez_epitesz: 'Architects', reteg_lakotelep: 'Housing estates', lakotelep_leiras: '{e} housing estates, {n} buildings in total.', ep_ker: 'Search architects', dij_ybl: 'Ybl Miklós Prize', dij_prima: 'Prima Primissima Award', dij_nivo: 'Budapest Architecture Prize', dij_cimke: 'Awards', ep_sorrend: 'Order', ep_s_abc: 'A–Z', ep_s_tobb: 'Most buildings first', ep_s_kevesebb: 'Fewest buildings first', ep_korszak: 'Era', ep_minden_kor: 'All eras', ep_nincs_kor: 'Not assigned to an era', ep_min1: 'At least', ep_min2: 'buildings', ep_szam: 'architects', ep_becsult: '(estimated from the buildings\' construction years)', arch_galeria: 'Gallery', arch_epulet: 'buildings on the map', arch_wiki_hiba: 'The Wikipedia profile is unavailable right now.', arch_ures: 'No data.', legend_cim: 'Built in', reteg_magassag: 'Height (number of storeys)', mod_korszak: 'Era', mod_szint: 'Storeys', szint_kicsi: '1 storey', szint_nagy: '40 storeys',
+    cim: 'Budapest, building by building', varos: 'Budapest', forras_sor: 'Terrain: NASA SRTM · Data: OpenStreetMap', oldal_cim: 'Age of Budapest\'s buildings - interactive 3D map', alcim: 'Every building standing today, sorted by age and basic information.', about_gomb: 'About', vedett_leiras: 'About one building in {n} is protected under the National Building Register (OÉNY) and district regulations.', vedett_muemlek: 'Listed monument', vedett_helyi: 'Locally protected', vedett_ossz: 'Total', about_cim: 'Budapest building by building', about_szoveg: 'Text coming soon.', about_alap: 'The interface is based on Amsterdam, building by building (Alex Barakov, MIT licence). Data: OpenStreetMap, E-Örökség, Wikipedia, Wikimedia Commons; terrain: NASA SRTM.', nez_period: 'Eras', nez_layers: 'Layers', nez_vedett: 'Protected', nez_magassag: 'Height', nez_lakotelep: 'Estates', nez_arch: 'Styles', nez_epitesz: 'Architects', reteg_lakotelep: 'Housing estates', lakotelep_leiras: '{e} housing estates, {n} buildings in total.', ep_ker: 'Search architects', dij_ybl: 'Ybl Miklós Prize', dij_prima: 'Prima Primissima Award', dij_nivo: 'Budapest Architecture Prize', dij_cimke: 'Awards', ep_sorrend: 'Order', ep_s_abc: 'A–Z', ep_s_tobb: 'Most buildings first', ep_s_kevesebb: 'Fewest buildings first', ep_korszak: 'Era', ep_minden_kor: 'All eras', ep_nincs_kor: 'Not assigned to an era', ep_min1: 'At least', ep_min2: 'buildings', ep_szam: 'architects', ep_becsult: '(estimated from the buildings\' construction years)', arch_galeria: 'Gallery', arch_epulet: 'buildings on the map', arch_wiki_hiba: 'The Wikipedia profile is unavailable right now.', arch_ures: 'No data.', legend_cim: 'Built in', reteg_magassag: 'Height (number of storeys)', mod_korszak: 'Era', mod_szint: 'Storeys', szint_kicsi: '1 storey', szint_nagy: '40 storeys',
     kiemel: 'Highlight', vedett: 'Protected buildings', wiki: 'With a Wikipedia article', lechner: 'Lechner buildings',
     kereso_ph: 'Search: name, address, OSM id', utak_gomb: 'Streets', utak_cim: 'Show/hide streets and street names', utak_nincs: 'utak.json missing', kereso_nincs: 'No results', ved_ph: 'Search: name, address, register no.', lak_ph: 'Search among the estates', lak_db: '{n} housing estates', lak_ker: 'district', mag_cim: 'Where do the height data come from?', mag_1: 'The height of most buildings (about 95%) is an estimate from the open EUBUCCO building database, produced by machine learning with roughly ±4 m accuracy.', mag_2: 'Where OpenStreetMap has a height or a number of levels (building:levels, 3 m per level), that is used (about 3,300 buildings).', mag_3: 'For some buildings a district floor-count map, heritage records or manual corrections give a more accurate value.', mag_4: 'Where no data exists, the default height is 15 m (about 10,000 buildings).', mag_5: 'The colour shows the number of storeys; without a storey count, the height is divided by 3.2 m. The Danube level is the zero level (about 96 m).', ved_mind: 'All districts', ved_db: '{n} protected buildings', ved_tobb: 'Showing the first {k} results; narrow your search.',
     epulet: 'buildings', ma: 'Today', betoltes: 'Building the city',
@@ -75,6 +75,12 @@ const SZOVEG = {
 };
 let NYELV = 'hu';
 try { if (localStorage.getItem('nyelv') === 'en') NYELV = 'en'; } catch (e) { /* nincs tárhely */ }
+// nyelv mélylinkből: ?lang=en|hu erősebb a tárolt beállításnál; a /en/ oldal (html lang="en") alapból angol
+{
+  const nyL = new URLSearchParams(location.search).get('lang');
+  if (nyL === 'en' || nyL === 'hu') NYELV = nyL;
+  else if (document.documentElement.lang === 'en') NYELV = 'en';
+}
 const t = k => SZOVEG[NYELV][k] ?? SZOVEG.hu[k] ?? k;
 const korNev = i => (NYELV === 'en' ? periods[i].label_en : periods[i].label);
 
@@ -666,6 +672,7 @@ function galeriaBetolt(gid) {
   hely.innerHTML = '<div class="gal-kep"><img alt="" referrerpolicy="no-referrer"><button type="button" data-d="-1" aria-label="‹">‹</button><button type="button" data-d="1" aria-label="›">›</button><span class="gal-cimke"></span></div><small class="gal-felirat"></small><div class="gal-chipek"></div>';
   const kep = hely.querySelector('img'), fel = hely.querySelector('.gal-felirat'), cim = hely.querySelector('.gal-cimke'), chipek = hely.querySelector('.gal-chipek');
   let akt = 0, lapozott = false;
+  const ujabbDia = () => { let j = -1; diak.forEach((k, i) => { if (k.ev !== null) j = i; }); return j >= 0 ? j : 0; };
   const rajzol = () => {
     hely.querySelectorAll('.gal-kep button').forEach(b => { b.hidden = diak.length < 2; });
     chipek.hidden = diak.length < 2;
@@ -694,7 +701,7 @@ function galeriaBetolt(gid) {
   kep.addEventListener('pointerdown', ev => { x0 = ev.clientX; });
   kep.addEventListener('pointerup', ev => { if (x0 !== null && diak.length > 1 && Math.abs(ev.clientX - x0) > 40) { lapozott = true; mut(akt + (ev.clientX < x0 ? 1 : -1)); } x0 = null; });
   rajzol();
-  mut(0);
+  mut(ujabbDia());      // a legújabb (legkésőbbi évszámú) kép látszik először, nem a legkorábbi
   hely.hidden = false;
   // az automatikus fotó (az „eredeti") elé kerül, hacsak közben nem lapozott a felhasználó
   if (!nincsKep(p) && kepLehet(p)) {
@@ -1129,7 +1136,15 @@ function setMode(m) {
 }
 document.getElementById('magassag-reteg').addEventListener('change', e => setMode(e.target.checked ? MODE.floors : MODE.period));
 // Korszak / Rétegek nézet a panel tetején
+var aktNezet = null;
 function setNezet(n) {
+  if (aktNezet !== n) {      // fülváltáskor a korábbi fül szűrése (építész, stílus, telep) ne maradjon a térképen
+    aktNezet = n;
+    archSzuro = null; archZonaAzon = new Set(); hazKiem = false; epAktiv = null; epUnio = false; clearTimeout(epUnioIdo);
+    epPopupTok++; archPopupTok++;
+    const pp0 = document.getElementById('arch-popup'); if (pp0) pp0.hidden = true;
+    archLepteto(null);
+  }
   document.querySelectorAll('.nez button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.nez === n)));
   document.getElementById('nez-period').hidden = n !== 'period';
   ['vedett', 'magassag', 'lakotelep'].forEach(r => { document.getElementById('nez-' + r).hidden = n !== r; });
@@ -1227,7 +1242,7 @@ function archNyelvFrissit() {
   lista.querySelectorAll('.arch-kor-gomb').forEach(b => { b.querySelector('span').textContent = archKorNev(archAdat[+b.dataset.i]); });
 }
 function archNezet(be) {
-  if (be) { archRender().then(() => archKivalaszt(archKiv)); return; }
+  if (be) { archRender().then(() => { if (!document.getElementById('nez-arch').hidden) archKivalaszt(archKiv); }); return; }
   archLepteto(null);
   hazKiem = false;
   const pp = document.getElementById('arch-popup'); if (pp) pp.hidden = true;
@@ -1371,9 +1386,16 @@ function archLepFrissit() {
   el.querySelector('select').value = String(archEpIdx);
   el.querySelector('.sz').textContent = archEpLista.length ? (archEpIdx >= 0 ? archEpIdx + 1 : '–') + ' / ' + archEpLista.length : '';
 }
+function mobilMenuZar() {
+  epPopupTok++; archPopupTok++;
+  const pp = document.getElementById('arch-popup'); if (pp) pp.hidden = true;
+  const fp = document.getElementById('panel'); if (fp) fp.classList.remove('mobil-nyitva');
+  const rg = document.getElementById('reteg-gomb'); if (rg) rg.setAttribute('aria-pressed', 'false');
+}
 function archLepj(i) {
   if (i < 0 || i >= archEpLista.length) { archEpIdx = -1; archLepFrissit(); return; }
   archEpIdx = i; archLepFrissit();
+  if (innerWidth <= 700) mobilMenuZar();      // mobil: az építész/stílus kártyája és a főpanel bezárul, a szűrés megmarad; az épületkártya alatt a térkép látszik
   const x = archEpLista[i];
   const pp = document.getElementById('arch-popup');
   // a kártya a képernyő közepén álló háztól jobbra nyílik, teteje-alja az építész adatlapjához (bal panel) igazodik
@@ -1798,7 +1820,7 @@ function alkalmazSzoveg() {
   document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
   document.querySelectorAll('.nez button').forEach(b => { const x = b.querySelector('.tx'); if (x) { b.title = x.textContent; b.setAttribute('aria-label', x.textContent); } });
   document.querySelectorAll('#nyelv button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.nyelv === NYELV)));
-  document.title = t('cim') + ' (3D)';
+  document.title = t('oldal_cim');
   keresoSzoveg();
   vedettInfoRender();
   vedNyelv();
@@ -2257,9 +2279,14 @@ setMode(MODE.period);
 alkalmazSzoveg();
 resize();
 
-let frame = 0;
+let frame = 0, elozoIdo = 0, lassuDb = 0, pixelKicsi = false;
 renderer.setAnimationLoop(now => {
   frame++;
+  // a csillapítás (inercia) képkockánkénti, ezért lassú gépen (kevés fps) sokáig csúszna a kamera: az időhöz igazítjuk, és tartósan lassú rajzolásnál a képpont-arányt 1-re vesszük
+  const dt = elozoIdo ? Math.min(0.25, (now - elozoIdo) / 1000) : 1 / 60; elozoIdo = now;
+  controls.dampingFactor = Math.min(0.4, 1 - Math.pow(0.95, Math.max(1, dt * 60)));
+  lassuDb = dt > 0.04 ? lassuDb + 1 : Math.max(0, lassuDb - 1);
+  if (lassuDb > 40 && !pixelKicsi && renderer.getPixelRatio() > 1) { pixelKicsi = true; renderer.setPixelRatio(1); resize(); }
   uniforms.uNow.value = now / 1000;
   controls.update();
   const dist = camera.position.distanceTo(controls.target);
@@ -3006,6 +3033,7 @@ async function epiteszNezet(be) {
     epKesz = true;
   })();
   await epBetoltes;
+  if (document.getElementById('nez-epitesz').hidden) return;      // közben másik fülre váltottak
   epiteszRender();
 }
 function epNyelvFrissit() {
@@ -3187,4 +3215,23 @@ fetch('/api/ping', { cache: 'no-store' }).then(r => r.json()).then(d => {
   const eAz = new URLSearchParams(location.search).get('e');
   if (eAz) { const talalat = keres(eAz); if (talalat.length) setTimeout(() => repulj(talalat[0]), 800); }
 }
-setNezet('period');      // induláskor, a fájl végén: addigra minden let/const deklaráció (pl. epUnio, epPopupTok) már létezik
+let melyLinkNincs = false;
+// mélylinkek: ?tab=period|arch|epitesz|vedett|lakotelep|magassag  ?architect=<név>  ?estate=<lakótelep neve>  ?lang=en|hu
+{
+  const q = new URLSearchParams(location.search);
+  const tab = q.get('tab'), ar = q.get('architect'), tel = q.get('estate');
+  const egyszeru = x => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  const fulek = ['period', 'arch', 'epitesz', 'vedett', 'lakotelep', 'magassag'];
+  if (ar) {
+    setNezet('epitesz');
+    epBetoltes.then(() => {
+      const kulcs = egyszeru(ar), e = epNevek.find(x => egyszeru(x.nev) === kulcs || x.k === kulcs) || epNevek.find(x => egyszeru(x.nev).includes(kulcs));
+      if (e) epiteszValaszt(e.k);
+    });
+  } else if (tel) {
+    setNezet('lakotelep');
+    setTimeout(() => { const z = lakAdat().find(x => egyszeru(x.nev) === egyszeru(tel)); if (z) lakValaszt(z.nev); }, 1200);
+  } else if (fulek.includes(tab)) setNezet(tab);
+  else melyLinkNincs = true;
+}
+if (melyLinkNincs) setNezet('period');      // induláskor, a fájl végén: addigra minden let/const deklaráció már létezik

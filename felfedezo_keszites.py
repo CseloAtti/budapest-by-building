@@ -95,7 +95,7 @@ def oldal(cim, leiras, torzs, url, jsonld=None):
 <title>{e(cim)} | {OLDAL_NEV}</title>
 <meta name="description" content="{e(leiras)}">
 <link rel="canonical" href="{ALAP_URL}{url}">
-<meta property="og:title" content="{e(cim)}"><meta property="og:description" content="{e(leiras)}"><meta property="og:type" content="website"><meta property="og:url" content="{ALAP_URL}{url}">
+<meta property="og:title" content="{e(cim)}"><meta property="og:description" content="{e(leiras)}"><meta property="og:type" content="website"><meta property="og:url" content="{ALAP_URL}{url}"><meta property="og:image" content="{ALAP_URL}/megosztas_hu.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><style>{CSS}</style>{ld}</head><body><main>
 <nav><a href="/explore/">{OLDAL_NEV}: szöveges változat</a></nav>
 {torzs}

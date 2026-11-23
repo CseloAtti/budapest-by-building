@@ -35,10 +35,40 @@ FAJL_LIMIT = 20000
 # a megjelenítőhöz szükséges fájlok és mappák (a terkep3d mappához képest)
 FAJLOK = ["index.html", "app.js", "styles.css", "worker.js", "hidak.js", "adatlapok.json", "epitesz.json", "epitesz_dijak.json",
           "favicon.svg", "epitesz_elete.json", "epitesz_korok_kezi.json", "epitesz_kizart.json", "kerulethatarok.json", "zonak.json",
-          "LICENSE-amsterdam.txt", "LICENSE-threejs.txt"]
+          "LICENSE-amsterdam.txt", "LICENSE-threejs.txt", "megosztas_hu.png", "megosztas_en.png"]
 MAPPAK = ["vendor", "arculat"]
 KEPEK_KIT = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"}
 ADAT = "data_varos"
+
+
+EN_OG = {
+    "title": "Age of Budapest's buildings - interactive 3D map",
+    "desc": "About 260,000 Budapest buildings in 3D, coloured by construction year, architect and style - watch how the city grew.",
+    "img": "megosztas_en.png",
+    "url": "https://budapestbuildings.com/en/",
+    "alt": "3D map of Budapest, building by building, coloured by construction year",
+}
+
+
+def en_oldal(html):
+    """A magyar kezdőlapból angol belépő oldal (/en/): saját cím/leírás/megosztási kép, angol felület (html lang), <base href="/"> a relatív útvonalakhoz."""
+    m = re.search(r"<!--OG-->.*?<!--/OG-->", html, flags=re.S)
+    if not m:
+        hiba("az index.html-ből hiányzik a <!--OG--> ... <!--/OG--> blokk.")
+    b = m.group(0)
+    b = re.sub(r"<title>.*?</title>", "<title>" + EN_OG["title"] + "</title>", b)
+    b = re.sub(r'(name="description" content=")[^"]*', lambda x: x.group(1) + EN_OG["desc"], b)
+    b = re.sub(r'(property="og:description" content=")[^"]*', lambda x: x.group(1) + EN_OG["desc"], b)
+    b = re.sub(r'(name="twitter:description" content=")[^"]*', lambda x: x.group(1) + EN_OG["desc"], b)
+    b = re.sub(r'((?:og|twitter):title" content=")[^"]*', lambda x: x.group(1) + EN_OG["title"], b)
+    b = re.sub(r'(og:image:alt" content=")[^"]*', lambda x: x.group(1) + EN_OG["alt"], b)
+    b = b.replace("Cselovszki Attila", "Attila Cselovszki")
+    b = b.replace("megosztas_hu.png", EN_OG["img"]).replace("hu_HU", "en_US")
+    b = re.sub(r'(rel="canonical" href=")[^"]*', lambda x: x.group(1) + EN_OG["url"], b)
+    b = re.sub(r'(og:url" content=")[^"]*', lambda x: x.group(1) + EN_OG["url"], b)
+    html = html.replace(m.group(0), b)
+    html = html.replace('<html lang="hu">', '<html lang="en">', 1)
+    return html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n  <base href="/">', 1)
 
 
 def hiba(uzenet):
@@ -136,6 +166,13 @@ def main():
     config = json.loads((adat_be / "budapest.json").read_text(encoding="utf-8"))
     szoveg = felfedezo_keszites.keszit(KI, ep_teljes, config["periods"], js)
     print(f"  szöveges oldalak: {szoveg['epulet']} épület, {szoveg['korszak']} korszak, {szoveg['epitesz']} építész ({szoveg['oldal']} oldal)")
+
+    # 3c. angol belépő oldal (/en/): a közösségi oldalak nem futtatnak JS-t, ezért az angol előnézethez külön HTML kell
+    (KI / "en").mkdir()
+    (KI / "en" / "index.html").write_text(en_oldal((KI / "index.html").read_text(encoding="utf-8")), encoding="utf-8")
+    for kep in ("megosztas_hu.png", "megosztas_en.png"):
+        if not (KI / kep).exists():
+            print(f"  FIGYELEM: hiányzik a terkep3d/{kep} (1200x630 megosztási kép) - addig a megosztott linkeknek nem lesz képe")
 
     # 4. gyorsítótár-fejlécek (Cloudflare Pages)
     (KI / "_headers").write_text(
