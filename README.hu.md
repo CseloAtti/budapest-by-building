@@ -105,4 +105,4 @@ Nyiss egy [issue-t](../../issues): add meg az épületet (az oldalának linkjét
 
 Kód: [MIT](LICENSE). A harmadik féltől származó részek saját licencét megtartják (`terkep3d/LICENSE-threejs.txt`).
 
-A megjelenítő az Alex Barakov által készített [Amsterdam, building by building](https://github.com/alexbarakov/amsterdam-by-building) (MIT) projektből indult ki, köszönet az ötletért és az alapokért. Nem kereskedelmi portfólió-projekt, nem áll kapcsolatban Budapest Főváros Önkormányzatával vagy műemléki hatósággal.
+A megjelenítő az Alex Barakov által készített [Amsterdam, building by building](https://github.com/alexbarakov/amsterdam-by-building) (MIT) projektből indult ki, amely maga Sasha Bogachev [Paris, building by building](https://paris.bogachev.fr/) munkájának architektúráját követi; köszönet mindkettőjüknek az ötletért és az alapokért. Nem kereskedelmi portfólió-projekt, nem áll kapcsolatban Budapest Főváros Önkormányzatával vagy műemléki hatósággal.

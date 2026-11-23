@@ -1747,7 +1747,7 @@ document.getElementById('lakotelep').addEventListener('change', () => { lakotele
 const ABOUT_HTML = {
   hu: `<p>Budapest összes ma álló épülete, az építés ideje szerint színezve, térben ábrázolva. A térképen a város jelenlegi felépítése elemezhető különböző szemszögekből: történelmi korszakok, építészeti stílusok, építészek, védett épületek, lakótelepek és magasság.</p>
 <p>Készítette: <a href="https://www.linkedin.com/in/attila-cselovszki-18993a48/" target="_blank" rel="noopener">Cselovszki Attila</a></p>
-<p>Az inspirációs forrást <a href="https://www.linkedin.com/in/alexanderbarakov" target="_blank" rel="noopener">Alex Barakov</a> Amszterdam térképe szolgáltatta. Külön köszönettel tartozom azért, hogy a projektjét nyilvánosan elérhetővé teszi, így ez a Budapest térkép az ő kódján alapszik.</p>
+<p>Az inspirációs forrást <a href="https://www.linkedin.com/in/alexanderbarakov" target="_blank" rel="noopener">Alex Barakov</a> Amszterdam térképe szolgáltatta. Külön köszönettel tartozom azért, hogy a projektjét nyilvánosan elérhetővé teszi, így ez a Budapest térkép az ő kódján alapszik. Az ő amszterdami térképe pedig Sasha Bogachev <a href="https://paris.bogachev.fr/" target="_blank" rel="noopener">Paris, building by building</a> projektjének architektúráját követi.</p>
 <h3>Nyílt forráskód</h3>
 <p>A kód és a feldolgozás a <a href="https://github.com/CseloAtti/budapest-by-building" target="_blank" rel="noopener">GitHubon</a> érhető el.</p>
 <h3>Adatok</h3>
@@ -1779,7 +1779,7 @@ const ABOUT_HTML = {
 <p>Ha a projekt felkeltette az érdeklődésedet, és kérdésed, ötleted van, keress meg ezen az elérhetőségen: <a href="mailto:cselovszki.attila@gmail.com">cselovszki.attila@gmail.com</a></p>`,
   en: `<p>All buildings standing in Budapest today, coloured by the year they were built and shown in space. The map lets you analyse the city's current fabric from different angles: historical periods, architectural styles, architects, protected buildings, housing estates and height.</p>
 <p>Made by <a href="https://www.linkedin.com/in/attila-cselovszki-18993a48/" target="_blank" rel="noopener">Attila Cselovszki</a></p>
-<p>The inspiration came from <a href="https://www.linkedin.com/in/alexanderbarakov" target="_blank" rel="noopener">Alex Barakov</a>'s map of Amsterdam. Special thanks for making his project publicly available: this Budapest map is built on his code.</p>
+<p>The inspiration came from <a href="https://www.linkedin.com/in/alexanderbarakov" target="_blank" rel="noopener">Alex Barakov</a>'s map of Amsterdam. Special thanks for making his project publicly available: this Budapest map is built on his code. His Amsterdam map in turn follows the architecture of Sasha Bogachev's <a href="https://paris.bogachev.fr/" target="_blank" rel="noopener">Paris, building by building</a>.</p>
 <h3>Open source</h3>
 <p>The code and the pipeline are on <a href="https://github.com/CseloAtti/budapest-by-building" target="_blank" rel="noopener">GitHub</a>.</p>
 <h3>Data</h3>

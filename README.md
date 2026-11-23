@@ -105,4 +105,4 @@ Open an [issue](../../issues) with the building (a link to its page or its OpenS
 
 Code: [MIT](LICENSE). Third-party components keep their own licences (`terkep3d/LICENSE-threejs.txt`).
 
-The viewer is derived from [Amsterdam, building by building](https://github.com/alexbarakov/amsterdam-by-building) by Alex Barakov (MIT) — many thanks for the idea and the foundation. This is a non-commercial portfolio project and is not affiliated with the City of Budapest or any heritage authority.
+The viewer is derived from [Amsterdam, building by building](https://github.com/alexbarakov/amsterdam-by-building) by Alex Barakov (MIT), which in turn follows the architecture of Sasha Bogachev's [Paris, building by building](https://paris.bogachev.fr/) — many thanks to both for the idea and the foundation. This is a non-commercial portfolio project and is not affiliated with the City of Budapest or any heritage authority.
