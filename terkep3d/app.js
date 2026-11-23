@@ -2651,7 +2651,7 @@ function szerkPanel() {
   });
   keret.append(fej, doboz);
   hely.appendChild(keret);
-  doboz.innerHTML = '<strong>Szerkesztési mód</strong><br><small>Kattints egy épületre, majd „Szerkesztés". A javítások az újraépítés után látszanak.</small><br>'
+  doboz.innerHTML = '<strong>Szerkesztési mód</strong><br><small>Kattints egy épületre, majd „Szerkesztés". A javítások az újraépítés után látszanak.<br><b>Figyelem:</b> a kézi korszak vagy évszám színhatásához (a becslés újraszámolásához) a teljes frissítés kell: futtasd a <code>zona_frissit.bat</code> fájlt, majd Ctrl+Shift+R. Az alábbi gomb ezt nem futtatja.</small><br>'
     + '<button type="button" id="szerk-ujraepit">Újraépítés (egész város)</button><div id="szerk-allapot" class="szerk-uzenet"></div>';
   alkotasPanel(doboz);
   doboz.querySelector('#szerk-ujraepit').addEventListener('click', async e => {
@@ -2662,7 +2662,7 @@ function szerkPanel() {
       const v = await szerkKuldes('/api/ujraepit', { varos: true });
       if (v.harom_d !== 'ok') throw new Error('Az adatok megépültek, de a 3D csempék elkészítése hibázott: ' + v.harom_d);
       szerkFuggo = 0;
-      szerkAllapot('Kész. Töltsd újra az oldalt (F5). A korszakbecslést (ev_becsles.py) ez nem futtatja újra.', 'ok');
+      szerkAllapot('Kész. Töltsd újra az oldalt (Ctrl+Shift+R). Ha kézi korszakot vagy évszámot adtál meg, a színéhez futtasd a zona_frissit.bat-ot: ez a gomb a becslést (ev_becsles.py) nem számolja újra.', 'ok');
     } catch (hiba) {
       szerkAllapot(hiba.message, 'hiba');
     } finally { gomb.disabled = false; }
