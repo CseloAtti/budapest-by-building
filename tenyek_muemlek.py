@@ -1,9 +1,9 @@
-"""Műemlékjegyzék (data/muemlek_jegyzek.json) -> data/tenyek/muemlek.csv
+"""Register of monuments (data/muemlek_jegyzek.json) -> data/tenyek/muemlek.csv
 
-A bejegyzések címét az OSM-épületek címéhez (data/osm_cimek.csv) párosítjuk.
-A könyv a 80-as évek utcaneveit használja; a régi -> mai neveket a
-forras/utcanev_atnevezesek.csv adja meg (régi;új). A nem párosítható utcaneveket kiírjuk.
-Csak tényeket veszünk át: védettség, törzsszám, helyrajzi szám, szintszám, stílus, év, tervező.
+We match the entries' addresses to the addresses of the OSM buildings (data/osm_cimek.csv).
+The book uses the street names of the 1980s; the old -> current names are given by
+forras/utcanev_atnevezesek.csv (old;new). The street names that cannot be matched are printed.
+We take over only facts: protection, serial number, lot number, number of storeys, style, year, designer.
 """
 import csv
 import difflib
@@ -16,7 +16,7 @@ from collections import Counter, defaultdict
 from kozos import tenyek_irasa
 
 JEGYZEK = "data/muemlek_jegyzek.json"
-CIMEK = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py tenyek_muemlek.py varos: az egész város címei
+CIMEK = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py tenyek_muemlek.py varos: the addresses of the whole city
 ATNEVEZES = "forras/utcanev_atnevezesek.csv"
 KIMENET = "data/tenyek/muemlek.csv"
 HASONLOSAG = 0.9
@@ -37,7 +37,7 @@ def norm(s):
 
 
 def szamok(szoveg):
-    """Házszámok: '11-13' -> {11, 13}, '15/A, B' -> {15}, '4;6' -> {4, 6}"""
+    """House numbers: '11-13' -> {11, 13}, '15/A, B' -> {15}, '4;6' -> {4, 6}"""
     ki = set()
     for a, b in re.findall(r"(\d+)\s*(?:[-–]\s*(\d+))?", szoveg or ""):
         ki.add(int(a))
@@ -49,7 +49,7 @@ def szamok(szoveg):
 def cim_felbontas(cim):
     """'Veres Pálné utca 15/A, B' -> ('Veres Pálné utca', {15})"""
     kezdet = 0
-    # 'Október 6. utca 3.': a hónapnév utáni szám az utcanév része, nem házszám
+    # 'Október 6. utca 3.': the number after the month name is part of the street name, not a house number
     h = re.search(r"\b[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+ \d+\.(?=\s+(?:utca|tér|út)\b)", cim)
     if h:
         kezdet = h.end()
@@ -81,7 +81,7 @@ def main():
     except FileNotFoundError:
         pass
 
-    # Városi módban a címet a jegyzék kerületén belül keressük (különben a VI. kerületi Király utca 12. az újpesti Király utca 12.-t is megkapná).
+    # In city mode we search for the address within the register's district (otherwise Király utca 12. in the VI. district would also get the Király utca 12. of Újpest).
     kerulete = {}
     if VAROS:
         with open(EPULETEK, encoding="utf-8") as f:
@@ -91,7 +91,7 @@ def main():
                     kerulete[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
         if not kerulete:
             raise SystemExit("Az épületeknél nincs kerület. Futtasd: py budapest_pbf.py, majd py varos_osszeallitas.py")
-    utcak = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # kerület (0 = belvárosi mód) -> utcanév -> házszám -> [(tipus, id)]
+    utcak = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # district (0 = inner-city mode) -> street name -> house number -> [(type, id)]
     with open(CIMEK, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
             e = (r["osm_tipus"], int(r["id"]))

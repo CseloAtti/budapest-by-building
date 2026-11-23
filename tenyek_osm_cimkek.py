@@ -1,23 +1,23 @@
 """
-tenyek_osm_cimkek.py - az OSM-címkékből kiolvasható további adatok (Overpass nélkül).
+tenyek_osm_cimkek.py - further data that can be read out of the OSM tags (without Overpass).
 
-Futtatás (a projekt mappájában, a budapest_pbf.py után):
+Run (in the project folder, after budapest_pbf.py):
     py tenyek_osm_cimkek.py
 
-Miért nem kell Overpass? A data/budapest_nyers/*.json.gz minden épületnél az ÖSSZES OSM-címkét tartalmazza
-(a budapest_pbf.py nem szűr címkére), így a start_date, building:year_built, historic, wikidata... mind benne van.
+Why is Overpass not needed? data/budapest_nyers/*.json.gz contains ALL the OSM tags of every building
+(budapest_pbf.py does not filter on tags), so start_date, building:year_built, historic, wikidata... are all in it.
 
-Amit kiolvas:
-  1. PONTOS évek további címkékből (year_built, building:year_built, building:year, building:date, construction_year...)
-     -> data/tenyek/osm_cimke.csv  (mező: ev, forrás: osm_cimke)
-  2. PONTATLAN dátumok ("1890s", "C19", "early C20", "1890..1910", "1890-1910", "~1890", "before 1900")
-     -> data/varos/osm_kozelito.csv  (osm_tipus;id;ev_tol;ev_ig;szoveg;forras) - a becslő címkének veszi, ha a
-        tartomány egyetlen korszakba esik. A régi feldolgozó az ilyen szövegből az első 4 jegyű számot vette
-        pontos évnek ("1890s" -> 1890): ezeket data/varos/osm_pontatlan_ev.csv listázza.
-  3. architect -> tervezo, building:architecture / architecture -> stilus (tény-tábla sorok, forrás: osm_cimke)
-  4. historic / heritage / wikidata / wikipedia / name címkék darabszáma + a védett-jelöltek listája
+What it reads out:
+  1. EXACT years from further tags (year_built, building:year_built, building:year, building:date, construction_year...)
+     -> data/tenyek/osm_cimke.csv  (field: ev, source: osm_cimke)
+  2. IMPRECISE dates ("1890s", "C19", "early C20", "1890..1910", "1890-1910", "~1890", "before 1900")
+     -> data/varos/osm_kozelito.csv  (osm_tipus;id;ev_tol;ev_ig;szoveg;forras) - the estimator takes it as a label if the
+        range falls into a single era. The old processor took the first 4-digit number of such a text
+        as the exact year ("1890s" -> 1890): these are listed in data/varos/osm_pontatlan_ev.csv.
+  3. architect -> tervezo, building:architecture / architecture -> stilus (fact-table rows, source: osm_cimke)
+  4. counts of the historic / heritage / wikidata / wikipedia / name tags + the list of protected candidates
      -> data/varos/osm_vedett_jeloltek.csv
-  Összefoglaló: data/varos/osm_cimkek_jelentes.md
+  Summary: data/varos/osm_cimkek_jelentes.md
 """
 import csv
 import gzip
@@ -32,14 +32,14 @@ NYERS = ADAT / "budapest_nyers"
 VAROS = ADAT / "varos"
 TENYEK = ADAT / "tenyek"
 
-# ezeket a meglévő feldolgozó ("osm" forrás) már olvassa
+# the existing processor ("osm" source) already reads these
 REGI_EV_CIMKEK = ["start_date", "building:start_date", "construction_date", "year_of_construction"]
-# ezek az újak
+# these are the new ones
 UJ_EV_CIMKEK = ["year_built", "building:year_built", "building:year", "building:date", "construction_year",
                 "built", "date_built", "start_date:year", "construction:date"]
 STILUS_CIMKEK = ["building:architecture", "architecture"]
 MIN_EV, MAX_EV = 1000, 2030
-REGI_REGEX = re.compile(r"(?<!\d)(1[0-9]{3}|20[0-2][0-9])(?!\d)")     # amit a varos_osszeallitas.evszam használ
+REGI_REGEX = re.compile(r"(?<!\d)(1[0-9]{3}|20[0-2][0-9])(?!\d)")     # what varos_osszeallitas.evszam uses
 
 
 def evszam_ervenyes(n):
@@ -47,8 +47,8 @@ def evszam_ervenyes(n):
 
 
 def datum(szoveg):
-    """Dátumszöveg -> (ev_tol, ev_ig, pontos). None, ha nem értelmezhető.
-    pontos=True: egyetlen év (vagy teljes dátum, amiből az év kivehető)."""
+    """Date text -> (ev_tol, ev_ig, exact). None if it cannot be interpreted.
+    exact=True: a single year (or a full date from which the year can be taken)."""
     s = " ".join((szoveg or "").lower().replace("–", "-").replace("—", "-").split())
     if not s:
         return None
@@ -128,7 +128,7 @@ def main(nyers=NYERS):
                           "building:start_date", "construction_date", "year_of_construction"):
                 if c.get(kulcs):
                     db[kulcs] += 1
-            # --- dátumok
+            # --- dates
             regi_ev = None
             for t in REGI_EV_CIMKEK:
                 v = c.get(t)
@@ -161,7 +161,7 @@ def main(nyers=NYERS):
                         db["új címke eltér a régitől"] += 1
                 else:
                     kozelito.append([k[0], k[1], d[0], d[1], "%s=%s" % (t, v), "osm_cimke"])
-            # --- építész, stílus
+            # --- architect, style
             ar = c.get("architect")
             if ar and tiszta(ar):
                 tenyek.append([k[0], k[1], "tervezo", tiszta(ar), "osm_cimke", "architect"])
@@ -169,12 +169,12 @@ def main(nyers=NYERS):
                 if c.get(t) and tiszta(c[t].replace("_", " ")):
                     tenyek.append([k[0], k[1], "stilus", tiszta(c[t].replace("_", " ")), "osm_cimke", t])
                     break
-            # --- védettség-jelöltek
+            # --- protection candidates
             if c.get("historic") or c.get("heritage"):
                 vedett.append([k[0], k[1], c.get("historic", ""), c.get("heritage", ""), c.get("heritage:operator", ""),
                                c.get("name", ""), c.get("wikidata", ""), c.get("ref:hu:muemlek", "")])
 
-    # duplikátumok kiszűrése (egy épület, egy mező, egy érték)
+    # filtering out duplicates (one building, one field, one value)
     tenyek = [list(x) for x in dict.fromkeys(tuple(x) for x in tenyek)]
     kozelito = [list(x) for x in dict.fromkeys(tuple(x) for x in kozelito)]
 

@@ -1,6 +1,6 @@
 """EUBUCCO (data/eubucco.geojson) -> data/tenyek/eubucco.csv
-A magasság nagyrészt gépi tanulással becsült (kb. ±4 m sáv), ezért a forrás neve
-"eubucco_becsles"; ahol a forrásadatból származik: "eubucco_forras"."""
+The height is mostly estimated by machine learning (a band of about ±4 m), so the source name is
+"eubucco_becsles"; where it comes from the source data: "eubucco_forras"."""
 import json
 import sys
 from collections import Counter, defaultdict
@@ -8,11 +8,11 @@ from collections import Counter, defaultdict
 from kozos import (belso_pont, kulcs, pont_barmelyikben, poligonok,
                    teruletu_kozeppont, tenyek_irasa)
 
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_eubucco.py varos  -> az egész város
+VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_eubucco.py varos  -> the whole city
 OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
 EUBUCCO = "data/eubucco_varos.geojson" if VAROS else "data/eubucco.geojson"
 KIMENET = "data/tenyek/eubucco.csv"
-CELLA = 0.002  # fok, a gyors kereséshez használt rács mérete
+CELLA = 0.002  # degrees, the size of the grid used for the fast search
 
 
 def cella(x, y):

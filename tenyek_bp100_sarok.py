@@ -1,11 +1,11 @@
-"""Budapest100: a tenyek_bp100.py által nem párosított címek pótlása (hiányzó házszám -> interpoláció / OSM címpont / sarokházszabály).
+"""Budapest100: filling in the addresses not matched by tenyek_bp100.py (missing house number -> interpolation / OSM address point / corner-house rule).
 
-Bemenet:  data/bp100_nem_parositott.csv, data/bp100/budapest100_teljes.csv, data/bp100/kepek.json,
+Input:    data/bp100_nem_parositott.csv, data/bp100/budapest100_teljes.csv, data/bp100/kepek.json,
           data/varos/epuletek.geojson, data/varos/osm_cimek.csv, data/ertekleltar_cimpontok*.csv, forras/utcanev_atnevezesek.csv
-Kimenet:  data/tenyek/budapest100_sarok.csv   - az egyértelmű (kb. 95%-os) párosítások tényei (ev, budapest100_url, kép)
-          data/bp100_sarok_javaslat.csv       - minden nem párosított tétel: állapot + jelöltek (kézi ellenőrzéshez)
-Módszer: azonos az értékleltáros tenyek_sarok.py-éval (ugyanaz a Terkep osztály és automatikus szabály).
-Futtatás:  py tenyek_bp100.py   utána   py tenyek_bp100_sarok.py
+Output:   data/tenyek/budapest100_sarok.csv   - the facts of the unambiguous (~95%) matches (ev, budapest100_url, kep)
+          data/bp100_sarok_javaslat.csv       - every unmatched item: status + candidates (for manual checking)
+Method: the same as in the inventory-based tenyek_sarok.py (the same Terkep class and automatic rule).
+Run:      py tenyek_bp100.py   then   py tenyek_bp100_sarok.py
 """
 import csv
 import json
@@ -28,7 +28,7 @@ CIMPONT_FAJLOK = ["data/ertekleltar_cimpontok.csv", "data/ertekleltar_cimpontok_
 
 
 def jelolt(T, kn, u, hsz):
-    """-> (auto, valoszinu, mod, [(tav, e, sarok, ter)]) vagy (None, None, allapot, [])"""
+    """-> (auto, valoszinu, mod, [(tav, e, sarok, ter)]) or (None, None, status, [])"""
     n = int(re.match(r"\d+", hsz).group(0))
     cp = T.cimpont(kn, u, hsz)
     if cp:
@@ -67,7 +67,7 @@ def main():
     except FileNotFoundError:
         pass
     T = S.Terkep(S.geometria(), S.CIMEK, atn)
-    # a címpont-fájlokat egyesítjük (a Terkep egyszerre egyet tölt be)
+    # we merge the address-point files (Terkep loads only one at a time)
     egyesitett = Path("data/_bp100_cimpontok_egyesitett.csv")
     sorok_p = []
     for ut in CIMPONT_FAJLOK:
@@ -92,7 +92,7 @@ def main():
             utca_kerek[u].add(k)
 
     kesz, javaslat, stat = set(), [], collections.Counter()
-    # amelyik épületnek a tenyek_bp100.py már adott Budapest100-adatot (jellemzően sarokház másik címe), azt nem írjuk felül / nem ütköztetjük
+    # a building that tenyek_bp100.py has already given Budapest100 data (typically the other address of a corner house) is not overwritten / not made to collide
     van = set()
     ut = Path("data/tenyek/budapest100.csv")
     if ut.exists():
@@ -166,7 +166,7 @@ def main():
             st = "valószínű (kézi megerősítés kell)" if v else "bizonytalan, jelöltekkel"
             stat[st] += 1
             javaslat.append([cim, ev or "", url, st, "", mod, jel])
-    # kézi döntések (3D szerkesztő, forras/bp100_kezi_parositas.csv): a kitöltött osm_azonosito felülírja a javaslatot
+    # manual decisions (3D editor, forras/bp100_kezi_parositas.csv): a filled-in osm_azonosito overrides the suggestion
     kezi_ut = Path("forras/bp100_kezi_parositas.csv")
     if kezi_ut.exists():
         with open(kezi_ut, encoding="utf-8-sig", newline="") as f:

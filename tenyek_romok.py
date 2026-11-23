@@ -1,12 +1,12 @@
-"""Ókori és középkori romok, régészeti maradványok külön kategóriája -> data/tenyek/romok.csv (mező: rom)
+"""A separate category of ancient and medieval ruins, archaeological remains -> data/tenyek/romok.csv (field: rom)
 
-Csak olyan elem lehet, amelynek alapterülete (épület-sokszöge) van; vonalas elemekkel (városfal vonala stb.) nem foglalkozunk.
-Döntési fájl: forras/romok_kezi.csv   (osm_tipus;id;jelleg;kor;nev;megjegyzes)
-  jelleg = rom            -> a kártyán és a térképen az "Ókori és középkori romok" kategóriába kerül, a kor oszlop szövegével
-           nem_rom        -> mai romos/elhagyott épület, megy tovább a rendes becslésre (ez a jelleg számít "döntésnek" is)
-           ellenorizendo  -> még nem döntöttél; addig a rendes becslés szerint kezeljük
-A szkript minden új, building=ruins típusú OSM-épületet felvesz a fájlba "ellenorizendo" jelleggel (a meglévő sorokat nem bántja).
-Futtatás: py tenyek_romok.py   (utána py osszeepit.py varos, py ev_becsles.py varos, py osszeepit.py varos, py csempek_keszites.py varos)"""
+Only an element that has a footprint (a building polygon) can be included; we do not deal with linear elements (the line of a city wall etc.).
+Decision file: forras/romok_kezi.csv   (osm_tipus;id;jelleg;kor;nev;megjegyzes)
+  jelleg = rom            -> on the card and on the map it goes into the "Ancient and medieval ruins" category, with the text of the kor column
+           nem_rom        -> a present-day ruined/abandoned building, it goes on to the normal estimate (this jelleg also counts as a "decision")
+           ellenorizendo  -> you have not decided yet; until then we treat it by the normal estimate
+The script adds every new building=ruins type OSM building to the file with the "ellenorizendo" (to be checked) jelleg (it does not touch the existing rows).
+Run: py tenyek_romok.py   (afterwards py osszeepit.py varos, py ev_becsles.py varos, py osszeepit.py varos, py csempek_keszites.py varos)"""
 import csv
 import json
 import sys

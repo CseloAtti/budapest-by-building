@@ -1,9 +1,9 @@
-"""Magyar Wikipedia-cikkek a területünkön, koordináta alapján -> data/tenyek/wikipedia_terulet.csv
+"""Hungarian Wikipedia articles in our area, by coordinate -> data/tenyek/wikipedia_terulet.csv
 
-A Wikipedia földrajzi keresésével (GeoData) kilistázza a koordinátás cikkeket, és az épületkörvonalainkhoz
-rendeli őket: ha a koordináta az épületbe esik, vagy legfeljebb 10 m-re van tőle.
-Az utcák, terek, hidak és hasonló cikkek közeli találatait kihagyjuk.
-A találatok bekerülnek a popupba; ha egy nem releváns, a Szerkesztés űrlapon kivehető.
+With Wikipedia's geographic search (GeoData) it lists the articles that have coordinates, and assigns them to our
+building outlines: if the coordinate falls into the building, or is at most 10 m from it.
+We leave out the nearby hits of streets, squares, bridges and similar articles.
+The hits go into the popup; if one is not relevant, it can be removed on the Edit form.
 """
 import hashlib
 import json
@@ -16,12 +16,12 @@ from pathlib import Path
 from kozos import http_json, kulcs, tenyek_irasa
 from terulet_kozos import VAROS_DOBOZ, EpuletIndex, adaptiv_geokeres
 
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_wikipedia_terulet.py varos  -> az egész város
+VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_wikipedia_terulet.py varos  -> the whole city
 OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
 KIMENET = "data/tenyek/wikipedia_terulet.csv"
 CACHE = Path("data/cache")
 API = "https://hu.wikipedia.org/w/api.php"
-DOBOZ = VAROS_DOBOZ if VAROS else (47.490, 19.040, 47.513, 19.062)     # dél, nyugat, észak, kelet
+DOBOZ = VAROS_DOBOZ if VAROS else (47.490, 19.040, 47.513, 19.062)     # south, west, north, east
 KOZELI_METER = 10
 SZUNET_MP = 2
 UTCA_JELLEGU = re.compile(r"\b(utca|tér|tere|út|útja|körút|fasor|híd|rakpart|sétány|park|kerülete|"
@@ -57,7 +57,7 @@ def main():
     index = EpuletIndex(feats)
     del feats
 
-    talalatok = {}   # épület -> [(mod, cím)]
+    talalatok = {}   # building -> [(mode, title)]
     belul = kozeli = utca = nincs = 0
     for pid, (cim, x, y) in cikkek.items():
         epulet, mod = index.benne(x, y), "wikipedia_terulet"
@@ -76,7 +76,7 @@ def main():
 
     sorok = []
     for (t, i), lista in talalatok.items():
-        lista.sort(key=lambda z: (z[0] != "wikipedia_terulet", z[1]))   # a biztosabb találat elöl
+        lista.sort(key=lambda z: (z[0] != "wikipedia_terulet", z[1]))   # the more certain hit first
         for mod, cim in lista[:3]:
             sorok.append((t, i, "wikipedia", f"hu:{cim}", mod, "földrajzi keresés"))
     tenyek_irasa(KIMENET, sorok)

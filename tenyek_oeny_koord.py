@@ -1,34 +1,34 @@
-"""Az E-Örökség (OENY) adatlapjainak párosítása OSM-épületekhez az OENY saját koordinátái alapján.
+"""Matching the E-Örökség (OENY) data sheets to OSM buildings based on OENY's own coordinates.
 
-Bemenet:  forras/oeny_vegleges_adatok.csv   (a végleges tábla: adatlap_azonosito, torzsszam, cim_a_pdf_szerint, wgs84 ...)
-          data/varos/epuletek.geojson, data/varos/osm_cimek.csv   (az OSM-épületek és címeik)
-          data/tenyek/oeny.csv, data/tenyek/oeny_kezi.csv          (a korábbi, törzsszám/cím alapú párosítás; ezt nem módosítja)
-          data/muemlek_jegyzek.json                                (építési év, tervező, stílus, szintszám a jegyzékből)
-          forras/oeny_koord_kezi.csv                               (EZT töltöd ki az ellenőrizendő sorokhoz, lásd lent)
-Kimenet:  data/tenyek/oeny_koord.csv        - a koordináta alapján biztosan párosított adatlapok tényei az osszeepit.py-hoz
-          forras/oeny_koord_ellenorzes.csv  - ami nem volt egyértelmű (minden futáskor újraíródik, ezt NE szerkeszd)
+Input:    forras/oeny_vegleges_adatok.csv   (the final table: adatlap_azonosito, torzsszam, cim_a_pdf_szerint, wgs84 ...)
+          data/varos/epuletek.geojson, data/varos/osm_cimek.csv   (the OSM buildings and their addresses)
+          data/tenyek/oeny.csv, data/tenyek/oeny_kezi.csv          (the earlier matching based on serial number/address; this does not modify it)
+          data/muemlek_jegyzek.json                                (year of construction, designer, style, number of storeys from the register)
+          forras/oeny_koord_kezi.csv                               (YOU fill in THIS for the rows to be checked, see below)
+Output:   data/tenyek/oeny_koord.csv        - the facts of the data sheets matched with certainty by coordinate, for osszeepit.py
+          forras/oeny_koord_ellenorzes.csv  - what was not unambiguous (rewritten on every run, do NOT edit this)
 
-Futtatás:  py tenyek_oeny_koord.py varos      (utána: zona_frissit.bat)
+Run:       py tenyek_oeny_koord.py varos      (afterwards: zona_frissit.bat)
 
-Hogyan párosít: az adatlap pontja (a "wgs84" oszlop; az OENY az N és E címkét felcseréli, a szám fok + tizedperc) abba az
-OSM-épületbe esik, amelynek a körvonalán belül van (az udvar-lyukakat figyelembe véve). Ha a pont kívül esik, a legközelebbi épület
-20 méteren belül jöhet szóba. Ha több épület is szóba jön, az nyer, amelynek az OSM-címe egyezik az adatlap címével, utána a közelebbi.
-A kész párosításokat a következő szabályok szerint fogadja el automatikusan:
-  K  a pont pontosan egy épület körvonalán belül van: a koordináta dönt, az OSM-cím nem számít (ez írja felül a régi párosítást is)
-  A  már most is jól van párosítva (változatlan)
-  B  részben jó: az adatlap már rajta van az épületen, de máshol is szerepel (a felesleges, téves hivatkozást leveszi)
-  C  új: az épületen még nincs OENY-adat, a pont belül van, és a cím nem mond ellent (egyezik vagy az OSM-ben nincs cím)
-  E  áthelyezés: az adatlap eddig másik épületen volt, de a cím az új épületet igazolja
-Ami ennél bizonytalanabb (D új-ellenőrizendő, F áthelyezés-ellenőrizendő, G más törzsszám van az épületen, R nincs koordináta
-vagy nincs épület a közelben), az a forras/oeny_koord_ellenorzes.csv-be kerül, és NEM változtat semmit.
+How it matches: the data sheet's point (the "wgs84" column; OENY swaps the N and E labels, the number is degrees + decimal minutes) falls into the
+OSM building within whose outline it lies (taking the courtyard holes into account). If the point falls outside, the nearest building
+within 20 metres can come into question. If several buildings come into question, the one whose OSM address matches the data sheet's address wins, then the nearer one.
+The finished matches are accepted automatically according to the following rules:
+  K  the point is within the outline of exactly one building: the coordinate decides, the OSM address does not matter (this also overrides the old matching)
+  A  already matched correctly now (unchanged)
+  B  partly right: the data sheet is already on the building, but also appears elsewhere (the superfluous, wrong reference is removed)
+  C  new: the building has no OENY data yet, the point is inside, and the address does not contradict (matches or there is no address in OSM)
+  E  relocation: the data sheet used to be on another building, but the address confirms the new building
+What is more uncertain than this (D new-to-be-checked, F relocation-to-be-checked, G another serial number is on the building, R no coordinate
+or no building nearby) goes into forras/oeny_koord_ellenorzes.csv, and does NOT change anything.
 
-Kézi döntés: forras/oeny_koord_kezi.csv  (adatlap;osm_azonosito;megjegyzes). Az 'osm_azonosito' lehet:
-  "jo"                       - fogadd el a javasolt párosítást
-  "nem"                      - ne párosítsd (a korábbi párosítás marad)
-  "way 123|relation 456"     - ezekhez az épületekhez kösd az adatlapot (több épület '|' jellel)
-Ha a 'megjegyzes' oszlopba azt írod: "töröld", az adatlapot a script teljesen figyelmen kívül hagyja: nem párosítja, és a korábbi
-(törzsszám/cím alapú) párosításból is leveszi a hivatkozását az épületekről (a törzsszám és a védettség megmarad).
-A script a fájlt csak létrehozza (fejléccel), a sorait nem bántja.
+Manual decision: forras/oeny_koord_kezi.csv  (adatlap;osm_azonosito;megjegyzes). The 'osm_azonosito' can be:
+  "jo"                       - accept the suggested matching
+  "nem"                      - do not match it (the earlier matching stays)
+  "way 123|relation 456"     - tie the data sheet to these buildings (several buildings with the '|' sign)
+If you write "töröld" (delete it) in the 'megjegyzes' column, the script ignores the data sheet completely: it does not match it, and also removes its reference
+from the buildings in the earlier (serial number/address based) matching (the serial number and the protection stay).
+The script only creates the file (with a header), it does not touch its rows.
 """
 import collections
 import csv
@@ -48,7 +48,7 @@ JEGYZEK = "data/muemlek_jegyzek.json"
 KEZI = "forras/oeny_koord_kezi.csv"
 KIMENET = "data/tenyek/oeny_koord.csv"
 ELLENORZES = "forras/oeny_koord_ellenorzes.csv"
-SUGAR = 20          # m: ennyi távolságon belüli épület jön szóba, ha a pont egyikbe sem esik bele
+SUGAR = 20          # m: a building within this distance comes into question if the point falls into none of them
 KX = 111000 * math.cos(math.radians(47.5))
 
 
@@ -58,13 +58,13 @@ def olvas(ut):
 
 
 def pontok(w):
-    """A 'wgs84' mezőből (lon, lat) helyett (lat, lon) párok. Két formátum: 'N 19° 2.031'; E 47° 30.039'' (felcserélt címkékkel) és 'lat, lon'."""
+    """From the 'wgs84' field (lat, lon) pairs instead of (lon, lat). Two formats: 'N 19° 2.031'; E 47° 30.039'' (with swapped labels) and 'lat, lon'."""
     ki = []
     for resz in (w or "").split("|"):
         m = re.findall(r"([NE])\s*(\d+)°\s*([\d.,]+)'", resz)
         if len(m) == 2:
             v = {c: int(d) + float(mm.replace(",", ".")) / 60 for c, d, mm in m}
-            ki.append((v["E"], v["N"]))          # az 'E' címke a szélesség, az 'N' a hosszúság
+            ki.append((v["E"], v["N"]))          # the 'E' label is the latitude, the 'N' is the longitude
             continue
         m = re.match(r"\s*([\d.]+)\s*,\s*([\d.]+)\s*$", resz)
         if m:
@@ -110,7 +110,7 @@ class Epuletek:
                     self.racs[(gx, gy)].append(i)
 
     def keres(self, lat, lon):
-        """[(távolság m, (osm_tipus, id), épülettípus)], közelség szerint; a pontot tartalmazó épületek távolsága 0."""
+        """[(distance m, (osm_tipus, id), building type)], by proximity; the distance of buildings containing the point is 0."""
         lattam, ki = set(), {}
         gx0, gy0 = int(lon * 400), int(lat * 400)
         for dx in (-1, 0, 1):
@@ -186,7 +186,7 @@ def main():
                     return "egyezik"
         return "eltér"
 
-    # a korábbi (törzsszám/cím alapú) párosítás állapota
+    # the state of the earlier (serial number/address based) matching
     cur = collections.defaultdict(lambda: {"t": set(), "a": []})
     for ut in KORABBI:
         if Path(ut).exists():
@@ -201,7 +201,7 @@ def main():
         for a in v["a"]:
             ad2b[a].add(k)
 
-    # kézi döntések
+    # manual decisions
     kezi, torolt = {}, set()
     if Path(KEZI).exists():
         for r in olvas(KEZI):
@@ -209,13 +209,13 @@ def main():
                 az = re.sub(r"\.0$", "", r["adatlap"].strip())
                 kezi[az] = (r.get("osm_azonosito") or "").strip()
                 if "töröld" in (r.get("megjegyzes") or "").lower():
-                    torolt.add(az)          # teljesen figyelmen kívül marad, és a régi párosításból is lekerül
+                    torolt.add(az)          # completely ignored, and also removed from the old matching
     else:
         Path(KEZI).parent.mkdir(parents=True, exist_ok=True)
         with open(KEZI, "w", encoding="utf-8-sig", newline="") as f:
             csv.writer(f, delimiter=";").writerow(["adatlap", "osm_azonosito", "megjegyzes"])
 
-    elfogadott = {}      # adatlap -> [épületkulcsok]
+    elfogadott = {}      # data sheet -> [building keys]
     ellenorzes, stat = [], collections.Counter()
     for r in sorok:
         en, ts = r["adatlap_azonosito"].strip(), r["torzsszam"].strip()
@@ -236,7 +236,7 @@ def main():
             stat["kézi: megadott épület"] += 1
             continue
         if not P:
-            stat["nincs koordináta (terület/együttes: figyelmen kívül hagyva)"] += 1   # az együttesek egyes épületeinek saját adatlapja van
+            stat["nincs koordináta (terület/együttes: figyelmen kívül hagyva)"] += 1   # the individual buildings of the ensembles have their own data sheets
             continue
         jel = [ep.keres(lat, lon) for lat, lon in P]
         if not any(jel):
@@ -266,7 +266,7 @@ def main():
         elif van_mar:
             kat = "B"
         elif egy_belul:
-            kat = "K"            # a pont pontosan egy épület körvonalán belül van: a koordináta dönt, a cím nem számít
+            kat = "K"            # the point is within the outline of exactly one building: the coordinate decides, the address does not matter
         elif mas_torzs:
             kat = "G ütközés: más törzsszám van az épületen"
         elif regi:
@@ -287,7 +287,7 @@ def main():
                                "javasolt_osm": " | ".join(f"{t} {i}" for t, i in ks), "tavolsag_m": " | ".join(str(c[0]) for c in ch),
                                "javasolt_cim_egyezes": " | ".join(ce)})
 
-    # ---- tények ----
+    # ---- facts ----
     konyv = {}
     try:
         for b in json.loads(Path(JEGYZEK).read_text(encoding="utf-8"))["bejegyzesek"]:
@@ -333,12 +333,12 @@ def main():
                     kesz.add((k[0], k[1], "ev", int(m.group(1)), "oeny", megj))
                 if (rr.get("kiolvasott_tervezo") or "").strip():
                     kesz.add((k[0], k[1], "tervezo", rr["kiolvasott_tervezo"].strip(), "oeny", megj))
-    # a korábbi, téves hivatkozások levétele: az az adatlap, amely a koordináta szerint máshol van, ne maradjon a régi épületen
+    # removing the earlier, wrong references: a data sheet that is elsewhere according to the coordinate must not stay on the old building
     hova = {a: set(ks) for a, ks in elfogadott.items()}
     for k, v in cur.items():
         if k in epulet_adatlap:
             continue
-        if any(a in torolt for a in v["a"]):      # a 'töröld' megjegyzésű adatlap hivatkozása mindenhonnan lekerül
+        if any(a in torolt for a in v["a"]):      # the reference of a data sheet with the 'töröld' (delete) remark is removed from everywhere
             marad = [a for a in v["a"] if a not in torolt and not (a in hova and k not in hova[a])]
             lehuzott += 1
             kesz.add((k[0], k[1], "oeny_azonosito", "|".join(marad[:3]) or "-", "oeny_koord",
@@ -346,7 +346,7 @@ def main():
             continue
         marad = [a for a in v["a"] if not (a in hova and k not in hova[a])]
         if not marad and v["a"]:
-            # adatot nem veszítünk: ha az épületen ez az egyetlen adatlap-hivatkozás, megmarad, de az ellenőrző táblába kerül
+            # we do not lose data: if this is the building's only data sheet reference, it stays, but goes into the checking table
             maradt += 1
             continue
         if len(marad) != len(v["a"]):

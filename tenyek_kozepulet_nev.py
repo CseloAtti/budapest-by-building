@@ -1,26 +1,26 @@
-"""Középületek, kereskedelmi és ipari épületek valódi neve az OpenStreetMap telek-, terület- és pontadataiból
+"""The real names of public, commercial and industrial buildings from OpenStreetMap plot, area and point data
 -> data/tenyek/kozepulet_nev.csv
 
-Miért kell? Az OSM-ben az iskola, óvoda, kórház, egyetem neve gyakran nem az épület sokszögén van, hanem a hozzá tartozó
-telken (amenity=school területen) vagy egy külön ponton. A városi épületfájl csak az épület saját címkéit tartalmazza, ezért
-ezek a nevek eddig elvesztek (iskoláknak kb. 21%-a, óvodáknak 32%-a, kórházaknak 50%-a névvel; a templomoknál már 91%).
+Why is it needed? In OSM the name of a school, kindergarten, hospital, university is often not on the building's polygon, but on the plot
+belonging to it (an amenity=school area) or on a separate point. The city building file contains only the building's own tags, so
+these names were lost until now (about 21% of schools, 32% of kindergartens, 50% of hospitals have a name; for churches already 91%).
 
-Mit csinál?
-  1. Egyetlen Overpass-lekérdezéssel letölti Budapest névvel ellátott elemeit: amenity/tourism (iskola, óvoda, kórház, egyetem,
-     könyvtár, színház, múzeum, templom, hivatal stb.), shop (bevásárlóközpont, szupermarket, áruház, barkácsáruház...),
-     landuse=retail/commercial/industrial telkek, man_made=works és industrial=* (gyárak, üzemek), office, piac. A válasz a data/cache/kozepulet_osm.json fájlba kerül (újrafuttatáskor
-     nem tölti le újra; --frissit esetén igen).
-  2. Pontok (node): az őket tartalmazó épület kapja a nevet.
-  3. Területek (telkek): a telken belüli épületek közül azok kapják a nevet, amelyek típusa illik a funkcióhoz
-     (iskola telken building=school, templom telken building=church, üzem telken building=industrial stb.). Ha nincs ilyen,
-     akkor a telken a legnagyobb, általános típusú (yes, public, civic...) épület, legalább 300 m². Fészereket, garázsokat,
-     melléképületeket nem nevez el. A névvel ellátott ipari/kereskedelmi/üzleti területeknél (landuse) csak akkor, ha legfeljebb
-     6 illő épület van rajtuk: a nagy ipari park vagy városrész neve nem egyetlen épület neve.
-     Lakóépületet (apartments, house, residential, terrace stb.) pont alapján sem nevez el: az üzlet a földszinten van, a ház nem az.
-  4. Amelyik épületnek már van saját OSM-neve, azt nem érinti.
-Kimenet:  data/tenyek/kozepulet_nev.csv  (mező: nev_kozepulet)   és   data/varos/kozepulet_nev_jelentes.md
-Futtatás: py tenyek_kozepulet_nev.py          (utána: py osszeepit.py varos, py csempek_keszites.py varos)
-A nevek az OpenStreetMapból jönnek (ODbL, © OpenStreetMap-közreműködők)."""
+What does it do?
+  1. With a single Overpass query it downloads Budapest's named elements: amenity/tourism (school, kindergarten, hospital, university,
+     library, theatre, museum, church, office etc.), shop (shopping centre, supermarket, department store, DIY store...),
+     landuse=retail/commercial/industrial plots, man_made=works and industrial=* (factories, plants), office, market. The answer goes into the data/cache/kozepulet_osm.json file (on a rerun
+     it does not download again; with --frissit it does).
+  2. Points (node): the building containing them gets the name.
+  3. Areas (plots): of the buildings within the plot, those get the name whose type fits the function
+     (building=school on a school plot, building=church on a church plot, building=industrial on a plant plot etc.). If there is none,
+     then the largest building of a generic type (yes, public, civic...) on the plot, at least 300 m². It does not name sheds, garages,
+     outbuildings. For named industrial/commercial/business areas (landuse) only if there are at most
+     6 fitting buildings on them: the name of a large industrial park or district is not the name of a single building.
+     It does not name a residential building (apartments, house, residential, terrace etc.) even by a point: the shop is on the ground floor, the house is not.
+  4. A building that already has its own OSM name is not affected.
+Output:   data/tenyek/kozepulet_nev.csv  (field: nev_kozepulet)   and   data/varos/kozepulet_nev_jelentes.md
+Run: py tenyek_kozepulet_nev.py          (afterwards: py osszeepit.py varos, py csempek_keszites.py varos)
+The names come from OpenStreetMap (ODbL, © OpenStreetMap contributors)."""
 import json
 import sys
 import time
@@ -46,7 +46,7 @@ AMENITY = ("marketplace|school|kindergarten|college|university|hospital|clinic|l
            "research_institute|conference_centre|events_venue")
 MIN_FELULET = 300.0
 
-# funkció -> az épülettípusok (OSM building=*), amelyek biztosan hozzá tartoznak
+# function -> the building types (OSM building=*) that certainly belong to it
 ILLO = {
     "school": {"school", "university", "college", "kindergarten"}, "kindergarten": {"kindergarten", "school"},
     "college": {"college", "university", "school"}, "university": {"university", "college", "school"},
@@ -68,13 +68,13 @@ ILLO = {
     "furniture": {"retail", "commercial", "warehouse"}, "electronics": {"retail", "commercial"},
     "car": {"retail", "commercial"}, "car_repair": {"industrial", "commercial", "retail"},
     "garden_centre": {"retail", "commercial", "greenhouse"}, "convenience": {"retail", "commercial"},
-    # terület-jellegű (landuse) és ipar
+    # area-like (landuse) and industry
     "landuse_retail": {"retail", "commercial", "supermarket", "mall"}, "landuse_commercial": {"commercial", "office", "retail"},
     "landuse_industrial": {"industrial", "warehouse", "factory", "manufacture"},
     "works": {"industrial", "factory", "manufacture", "warehouse"}, "industrial": {"industrial", "factory", "manufacture", "warehouse"},
     "office": {"office", "commercial"},
 }
-TERULETI = {"landuse_retail", "landuse_commercial", "landuse_industrial"}   # névvel ellátott nagy területek: csak kevés épületnél
+TERULETI = {"landuse_retail", "landuse_commercial", "landuse_industrial"}   # named large areas: only for few buildings
 MAX_TERULETI_EPULET = 6
 ALTALANOS = {"yes", "public", "civic", "government", "institutional", "commercial", "office", "school", "hospital", "retail",
              "industrial", "warehouse"}
@@ -136,7 +136,7 @@ def funkcio(c):
 
 
 def gyuru_elem(e):
-    """A telek külső gyűrűje [(lon, lat), ...]; kapcsolatnál csak ha egyetlen zárt külső tagból áll."""
+    """The plot's outer ring [(lon, lat), ...]; for a relation only if it consists of a single closed outer member."""
     if e["type"] == "way":
         g = [(p["lon"], p["lat"]) for p in e.get("geometry", [])]
         return g if len(g) >= 4 and g[0] == g[-1] else None
@@ -155,7 +155,7 @@ def main():
         c = e.get("tags", {})
         nev = " ".join(str(c.get("name", "")).split())
         f = funkcio(c)
-        if not f or len(nev) < 3 or "building" in c:       # ha az elem maga az épület, annak a neve már megvan
+        if not f or len(nev) < 3 or "building" in c:       # if the element is itself the building, its name is already there
             continue
         elemek.append((e, c, nev, f))
     print(f"Névvel ellátott funkcióelem: {len(elemek)}")
@@ -172,7 +172,7 @@ def main():
         epulet[b["k"]] = b
         racs[(int(cx / CELLA), int(cy / CELLA))].append(b)
 
-    legjobb = {}     # épület -> (rang, telekterület, név, funkció, mód)
+    legjobb = {}     # building -> (rank, plot area, name, function, mode)
 
     def javasol(b, rang, telek, nev, f, mod):
         if b["nev"] or b["tipus"] in MELLEK:
@@ -208,7 +208,7 @@ def main():
         telek_db += 1
         illo = [b for b in bennuk if b["tipus"] in ILLO[f]]
         if f in TERULETI and len(illo) > MAX_TERULETI_EPULET:
-            continue          # nagy ipari/üzleti terület: a neve a területé, nem egy épületé
+            continue          # large industrial/business area: the name belongs to the area, not to a building
         if illo:
             for b in illo:
                 javasol(b, 2, telek_ter, nev, f, "telek, illő épülettípus")

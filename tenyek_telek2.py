@@ -1,13 +1,13 @@
-"""Az eddig nem párosított értékleltári / Kataszter III. tételek párosítása a telekpoligon alapján (2. kör).
+"""Matching the so far unmatched value-register / Kataszter III. items based on the plot polygon (round 2).
 
-Bemenet:  forras/ertekleltar_telekadatok_kesz.xlsx  (kézzel gyűjtött: pontos_cim + telekpoligon EOV-ban)
-          data/ertekleltar_kartyak.json              (az értékleltári kártyák adatai: év, tervező, stílus, védelem)
-          data/kataszter_III_nem_parositott.csv      (a III. kerületi Kataszter tételei)
-          forras/ertekleltar_telek2_parositas.csv    (a kézi döntések táblája; ide ír a 3D szerkesztő; a már kitöltött sorokhoz NEM nyúl)
-Kimenet:  forras/ertekleltar_telek2_parositas.csv    (új sorok: az egyértelmű esetekbe 'automatikus' döntés kerül, a többibe jelöltek)
-          data/tenyek/ertekleltar_telek2.csv         (tények az osszeepit.py-hoz: minden döntött sor épületére)
-          data/varos/ertekleltar_telek2_kozelito.csv ('1920-as évek' jellegű korszakadatok)
-Futtatás: py tenyek_telek2.py   (utána zona_frissit.bat)
+Input:    forras/ertekleltar_telekadatok_kesz.xlsx  (collected by hand: pontos_cim + plot polygon in EOV)
+          data/ertekleltar_kartyak.json              (data of the value-register cards: year, designer, style, protection)
+          data/kataszter_III_nem_parositott.csv      (the items of the III. district Kataszter)
+          forras/ertekleltar_telek2_parositas.csv    (the table of manual decisions; the 3D editor writes here; it does NOT touch the rows already filled in)
+Output:   forras/ertekleltar_telek2_parositas.csv    (new rows: for the unambiguous cases an 'automatikus' decision goes in, for the others candidates)
+          data/tenyek/ertekleltar_telek2.csv         (facts for osszeepit.py: for the building of every decided row)
+          data/varos/ertekleltar_telek2_kozelito.csv (era data of the '1920-as évek' (1920s) kind)
+Run: py tenyek_telek2.py   (afterwards zona_frissit.bat)
 """
 import csv
 import io
@@ -36,7 +36,7 @@ OSM_AZON = re.compile(r"(way|relation) (\d+)")
 
 
 def xlsx_sorok(ut):
-    """Az első munkalap sorai (listák), külső csomag nélkül (az xlsx egy zip + XML)."""
+    """The rows of the first worksheet (lists), without an external package (an xlsx is a zip + XML)."""
     ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
     with zipfile.ZipFile(ut) as z:
         kozos = []
@@ -74,7 +74,7 @@ def xlsx_sorok(ut):
 
 
 def meglevo_torzsszamok():
-    """Az OENY / műemlékjegyzék által már az épületre írt törzsszámok: {(osm_tipus, id): {törzsszám}} (a teljesen levett OENY-sorok nélkül)."""
+    """The serial numbers already written onto the building by OENY / the register of monuments: {(osm_tipus, id): {serial number}} (without the fully removed OENY rows)."""
     ki = defaultdict(set)
     kiz = set()
     try:
@@ -173,7 +173,7 @@ def main():
     tmp.write_bytes(b.getvalue().encode("utf-8-sig"))
     tmp.replace(TABLA)
 
-    # ---- tények a döntött sorokból ----
+    # ---- facts from the decided rows ----
     kesz, kozelito = set(), set()
     van_tsz = meglevo_torzsszamok()
     for u in tabla:
@@ -190,7 +190,7 @@ def main():
                 ved = (k.get("vedelem") or "").strip()
                 kt, mar = (k.get("torzsszam_azon") or ""), van_tsz.get((t, i), set())
                 if mar and kt not in mar:
-                    # az épületnek már van (OENY-ból) más törzsszáma: nem írunk mellé másodikat
+                    # the building already has another serial number (from OENY): we do not write a second one next to it
                     stat["törzsszám kihagyva (az épületen már más van)"] += 1
                 else:
                     if kt.isdigit():

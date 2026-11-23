@@ -1,20 +1,20 @@
-"""Kézi párosítás az E-Örökség (OENY) műemlékeihez, amelyeket a tenyek_oeny.py nem tudott OSM-épülethez kötni.
+"""Manual matching for the E-Örökség (OENY) monuments that tenyek_oeny.py could not tie to an OSM building.
 
-Bemenet:  data/oeny_nem_parositott.csv         (a tenyek_oeny.py készíti: ami nem párosult)
-          forras/oeny_kezi_parositas.csv       (EZT töltöd ki: az 'osm_azonosito' oszlopba írd az OSM-épület azonosítóját)
-          data/oeny_epuletek.json, data/muemlek_jegyzek.json   (az OENY-kártyák és a műemlékjegyzék)
-Kimenet:  data/tenyek/oeny_kezi.csv            - a kézzel párosított műemlékek tényei az osszeepit.py-hoz
+Input:    data/oeny_nem_parositott.csv         (made by tenyek_oeny.py: what was not matched)
+          forras/oeny_kezi_parositas.csv       (YOU fill in THIS: write the OSM building's identifier into the 'osm_azonosito' column)
+          data/oeny_epuletek.json, data/muemlek_jegyzek.json   (the OENY cards and the register of monuments)
+Output:   data/tenyek/oeny_kezi.csv            - the facts of the manually matched monuments for osszeepit.py
 
-Futtatás:  py tenyek_oeny_kezi.py       (utána a szokásos: py osszeepit.py varos ... vagy zona_frissit.bat)
+Run:       py tenyek_oeny_kezi.py       (afterwards the usual: py osszeepit.py varos ... or zona_frissit.bat)
 
-A táblázat első futáskor jön létre. Később a script csak a még nem szereplő (új) nem párosított bejegyzéseket fűzi hozzá a végére;
-ha nincs új sor, a fájlhoz nem ér hozzá. A formázás (feltételes formázás, rejtett oszlopok) CSV-ben amúgy sem tárolódik, ahhoz az Excel-fájlt (.xlsx) mentsd külön. A 'terbeli_biztonsag' és 'terbeli_javaslat' oszlopot a koordináták (ArcGIS) alapján töltöttük ki: ahol a biztonság 'magas', az
-osm_azonosito már ki van töltve (ellenőrizd), a többinél a javaslatok közül másold be a megfelelőt.
-Az 'osm_azonosito' elfogadott alakjai: "way 123456", "123456" (way), "relation 123",
-az OSM-oldal linkje; több épület '|' jellel elválasztva (pl. egy műemlék több épületből áll).
-Ha az épületet nem lehet vagy nem kell párosítani, írd a 'megjegyzes' oszlopba (pl. "nincs már meg"), az osm_azonosito maradjon üres.
-Átvett tények: műemléki törzsszám, védettség (a jegyzék szerint; ha nincs benne: M, a "területe" nevűeknél MJT),
-az OENY-adatlap azonosítója, a jegyzékből az építés éve, tervezője, stílusa, szintszáma, valamint az OENY-leírásból kiolvasott év/tervező.
+The table is created on the first run. Later the script appends to the end only the (new) unmatched entries not yet in it;
+if there is no new row, it does not touch the file. Formatting (conditional formatting, hidden columns) is not stored in CSV anyway; save the Excel file (.xlsx) separately for that. The 'terbeli_biztonsag' and 'terbeli_javaslat' columns were filled in from the coordinates (ArcGIS): where the confidence is 'magas' (high),
+osm_azonosito is already filled in (check it), for the others copy the right one from the suggestions.
+Accepted forms of 'osm_azonosito': "way 123456", "123456" (way), "relation 123",
+the link of the OSM page; several buildings separated by '|' (e.g. a monument consists of several buildings).
+If the building cannot or need not be matched, write it into the 'megjegyzes' column (e.g. "nincs már meg" = no longer exists), and leave osm_azonosito empty.
+Facts taken over: the monument serial number, protection (according to the register; if it is not in it: M, for those named "területe" (area of ...) MJT),
+the OENY sheet's identifier, from the register the year of construction, designer, style, number of storeys, and the year/designer read out of the OENY description.
 """
 import collections
 import csv
@@ -48,11 +48,11 @@ def oeny_azonositok():
 
 
 def tabla_szinkron():
-    """Létrehozza vagy bővíti a kézi táblázatot a nem párosított bejegyzésekkel (a kitöltött sorokat nem bántja)."""
+    """Creates or extends the manual table with the unmatched entries (it does not touch the filled-in rows)."""
     if not Path(NEM_PAROSITOTT).exists():
         raise SystemExit(f"Hiányzik: {NEM_PAROSITOTT}. Előbb futtasd: py tenyek_oeny.py varos")
-    # Egy törzsszámhoz több sor is tartozhat. Új sort csak akkor fűzünk hozzá, ha a táblázatban kevesebb sor van az adott
-    # törzsszámhoz, mint a nem párosított listában (a címet te javíthatod a táblázatban, ez nem számít újnak).
+    # Several rows can belong to one serial number. We append a new row only if the table has fewer rows for the given
+    # serial number than the unmatched list (you may correct the address in the table, that does not count as new).
     sorok = olvas(TABLA) if Path(TABLA).exists() else []
     van = collections.Counter(r["torzsszam"].strip() for r in sorok)
     azon = oeny_azonositok()
@@ -72,9 +72,9 @@ def tabla_szinkron():
         })
         uj += 1
     if not uj:
-        return sorok, 0            # nincs új sor: a táblázat fájlját NEM írjuk át (megmarad minden, amit Excelben beállítottál)
+        return sorok, 0            # no new row: we do NOT rewrite the table's file (everything you set up in Excel stays)
     if Path(TABLA).exists():
-        # csak a végére fűzzük az új sorokat, a meglévő sorokhoz, sorrendhez és oszlopokhoz nem nyúlunk
+        # we append the new rows only to the end, and do not touch the existing rows, order or columns
         with open(TABLA, "rb") as f:
             adat = f.read()
         with open(TABLA, encoding="utf-8-sig", newline="") as f:
@@ -131,7 +131,7 @@ def main():
                 sorok_ki.append(("szintek", b["emelet"] + 1, "muemlek"))
         else:
             sorok_ki.append(("vedettseg", "MJT" if "területe" in r["megnevezes"].lower() else "M", "oeny"))
-        mev = re.match(r"\s*(\d{4})(?:\.0)?\s*$", r.get("kiolvasott_ev") or "")   # az Excel "1934.0"-ra alakíthatja
+        mev = re.match(r"\s*(\d{4})(?:\.0)?\s*$", r.get("kiolvasott_ev") or "")   # Excel may convert it to "1934.0"
         if mev:
             sorok_ki.append(("ev", int(mev.group(1)), "oeny"))
         if (r.get("kiolvasott_tervezo") or "").strip():

@@ -1,13 +1,13 @@
-"""A magyar Wikipedia utcánkénti épületlistáinak letöltése (A budapesti ... épületeinek listája).
+"""Downloading the street-by-street building lists of the Hungarian Wikipedia (A budapesti ... épületeinek listája = The list of buildings of Budapest's ...).
 
-Kimenet:  data/wikipedia_lista/sorok.csv     (lap;utca;kerulet;szakasz;sor;szam;nev;ev;tervezo;stilus;megjegyzes)
-          data/wikipedia_lista/cache/*.json  (a letöltött oldalak; ha ott vannak, nem tölti le újra - törölve újratölt)
+Output:   data/wikipedia_lista/sorok.csv     (lap;utca;kerulet;szakasz;sor;szam;nev;ev;tervezo;stilus;megjegyzes)
+          data/wikipedia_lista/cache/*.json  (the downloaded pages; if they are there, it does not download again - delete to download again)
 
-Futtatás:  py tenyek_wikipedia_lista_letolt.py
-Utána:     py tenyek_wikipedia_lista.py varos     (párosítás az OSM-címekkel, tények, ellenőrző tábla)
+Run:       py tenyek_wikipedia_lista_letolt.py
+Afterwards: py tenyek_wikipedia_lista.py varos     (matching with the OSM addresses, facts, checking table)
 
-A Wikipedia szövege CC BY-SA licenc alatt van; a tények megjegyzése mindig megnevezi a lapot és a sort.
-A 'sor' az oldal táblázatainak sorszáma (1-től, a fejléc nélkül, az oldalon felülről lefelé).
+The text of Wikipedia is under the CC BY-SA licence; the remark of the facts always names the page and the row.
+The 'sor' is the row number in the page's tables (from 1, without the header, from the top of the page downwards).
 """
 import csv
 import html
@@ -81,7 +81,7 @@ def szoveg(h):
 
 
 def tablak(h):
-    """[(szakasz, [sorok])] - a sorok cellalistái; a rowspan/colspan szétterítve, a fejlécsor 'th'-val jelölve."""
+    """[(section, [rows])] - the rows' cell lists; rowspan/colspan spread out, the header row marked with 'th'."""
     esemenyek = []
     for m in re.finditer(r"<h[2-4][^>]*>(.*?)</h[2-4]>", h, flags=re.S):
         esemenyek.append((m.start(), "h", szoveg(m.group(1)).replace("[szerkesztés]", "").strip()))
@@ -141,7 +141,7 @@ def oszlopok(fejlec):
         elif k.startswith("megjegyzés") and "megjegyzes" not in t:
             t["megjegyzes"] = i
     if "szam" not in t and fejlec and fejlec[0] == "":
-        t["szam"] = 0              # néhány lapon a házszám oszlopának nincs felirata
+        t["szam"] = 0              # on some pages the house-number column has no label
     return t
 
 

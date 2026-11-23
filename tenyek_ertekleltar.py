@@ -1,15 +1,15 @@
-"""Kerületi értékkatasztereken alapuló tények -> data/tenyek/ertekleltar.csv
+"""Facts based on the district value registers -> data/tenyek/ertekleltar.csv
 
-Bemenet:  data/ertekleltar_kartyak.json  (a II., III., IV., X., XIV., XV., XXI., XXIII. kerületi értékkatasztereknek és kézikönyveknek az épületlapokból kiolvasott adatai:
-          cím, hrsz, építés éve, tervező, stílus, védelem; csak tények, a leírások szövegét nem tároljuk)
+Input:    data/ertekleltar_kartyak.json  (data read from the building sheets of the value registers and handbooks of the II., III., IV., X., XIV., XV., XXI., XXIII. districts:
+          address, lot number, year of construction, designer, style, protection; only facts, the text of the descriptions is not stored)
           data/varos/epuletek.geojson, data/varos/osm_cimek.csv   (py varos_osszeallitas.py)
-Kimenet:  data/tenyek/ertekleltar.csv            - tények az osszeepit.py-hoz (forrás: 'ertekleltar')
-          data/ertekleltar_nem_parositott.csv    - amit nem sikerült épülethez kötni (kézi javításhoz)
-          data/varos/ertekleltar_kozelito.csv    - 'az 1930-as évek', '1910 körül' jellegű korszakadatok (CSAK a becslőnek, nem 'ev')
+Output:   data/tenyek/ertekleltar.csv            - facts for osszeepit.py (source: 'ertekleltar')
+          data/ertekleltar_nem_parositott.csv    - what could not be tied to a building (for manual correction)
+          data/varos/ertekleltar_kozelito.csv    - era data of the 'the 1930s', 'around 1910' kind (ONLY for the estimator, not 'ev')
 
-Futtatás:  py tenyek_ertekleltar.py
-Az épületet kerület + utca + házszám alapján keresi. A betűs házszámot (27/C) pontosan kell találnia; ha az OSM-ben
-nincs betű, de a számon legfeljebb 2 épület van, azt fogadja el.
+Run:       py tenyek_ertekleltar.py
+It looks for the building by district + street + house number. A lettered house number (27/C) must be found exactly; if OSM has
+no letter, but there are at most 2 buildings on the number, it accepts that.
 """
 import csv
 import json
@@ -34,7 +34,7 @@ def hazszam_kulcs(s):
 
 
 def cim_felbontas(cim):
-    """'KORPONAI UTCA 4. - Endre utca 1/A.' -> (utca_lecsupaszítva, [házszám-szövegek]) az első címből."""
+    """'KORPONAI UTCA 4. - Endre utca 1/A.' -> (stripped_street, [house-number texts]) from the first address."""
     c = re.split(r"\s+[-–=]\s+|;|\s*\bés\b\s", cim.strip(), maxsplit=1)[0]
     c = re.sub(r"\b(u)\.(?=\s|$)", "utca", c, flags=re.I)
     c = re.sub(r"\.(?=/)", "", c).strip(" -")
@@ -70,8 +70,8 @@ def main():
                 kerulete[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
     if not kerulete:
         raise SystemExit("Az épületeknél nincs kerület. Futtasd: py budapest_pbf.py, majd py varos_osszeallitas.py")
-    pontos = defaultdict(set)        # (kerület, utca, házszám-kulcs) -> épületek
-    szam = defaultdict(set)          # (kerület, utca, szám) -> épületek (betű nélkül)
+    pontos = defaultdict(set)        # (district, street, house-number key) -> buildings
+    szam = defaultdict(set)          # (district, street, number) -> buildings (without the letter)
     with open(CIMEK, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
             e = (r["osm_tipus"], int(r["id"]))
@@ -101,12 +101,12 @@ def main():
                 if not t and re.fullmatch(r"\d+", h):
                     t = pontos.get((kn, u, h)) or (szam.get((kn, u, h)) if len(szam.get((kn, u, h), ())) <= 2 else None)
                 elif not t and re.match(r"\d+[a-z]", h):
-                    t = None                      # betűs házszám, az OSM-ben nincs meg: nem találgatunk
+                    t = None                      # lettered house number, not present in OSM: we do not guess
                 talalat |= set(t or ())
         masodlagos = False
         if not talalat and u:
-            # Saroktelek: 'GÁBOR ÁRON UTCA 11. - PASARÉTI ÚT 56.' Ha az első cím nincs az OSM-ben, a többi címet is megnézzük,
-            # de óvatosan: csak pontos házszám-egyezés, és címenként legfeljebb 2 épület (nem szám-alapú találgatás).
+            # Corner plot: 'GÁBOR ÁRON UTCA 11. - PASARÉTI ÚT 56.' If the first address is not in OSM, we also check the other addresses,
+            # but carefully: only an exact house-number match, and at most 2 buildings per address (not number-based guessing).
             for resz in re.split(r"\s+[-–=]\s+|;", k["cim"].strip())[1:]:
                 u2, h2 = cim_felbontas(resz)
                 if not u2:
@@ -131,7 +131,7 @@ def main():
             elif k.get("korszak"):
                 kozelito.append([t, i, k["korszak"][0], k["korszak"][1], k["ev_szoveg"], k["forras"]])
             else:
-                tart = szoveg_evtartomany(k.get("ev_szoveg"))      # 'XIX. sz. vége', '1930-as évek második fele'
+                tart = szoveg_evtartomany(k.get("ev_szoveg"))      # 'XIX. sz. vége' (end of the 19th century), '1930-as évek második fele' (second half of the 1930s)
                 if tart:
                     kozelito.append([t, i, tart[0], tart[1], k["ev_szoveg"], k["forras"]])
                     stat["századszöveg"] += 1

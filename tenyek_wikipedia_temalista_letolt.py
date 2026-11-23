@@ -1,9 +1,9 @@
-"""A magyar Wikipedia témalistáinak (iskolák, kórházak, katonai épületek, vásárcsarnokok, egyetemek, vasúti épületek ...) letöltése.
+"""Downloading the topic lists of the Hungarian Wikipedia (schools, hospitals, military buildings, market halls, universities, railway buildings ...).
 
-Kimenet:  data/wikipedia_lista/sorok_tema.csv   (ugyanaz a felépítés, mint az utcalistáké: lap;utca;kerulet;szakasz;sor;szam;nev;ev;tervezo;stilus;megjegyzes)
-A cím oszlopot utcára és házszámra bontja; ami nem budapesti vagy nincs házszáma, az kimarad. Ha egy sorban több cím van, annyi sor lesz.
-Futtatás:  py tenyek_wikipedia_temalista_letolt.py    (a tenyek_wikipedia_lista_letolt.py-val azonos mappában; a letöltések a cache-ben maradnak)
-Utána:     py tenyek_wikipedia_lista.py varos        (az utcalistákat és a témalistákat együtt párosítja)
+Output:   data/wikipedia_lista/sorok_tema.csv   (the same structure as that of the street lists: lap;utca;kerulet;szakasz;sor;szam;nev;ev;tervezo;stilus;megjegyzes)
+It splits the address column into street and house number; what is not in Budapest or has no house number is left out. If a row has several addresses, there will be that many rows.
+Run:       py tenyek_wikipedia_temalista_letolt.py    (in the same folder as tenyek_wikipedia_lista_letolt.py; the downloads stay in the cache)
+Afterwards: py tenyek_wikipedia_lista.py varos        (it matches the street lists and the topic lists together)
 """
 import csv
 import re
@@ -22,7 +22,7 @@ LAPOK = [
     "Liber Endre kislakásépítési programja", "Budapesti vasúti épületek és épületegyüttesek listája",
     "Budapesti tömegközlekedési épületek és épületegyüttesek listája",
 ]
-# a lapok nagy része csak budapesti épületeket tartalmaz; a vásárcsarnokok listája országos, ott a 'Budapest' szót keressük a címben
+# most pages contain only Budapest buildings; the list of market halls is nationwide, there we look for the word 'Budapest' in the address
 CSAK_BUDAPEST = {"Magyarországi vásárcsarnokok listája"}
 
 
@@ -42,7 +42,7 @@ def oszlopok(fejlec):
             t["ev"] = i
         elif k.startswith(("tervező", "építész")) and "tervezo" not in t:
             t["tervezo"] = i
-            t["tervezo_ev"] = "építési" in k           # 'Tervező, építési idő' összevont oszlop (kórházak)
+            t["tervezo_ev"] = "építési" in k           # combined 'Designer, construction time' column (hospitals)
         elif k.startswith("stílus") and "stilus" not in t:
             t["stilus"] = i
         elif k.startswith("megjegyzés") and "megj" not in t:
@@ -51,7 +51,7 @@ def oszlopok(fejlec):
 
 
 def cimek(cella):
-    """[(kerület|'', utca, házszám)] a szabad szövegű címből."""
+    """[(district|'', street, house number)] from the free-text address."""
     ki = []
     for resz in re.split(r";|\sés\s|\n", cella or ""):
         resz = re.sub(r"\(.*?\)", "", resz).strip(" ,.")

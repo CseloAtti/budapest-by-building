@@ -1,10 +1,10 @@
-"""Wikidata, koordináta alapján, a normál API-n keresztül (nem a lekérdező szerveren)
--> data/tenyek/wikidata_terulet.csv   (ugyanaz a kimenet, mint a tenyek_wikidata_terulet.py-é)
+"""Wikidata, by coordinate, through the normal API (not the query server)
+-> data/tenyek/wikidata_terulet.csv   (the same output as that of tenyek_wikidata_terulet.py)
 
-Lépések: 1) földrajzi keresés rácsonként, 2) az elemek adatainak lekérése,
-3) csak az épület-jellegű elemek megtartása (P31 -> P279 lánc a 'building' osztályig),
-4) párosítás az épületkörvonalainkhoz.
-A Wikidata tartalma CC0 (szabadon felhasználható).
+Steps: 1) geographic search per grid cell, 2) fetching the data of the elements,
+3) keeping only the building-like elements (P31 -> P279 chain up to the 'building' class),
+4) matching to our building outlines.
+The content of Wikidata is CC0 (free to use).
 """
 import hashlib
 import json
@@ -19,10 +19,10 @@ from terulet_kozos import VAROS_DOBOZ, EpuletIndex, adaptiv_geokeres
 from tenyek_wikidata import (API, CACHE, KLIENS, SZUNET_MP, cimke, csomagokban, elemek_id,
                              ev_a_claimekbol, lekeres, wikipedia_cikk)
 
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_wikidata_api.py varos  -> az egész város
+VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_wikidata_api.py varos  -> the whole city
 OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
 KIMENET = "data/tenyek/wikidata_terulet.csv"
-DOBOZ = VAROS_DOBOZ if VAROS else (47.490, 19.040, 47.513, 19.062)     # dél, nyugat, észak, kelet
+DOBOZ = VAROS_DOBOZ if VAROS else (47.490, 19.040, 47.513, 19.062)     # south, west, north, east
 KOZELI_METER = 10
 EPULET = "Q41176"       # building
 MAX_MELYSEG = 7
@@ -44,7 +44,7 @@ def geokeres(d0, w0, d1, w1):
 
 
 def epulet_osztalyok(osztalyok):
-    """Melyik osztály éri el a 'building' osztályt az alosztály-láncon (P279)."""
+    """Which class reaches the 'building' class along the subclass chain (P279)."""
     szulok, kesz = {}, set()
     ma = set(osztalyok)
     for _ in range(MAX_MELYSEG):
@@ -72,7 +72,7 @@ def epulet_osztalyok(osztalyok):
 
 
 def main():
-    # 1) földrajzi keresés
+    # 1) geographic search
     def keres(d0, w0, d1, w1):
         return geokeres(d0, w0, d1, w1).get("query", {}).get("geosearch", [])
 
@@ -82,12 +82,12 @@ def main():
             talalatok[r["title"]] = (r["lon"], r["lat"])
     print(f"Koordinátás Wikidata-elemek a területen: {len(talalatok)}")
 
-    # 2) az elemek adatai
+    # 2) the data of the elements
     entitasok = {}
     for cs in csomagokban(sorted(talalatok), 50):
         entitasok.update(lekeres(cs, "claims|labels|sitelinks").get("entities", {}))
 
-    # 3) csak épületek, építési évvel
+    # 3) only buildings, with a year of construction
     jeloltek = {}
     for q, e in entitasok.items():
         cl = e.get("claims", {})
@@ -108,7 +108,7 @@ def main():
         for q, e in lekeres(cs, "labels").get("entities", {}).items():
             nevek[q] = cimke(e)
 
-    # 4) párosítás
+    # 4) matching
     with open(OSM, encoding="utf-8") as f:
         feats = [x for x in json.load(f)["features"] if x["properties"].get("tipus") != "roof"]
     index = EpuletIndex(feats)

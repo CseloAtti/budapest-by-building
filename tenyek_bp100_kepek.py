@@ -1,16 +1,16 @@
 """
-tenyek_bp100_kepek.py - a Budapest100-házak oldalairól a ház képének címe (og:image) -> data/bp100/kepek.json
+tenyek_bp100_kepek.py - from the Budapest100 house pages, the address of the house's image (og:image) -> data/bp100/kepek.json
 
-Bemenet:  data/bp100/budapest100_teljes.csv  (a 'url' oszlop: a ház oldala a budapest100.hu-n)
-Kimenet:  data/bp100/kepek.json              {oldal_url: {"kep": kép_url vagy "", "foto": a fényképész neve vagy ""}}; megszakítható és folytatható (ami már megvan, nem töltődik le újra)
+Input:    data/bp100/budapest100_teljes.csv  (the 'url' column: the house's page on budapest100.hu)
+Output:   data/bp100/kepek.json              {page_url: {"kep": image_url or "", "foto": the photographer's name or ""}}; can be interrupted and resumed (what is already there is not downloaded again)
 
-Csak a kép CÍMÉT tároljuk, a képet nem másoljuk: a 3D kártya közvetlenül a budapest100.hu-ról tölti be, a Budapest100 oldalára
-mutató hivatkozással. A kép a Budapest100 és szerzőinek tulajdona: használat előtt nézd meg az oldal felhasználási feltételeit.
+Only the image's ADDRESS is stored, the image is not copied: the 3D card loads it directly from budapest100.hu, with a link
+to the Budapest100 page. The image belongs to Budapest100 and its authors: check the site's terms of use before using it.
 
-Futtatás:  py tenyek_bp100_kepek.py teszt  (egyetlen oldal próbája, részletes kiírással: ezt futtasd először)
-           py tenyek_bp100_kepek.py        (kb. 2500 oldal, ~0,4 mp/oldal: ~20 perc; Ctrl+C-vel megállítható, újraindításkor folytatja)
-           py tenyek_bp100_kepek.py ujra   (a kép nélkülieket újra megpróbálja)
-Utána:     py tenyek_bp100.py  ->  py osszeepit.py varos  ->  py csempek_keszites.py varos
+Run:       py tenyek_bp100_kepek.py teszt  (trial of a single page, with detailed output: run this first)
+           py tenyek_bp100_kepek.py        (about 2500 pages, ~0.4 s/page: ~20 minutes; can be stopped with Ctrl+C, resumes on restart)
+           py tenyek_bp100_kepek.py ujra   (retries the ones without an image)
+Afterwards: py tenyek_bp100.py  ->  py osszeepit.py varos  ->  py csempek_keszites.py varos
 """
 import csv
 import html
@@ -56,7 +56,7 @@ def kep_cim(szoveg, oldal):
 
 
 def fotos(szoveg):
-    """A házoldalon a képek szerzőjét 'Fotó: Név' sor jelzi (pl. 'Fotó: Tóvári László'); ezt vesszük át a kártya feliratához."""
+    """On the house page the image's author is marked by a 'Fotó: Name' line (e.g. 'Fotó: Tóvári László'); we take this over for the card's caption."""
     t = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", szoveg)
     t = re.sub(r"(?i)<br\s*/?>|</(p|div|li|h\d|span|dd|dt|td|tr)>", "\n", t)
     t = html.unescape(re.sub(r"<[^>]+>", " ", t))
@@ -68,9 +68,9 @@ def fotos(szoveg):
 
 
 def tiszta(url):
-    """Csak a budapest100.hu (és aldomainjei) https-képe fogadható el."""
+    """Only a https image of budapest100.hu (and its subdomains) is accepted."""
     try:
-        if url.startswith("http://"):                      # a saját oldal képe https-en is elérhető
+        if url.startswith("http://"):                      # the page's own image is also available over https
             url = "https://" + url[len("http://"):]
         u = urlparse(url)
     except ValueError:
@@ -82,12 +82,12 @@ def tiszta(url):
     return url
 
 
-IDOKORLAT = 12          # mp / kérés
-MAX_PEREG_HIBA = 8       # ennyi egymás utáni hiba után leáll és kiírja az okot
+IDOKORLAT = 12          # s / request
+MAX_PEREG_HIBA = 8       # after this many errors in a row it stops and prints the reason
 
 
 def letolt(url):
-    """(szöveg, hiba): szöveg=None, ha nem sikerült; hiba: rövid ok (pl. 'HTTP 403', 'időtúllépés')."""
+    """(text, error): text=None if it failed; error: a short reason (e.g. 'HTTP 403', 'időtúllépés' = timeout)."""
     hiba = ""
     for proba in range(2):
         try:
@@ -105,7 +105,7 @@ def letolt(url):
 
 
 def teszt():
-    """Egyetlen oldal letöltése és kiértékelése, részletes kiírással."""
+    """Downloading and evaluating a single page, with detailed output."""
     sorok = list(csv.DictReader(open(BEMENET, encoding="utf-8-sig", newline="")))
     url = next((r["url"].strip() for r in sorok if (r.get("url") or "").startswith("https://budapest100.hu/")), "")
     print("Teszt-oldal:", url)
@@ -132,7 +132,7 @@ def main():
     print(f"Indul: {len(urlok)} oldal, ebből még hátra: {sum(1 for u in urlok if u not in kesz)}", flush=True)
     try:
         for i, url in enumerate(urlok, 1):
-            if isinstance(kesz.get(url), str):                       # az első változat formátuma
+            if isinstance(kesz.get(url), str):                       # the format of the first version
                 kesz[url] = {"kep": kesz[url], "foto": ""}
             if url in kesz and ((kesz[url] or {}).get("kep") or not ujra):
                 stat["már megvolt"] += 1

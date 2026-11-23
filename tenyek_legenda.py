@@ -1,16 +1,16 @@
-"""Budapest Legenda (budapestlegenda.hu) kortárs épületei -> data/tenyek/budapestlegenda.csv
+"""Contemporary buildings of Budapest Legenda (budapestlegenda.hu) -> data/tenyek/budapestlegenda.csv
 
-Bemenet:  forras/legenda_kezi_parositas.csv   (a Legenda-lista és az OSM-párosítás; az 'osm_azonosito' oszlopot te töltöd ki)
-Opcionális oszlop: 'kep_url' (a Legenda-oldal képének közvetlen címe; a kártya ezt használja, ha nincs más kép).
-Kimenet:  data/tenyek/budapestlegenda.csv     - 'legenda_url', 'legenda_kep', 'ev' és 'tervezo' tények az osszeepit.py-hoz (forrás: 'budapestlegenda')
+Input:    forras/legenda_kezi_parositas.csv   (the Legenda list and the OSM matching; you fill in the 'osm_azonosito' column)
+Optional column: 'kep_url' (the direct address of the Legenda page's image; the card uses it if there is no other image).
+Output:   data/tenyek/budapestlegenda.csv     - 'legenda_url', 'legenda_kep', 'ev' and 'tervezo' facts for osszeepit.py (source: 'budapestlegenda')
 
-Futtatás:  py tenyek_legenda.py
+Run:       py tenyek_legenda.py
 
-Fontos: a Legenda "építés éve" mezője sok helyen a tervezés (vagy a díj) éve, nem az átadásé: az Építészfórum-lista
-elkészülési éveinél jellemzően 1-4 évvel korábbi, a metróállomásoknál 10 évvel. Ezért a forrás az 'ev' prioritásban az
-Építészfórum mögött áll, és csak az 'uj_epulet = igen' sorokat vesszük át (felújítás/rekonstrukció/köztér nem építési év).
-Csak akkor készül tény, ha az 'osm_azonosito' ki van töltve. Elfogadott alakok: "way 123456", "123456" (way), "relation 123",
-az OSM-oldal linkje; több épület '|' jellel.
+Important: the Legenda "year of construction" field is in many places the year of design (or of the award), not of handover: compared with the completion years of the
+Építészfórum list it is typically 1-4 years earlier, for the metro stations 10 years. So in the 'ev' priority the source ranks
+behind Építészfórum, and we take over only the rows with 'uj_epulet = igen' (renovation/reconstruction/public space is not a construction year).
+A fact is made only if 'osm_azonosito' is filled in. Accepted forms: "way 123456", "123456" (way), "relation 123",
+the link of the OSM page; several buildings with the '|' sign.
 """
 import csv
 import re
@@ -19,12 +19,12 @@ from pathlib import Path
 from kozos import tenyek_irasa
 
 TABLA = "forras/legenda_kezi_parositas.csv"
-KEPEK = "forras/legenda_kepek.csv"   # url;epites_eve;tervezo;kep_url - a Legenda-oldalakról kigyűjtve (az építés éve itt az "Elkészült" év)
+KEPEK = "forras/legenda_kepek.csv"   # url;epites_eve;tervezo;kep_url - collected from the Legenda pages (the year of construction here is the "Elkészült" (completed) year)
 KIMENET = "data/tenyek/budapestlegenda.csv"
 
 
 def tisztit_tervezo(sz):
-    """A kigyűjtött szövegből ("Név Építész iroda X Kft Tervezés éve ... Cím ...") csak a tervező neve."""
+    """From the collected text ("Name Architect office X Ltd Year of design ... Address ...") only the designer's name."""
     return re.split(r"\s+(?:Építész iroda|Tervezés éve|Elkészült|Cím)\b", (sz or "").strip())[0].strip()
 
 
@@ -46,13 +46,13 @@ def main():
             if (r.get("uj_epulet") or "").strip().lower() == "igen" and not (r.get("epforum_egyezes") or "").strip():
                 hianyzo += 1
             continue
-        # a link (és a megadott kép) minden párosított sorhoz kell, az év/tervező csak új épületnél
+        # the link (and the given image) is needed for every matched row, the year/designer only for a new building
         lnk = (r.get("legenda_link") or "").strip()
         uj = kepek.get(lnk, {})
         kep = (r.get("kep_url") or uj.get("kep_url") or "").strip()
         if not (r.get("ev") or "").strip().isdigit() or uj.get("epites_eve", "").strip().isdigit():
             if (uj.get("epites_eve") or "").strip().isdigit():
-                r["ev"] = uj["epites_eve"].strip()   # a friss, "Elkészült" év felülírja a régi (tervezési) évet
+                r["ev"] = uj["epites_eve"].strip()   # the fresh "Elkészült" (completed) year overrides the old (design) year
         if not (r.get("tervezo") or "").strip() and tisztit_tervezo(uj.get("tervezo")):
             r["tervezo"] = tisztit_tervezo(uj.get("tervezo"))
         for t, i in azok:

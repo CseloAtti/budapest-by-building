@@ -1,8 +1,8 @@
-"""Fővárosi helyi védelmi lista (data/helyi_vedelem.json) -> data/tenyek/helyi_vedelem.csv
+"""Capital's local protection list (data/helyi_vedelem.json) -> data/tenyek/helyi_vedelem.csv
 
-Forrás: Budapest Főváros Közgyűlésének 54/1993. (1994. II. 1.) rendelete melléklete,
-a 2001. június 1-jei állapot szerint (V., VI., VII. kerület). Az utcanevek már a mai neveket
-használják. Csak tényeket veszünk át: védettség, helyrajzi szám, megnevezés, tervező, év.
+Source: annex of Decree 54/1993 (1 Feb 1994) of the General Assembly of Budapest,
+as of 1 June 2001 (V., VI., VII. districts). The street names already use
+today's names. We take over only facts: protection, lot number, designation, designer, year.
 """
 import csv
 import difflib
@@ -14,7 +14,7 @@ from kozos import tenyek_irasa
 from tenyek_muemlek import ROMAI, VAROS, EPULETEK, alt_cimek, cim_felbontas, norm, szamok
 
 JEGYZEK = "data/helyi_vedelem.json"
-CIMEK = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py tenyek_helyi_vedelem.py varos: az egész város címei
+CIMEK = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py tenyek_helyi_vedelem.py varos: the addresses of the whole city
 ATNEVEZES = "forras/utcanev_atnevezesek.csv"
 KIMENET = "data/tenyek/helyi_vedelem.csv"
 HASONLOSAG = 0.9
@@ -29,7 +29,7 @@ def main():
                     atn[norm(r["regi"])] = [norm(x) for x in r["uj"].split("|") if x.strip()]
     except FileNotFoundError:
         pass
-    # Városi módban a listában megadott kerületen belül keresünk (különben más kerület azonos nevű utcájának házai is találatot kapnak).
+    # In city mode we search within the district given in the list (otherwise the houses of a same-named street in another district would also match).
     kerulete = {}
     if VAROS:
         with open(EPULETEK, encoding="utf-8") as f:
@@ -39,7 +39,7 @@ def main():
                     kerulete[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
         if not kerulete:
             raise SystemExit("Az épületeknél nincs kerület. Futtasd: py budapest_pbf.py, majd py varos_osszeallitas.py")
-    utcak_kn = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # kerület (0 = belvárosi mód) -> utca -> házszám -> épületek
+    utcak_kn = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # district (0 = inner-city mode) -> street -> house number -> buildings
     with open(CIMEK, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
             e = (r["osm_tipus"], int(r["id"]))

@@ -1,10 +1,10 @@
-"""Wikidata, koordináta alapján -> data/tenyek/wikidata_terulet.csv
+"""Wikidata, by coordinate -> data/tenyek/wikidata_terulet.csv
 
-Lekérdezi a területünkön lévő összes Wikidata-épületet, amelynek van építési éve
-(nem kell hozzá OSM-ben wikidata-címke), és az épületkörvonalainkhoz párosítja őket:
-  - ha a koordináta az épületbe esik: forrás = "wikidata"
-  - ha legfeljebb 10 m-re van a legközelebbi épülettől: forrás = "wikidata_kozeli"
-A Wikidata tartalma CC0 (szabadon felhasználható).
+It queries all the Wikidata buildings in our area that have a year of construction
+(no wikidata tag is needed in OSM), and matches them to our building outlines:
+  - if the coordinate falls into the building: source = "wikidata"
+  - if the nearest building is at most 10 m away: source = "wikidata_kozeli"
+The content of Wikidata is CC0 (free to use).
 """
 import json
 import time
@@ -99,7 +99,7 @@ def main():
     polik = [(ft, poligonok(ft["geometry"])) for ft in feats]
 
     sorok, belul, kozeli, nincs = [], 0, 0, 0
-    legjobb = {}   # épület -> (távolság a belső ponttól, adatok)
+    legjobb = {}   # building -> (distance from the inner point, data)
     for q, e in elemek.items():
         x, y = e["pont"]
         talalat, mod = None, None
@@ -123,7 +123,7 @@ def main():
         kozeli += mod == "wikidata_kozeli"
         k = kulcs(talalat["properties"])
         elozo = legjobb.get(k)
-        # ha egy épületbe több elem esik, a "belül" találat győz
+        # if several elements fall into a building, the "inside" hit wins
         if elozo is None or (mod == "wikidata" and elozo[0] != "wikidata"):
             legjobb[k] = (mod, q, e)
 

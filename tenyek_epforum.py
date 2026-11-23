@@ -1,17 +1,17 @@
-"""Építészfórum térkép (epiteszforum.hu/terkep) kortárs épületei -> data/tenyek/epforum.csv
+"""Contemporary buildings of the Építészfórum map (epiteszforum.hu/terkep) -> data/tenyek/epforum.csv
 
-Bemenet:  data/epforum/budapesti_kortars_epuletek_lista.csv   (ID, név, cím, építészek, év, funkció, lat, lon)
+Input:    data/epforum/budapesti_kortars_epuletek_lista.csv   (ID, name, address, architects, year, function, lat, lon)
           data/varos/epuletek.geojson                          (py varos_osszeallitas.py)
-Kimenet:  data/tenyek/epforum.csv            - 'ev' és 'tervezo' tények az osszeepit.py-hoz (forrás: 'epforum')
-          data/epforum_nem_parositott.csv    - amit nem sikerült épülethez kötni
+Output:   data/tenyek/epforum.csv            - 'ev' and 'tervezo' facts for osszeepit.py (source: 'epforum')
+          data/epforum_nem_parositott.csv    - what could not be tied to a building
 
-Futtatás:  py tenyek_epforum.py
+Run:       py tenyek_epforum.py
 
-Csak tényeket veszünk át (építész, év, azonosító); a leírásokat és a képeket nem. A listában szereplő év a kortárs
-épület elkészültének éve. Az "Örökség" (felújított műemlékek), a "Köztér", az "Emlékhely" és az "Infrastruktúra"
-kategóriát nem használjuk: ott az év felújítást jelent, az alkotó nem az eredeti tervező, vagy nem épület.
-Az épületet a megadott koordináta alapján keressük: azt az OSM-épületet választjuk, amelynek alapterületén belül van
-a pont; ha egyik sem, a legközelebbit 12 m-en belül.
+We take over only facts (architect, year, identifier); not the descriptions or the images. The year in the list is the year the contemporary
+building was completed. We do not use the "Örökség" (renovated monuments), "Köztér" (public space), "Emlékhely" (memorial site) and "Infrastruktúra"
+(infrastructure) categories: there the year means a renovation, the creator is not the original designer, or it is not a building.
+We look for the building by the given coordinate: we choose the OSM building within whose footprint the point lies;
+if there is none, the nearest one within 12 m.
 """
 import csv
 import json
@@ -28,9 +28,9 @@ LISTA = "data/epforum/budapesti_kortars_epuletek_lista.csv"
 EPULETEK = "data/varos/epuletek.geojson"
 KIMENET = "data/tenyek/epforum.csv"
 NEM_PAROSITOTT = "data/epforum_nem_parositott.csv"
-KEZI_PAROSITAS = "forras/epforum_kezi_parositas.csv"   # a nem párosított tételekhez te írod be az OSM-azonosítót (osm_azonosito oszlop)
-CIMEK = "data/varos/osm_cimek.csv"      # tartalék: ha a koordinátán nincs épület, a cím alapján keressük
-CIKKEK = "data/epforum/cikkek.csv"     # tenyek_epforum_cikkek.py: a térképpont cikkei (a pontra kattintva az Építészfórum választóoldalt ad, ezért a cikkeket külön gyűjtjük)
+KEZI_PAROSITAS = "forras/epforum_kezi_parositas.csv"   # for the unmatched items you enter the OSM identifier (osm_azonosito column)
+CIMEK = "data/varos/osm_cimek.csv"      # fallback: if there is no building at the coordinate, we search by address
+CIKKEK = "data/epforum/cikkek.csv"     # tenyek_epforum_cikkek.py: the articles of the map point (clicking the point gives Építészfórum a chooser page, so we collect the articles separately)
 MAX_CIKK = 4
 
 
@@ -99,7 +99,7 @@ def cim_index():
 def main():
     sorok = list(csv.DictReader(open(LISTA, encoding="utf-8-sig"), delimiter=";"))
     cimek = cim_index()
-    cimhasznalat = defaultdict(int)         # hány lista-bejegyzés mutat ugyanarra a címre (pl. BudaPart: Buda-part tér 2.)
+    cimhasznalat = defaultdict(int)         # how many list entries point to the same address (e.g. BudaPart: Buda-part tér 2.)
     for r in sorok:
         k = cim_kulcs(r["Cím"])
         if k:
@@ -118,8 +118,8 @@ def main():
                         racs[(i, j)].append(rec)
     kesz, kimaradt = set(), []
     stat = defaultdict(int)
-    # A kézi párosítású tételeknél (osm_azonosito ki van töltve) az automatikus párosítás év/tervező tényei elmaradnak,
-    # a cikk-linkek közül pedig azok, amelyeket a kézi sor 'cikk_url' oszlopa megnevez (üres oszlop = mind), átkerülnek az új épületre.
+    # For the items with manual matching (osm_azonosito is filled in) the year/designer facts of the automatic matching are omitted,
+    # and of the article links, those named by the manual row's 'cikk_url' column (empty column = all) are carried over to the new building.
     kezi_athelyez = {}
     if Path(KEZI_PAROSITAS).exists():
         for kr in csv.DictReader(open(KEZI_PAROSITAS, encoding="utf-8-sig"), delimiter=";"):
@@ -153,8 +153,8 @@ def main():
                 bent = [(legjobb[1], legjobb[2], legjobb[3])]
                 mod = f"{legjobb[0]:.0f} m-re a ponttól"
         if not bent:
-            # tartalék: cím alapján, de csak ha pontosan egy OSM-épületen van az a cím, és a listában is csak egy bejegyzés
-            # mutat rá (egy nagy telepnél, pl. BudaPart, ugyanaz a cím sok épület: azt nem találgatjuk)
+            # fallback: by address, but only if that address is on exactly one OSM building, and only one list entry
+            # points to it (for a large estate, e.g. BudaPart, the same address belongs to many buildings: we do not guess there)
             k = cim_kulcs(r["Cím"])
             talalat = cimek.get(k, set()) if k else set()
             if len(talalat) == 1 and cimhasznalat[k] == 1:
@@ -166,7 +166,7 @@ def main():
             kimaradt.append([r["ID"], r["Épület neve"], r["Cím"], "a koordinátán nincs OSM-épület, a cím sem egyértelmű"])
             stat["nincs épület"] += 1
             continue
-        # több épület: a legkisebb alapterületű (a legszűkebb tartalmazó)
+        # several buildings: the one with the smallest footprint (the tightest containing one)
         t, i, _ = min(bent, key=lambda b: b[2])
         stat["párosítva"] += 1
         megj = f"Építészfórum térkép, ID {r['ID']}, {funkcio}; {mod}"
@@ -179,8 +179,8 @@ def main():
         urlek = [u for u in (CIKK_URL.get(r["ID"]) or "").split("|") if u and not (athelyezett is not None and (not athelyezett or u in athelyezett))]
         if urlek:
             kesz.add((t, i, "epforum_url", "|".join(urlek), "epforum", megj))
-    # kézi párosítás: forras/epforum_kezi_parositas.csv; az osm_azonosito oszlopba egy vagy több elem (| vagy ; közt),
-    # pl. "way 1127749031", "1127749031" (way), "relation 123" vagy az OSM-oldal linkje. Az év és a tervező a táblából jön.
+    # manual matching: forras/epforum_kezi_parositas.csv; the osm_azonosito column holds one or more items (separated by | or ;),
+    # e.g. "way 1127749031", "1127749031" (way), "relation 123" or the link of the OSM page. The year and the designer come from the table.
     kezi_kesz = set()
     if Path(KEZI_PAROSITAS).exists():
         for r in csv.DictReader(open(KEZI_PAROSITAS, encoding="utf-8-sig"), delimiter=";"):

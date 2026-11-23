@@ -1,12 +1,12 @@
-"""Építészfórum térkép: a pontokhoz tartozó cikkek linkjei -> data/epforum/cikkek.csv
+"""Építészfórum map: links of the articles belonging to the points -> data/epforum/cikkek.csv
 
-Az epiteszforum.hu/terkep oldal egy térképpontra kattintva a /terkep/mapresult végpontból kéri le a ponthoz tartozó cikkek listáját
-(ugyanezt tölti be a böngésző is). Ezt kérjük le mi is pontonként egyszer (kb. 0,7 másodperc szünettel, a robots.txt engedi), és eltesszük.
-A már lekért pontokat a következő futásnál nem kérjük le újra, így a futtatás gyors; új pontoknál automatikusan folytatja.
+On clicking a map point, the epiteszforum.hu/terkep page requests the list of the point's articles from the /terkep/mapresult endpoint
+(the browser loads the same). We also request this once per point (with a pause of about 0.7 s, robots.txt allows it) and store it.
+Points already requested are not requested again on the next run, so the run is fast; for new points it resumes automatically.
 
-Bemenet:  data/epforum/budapesti_kortars_epuletek_lista.csv   (ID oszlop)
-Kimenet:  data/epforum/cikkek.csv   (id;url;cim) – egy pont több sorban, az Építészfórum sorrendjében; 'nincs' cím nélküli sor = nincs cikk
-Futtatás: py tenyek_epforum_cikkek.py   (utána: py tenyek_epforum.py)  – ID-t is megadhatsz: py tenyek_epforum_cikkek.py 898 899"""
+Input:    data/epforum/budapesti_kortars_epuletek_lista.csv   (ID column)
+Output:   data/epforum/cikkek.csv   (id;url;cim) - one point in several rows, in Építészfórum's order; a row with the title 'nincs' = no article
+Run:      py tenyek_epforum_cikkek.py   (afterwards: py tenyek_epforum.py)  - you can also give an ID: py tenyek_epforum_cikkek.py 898 899"""
 import csv
 import re
 import sys
@@ -23,7 +23,7 @@ SZUNET = 0.7
 
 
 class Cikkek(HTMLParser):
-    """A találati lista: .oneItem blokkokban a .title osztályú div linkje."""
+    """The result list: in the .oneItem blocks, the link of the div with class .title."""
     def __init__(self):
         super().__init__()
         self.cikkek, self._title, self._a = [], False, None

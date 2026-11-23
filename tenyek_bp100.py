@@ -1,22 +1,22 @@
 """
-tenyek_bp100.py - Budapest100 (budapest100.hu) házai -> data/tenyek/budapest100.csv
+tenyek_bp100.py - the houses of Budapest100 (budapest100.hu) -> data/tenyek/budapest100.csv
 
-Bemenet:  data/bp100/budapest100_teljes.csv   (clean_address, zip_code, building_name, building_type, built_year, era, year_source, url)
+Input:    data/bp100/budapest100_teljes.csv   (clean_address, zip_code, building_name, building_type, built_year, era, year_source, url)
           data/varos/osm_cimek.csv            (osm_tipus;id;utca;hazszam)
-          data/varos/epuletek_vegleges.geojson (csak a kerület miatt: azonos nevű utcák különböző kerületekben)
-          forras/utcanev_atnevezesek.csv      (régi -> mai utcanevek)
-Kimenet:  data/tenyek/budapest100.csv         ('ev' tények, forrás: budapest100)
-          data/bp100_nem_parositott.csv       amit nem sikerült épülethez kötni, és miért
+          data/varos/epuletek_vegleges.geojson (only for the district: same-named streets in different districts)
+          forras/utcanev_atnevezesek.csv      (old -> current street names)
+Output:   data/tenyek/budapest100.csv         ('ev' facts, source: budapest100)
+          data/bp100_nem_parositott.csv       what could not be tied to a building, and why
 
-Futtatás:   py tenyek_bp100.py      (utána: py osszeepit.py varos)
+Run:        py tenyek_bp100.py      (afterwards: py osszeepit.py varos)
 
-Párosítás: utcanév + házszám az OSM-címekkel; az irányítószámból a kerület (1052 -> V., 1196 -> XIX.), és csak az ott lévő épület jöhet
-szóba. Irányítószám nélkül csak akkor párosítunk, ha a cím az egész városban egyetlen kerületben létezik.
-Évként csak a "pontos kifejezésből" és a "szöveg bevezetőjéből" kinyert éveket vesszük át; a "szövegben említett évszám" gyengébb
-(lehet felújítás), azt kihagyjuk, és a jelentés számolja. A házszám-tartományt ("15-23") egyetlen épületegyüttesnek vesszük:
-a tartomány azonos paritású számai is szóba jönnek (legfeljebb 12 széles tartományon belül).
-Csak tényt (év) veszünk át; a szöveget nem. A ház oldalának címét ('budapest100_url') és - ha a tenyek_bp100_kepek.py már lefutott - a
-kép címét ('budapest100_kep') is rögzítjük; a képet nem másoljuk, a kártya a budapest100.hu-ról tölti be, forrás-hivatkozással.
+Matching: street name + house number against the OSM addresses; the district comes from the postcode (1052 -> V., 1196 -> XIX.), and only
+the building there can be considered. Without a postcode we match only if the address exists in a single district in the whole city.
+As year we take only the years extracted from the "exact expression" and the "introduction of the text"; the "year mentioned in the text" is weaker
+(it may be a renovation), we leave it out, and the report counts it. A house-number range ("15-23") is taken as a single building complex:
+the numbers of the same parity in the range also come into question (within a range at most 12 wide).
+We take over only facts (year); not the text. The address of the house's page ('budapest100_url') and - if tenyek_bp100_kepek.py has already run - the
+image's address ('budapest100_kep') are also recorded; the image is not copied, the card loads it from budapest100.hu, with a source link.
 """
 import csv
 import difflib
@@ -35,7 +35,7 @@ EPULETEK = Path("data/varos/epuletek_vegleges.geojson")
 ATNEVEZES = Path("forras/utcanev_atnevezesek.csv")
 KIMENET = "data/tenyek/budapest100.csv"
 NEM_PAROSITOTT = Path("data/bp100_nem_parositott.csv")
-KEPEK = Path("data/bp100/kepek.json")        # tenyek_bp100_kepek.py: {oldal_url: kép_url}
+KEPEK = Path("data/bp100/kepek.json")        # tenyek_bp100_kepek.py: {page_url: image_url}
 HASONLOSAG = 0.9
 JO_FORRAS = ("Szövegből (pontos kifejezés)", "Szöveg bevezetőjéből")
 MAX_EPULET = 6
@@ -54,7 +54,7 @@ def norm(s):
 
 
 def haz_szamok(szoveg):
-    """'11-13' -> {11,12,13 azonos paritásúak: 11, 13}; '15/A, B' -> {15}; '4;6' -> {4, 6}"""
+    """'11-13' -> {11,12,13 of the same parity: 11, 13}; '15/A, B' -> {15}; '4;6' -> {4, 6}"""
     ki = set()
     for a, b in re.findall(r"(\d+)\s*(?:[-–]\s*(\d+))?", szoveg or ""):
         a = int(a)
@@ -68,7 +68,7 @@ def haz_szamok(szoveg):
 
 
 def cim_felbontas(cim):
-    """'Károly körút 22.' -> ('Károly körút', {22}); 'Október 6. utca 3.' kezelve."""
+    """'Károly körút 22.' -> ('Károly körút', {22}); 'Október 6. utca 3.' handled."""
     kezdet = 0
     h = re.search(r"\b[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+ \d+\.(?=\s+(?:utca|tér|út)\b)", cim)
     if h:
@@ -108,7 +108,7 @@ def kerulet_szam(x):
 
 
 def kerulet_terkep():
-    """(osm_tipus, id) -> kerület száma, az épületfájlból."""
+    """(osm_tipus, id) -> district number, from the building file."""
     if not EPULETEK.exists():
         return {}
     with open(EPULETEK, encoding="utf-8") as f:
@@ -156,7 +156,7 @@ def main():
     kesz, kimaradt = set(), []
     for r in sorok:
         ev = (r.get("built_year") or "").strip()
-        # év nélkül is párosítunk (a link miatt), de évet csak megbízható forrásból veszünk át
+        # we match even without a year (because of the link), but take a year only from a reliable source
         if not ev:
             stat["nincs év a forrásban"] += 1
             ev = None

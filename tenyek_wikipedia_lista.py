@@ -1,27 +1,27 @@
-"""A magyar Wikipedia utcánkénti épületlistáinak párosítása az OSM-épületekkel (cím alapján), és a tények kiírása.
+"""Matching the street-by-street building lists of the Hungarian Wikipedia with the OSM buildings (by address), and writing out the facts.
 
-Bemenet:  data/wikipedia_lista/sorok.csv      (a tenyek_wikipedia_lista_letolt.py készíti: utcalisták)
-          data/wikipedia_lista/sorok_tema.csv (a tenyek_wikipedia_temalista_letolt.py készíti: iskolák, kórházak ... - nem kötelező)
+Input:    data/wikipedia_lista/sorok.csv      (made by tenyek_wikipedia_lista_letolt.py: street lists)
+          data/wikipedia_lista/sorok_tema.csv (made by tenyek_wikipedia_temalista_letolt.py: schools, hospitals ... - optional)
           data/varos/epuletek.geojson, data/varos/osm_cimek.csv
-          forras/wikipedia_lista_kezi.csv     (EZT töltöd ki az ellenőrző tábla sorainál, lásd lent)
-Kimenet:  data/tenyek/wikipedia_lista.csv     - a biztosan párosított sorok tényei (osszeepit.py olvassa; forrás: wikipedia_lista)
-          forras/wikipedia_lista_ellenorzes.csv - ami nem volt egyértelmű (minden futáskor újraíródik, ezt NE szerkeszd)
+          forras/wikipedia_lista_kezi.csv     (YOU fill in THIS for the rows of the checking table, see below)
+Output:   data/tenyek/wikipedia_lista.csv     - the facts of the rows matched with certainty (osszeepit.py reads it; source: wikipedia_lista)
+          forras/wikipedia_lista_ellenorzes.csv - what was not unambiguous (rewritten on every run, do NOT edit this)
 
-Futtatás:  py tenyek_wikipedia_lista.py varos      (utána: zona_frissit.bat)
+Run:       py tenyek_wikipedia_lista.py varos      (afterwards: zona_frissit.bat)
 
-Szabályok:
-  - A sor utcája és házszáma alapján az OSM-épület akkor párosul, ha az utca egyezik és a házszám szerepel az épület OSM-címei között
-    (a '12-14', '2/a' stb. alakokat is érti). Ha az utca több kerületen megy át, a lap szakaszcíme (pl. 'XIII. kerület') segít.
-  - Egyértelmű, ha egyetlen (legalább 40 m²-es) épület jön szóba. Több jelölt, vagy ha ugyanarra az épületre több sor mutat eltérő
-    adattal: nem ír semmit, ellenőrző táblába kerül. Az elbontott/elpusztult épületek sorait kihagyja.
-  - Név: csak ha az épületnek még nincs neve (OSM-ben vagy más forrásból). Stílus: csak ha még nincs. Építési év és tervező: a forrás
-    a prioritas.json-ban a végén áll, tehát más forrás adatát soha nem írja felül (az eltéréseket az osszeepit.py a data/varos/utkozesek.csv-be írja).
-  - A megjegyzés mindig megnevezi a forrást: lap és sor.
+Rules:
+  - By the row's street and house number, an OSM building is matched if the street matches and the house number is among the building's OSM addresses
+    (it also understands forms like '12-14', '2/a'). If the street runs through several districts, the page's section title (e.g. 'XIII. kerület') helps.
+  - It is unambiguous if a single building (of at least 40 m²) comes into question. Several candidates, or several rows pointing to the same building with different
+    data: it writes nothing, it goes into the checking table. It skips the rows of demolished/destroyed buildings.
+  - Name: only if the building has no name yet (in OSM or from another source). Style: only if there is none yet. Year of construction and designer: the source
+    is at the end in prioritas.json, so it never overwrites another source's data (osszeepit.py writes the discrepancies into data/varos/utkozesek.csv).
+  - The remark always names the source: page and row.
 
-Kézi döntés: forras/wikipedia_lista_kezi.csv  (utca;sor;osm_azonosito;megjegyzes). Az 'osm_azonosito' lehet:
-  "nem"                     - ezt a sort hagyja ki
-  "way 123|relation 456"    - ezekhez az épületekhez kösd a sort (több épület '|' jellel)
-A script a fájlt csak létrehozza (fejléccel), a sorait nem bántja. Az 'utca' és 'sor' az ellenőrző táblából másolható.
+Manual decision: forras/wikipedia_lista_kezi.csv  (utca;sor;osm_azonosito;megjegyzes). The 'osm_azonosito' can be:
+  "nem"                     - skip this row
+  "way 123|relation 456"    - tie the row to these buildings (several buildings with the '|' sign)
+The script only creates the file (with a header), it does not touch its rows. 'utca' and 'sor' can be copied from the checking table.
 """
 import collections
 import csv
@@ -33,15 +33,15 @@ from pathlib import Path
 from kozos import tenyek_irasa
 
 SOROK = "data/wikipedia_lista/sorok.csv"
-SOROK_TEMA = "data/wikipedia_lista/sorok_tema.csv"     # a témalisták (iskolák, kórházak ...), ha le van töltve
+SOROK_TEMA = "data/wikipedia_lista/sorok_tema.csv"     # the topic lists (schools, hospitals ...), if downloaded
 EPULETEK = "data/varos/epuletek.geojson"
 CIMEK = "data/varos/osm_cimek.csv"
 TENYEK = "data/tenyek"
 KEZI = "forras/wikipedia_lista_kezi.csv"
 KIMENET = "data/tenyek/wikipedia_lista.csv"
 ELLENORZES = "forras/wikipedia_lista_ellenorzes.csv"
-ARANY = 3                   # a legnagyobb jelölt ennyiszer nagyobb a másodiknál: az a fő épület
-MIN_TERULET = 40            # m²: ennél kisebb épületet (kamra, garázs) nem tekintünk jelöltnek
+ARANY = 3                   # the largest candidate is this many times larger than the second: that is the main building
+MIN_TERULET = 40            # m²: a smaller building (pantry, garage) is not regarded as a candidate
 KX = 111000 * math.cos(math.radians(47.5))
 ALTALANOS = re.compile(r"^(bérház|lakóház|ház|irodaház|lakó- és irodaház|üzletház|családi ház|villa|társasház|lakóépület|bérpalota)$", re.I)
 ELBONTVA = re.compile(r"elbont|lebont|elpusztult|megsemmis|már nem áll|nem áll fenn|nem létezik", re.I)
@@ -73,7 +73,7 @@ def szamok(h):
 
 
 def tokenek(h):
-    """[(szám, utótag)]: '89/c' -> (89, 'c'); '1-5' -> (1,''), (3,''), (5,''); a tartomány elemei utótag nélküliek."""
+    """[(number, suffix)]: '89/c' -> (89, 'c'); '1-5' -> (1,''), (3,''), (5,''); the elements of the range have no suffix."""
     ki = []
     for a, sa, b in re.findall(r"(\d+)\s*(?:/?\s*([a-zA-Z])\b)?(?:\s*[-–]\s*(\d+))?", h or ""):
         a = int(a)
@@ -101,7 +101,7 @@ def osm_azon(s):
 
 
 def ev_ertek(s):
-    if re.search(r"évek|század|\bvagy\b", s or ""):          # '1880-as évek', '19. század': nem pontos év
+    if re.search(r"évek|század|\bvagy\b", s or ""):          # '1880-as évek' (the 1880s), '19. század' (19th century): not an exact year
         return None
     m = re.search(r"\b(1[0-9]{3}|20[0-2][0-9])\b", s or "")
     return int(m.group(1)) if m else None
@@ -112,7 +112,7 @@ def main():
         if not Path(ut).exists():
             raise SystemExit(f"Hiányzik: {ut}" + (" - előbb futtasd: py tenyek_wikipedia_lista_letolt.py" if ut == SOROK else ""))
     sorok = olvas(SOROK) + (olvas(SOROK_TEMA) if Path(SOROK_TEMA).exists() else [])
-    # épületek: terület, kerület, OSM-név; címek
+    # buildings: area, district, OSM name; addresses
     ep = {}
     for f in json.load(open(EPULETEK, encoding="utf-8"))["features"]:
         p = f["properties"]
@@ -125,7 +125,7 @@ def main():
     cim = collections.defaultdict(list)
     for r in olvas(CIMEK):
         cim[(r["osm_tipus"], int(r["id"]))].append((utcakulcs(r["utca"]), szamok(r["hazszam"])))
-    utca_szam = collections.defaultdict(dict)          # (utcakulcs, szám) -> {épületkulcs: {utótagok}}
+    utca_szam = collections.defaultdict(dict)          # (street key, number) -> {building key: {suffixes}}
     osm_cimek_szoveg = collections.defaultdict(set)
     for r_ in olvas(CIMEK):
         k = (r_["osm_tipus"], int(r_["id"]))
@@ -135,7 +135,7 @@ def main():
         osm_cimek_szoveg[k].add((u, r_["hazszam"].strip().lower()))
         for n, suf in tokenek(r_["hazszam"]):
             utca_szam[(u, n)].setdefault(k, set()).add(suf)
-    # más forrásból már meglévő név / stílus
+    # name / style already present from another source
     van_nev, van_stilus = set(), set()
     for ut in sorted(Path(TENYEK).glob("*.csv")):
         if ut.name == Path(KIMENET).name:
@@ -147,7 +147,7 @@ def main():
                     van_nev.add(k)
                 elif r["mezo"] == "stilus":
                     van_stilus.add(k)
-    # kézi döntések
+    # manual decisions
     kezi = {}
     if Path(KEZI).exists():
         for r in olvas(KEZI):
@@ -159,7 +159,7 @@ def main():
             csv.writer(f, delimiter=";").writerow(["utca", "sor", "osm_azonosito", "megjegyzes"])
 
     def jeloltek(uk, n, suf):
-        """A (utca, házszám[, utótag]) címet viselő, legalább MIN_TERULET m²-es épületek; az utótag (89/c) pontosabbá teszi."""
+        """Buildings bearing the (street, house number[, suffix]) address and of at least MIN_TERULET m²; the suffix (89/c) makes it more precise."""
         mind = [k for k in utca_szam.get((uk, n), {}) if ep[k]["ter"] >= MIN_TERULET]
         if suf:
             pontos = [k for k in mind if suf in utca_szam[(uk, n)][k]]
@@ -170,7 +170,7 @@ def main():
     def kulcsszavak(sz):
         return {w for w in re.findall(r"[a-záéíóöőúüű]{5,}", sz.lower()) if w not in ("bérház", "bérpalota", "lakóház", "épület", "lakóépület", "irodaház")}
 
-    # 1. menet: melyik kerületekben fut az utca (az egyértelmű találatok alapján)
+    # pass 1: in which districts the street runs (based on the unambiguous hits)
     kerek = collections.defaultdict(collections.Counter)
     for r in sorok:
         for n, suf in tokenek(r["szam"]):
@@ -179,7 +179,7 @@ def main():
                 kerek[r["utca"]][ep[j[0]]["ker"]] += 1
     fo_ker = {u: {k for k, v in c.items() if v >= max(3, 0.1 * sum(c.values()))} for u, c in kerek.items()}
 
-    paros = []                     # (sor, [épületkulcsok])
+    paros = []                     # (row, [building keys])
     ellenorzes, stat = [], collections.Counter()
     for r in sorok:
         sz = r["szam"]
@@ -213,17 +213,17 @@ def main():
             fk = fo_ker.get(r["utca"])
             if fk and len(jel) > 1:
                 jel = [k for k in jel if ep[k]["ker"] in fk] or jel
-            if len(jel) > 1:                                  # név szerinti egyezés: az OSM-név vagy -típus közös szót visel
+            if len(jel) > 1:                                  # match by name: the OSM name or type has a word in common
                 nevesek = [k for k in jel if kw and kulcsszavak(ep[k]["nev"] or "") & kw]
                 if len(nevesek) == 1:
                     jel = nevesek
             if len(jel) > 1:
                 jel.sort(key=lambda k: -ep[k]["ter"])
                 cimek_ = [frozenset(osm_cimek_szoveg[k]) for k in jel]
-                if ep[jel[0]]["ter"] >= ARANY * ep[jel[1]]["ter"]:          # a legnagyobb a fő épület, a többi melléképület
+                if ep[jel[0]]["ter"] >= ARANY * ep[jel[1]]["ter"]:          # the largest is the main building, the rest are outbuildings
                     jel = jel[:1]
                 elif len(set(cimek_)) == 1 and ep[jel[0]]["ter"] <= ARANY * ep[jel[-1]]["ter"] and len({ep[k]["ker"] for k in jel}) == 1:
-                    pass                                          # azonos című, hasonló méretű testvérépületek: mind megkapja
+                    pass                                          # sibling buildings with the same title and similar size: all of them get it
                 else:
                     tobb.append((n, jel))
                     continue
@@ -245,7 +245,7 @@ def main():
             stat[kat[:20]] += 1
             ellenorzes.append({**alap, "kategoria": kat, "javasolt_osm": javaslat, "hianyzo_hazszam": " ".join(map(str, hianyzik))})
 
-    # ugyanarra az épületre mutató sorok: ha eltérő adatot hordoznak, nem írunk semmit
+    # rows pointing to the same building: if they carry different data, we write nothing
     epulet_sorok = collections.defaultdict(list)
     for r, ks in paros:
         for k in ks:
@@ -254,7 +254,7 @@ def main():
     for k, lista in epulet_sorok.items():
         evek = {ev_ertek(x["ev"]) for x in lista if ev_ertek(x["ev"])}
         nevek = {x["nev"] for x in lista if x["nev"]}
-        if len(lista) > 1 and evek and max(evek) - min(evek) > 2:      # a nevek eltérése nem akadály (sarokház két utca listájában): ott nevet nem írunk
+        if len(lista) > 1 and evek and max(evek) - min(evek) > 2:      # a difference in names is no obstacle (a corner house in the lists of two streets): there we write no name
             for x in lista:
                 if (x["utca"], x["sor"]) not in ellenorzott_sorok:
                     ellenorzott_sorok.add((x["utca"], x["sor"]))
@@ -278,7 +278,7 @@ def main():
         if tervezo.lower() in ("", "?", "ismeretlen", "-", "–", "nem ismert", "n. a.", "n.a.") or "?" in tervezo or re.search(r"\bvagy\b", tervezo):
             tervezo = ""
         for k in ks:
-            if len(epulet_sorok[k]) > 1:      # több lista is említi: csak az egybehangzó adat megy ki
+            if len(epulet_sorok[k]) > 1:      # several lists mention it: only the consistent data goes out
                 if ev and len(egyezo(k, lambda x: ev_ertek(x["ev"]))) > 1:
                     ev = None
                 if tervezo and len(egyezo(k, lambda x: re.sub(r"\s+", " ", x["tervezo"]).strip())) > 1:

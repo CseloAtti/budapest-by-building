@@ -1,19 +1,19 @@
-"""A forras/kezi_korszak.csv (osm_tipus;id;korszak;megjegyzes) kézi korszak-megadásaiból data/varos/kezi_kozelito.csv.
+"""From the manual era assignments of forras/kezi_korszak.csv (osm_tipus;id;korszak;megjegyzes) -> data/varos/kezi_kozelito.csv.
 
-Akkor használd, ha egy épület pontos évét nem tudod, de azt igen, melyik korszakba esik. A korszak (0-6, a térkép
-korszakainak sorrendjében) a közelítő korszakadatok közé kerül, mint az értékleltárak "az 1930-as évek" jellegű adata:
- - az osszeepit.py ev_kozelito_* mezőkként írja a kártyára (az 'ev' mezőhöz nem nyúl),
- - az ev_becsles.py címkének tekinti (magas bizonyossággal ebbe a korszakba teszi, és a szomszédai becslésénél is
-   ismert adatként számít), így a térkép színe is ez lesz.
-Csak az évszám nélküli épületekre hat (mint minden *_kozelito.csv).
-Futtatás: py tenyek_kezi_korszak.py   (a szerkesztő szerver mentéskor magától lefuttatja; a zona_frissit.bat is)
+Use it when you do not know a building's exact year, but do know which era it falls into. The era (0-6, in the order of the map's
+eras) goes among the approximate era data, like the "the 1930s" type data of the value registers:
+ - osszeepit.py writes it onto the card as ev_kozelito_* fields (it does not touch the 'ev' field),
+ - ev_becsles.py treats it as a label (puts the building into this era with high confidence, and it also counts as
+   known data in the estimate for its neighbours), so the map colour will be this too.
+It affects only buildings without a year (like every *_kozelito.csv).
+Run: py tenyek_kezi_korszak.py   (the editor server runs it by itself on saving; so does zona_frissit.bat)
 """
 import csv
 from pathlib import Path
 
 FORRAS = Path("forras/kezi_korszak.csv")
 KIMENET = Path("data/varos/kezi_kozelito.csv")
-# (ev_tol, ev_ig, felirat) - azonos a térkép korszakaival (ev_becsles.py KORSZAKOK); az első korszak alsó határa a térkép évtengelye
+# (year_from, year_to, label) - the same as the map's eras (ev_becsles.py KORSZAKOK); the lower bound of the first era is the map's year axis
 KORSZAKOK = [(1700, 1866, "1867 előtt"), (1867, 1918, "1867–1918"), (1919, 1944, "1919–1944"), (1945, 1956, "1945–1956"),
              (1957, 1989, "1957–1989"), (1990, 2010, "1990–2010"), (2011, 2026, "2011-től")]
 

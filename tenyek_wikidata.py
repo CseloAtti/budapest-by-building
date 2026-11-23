@@ -1,12 +1,12 @@
-"""Wikidata -> tény-tábla (data/tenyek/wikidata.csv).
+"""Wikidata -> fact table (data/tenyek/wikidata.csv).
 
-Azokat az épületeket kérdezzük le, amelyeken az OSM-ben van `wikidata` címke.
-Átvett adatok: építési év (P571), építész (P84), építészeti stílus (P149), Wikidata-név.
-A Wikidata tartalma CC0 (szabadon felhasználható).
+We query the buildings that have a `wikidata` tag in OSM.
+Data taken over: year of construction (P571), architect (P84), architectural style (P149), Wikidata name.
+The content of Wikidata is CC0 (free to use).
 
-Figyelem: néha az OSM-épületen lévő wikidata-címke nem az épületre, hanem az
-intézményre mutat (ilyenkor az 'alapítás éve' az intézményé). Ezért a Wikidata az
-évnél gyengébb forrás az OSM-nél és a Lechnernél; az eltéréseket a data/utkozesek.csv mutatja.
+Attention: sometimes the wikidata tag on an OSM building points not to the building, but to the
+institution (then the 'year of founding' is the institution's). Therefore for the year Wikidata is a
+weaker source than OSM and Lechner; the discrepancies are shown by data/utkozesek.csv.
 """
 import hashlib
 import json
@@ -19,7 +19,7 @@ from pathlib import Path
 from kozos import http_json, kulcs, tenyek_irasa
 
 import sys
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_wikidata.py varos  -> az egész város
+VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_wikidata.py varos  -> the whole city
 OSM = "data/varos/epuletek_vegleges.geojson" if VAROS else "data/belvaros_epuletek.geojson"
 KIMENET = "data/tenyek/wikidata.csv"
 KOZELITO = "data/varos/wikidata_kozelito.csv"
@@ -31,7 +31,7 @@ SZUNET_MP = 2
 
 
 def lekeres(azonositok, props):
-    """Egy csomag Wikidata-elem lekérése (lemezes gyorsítótárral)."""
+    """Fetching a batch of Wikidata elements (with a disk cache)."""
     nev = "wd_" + hashlib.sha1((props + "|" + "|".join(azonositok)).encode()).hexdigest()[:16] + ".json"
     ut = CACHE / nev
     if ut.exists():
@@ -49,7 +49,7 @@ def lekeres(azonositok, props):
 
 
 def wikipedia_cikk(entitas):
-    """A Wikipedia-cikk, ha van: 'hu:Cím' (előnyben) vagy 'en:Cím'."""
+    """The Wikipedia article, if there is one: 'hu:Title' (preferred) or 'en:Title'."""
     s = (entitas or {}).get("sitelinks", {})
     for kulcs_, nyelv in (("huwiki", "hu"), ("enwiki", "en")):
         if kulcs_ in s and s[kulcs_].get("title"):
@@ -71,7 +71,7 @@ def cimke(entitas):
 
 
 def elemek_id(claims, prop):
-    """Az adott tulajdonság érték-elemeinek azonosítói (Q...)."""
+    """The identifiers (Q...) of the value items of the given property."""
     ki = []
     for c in claims.get(prop, []):
         v = c.get("mainsnak", {}).get("datavalue", {}).get("value")
@@ -81,7 +81,7 @@ def elemek_id(claims, prop):
 
 
 def ev_a_claimekbol(claims):
-    """Építési/alapítási év, csak ha legalább évre pontos (precision >= 9)."""
+    """Year of construction/founding, only if precise at least to the year (precision >= 9)."""
     for c in claims.get("P571", []):
         v = c.get("mainsnak", {}).get("datavalue", {}).get("value")
         if isinstance(v, dict) and v.get("precision", 0) >= 9:
@@ -92,7 +92,7 @@ def ev_a_claimekbol(claims):
 
 
 def ev_tartomany(claims):
-    """Évtizednyi (precision 8) vagy évszázadnyi (7) pontosságú P571: (ev_tol, ev_ig, szoveg), egyébként None."""
+    """A P571 of decade (precision 8) or century (7) accuracy: (ev_tol, ev_ig, text), otherwise None."""
     for c in claims.get("P571", []):
         v = c.get("mainsnak", {}).get("datavalue", {}).get("value")
         if isinstance(v, dict) and v.get("precision") in (7, 8):
@@ -122,7 +122,7 @@ def main():
         entitasok.update(lekeres(cs, "claims|labels|sitelinks").get("entities", {}))
     print(f"Letöltött elemek: {len(entitasok)}")
 
-    # az építészek és stílusok nevei
+    # the names of the architects and styles
     masodlagos = set()
     for e in entitasok.values():
         cl = e.get("claims", {})

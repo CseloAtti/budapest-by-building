@@ -1,11 +1,11 @@
-"""A kerületi szintszám-térkép adatai (forras/szintterkep.json) -> data/tenyek/szintterkep.csv"""
+"""Data of the district storey-count map (forras/szintterkep.json) -> data/tenyek/szintterkep.csv"""
 import json
 
 from kozos import tenyek_irasa
 
 ADAT = "forras/szintterkep.json"
 KIMENET = "data/tenyek/szintterkep.csv"
-MIN_SZAVAZAT = 0.5   # legalább ekkora arányban kell ugyanarra a színre szavazni a képen
+MIN_SZAVAZAT = 0.5   # at least this proportion must vote for the same colour in the image
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
         t, i = e["osm_tipus"], e["id"]
         sorok.append((t, i, "szintterkep_osztaly", e["osztaly"], "szintterkep", ""))
         if e["szint"] is None:
-            egyedi += 1      # "Egyedi magasság": nincs szintszám a térképen
+            egyedi += 1      # "Egyedi magasság" (individual height): there is no storey count on the map
             continue
         sorok.append((t, i, "szintek_kep", e["szint"], "szintterkep", ""))
         sorok.append((t, i, "szintek", e["szint"], "szintterkep", f"{e['osztaly']}, szavazat {e['bizt']:.0%}"))

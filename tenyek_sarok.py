@@ -1,20 +1,20 @@
-"""Hiányzó (pl. sarokházi) cím pótlása: az értékleltár nem párosított kártyáit a szomszédos házszámok alapján interpolált helyhez kötjük.
+"""Filling in a missing address (e.g. of a corner house): the unmatched cards of the value register are tied to a location interpolated from the neighbouring house numbers.
 
-Bemenet:  data/ertekleltar_nem_parositott.csv (a tenyek_ertekleltar.py készíti), data/ertekleltar_kartyak.json,
+Input:    data/ertekleltar_nem_parositott.csv (made by tenyek_ertekleltar.py), data/ertekleltar_kartyak.json,
           data/varos/epuletek.geojson, data/varos/osm_cimek.csv, forras/utcanev_atnevezesek.csv
-Kimenet:  forras/ertekleltar_kezi_parositas.csv   - a bizonytalan kártyák táblázata (EZT töltöd ki: az 'osm_azonosito' oszlopba írd az épület azonosítóját, pl. \"way 271003349\"; a 'javasolt_osm' a program tippje, a 'valószínű' soroknál kb. 88% eséllyel jó)
-          data/varos/ertekleltar_sarok_kozelito.csv - szöveges korszakadatok ('1920-as évek') az így párosított épületekre
-          data/tenyek/ertekleltar_sarok.csv       - az egyértelmű (kb. 95%-os pontosságú) párosítások tényei az osszeepit.py-hoz
-          data/ertekleltar_sarok_javaslat.csv      - minden nem párosított kártya: állapot + jelöltek (kézi ellenőrzéshez)
+Output:   forras/ertekleltar_kezi_parositas.csv   - the table of the uncertain cards (YOU fill in THIS: write the building's identifier into the 'osm_azonosito' column, e.g. \"way 271003349\"; 'javasolt_osm' is the program's guess, for the 'valószínű' (probable) rows it is right with about 88% chance)
+          data/varos/ertekleltar_sarok_kozelito.csv - textual era data ('1920-as évek') for the buildings matched this way
+          data/tenyek/ertekleltar_sarok.csv       - the facts of the unambiguous (about 95% accurate) matches for osszeepit.py
+          data/ertekleltar_sarok_javaslat.csv      - every unmatched card: status + candidates (for manual checking)
 
-Módszer: a kártya "utca N" címéhez az utca azonos kerületi, azonos paritású ismert házszámaiból kiszámoljuk a hiányzó szám helyét
-(két szomszéd között interpolálva, a vég-/sarokháznál a két legközelebbi szomszédból kiterjesztve). A hely körül (30 m) azokat
-az épületeket tekintjük jelöltnek, amelyeknek az adott utcán nincs másik házszámuk (a sarokháznak jellemzően csak a másik utca címe van meg).
-Automatikus párosítás csak akkor, ha a jelölt a számított helyre esik (<5 m; interpolációnál), és a második jelölt legalább 15 m-rel
-messzebb van (vagy a pont a jelölt belsejében van és az előny ≥ 8 m). A kézi bejegyzések (forras/kezi_javitasok.csv) ezt úgyis felülírják.
-Pontosság-teszt: a már párosított épületek címét kivéve ugyanezzel a szabállyal 93-98%-ban visszatalált az épületre.
+Method: for the card's "street N" address, we compute the place of the missing number from the known house numbers of the same street in the same district and of the same parity
+(interpolating between two neighbours, extending from the two nearest neighbours at an end/corner house). Around that place (30 m) we regard as candidates the buildings
+that have no other house number on the given street (a corner house typically has only the other street's address).
+Automatic matching only if the candidate falls at the computed place (<5 m; with interpolation), and the second candidate is at least 15 m
+farther (or the point is inside the candidate and the advantage is ≥ 8 m). The manual entries (forras/kezi_javitasok.csv) override this anyway.
+Accuracy test: leaving out the address of the already matched buildings, the same rule found the building again in 93-98% of cases.
 
-Futtatás:  py tenyek_ertekleltar.py   utána   py tenyek_sarok.py
+Run:       py tenyek_ertekleltar.py   then   py tenyek_sarok.py
 """
 import collections
 import csv
@@ -35,7 +35,7 @@ KARTYAK = "data/ertekleltar_kartyak.json"
 NEM_PAROSITOTT = "data/ertekleltar_nem_parositott.csv"
 ATNEVEZES = "forras/utcanev_atnevezesek.csv"
 KIMENET = "data/tenyek/ertekleltar_sarok.csv"
-KOZELITO = "data/varos/ertekleltar_sarok_kozelito.csv"   # '1920-as évek' jellegű adatok (a becslő és a kártya használja; NEM pontos év)
+KOZELITO = "data/varos/ertekleltar_sarok_kozelito.csv"   # data of the '1920-as évek' (1920s) kind (used by the estimator and the card; NOT an exact year)
 JAVASLAT = "data/ertekleltar_sarok_javaslat.csv"
 KEZI_TABLA = "forras/ertekleltar_kezi_parositas.csv"
 KEZI_OSZLOPOK = ["kerulet", "cim", "hrsz", "epites_ideje", "tervezo", "allapot", "javasolt_osm", "jeloltek", "osm_azonosito", "megjegyzes"]
@@ -94,7 +94,7 @@ class Terkep:
         return sorted(out)
     def tav(s,e,p):
         pts=s.b[e]['pts']; x,y=p
-        # belül?
+        # inside?
         bent=False
         for (x1,y1),(x2,y2) in zip(pts,pts[1:]):
             if (y1>y)!=(y2>y) and x<(x2-x1)*(y-y1)/(y2-y1)+x1: bent=not bent
@@ -108,7 +108,7 @@ class Terkep:
 
 
     def pontok_betoltese(s, ut):
-        """data/ertekleltar_cimpontok.csv: az Overpass-ból lekért OSM címpontok (csomópont/út/reláció addr:* címkével), a kártyák utcáira."""
+        """data/ertekleltar_cimpontok.csv: OSM address points fetched from Overpass (node/way/relation with an addr:* tag), for the streets of the cards."""
         s.pontok = collections.defaultdict(list)
         if not Path(ut).exists():
             return
@@ -131,7 +131,7 @@ class Terkep:
         return x
 
     def cimpont(s, kn, u, hsz):
-        """A kártya címének megfelelő OSM-címpont(ok) -> az alattuk lévő épületek [(tav, e, sarok, terulet)]; csak az azonos kerületben."""
+        """The OSM address point(s) matching the card's address -> the buildings under them [(dist, e, corner, area)]; only in the same district."""
         if not hasattr(s, "pontok"):
             return []
         m = re.match(r"(\d+)\s*/?\s*([a-z]?)", hsz)
@@ -149,7 +149,7 @@ class Terkep:
                 k = [y for y in s.kozel(p, 10) if s.b[y[1]]["kn"] == kn]
                 if not k:
                     continue
-                # a címpont gyakran az utcai oldalon áll, nem az épületen: a legközelebbi épület kell, ha ≥ 4 m-rel közelebb van a következőnél
+                # the address point is often on the street side, not on the building: the nearest building is needed if it is ≥ 4 m closer than the next one
                 if k[0][0] > 8 or (len(k) > 1 and k[1][0] - k[0][0] < 4 and k[0][0] > 0):
                     for d, e in k[:2]:
                         if e not in talalt or d < talalt[e]:
@@ -163,7 +163,7 @@ class Terkep:
         return sorted((d, e, any(uu != u for uu, _ in s.b[e]["cim"]), s.b[e]["ter"]) for e, d in talalt.items())
 
     def utca_feloldas(s, u, kn):
-        """A kártya utcanevét az OSM-címekben szereplő alakra viszi: utca/út csere, apró betűeltérés (Herman/Hermann). Visszaad: (kulcs, megjegyzés)."""
+        """Brings the card's street name to the form in the OSM addresses: utca/út swap, small spelling differences (Herman/Hermann). Returns: (key, remark)."""
         if any(k == kn for k, _, _ in s.utca.get(u, ())):
             return u, ""
         ssz = ("utca", "ut", "ter", "koz", "sor", "korut", "setany", "fasor", "lepcso", "park", "rakpart", "sikatora", "liget")
@@ -188,7 +188,7 @@ class Terkep:
             return x, f"utcanév-alak eltér: {u} -> {x}"
         return None, ""
     def pozicio(s,kn,u,n,kizar=None):
-        """(pont, mód) a keresett házszámhoz; None ha nincs elég szomszéd."""
+        """(point, mode) for the sought house number; None if there are not enough neighbours."""
         lista=[(sz,e) for k,sz,e in s.utca.get(u,()) if (k==kn) and sz%2==n%2 and sz!=n and e!=kizar]
         if not lista:
             lista=[(sz,e) for k,sz,e in s.utca.get(u,()) if sz%2==n%2 and sz!=n and e!=kizar and (k==kn)]
@@ -201,7 +201,7 @@ class Terkep:
         if L is not None and U is not None and U-L<=24:
             t=(n-L)/(U-L); a,b=pt[L],pt[U]
             return (a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])),'interpolált',(L,U)
-        # kiterjesztés a szomszédos két ismert számból
+        # extension from the two neighbouring known numbers
         if L is not None and U is None or (L is None and U is not None) or (L is not None and U is not None):
             if L is not None and (U is None or U-L>24):
                 kozel=sorted(also,reverse=True)[:2]; irany=L
@@ -221,7 +221,7 @@ class Terkep:
         c=[]
         for d,e in s.kozel(p,R):
             b=s.b[e]
-            if e!=onmaga and any(uu==u for uu,_ in b['cim']): continue      # az utcán már másik házszámmal szerepel: másik ház
+            if e!=onmaga and any(uu==u for uu,_ in b['cim']): continue      # it already appears on the street with another house number: another house
             if b['kn']!=kn and b['kn'] is not None and kn is not None and False: continue
             sarok = any(uu != u for uu, _ in b['cim'])
             c.append((d,e,sarok,b['ter']))
@@ -297,7 +297,7 @@ def main():
             auto = mod == "interpolált" and ((elso[0] < 5 and res >= 15) or (elso[0] < 1 and res >= 8))
             valoszinu = False
             if not auto and mod == "interpolált":
-                # saroképület-szabály: a legközelebbi olyan jelölt, amelynek másik utcán van címe
+                # corner-building rule: the nearest candidate that has an address on another street
                 sarkok = [y for y in c if y[2]]
                 if sarkok and sarkok[0][0] < 5:
                     tobbi = [y for y in c if y is not sarkok[0]]
@@ -329,7 +329,7 @@ def main():
             javaslat.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], allapot, "", mod, jel])
             if kulcs_k(k) not in kezi_van:
                 uj_kezi.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], allapot, f"{c[0][1][0]} {c[0][1][1]}" if valoszinu else "", jel, "", ""])
-    # kézi tábla: új sorok a végére; a kitöltött osm_azonosito alapján tények
+    # manual table: new rows to the end; facts based on the filled-in osm_azonosito
     fej = KEZI_OSZLOPOK
     if uj_kezi:
         uj = not Path(KEZI_TABLA).exists()

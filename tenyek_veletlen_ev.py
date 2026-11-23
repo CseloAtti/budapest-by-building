@@ -1,13 +1,13 @@
-"""Feltételezett korszak (KÖZELÍTŐ adat) a II. és XII. kerület azon helyi védett (HV), nem műemléki épületeire, amelyeknek nincs évszámuk.
+"""Assumed era (APPROXIMATE data) for the locally protected (HV), non-monument buildings of the II. and XII. districts that have no year.
 
-Bemenet:   data/varos/epuletek_vegleges.geojson (az előző összeépítés eredménye)
-Kimenet:   data/varos/veletlen_kozelito.csv   (közelítő korszakadat: 1890–1938, forrás: 'feltételezés')
-Futtatás:  py tenyek_veletlen_ev.py varos     utána zona_frissit.bat
+Input:     data/varos/epuletek_vegleges.geojson (the result of the previous assembly)
+Output:    data/varos/veletlen_kozelito.csv   (approximate era data: 1890–1938, source: 'feltételezés' = assumption)
+Run:       py tenyek_veletlen_ev.py varos     then zona_frissit.bat
 
-Korábban ez a szkript minden ilyen épületre egy KITALÁLT pontos évet írt (data/tenyek/veletlen_ev.csv), amely a kártyán
-valódi évként látszott, és a korszakbecslés tanítóadatába is bekerült. Most nem évszám, hanem közelítő tartomány lesz belőle:
-a kártya "1890–1938, forrás szerint" formában, a feltételezés megjelölésével mutatja, a becslés pedig csak ezen a
-tartományon belül választ korszakot (nem tanul belőle). A régi data/tenyek/veletlen_ev.csv-t a szkript törli.
+Earlier this script wrote an INVENTED exact year (data/tenyek/veletlen_ev.csv) for every such building, which showed on the card as
+a real year and also got into the training data of the era estimate. Now it becomes not a year but an approximate range:
+the card shows it in the form "1890–1938, according to source", marking it as an assumption, and the estimate chooses an era only within this
+range (does not learn from it). The script deletes the old data/tenyek/veletlen_ev.csv.
 """
 import csv
 import json
@@ -30,7 +30,7 @@ def main():
         if p.get("kerulet") not in KERULETEK or p.get("vedettseg") != "HV" or p.get("resz"):
             continue
         if p.get("ev") not in (None, "") and p.get("ev_forras") != "veletlen":
-            continue          # van valódi évszáma
+            continue          # it has a real year
         sorok.append((p.get("osm_tipus") or "way", int(p["id"]), EV_TOL, EV_IG, SZOVEG, "feltételezés"))
         kerulet_db[p["kerulet"]] = kerulet_db.get(p["kerulet"], 0) + 1
     sorok = sorted(set(sorok), key=lambda s: (s[0], s[1]))

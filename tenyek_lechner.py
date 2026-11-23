@@ -1,5 +1,5 @@
-"""Lechner Tudásközpont pontjai -> tény-tábla (data/tenyek/lechner.csv).
-Csak tényeket veszünk át (név, építési idő, tervező); a leírásokat és a fotókat szándékosan nem."""
+"""Points of the Lechner Knowledge Centre -> fact table (data/tenyek/lechner.csv).
+We take over only facts (name, construction time, designer); deliberately not the descriptions and photos."""
 import csv
 import html
 import json
@@ -12,19 +12,19 @@ from kozos import kulcs, tenyek_irasa
 from terulet_kozos import EpuletIndex
 
 KML = "data/lechner.kml"
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_lechner.py varos  -> az egész város
+VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py tenyek_lechner.py varos  -> the whole city
 OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
 KIMENET = "data/tenyek/lechner.csv"
 PONTOK = "data/lechner_pontok.json"
-KEZI = "forras/lechner_kezi_parositas.csv"   # a közeli és a nem párosult pontok kézi ellenőrzése: az 'osm_azonosito' oszlopot te töltöd ki
-KOZELI_METER = 15  # ha egy pont nem esik épületbe, ennyi méteren belüli épületet fogadunk el
+KEZI = "forras/lechner_kezi_parositas.csv"   # manual checking of the near and the unmatched points: you fill in the 'osm_azonosito' column
+KOZELI_METER = 15  # if a point does not fall into a building, we accept a building within this many metres
 ns = {"k": "http://www.opengis.net/kml/2.2"}
 VAGAS = r"újjáépít|átépít|átalakít|felújít|rekonstrukció|restaurál|bővít|majd|bizonytalan"
 
 
 def idoszak(szoveg):
-    """Az építési időszak kezdő és záró éve, és hogy egyértelmű-e.
-    '1875–1884' -> (1875, 1884, True); '1817, majd 1909–1913' -> (1817, 1817, False)."""
+    """The start and end year of the construction period, and whether it is unambiguous.
+    '1875–1884' -> (1875, 1884, True); '1817, majd 1909–1913' ('1817, then 1909–1913') -> (1817, 1817, False)."""
     if not szoveg:
         return None, None, False
     bizonyos = not re.search(r"majd|bizonytalan|körül|as évek|\?|század", szoveg)
@@ -61,7 +61,7 @@ def kml_beolvas(ut):
         epult = m.group(1).split("Tervező:")[0].strip() if m else None
         m = re.search(r"Tervező:\s*([^\n]*)", leiras)
         tervezo = m.group(1).strip() if m else None
-        if tervezo in ("–", "-", "—"):          # a Lechner-leírásban ez a "nincs tervező" jele
+        if tervezo in ("–", "-", "—"):          # in the Lechner description this is the sign of "no designer"
             tervezo = None
         kezdet, veg, bizonyos = idoszak(epult)
         pontok.append({"nev": nev, "lat": lat, "lon": lon, "epult": epult,
@@ -71,7 +71,7 @@ def kml_beolvas(ut):
 
 
 def kezi_beolvas():
-    """nev -> [(osm_tipus, id), ...]  (üres lista: 'nincs' = ehhez a ponthoz nincs OSM-épület). Üres cella: marad az automatikus."""
+    """name -> [(osm_tipus, id), ...]  (empty list: 'nincs' = there is no OSM building for this point). Empty cell: the automatic one stays."""
     ki = {}
     if not Path(KEZI).exists():
         return ki
@@ -110,7 +110,7 @@ def main():
     belul = kozeli = nincs = kezi_db = 0
     for p in terulet:
         x, y = p["lon"], p["lat"]
-        if p["nev"].strip() in kezi:                      # kézzel ellenőrzött pont: az általad megadott épület(ek), "lechner" forrással
+        if p["nev"].strip() in kezi:                      # manually checked point: the building(s) you gave, with the source "lechner"
             azok = kezi[p["nev"].strip()]
             if not azok:
                 nincs += 1
@@ -149,7 +149,7 @@ def main():
                   (t, i, "lechner_illesztes", mod, L, "")]
         if p["tervezo"]:
             sorok.append((t, i, "tervezo", p["tervezo"], L if mod == "belul" else "lechner_kozeli", p["nev"]))
-        # Az OSM start_date jellemzően a befejezés éve, ezért a záró évet használjuk
+        # The OSM start_date is typically the year of completion, so we use the end year
         if p["ev_veg"] and p["ev_egyertelmu"]:
             sorok.append((t, i, "ev", p["ev_veg"], L if mod == "belul" else "lechner_kozeli", p["epult"] or ""))
     tenyek_irasa(KIMENET, [s for s in sorok if s[3] != ""])
