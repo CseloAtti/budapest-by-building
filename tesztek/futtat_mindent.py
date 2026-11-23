@@ -1,5 +1,5 @@
-"""Az összes ellenőrző teszt futtatása. A projekt mappájából:   py tesztek/futtat_mindent.py
-Kilépési kód: 0 = minden rendben, 1 = legalább egy teszt hibát talált."""
+"""Running all the checking tests. From the project folder:   py tesztek/futtat_mindent.py
+Exit code: 0 = everything is fine, 1 = at least one test found an error."""
 import importlib
 import sys
 from pathlib import Path

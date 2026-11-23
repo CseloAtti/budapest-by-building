@@ -1,4 +1,4 @@
-"""A tesztelői visszajelzések alapján javított működések forrás-ellenőrzése (az app.js szövegén; böngészőt nem indít).   Futtatás: py tesztek/teszt_visszajelzes.py"""
+"""Source check of the behaviours fixed on the basis of tester feedback (on the text of app.js; it does not start a browser).   Run: py tesztek/teszt_visszajelzes.py"""
 from kozos_teszt import GYOKER, ellenoriz, vege
 
 

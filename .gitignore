@@ -9,7 +9,7 @@ __pycache__/
 mentes_*/
 kiadas/
 Claude outputs/
-# Mások adatai (letöltött vagy abból kinyert táblák): helyben megmaradnak, de nem kerülnek a GitHubra
+# Other people's data (downloaded tables or ones extracted from them): they stay locally, but do not go to GitHub
 forras/oeny_vegleges_adatok.csv
 forras/oeny_vegleges_adatok_test.csv
 forras/oeny_koordinatak_api.csv
@@ -23,8 +23,8 @@ forras/epitesz_parositott.csv
 forras/wikipedia_lista_ellenorzes.csv
 forras/legenda_kepek.csv
 forras/archiv/
-# Cloudflare (Wrangler) helyi gyorsitotar: fiokazonositot tartalmaz
+# Cloudflare (Wrangler) local cache: it contains the account identifier
 .wrangler/
-# egyszeri segedfajlok
+# one-off helper files
 git_fajlok*.txt
 git_tisztitas.bat

@@ -1,7 +1,7 @@
-"""Az épületrészek (building:part) egységes korszakának ellenőrzése. Futtatás: py tesztek/teszt_reszek.py
-A hiba, amit megfog: ha egy épületet a részeiből rajzolunk ki, és nincs éve, a részek korábban egyenként a legközelebbi
-épület korszakát kapták, így egy ház több színben látszott (46 épület). Most egy épület minden év nélküli része ugyanazt
-a korszakot kapja. A részek szülőjét a data/varos/epuletek_vegleges.geojson-ból olvassa (nagy fájl, ~10-20 mp)."""
+"""Checking the uniform era of the building parts (building:part). Run: py tesztek/teszt_reszek.py
+The error it catches: if a building is drawn from its parts and has no year, the parts used to each get the era of the nearest
+building one by one, so one house showed in several colours (46 buildings). Now all the year-less parts of a building get the same
+era. It reads the parts' parent from data/varos/epuletek_vegleges.geojson (a large file, ~10-20 s)."""
 import json
 from collections import defaultdict
 from kozos_teszt import GYOKER, ellenoriz, figyelmeztet, vege
@@ -26,7 +26,7 @@ def main():
             s = szulo.get((p.get("osm_tipus") or "way", p["id"]))
             if s:
                 kor[s].add(p.get("kor"))
-    # a szülőjével együtt kirajzolt (rajta kívül álló, de hozzá kapcsolódó) év nélküli rész a szülő korszakát kapja
+    # a year-less part drawn together with its parent (standing outside it, but connected to it) gets the parent's era
     kartya = {}
     for p in json.loads(KARTYA.read_text(encoding="utf-8")):
         kartya[(p.get("osm_tipus") or "way", p["id"])] = p

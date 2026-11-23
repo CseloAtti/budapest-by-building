@@ -1,12 +1,12 @@
-"""A letöltési méret csökkentésének ellenőrzése. Futtatás: py tesztek/teszt_letoltes.py  (a node-os részekhez node kell)
+"""Checking the reduction of the download size. Run: py tesztek/teszt_letoltes.py  (node is needed for the node parts)
 
-1. A háttérszálak (worker.js) a kis vendor/haromszogeles.js-t töltik be, nem a teljes, 1,46 MB-os three.core.js-t
-   (azt korábban minden háttérszál külön letöltötte: 4 + 1 = 5 letöltés, 7,3 MB).
-   - a haromszogeles.js kivonata betűre egyezik a three.core.js-ben lévő earcut / ShapeUtils résszel;
-   - a valódi tiles.bin minden csempéjére a régi és az új worker ugyanazt a hálót (csúcsok, háromszögek) adja.
-2. A nyilvános kiadásban a tiles.bin és a terrain.bin gzip-pel tömörítve van; az app.js binarisBetolt függvénye
-   a tömörített és a tömörítetlen fájlból is ugyanazt a bájtsort adja vissza.
-3. A kiadás epuletek.json-jából elhagyott "osm_tipus": "way" mezőn kívül semmi sem változik."""
+1. The background threads (worker.js) load the small vendor/haromszogeles.js, not the whole 1.46 MB three.core.js
+   (earlier every background thread downloaded that separately: 4 + 1 = 5 downloads, 7.3 MB).
+   - the digest of haromszogeles.js matches, letter for letter, the earcut / ShapeUtils part in three.core.js;
+   - for every tile of the real tiles.bin the old and the new worker give the same mesh (vertices, triangles).
+2. In the public release tiles.bin and terrain.bin are gzip-compressed; the binarisBetolt function of app.js
+   returns the same byte sequence from the compressed and from the uncompressed file.
+3. Apart from the "osm_tipus": "way" field left out of the release's epuletek.json, nothing changes."""
 import gzip
 import json
 import shutil
@@ -54,7 +54,7 @@ eval(f + '; globalThis.binarisBetolt = binarisBetolt;');
 
 
 def kivonat(szoveg):
-    """Az earcut + ShapeUtils rész (a '/* eslint-disable */ ... earcut' sortól az addContour függvény végéig)."""
+    """The earcut + ShapeUtils part (from the '/* eslint-disable */ ... earcut' line to the end of the addContour function)."""
     L = szoveg.split("\n")
     i = next(n for n, s in enumerate(L) if s.startswith("/* eslint-disable */") and "earcut" in L[n + 1])
     j = next(n for n, s in enumerate(L) if s.startswith("function addContour("))
@@ -109,7 +109,7 @@ def main():
                 ellenoriz(e["egyezik"], f"a binarisBetolt nem az eredeti bájtsort adta vissza ({e})")
                 print(f"  {nyers.name}: {e['nyers']} bájt; gzip {tomor.stat().st_size} bájt; kibontva egyezik: {e['egyezik']}")
 
-    # a kiadás segédfüggvényei
+    # the release's helper functions
     sys.path.insert(0, str(GYOKER))
     import kiadas_keszites as K
     minta = [{"id": 1, "osm_tipus": "way", "kor": 3}, {"id": 2, "osm_tipus": "relation", "kor": 1}, {"id": 3, "kor": 2, "nev": "way"}]

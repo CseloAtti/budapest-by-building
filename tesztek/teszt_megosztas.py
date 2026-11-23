@@ -1,4 +1,4 @@
-"""A megosztási előnézet (OG-címkék, /en/ oldal) és a mélylinkek ellenőrzése.   Futtatás: py tesztek/teszt_megosztas.py"""
+"""Checking the share preview (OG tags, the /en/ page) and the deep links.   Run: py tesztek/teszt_megosztas.py"""
 import re
 import sys
 from kozos_teszt import GYOKER, ellenoriz, figyelmeztet, vege

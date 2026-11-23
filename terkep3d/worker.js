@@ -1,9 +1,9 @@
-// (Módosítva a budapesti projekthez: több udvaros épületek is elférnek az indexpufferben. Eredeti: alexbarakov/amsterdam-by-building, MIT.)
+// (Modified for the Budapest project: buildings with several courtyards also fit in the index buffer. Original: alexbarakov/amsterdam-by-building, MIT.)
 // Turns one binary tile into a mesh. Positions stay in decimetres from the tile origin.
 // A part is either a LoD 1.3 prism (walls and a flat roof at its height) or, with height -1, a LoD 2.2 roof face
 // whose vertices carry their own height; a building of roof faces gets its walls from the faces' open edges,
 // dropped to the ground, which rebuilds gable ends and steps between roofs.
-import { ShapeUtils, Vector2 } from './vendor/haromszogeles.js';   // nem a teljes three.core.js: azt minden háttérszál külön letöltené
+import { ShapeUtils, Vector2 } from './vendor/haromszogeles.js';   // not the whole three.core.js: every background thread would download that separately
 
 function parse(buf) {
   const h = new DataView(buf);
@@ -26,12 +26,12 @@ function build(t, skip) {
   let nVert = 0, nIdx = 0;
   for (let r = 0; r < t.hole.length; r++) {
     const n = t.vertStart[r + 1] - t.vertStart[r];
-    nVert += n * 5; nIdx += n * 6 + n * 3 + 12;   // +12: egy épületben több udvar (lyuk) is lehet, ezek több háromszöget kívánnak
+    nVert += n * 5; nIdx += n * 6 + n * 3 + 12;   // +12: a building can have several courtyards (holes), these require more triangles
   }
   const pos = new Int16Array(nVert * 3), bld = new Uint16Array(nVert), idx = new Uint32Array(nIdx);
   let v = 0, k = 0;
   for (let b = 0; b < t.nB; b++) {
-    if (skip && skip.includes(t.gid[b])) continue;   // pl. az óriáskerék: külön körlapként rajzoljuk
+    if (skip && skip.includes(t.gid[b])) continue;   // e.g. the Ferris wheel: we draw it separately as a disc
     if (t.partStart[b + 1] > t.partStart[b] && t.height[t.partStart[b]] < 0) {
       // LoD 2.2: roof faces, then walls under every edge that only one face has
       const edges = new Map();

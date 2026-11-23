@@ -96,8 +96,8 @@ const GYORS_EVEK = [[1870, 1918], [1919, 1944], [1945, 1960], [1960, 1989], [197
 const szinEvre = (ev) => (KORSZAKOK.find((k) => ev >= k.tol && ev <= k.ig) || KORSZAKOK[0]).szin;
 const ures = () => ({ type: "FeatureCollection", features: [] });
 
-let zonak = ures();          // mentett zónák
-let jeloltek = [];           // jelölt poligonok (még el nem fogadottak is)
+let zonak = ures();          // saved zones
+let jeloltek = [];           // candidate polygons (even those not yet accepted)
 let lista = [];              // forras/zona_lista.csv sorai
 let szerver = false;
 let kijelolt = null;         // { fajta: "zona"|"jelolt", id }
@@ -106,7 +106,7 @@ let rajz = null;
 let handlek = [];
 let mentesIdo = null;
 
-/* ===== segédek ===== */
+/* ===== helpers ===== */
 function csvSorok(szoveg) {
   const sorok = []; let sor = [], mezo = "", idezet = false;
   szoveg = szoveg.replace(/^﻿/, "");
@@ -138,7 +138,7 @@ function terulet(gyuru) {
   }
   return Math.abs(s) / 2;
 }
-function egyszerusit(gyuru, tolM) {   // Douglas–Peucker a zárt gyűrűre, méterben
+function egyszerusit(gyuru, tolM) {   // Douglas–Peucker for the closed ring, in metres
   const pts = gyuru.slice(0, -1).map(([x, y]) => [x * M_LON, y * M_LAT]);
   if (pts.length < 5) return gyuru;
   const dist = (p, a, b) => {
@@ -148,7 +148,7 @@ function egyszerusit(gyuru, tolM) {   // Douglas–Peucker a zárt gyűrűre, m�
     return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy));
   };
   const megtart = new Set();
-  const dp = (lo, hi, sor) => {     // sor: a vizsgált pontok indexei; lo/hi: az sor-beli pozíciók
+  const dp = (lo, hi, sor) => {     // sor: the indices of the examined points; lo/hi: the positions within sor
     let max = 0, idx = -1;
     for (let i = lo + 1; i < hi; i++) { const d = dist(pts[sor[i]], pts[sor[lo]], pts[sor[hi]]); if (d > max) { max = d; idx = i; } }
     if (max > tolM && idx >= 0) { megtart.add(sor[idx]); dp(lo, idx, sor); dp(idx, hi, sor); }
@@ -169,12 +169,12 @@ function egyszerusit(gyuru, tolM) {   // Douglas–Peucker a zárt gyűrűre, m�
 function zonaTerulet(f) { return terulet(f.geometry.coordinates[0]); }
 function ujAzon() { return "z_" + Date.now().toString(36); }
 function listaElem(id) { return lista.find((l) => l.id === id); }
-/* elvetett (törölt) lista-tételek és jelöltek: böngészőben megjegyezve, visszaállíthatók */
-let elvetettKesz = new Set();   // szerveren a forras/zona_elvetett.json-ban él (minden böngészőre és újraindításra érvényes)
+/* rejected (deleted) list items and candidates: remembered in the browser, can be restored */
+let elvetettKesz = new Set();   // on the server it lives in forras/zona_elvetett.json (valid for every browser and restart)
 function elvetettBe() { return elvetettKesz; }
 function elvetettKi(h) {
   elvetettKesz = new Set(h);
-  try { localStorage.setItem("zonak_elvetett", JSON.stringify([...elvetettKesz])); } catch (e) { /* nincs tárhely */ }
+  try { localStorage.setItem("zonak_elvetett", JSON.stringify([...elvetettKesz])); } catch (e) { /* no storage */ }
   if (!szerver) return;
   fetch("/api/zona_elvetett", { method: "POST", headers: { "Content-Type": "application/json", "X-Szerkeszto": "1" }, body: JSON.stringify({ ids: [...elvetettKesz] }) })
     .then((r) => r.json()).then((v) => { if (!v.ok) throw new Error(v.hiba); })
@@ -182,14 +182,14 @@ function elvetettKi(h) {
 }
 async function elvetettBetolt() {
   let h = new Set();
-  try { h = new Set(JSON.parse(localStorage.getItem("zonak_elvetett") || "[]")); } catch (e) { /* üres */ }
+  try { h = new Set(JSON.parse(localStorage.getItem("zonak_elvetett") || "[]")); } catch (e) { /* empty */ }
   if (szerver) {
     try {
       const r = await fetch("forras/zona_elvetett.json", { cache: "no-store" });
       if (r.ok) { const d = await r.json(); (d.ids || []).forEach((x) => h.add(x)); }
-      // a csak a böngészőben tárolt régebbi törlések is átkerülnek a szerverre (egyszeri szinkron)
+      // the older deletions stored only in the browser are also moved over to the server (a one-time sync)
       elvetettKesz = h; if ([...h].length) elvetettKi(h);
-    } catch (e) { /* még nincs fájl */ }
+    } catch (e) { /* no file yet */ }
   }
   elvetettKesz = h;
 }
@@ -202,7 +202,7 @@ function ujrafestEvszin(f) {
   f.properties.szin = szinEvre(Math.round((f.properties.ev_tol + f.properties.ev_ig) / 2));
 }
 
-/* ===== térkép ===== */
+/* ===== map ===== */
 const terkep = new maplibregl.Map({
   container: "terkep",
   style: {
@@ -252,7 +252,7 @@ function frissit() {
   listaRajzol();
 }
 
-/* ===== betöltés és mentés ===== */
+/* ===== loading and saving ===== */
 async function betoltes() {
   try {
     const r = await fetch("/api/ping", { cache: "no-store" });
@@ -267,9 +267,9 @@ async function betoltes() {
     try {
       const g = await (await fetch(fajl, { cache: "no-store" })).json();
       g.features.forEach((f) => { f.properties.fajta = "jelolt"; jeloltek.push(f); });
-    } catch (e) { /* nincs ilyen fájl */ }
+    } catch (e) { /* no such file */ }
   }
-  // a jelölteket többrészes alakzatból egyszerű sokszögekre bontjuk
+  // we split the candidates from multi-part shapes into simple polygons
   await elvetettBetolt();
   { const h = elvetettBe(); lista = lista.filter((l) => !h.has(l.id)); jeloltek = jeloltek.filter((f) => !h.has(elvetettId(f))); }
   jeloltek = jeloltek.flatMap((f) => {
@@ -285,7 +285,7 @@ async function betoltes() {
       const m = localStorage.getItem("zonak_poligon");
       if (m) zonak = JSON.parse(m);
     }
-  } catch (e) { /* üres kezdet */ }
+  } catch (e) { /* empty start */ }
   zonak.features = (zonak.features || []).map((f) => { f.properties = zonaPropok(f.properties); return f; });
   setAllapot(szerver ? "Szerverhez kötve: a változtatások automatikusan mentődnek a forras/zonak_poligon.geojson fájlba." :
     "FIGYELEM: nincs szerver (py szerkeszto_szerver.py). A zónák csak a böngészőben maradnak; használd a „Mentés fájlba” gombot.", szerver ? "ok" : "hiba");
@@ -301,7 +301,7 @@ function mentesKesleltetve() {
 async function mentes() {
   const adat = { type: "FeatureCollection", features: zonak.features.map((f) => ({ type: "Feature", geometry: f.geometry,
     properties: Object.fromEntries(Object.entries(f.properties).filter(([k]) => k !== "szin" && k !== "fajta")) })) };
-  try { localStorage.setItem("zonak_poligon", JSON.stringify(adat)); } catch (e) { /* nincs tárhely */ }
+  try { localStorage.setItem("zonak_poligon", JSON.stringify(adat)); } catch (e) { /* no storage */ }
   if (!szerver) { setAllapot("Csak a böngészőben mentve (nincs szerver).", "hiba"); return; }
   try {
     const r = await fetch("/api/zonak", { method: "POST", headers: { "Content-Type": "application/json", "X-Szerkeszto": "1" }, body: JSON.stringify(adat) });
@@ -367,7 +367,7 @@ function repulj(f) {
   terkep.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 80, maxZoom: 17, duration: 600 });
 }
 
-/* ===== kijelölés ===== */
+/* ===== selection ===== */
 function keres(fajta, id) {
   return (fajta === "zona" ? zonak.features : jeloltek).find((f) => f.properties.id === id);
 }
@@ -386,13 +386,13 @@ terkep.on("click", (e) => {
   if (mod === "rajz") { rajzKatt(e); return; }
   const talalatok = terkep.queryRenderedFeatures(e.point, { layers: ["zonak-fill", "jeloltek-fill"] });
   if (!talalatok.length) { leVal(); return; }
-  let i = 0;   // ismételt kattintásra a következő átfedő elemre lépünk
+  let i = 0;   // on a repeated click we step to the next overlapping element
   if (kijelolt) { const k = talalatok.findIndex((f) => f.properties.id === kijelolt.id); if (k >= 0) i = (k + 1) % talalatok.length; }
   const t = talalatok[i];
   valaszt(t.layer.id.startsWith("zonak") ? "zona" : "jelolt", t.properties.id);
 });
 
-/* ===== űrlapok ===== */
+/* ===== forms ===== */
 function opciok(lista2, ertek) { return lista2.map(([k, n]) => `<option value="${k}"${k === ertek ? " selected" : ""}>${esc(n)}</option>`).join(""); }
 
 function urlapJelolt(f) {
@@ -502,7 +502,7 @@ function urlapZona(f) {
   });
 }
 
-/* ===== csúcsok szerkesztése ===== */
+/* ===== editing the vertices ===== */
 function torolHandlek() { handlek.forEach((m) => m.remove()); handlek = []; }
 function handlekEpit(f) {
   torolHandlek();
@@ -524,7 +524,7 @@ function handlekEpit(f) {
     });
     handlek.push(m);
   }
-  for (let i = 0; i < n; i++) {   // élfelezők: kattintásra új csúcs
+  for (let i = 0; i < n; i++) {   // edge midpoints: a click makes a new vertex
     const a = gy[i], b = gy[i + 1];
     const el = document.createElement("div"); el.className = "vm"; el.title = "kattints: új csúcs";
     const m = new maplibregl.Marker({ element: el }).setLngLat([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]).addTo(terkep);
@@ -537,7 +537,7 @@ function handlekEpit(f) {
   }
 }
 
-/* ===== rajzolás ===== */
+/* ===== drawing ===== */
 function rajzIndit(l) {
   if (mod === "rajz") { rajzMegse(); return; }
   mod = "rajz";
@@ -569,7 +569,7 @@ function rajzFrissit() {
 }
 function rajzKatt(e) {
   const p = [e.lngLat.lng, e.lngLat.lat];
-  if (rajz.pontok.length >= 3) {   // az első pontra kattintva lezárjuk
+  if (rajz.pontok.length >= 3) {   // clicking the first point closes it
     const e0 = terkep.project(rajz.pontok[0]);
     if (Math.hypot(e0.x - e.point.x, e0.y - e.point.y) < 10) { rajzKesz(); return; }
   }
@@ -606,7 +606,7 @@ addEventListener("keydown", (e) => {
   } else if (e.key === "Escape") leVal();
 });
 
-/* ===== helykereső (Nominatim, a böngészőből) ===== */
+/* ===== place search (Nominatim, from the browser) ===== */
 document.getElementById("helykereso").addEventListener("keydown", async (e) => {
   if (e.key !== "Enter") return;
   const q = e.target.value.trim();

@@ -1,11 +1,11 @@
-"""A szerkesztő szerver biztonsági ellenőrzése. Futtatás: py tesztek/teszt_szerver.py
-Egy üres ideiglenes mappában, szabad porton indítja el a szerkeszto_szerver.py kezelőjét (a valódi fájlokhoz nem nyúl), és megnézi:
-  - idegen 'Host' fejléccel (DNS rebinding) a szerver semmit nem ad ki (403);
-  - hiányzó fájlra rendes 404 jön (korábban a szerver válasz nélkül bontotta a kapcsolatot);
-  - negatív Content-Length nem akasztja meg a szálat (400);
-  - idegen Origin-ről nem lehet írni (403);
-  - hibás alakú kérésre (pl. '[]') is jön válasz (400);
-  - párhuzamos mentések nem írják felül egymást."""
+"""Security check of the editor server. Run: py tesztek/teszt_szerver.py
+In an empty temporary folder, on a free port, it starts the handler of szerkeszto_szerver.py (it does not touch the real files), and checks:
+  - with a foreign 'Host' header (DNS rebinding) the server gives out nothing (403);
+  - for a missing file a proper 404 comes (earlier the server dropped the connection without a response);
+  - a negative Content-Length does not hang the thread (400);
+  - writing from a foreign Origin is not possible (403);
+  - a malformed request (e.g. '[]') also gets a response (400);
+  - parallel saves do not overwrite each other."""
 import csv
 import http.client
 import json
@@ -58,7 +58,7 @@ def main():
             ellenoriz(r == 403, f"idegen helyről érkező írási kérés nem lett elutasítva: {r}")
             r = kerdez(port, "POST", "/api/javitas", {**helyi, "X-Szerkeszto": "1", "Content-Length": "2"}, b"[]")
             ellenoriz(r == 400, f"'[]' törzsre nem jött válasz (400 kellene): {r}")
-            # párhuzamos mentések: egyik sem veszhet el (korábban 200 kérésből 6 sor maradt)
+            # parallel saves: none of them may be lost (earlier out of 200 requests 6 rows remained)
             os.makedirs("forras", exist_ok=True)
             with open("forras/epitesz_irodak.csv", "w", encoding="utf-8-sig", newline="") as f:
                 f.write("kulcs;nev;tipus;forras;megjegyzes\r\n")
@@ -76,7 +76,7 @@ def main():
                 t.join()
             with open("forras/epitesz_irodak.csv", encoding="utf-8-sig") as f:
                 db = sum(1 for _ in csv.DictReader(f, delimiter=";"))
-            # a gép egyszerre csak néhány kapcsolatot fogad: a visszautasított kérés hibát kap (nem csendes), de minden 'OK' mentésnek meg kell maradnia
+            # the machine accepts only a few connections at a time: a refused request gets an error (not silent), but every 'OK' save must be kept
             ellenoriz(len(sikeres) >= N // 2 and db == len(sikeres), f"{len(sikeres)} sikeresnek jelzett párhuzamos mentésből {db} maradt meg a fájlban")
         finally:
             srv.shutdown()

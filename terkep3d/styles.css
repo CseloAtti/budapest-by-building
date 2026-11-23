@@ -1,4 +1,4 @@
-/* A 3D nézet stílusa. Az elrendezés ötlete az amszterdami projektből való (alexbarakov/amsterdam-by-building, MIT). */
+/* Style of the 3D view. The idea of the layout comes from the Amsterdam project (alexbarakov/amsterdam-by-building, MIT). */
 :root {
   --sky: #e4e8ea; --paper: #fff; --ink: #000; --muted: #5d6266; --rule: #cfd5d8;
   --gutter: clamp(14px, 2.4vw, 32px);
@@ -11,7 +11,7 @@ button { font: inherit; color: inherit; }
 
 .brand { position: fixed; left: var(--gutter); top: var(--gutter); width: 290px; pointer-events: none; }
 .brand h1 { margin: 0; line-height: 0; }
-.brand h1 img { display: block; width: 100%; height: auto; }   /* a vágott SVG ugyanaz a hivatalos logó, csak a körülötte lévő üres keret nélkül: a panel teljes szélességét kitölti */
+.brand h1 img { display: block; width: 100%; height: auto; }   /* the cropped SVG is the same official logo, just without the empty frame around it: it fills the panel's full width */
 .brand p { margin: 16px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
 
 .panel { position: fixed; left: var(--gutter); top: calc(var(--gutter) + 140px); width: 290px; max-height: calc(100vh - var(--gutter) - 140px - 150px);
@@ -53,7 +53,7 @@ button { font: inherit; color: inherit; }
 .howto { position: fixed; right: var(--gutter); bottom: 112px; margin: 0; color: var(--muted); font-size: 12px; pointer-events: none; }
 .loading { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--muted); }
 
-/* a kártya: ugyanaz, mint a MapLibre-nézetben */
+/* the card: the same as in the MapLibre view */
 .kartya { position: fixed; z-index: 10; width: 340px; max-height: calc(100vh - 24px); overflow-y: auto; background: #fff;
   border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,.35); font-size: 13px; line-height: 1.4; pointer-events: none; }
 .kartya.rogzitett { pointer-events: auto; width: 400px; max-width: calc(100vw - 24px); }
@@ -104,10 +104,10 @@ button { font: inherit; color: inherit; }
 #kereso-lista small { color: #5d6266; display: block; }
 #kereso-lista .nincs { display: block; padding: 6px 10px; color: #5d6266; }
 
-/* a pipáló négyzetek szürkék */
+/* the tick boxes are grey */
 .panel input[type="checkbox"] { accent-color: #6b7074; }
 
-/* Névjegy (About) ablak */
+/* About window */
 .modal { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; background: rgba(228,232,234,.55); padding: 18px; }
 .modal[hidden] { display: none; }
 .modal-doboz { position: relative; width: min(640px, 100%); max-height: calc(100vh - 36px); overflow-y: auto; background: #fff; border-radius: 6px;
@@ -118,14 +118,14 @@ button { font: inherit; color: inherit; }
 .modal-bezar { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #e9edef; cursor: pointer; font-size: 20px; line-height: 1; }
 .modal-bezar:hover { background: #dce1e4; }
 
-/* Korszaklista: a színes négyzet maga a kapcsoló (több korszak egyszerre is bekapcsolható); kikapcsolva csak a körvonala marad */
+/* Era list: the coloured square is itself the switch (several eras can be switched on at once); when off, only its outline remains */
 #legend label { position: relative; }
 #legend input { position: absolute; opacity: 0; width: 0; height: 0; margin: 0; pointer-events: none; }
 #legend input:not(:checked) + i { background: transparent; box-shadow: inset 0 0 0 2px var(--c); opacity: .55; }
 #legend input:not(:checked) + i + span { color: #8a9094; }
 #legend input:focus-visible + i { outline: 2px solid #000; outline-offset: 2px; }
 
-/* Rétegek: kicsi szürke kapcsoló */
+/* Layers: a small grey switch */
 #nez-layers input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 30px; height: 18px; margin: 0; border-radius: 999px;
   background: #cfd5d8; position: relative; cursor: pointer; transition: background .15s; }
 #nez-layers input[type="checkbox"]::before { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff;
@@ -134,19 +134,19 @@ button { font: inherit; color: inherit; }
 #nez-layers input[type="checkbox"]:checked::before { transform: translateX(12px); }
 #nez-layers input[type="checkbox"]:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
 
-/* Réteg-információ (pl. védett épületek) */
+/* Layer info (e.g. protected buildings) */
 .reteg-info { margin: 2px 0 10px 38px; color: #3b4045; font-size: 12.5px; line-height: 1.45; }
 .reteg-info p { margin: 0 0 8px; }
 .reteg-info dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; }
 .reteg-info dt { color: #000; } .reteg-info dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
 
-/* IDEIGLENES legördülő lista (OENY-s, pontos évszám nélküli épületek) */
+/* TEMPORARY drop-down list (OENY buildings without an exact year) */
 .lista-sor { display: flex; gap: 6px; align-items: center; }
 .lista-sor select { flex: 1; min-width: 0; }
 .lista-sor button { flex: none; width: 30px; height: 30px; border: 1px solid var(--rule); border-radius: 50%; background: #fff; cursor: pointer; font-size: 18px; line-height: 1; padding: 0; }
 .lista-sor button:hover { background: #eef1f2; }
 
-/* Építész-kereső */
+/* Architect search */
 .arch-kor-gomb { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; background: none; padding: 7px 2px; cursor: pointer; font: inherit; font-weight: 600; color: #000; }
 .arch-kor-gomb i { flex: none; width: 12px; height: 12px; border-radius: 3px; background: var(--c); }
 .arch-kor-gomb::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform .15s; }
@@ -185,7 +185,7 @@ button { font: inherit; color: inherit; }
 .arch-gal-felirat { margin-top: 6px; font-size: 12.5px; line-height: 1.4; }
 .arch-popup small.arch-gal-sz { margin-top: 4px; }
 
-/* a popup két részből áll: görgethető szöveg + alul rögzített képgaléria */
+/* the popup has two parts: scrollable text + an image gallery fixed at the bottom */
 .arch-popup { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
 .arch-popup-test { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 18px 20px 14px; }
 .arch-popup-galeria { flex: none; padding: 10px 20px 14px; border-top: 1px solid var(--rule); background: #fff; }
@@ -197,7 +197,7 @@ button { font: inherit; color: inherit; }
 .arch-popup .arch-jellemzes h3 { font-size: 18px; }
 .arch-popup .arch-jellemzes p { margin: 6px 0 0; font-style: italic; color: #3b4045; }
 
-/* alsó léptető az építész-nézetben */
+/* bottom stepper in the architect view */
 .arch-lep { position: fixed; z-index: 8; left: 50%; bottom: 108px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; max-width: calc(100vw - 24px); padding: 6px 8px; background: #fff; border-radius: 999px; box-shadow: 0 6px 24px rgba(0,0,0,.2), 0 0 0 1px var(--rule); font-size: 13px; }
 .arch-lep[hidden] { display: none; }
 .arch-lep button { width: 32px; height: 32px; flex: none; border: 0; border-radius: 50%; background: #eef1f2; cursor: pointer; font-size: 20px; line-height: 1; color: #000; }
@@ -206,7 +206,7 @@ button { font: inherit; color: inherit; }
 .arch-lep .sz { min-width: 52px; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
 @media (max-width: 700px) { .arch-lep { bottom: 90px; } }
 
-/* görgetősáv a lekerekített kártyán belül; a bezáró gomb a görgetősáv mellett */
+/* scrollbar inside the rounded card; the close button sits next to the scrollbar */
 .kartya::-webkit-scrollbar, .arch-popup-test::-webkit-scrollbar { width: 10px; }
 .kartya::-webkit-scrollbar-track, .arch-popup-test::-webkit-scrollbar-track { background: transparent; margin: 14px 0; }
 .kartya::-webkit-scrollbar-thumb, .arch-popup-test::-webkit-scrollbar-thumb { background: #c4cacd; border-radius: 6px; border: 2px solid #fff; }
@@ -214,9 +214,9 @@ button { font: inherit; color: inherit; }
 .arch-lep select { min-width: 0; text-overflow: ellipsis; }
 .arch-lep .sz { flex: none; }
 
-/* négyfülesre bővült panel: a fülek kisebb belső térközzel férnek el */
+/* the panel grew to four tabs: the tabs fit with smaller inner spacing */
 .nez button { padding-left: 8px; padding-right: 8px; white-space: nowrap; }
-/* Építészek fül */
+/* Architects tab */
 .ep-ker { width: 100%; box-sizing: border-box; margin-bottom: 6px; }
 .ep-szuro label { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; font-size: 12.5px; }
 .ep-szuro select { max-width: 100%; font-size: 12.5px; }
@@ -242,11 +242,11 @@ button { font: inherit; color: inherit; }
 @media (max-width: 700px) { .tally .kereso { width: 200px; } }
 .tally #kereso-lista { max-height: min(65vh, 560px); }
 
-/* a kereső felső éle egy magasságban a főpanel felső élével; a Szerkesztés gomb alatta */
+/* the search's top edge is level with the main panel's top edge; the Edit button is below it */
 .tally .kereso { position: fixed; top: calc(var(--gutter) + 140px); right: var(--gutter); margin: 0; }
 .tally .szerk-keret { position: fixed; top: calc(var(--gutter) + 140px + 46px); right: var(--gutter); margin: 0; }
 
-/* keresősor + Utcák gomb; utcanév-címkék */
+/* search row + Streets button; street-name labels */
 .tally .kereso { width: 340px; }
 .kereso-sor { display: flex; gap: 8px; align-items: center; }
 .kereso-sor .kereso-sav { flex: 1; min-width: 0; }
@@ -262,7 +262,7 @@ button { font: inherit; color: inherit; }
 #utcanevek .ut-1 { font-size: 11.5px; font-weight: 700; }
 #utcanevek .ut-3 { font-size: 10px; font-weight: 500; font-style: italic; color: #6a757c; }
 
-/* Építészek fül: a kereső és a szűrők rögzítettek, csak a lista görög */
+/* Architects tab: the search and the filters are fixed, only the list scrolls */
 .panel-test:has(#nez-epitesz:not([hidden])) { display: flex; flex-direction: column; overflow: hidden; }
 #nez-epitesz { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
 #nez-epitesz .ep-fej { flex: none; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
@@ -284,23 +284,23 @@ button { font: inherit; color: inherit; }
 #nez-epitesz .ep-db { display: block; margin: 10px 0 0; font-size: 11.5px; color: var(--muted); }
 #nez-epitesz .ep-lista { flex: 1 1 auto; min-height: 0; overflow-y: auto; margin-top: 6px; padding-right: 2px; font-size: 14.5px; line-height: 1.35; }
 .ep-sor { padding: 5px 8px; border-radius: 8px; }
-/* a fókuszkeret (box-shadow) ne vágódjon le: a görgetés-tartó 4 px-szel kijjebb nyúlik, a tartalom visszaigazítva */
+/* so that the focus ring (box-shadow) is not clipped: the scroll container extends 4 px further out, the content is shifted back */
 .panel-test:has(#nez-epitesz:not([hidden])) { padding: 4px 4px 0; margin: -4px -4px 0; }
 #utcanevek { transition: opacity .15s; }
 #utcanevek.mozog { opacity: 0; transition: none; }
 
-/* meghatározó épületek adatlapja: galéria és szöveg a kártyában, házlista a Stílusok panelen */
+/* data sheet of the defining buildings: gallery and text in the card, building list on the Styles panel */
 .kartya section.adatszoveg { line-height: 1.5; }
 .arch-kor li.arch-haz-fej { margin: 6px 0 2px 8px; font-size: 11px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
 
-/* stílus-ismertető: kiemelt egymondatos összefoglaló */
+/* style description: a highlighted one-sentence summary */
 .arch-popup .arch-ossz { margin: 8px 0 16px; padding: 10px 14px; border-left: 4px solid var(--sz, #999); border-radius: 0 8px 8px 0; background: #f4f6f7; font-size: 15px; line-height: 1.45; font-weight: 600; color: #1b1f22; }
 
-/* a „Meghatározó épületek / építészek" fejlécek alatt a tételek egy szinttel beljebb */
+/* under the "Defining buildings / architects" headers the items are indented one level */
 .arch-kor li:not(.arch-haz-fej) { margin-left: 14px; }
 .arch-kor li.arch-haz-fej { margin-left: 8px; }
 
-/* képgaléria a kártyában (mint az amszterdami projektben) */
+/* image gallery in the card (as in the Amsterdam project) */
 .kartya section.kep.galeria { padding: 0; }
 .kartya .gal-kep { position: relative; background: #f0f2f3; }
 .kartya section.kep.galeria .gal-kep img { display: block; width: 100%; height: auto; max-height: 340px; min-height: 120px; object-fit: contain; margin: 0 auto; user-select: none; -webkit-user-drag: none; touch-action: pan-y; }
@@ -319,30 +319,30 @@ button { font: inherit; color: inherit; }
 .kartya .gal-chipek button:hover { background: #f0f2f3; }
 .kartya .gal-chipek button.aktiv { background: #000; border-color: #000; color: #fff; }
 
-/* kép-sorok szerkesztője */
+/* editor of image rows */
 .kepsor { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--rule, #e3e6e8); }
 .szerk-urlap .kepsor input { display: block; width: auto; margin: 0; }
 .szerk-urlap .kepsor .ks-ev { width: 52px; } .szerk-urlap .kepsor .ks-fo { flex: 1 1 140px; min-width: 0; } .szerk-urlap .kepsor .ks-ln { flex: 1 1 100%; }
 .kepsor button { cursor: pointer; }
 .kepsor button[hidden] { display: none; }
 
-/* hatfüles panel: alapból csak az aktív fül mutat szöveget, a többi ikon; egér alatt az ikon szövegre cserélődik */
+/* six-tab panel: by default only the active tab shows text, the others show an icon; under the mouse the icon turns into text */
 .nez button { display: flex; align-items: center; justify-content: center; gap: 6px; flex: 0 0 34px; min-width: 0; padding: 5px 0; overflow: hidden; }
 .nez button .ik { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .nez button .tx { display: none; white-space: nowrap; }
 .nez button[aria-pressed="true"], .nez button:hover, .nez button:focus-visible { flex: 1 1 auto; padding-left: 10px; padding-right: 10px; }
 .nez button[aria-pressed="true"] .tx, .nez button:hover .tx, .nez button:focus-visible .tx { display: inline; }
-/* az ikon mindig látszik; a felirat mellette jelenik meg */
-/* amíg az egér a fülsor fölött van, csak az alatta lévő fül mutat szöveget (az aktív fül ikonná zsugorodik, de fekete marad) */
+/* the icon is always visible; the label appears next to it */
+/* while the mouse is over the tab row, only the tab under it shows text (the active tab shrinks to an icon, but stays black) */
 .nez:has(button:hover) button[aria-pressed="true"]:not(:hover) { flex: 0 0 34px; padding-left: 0; padding-right: 0; }
 .nez:has(button:hover) button[aria-pressed="true"]:not(:hover) .tx { display: none; }
 
 .nez button:hover:not([aria-pressed="true"]) { background: #eef0f1; }
-/* a rétegfülek tartalma: a jelölőnégyzet rejtett, a fül maga választja ki a réteget */
+/* content of the layer tabs: the checkbox is hidden, the tab itself selects the layer */
 .reteg-nez > label > input[type="checkbox"] { display: none; }
 .reteg-nez > label { cursor: default; font-weight: 600; }
 .reteg-nez .reteg-info { margin-left: 0; }
-/* Védett fül: kereső + szűrők + találati lista */
+/* Protected tab: search + filters + result list */
 .ved-kereso { margin-top: 4px; }
 .ved-szuro { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin: 4px 0; font-size: 12.5px; }
 .ved-szuro .ved-cb { display: flex; gap: 5px; margin: 0; align-items: center; cursor: pointer; }
@@ -352,47 +352,47 @@ button { font: inherit; color: inherit; }
 .ved-lista button:hover, .ved-lista button:focus { background: #eef1f2; }
 .ved-lista small { color: #5d6266; display: block; }
 .ved-lista .nincs, .ved-lista .tobb { display: block; padding: 6px 10px; color: #5d6266; font-size: 12px; }
-/* Magasság fül: apró betűs adatforrás-leírás */
+/* Height tab: small-print data-source description */
 .mag-forras { margin-top: 8px; font-size: 11.5px; line-height: 1.45; color: #5d6266; }
 .mag-forras b { color: #3b4045; }
 .mag-forras ul { margin: 4px 0 0; padding-left: 16px; }
 .mag-forras li { margin: 2px 0; }
-/* Lakótelepek fül: lista */
+/* Housing estates tab: list */
 .ved-lista button.aktiv { background: #000; color: #fff; }
 .ved-lista button.aktiv small { color: #cfd3d6; }
-/* Védett és Lakótelepek fül: ugyanúgy kitölti a panelt, mint az Építészek (rögzített kereső, görgethető lista) */
+/* Protected and Housing estates tabs: they fill the panel the same way as Architects (fixed search, scrollable list) */
 .panel-test:has(#nez-vedett:not([hidden])), .panel-test:has(#nez-lakotelep:not([hidden])) { display: flex; flex-direction: column; overflow: hidden; }
 #nez-vedett:not([hidden]), #nez-lakotelep:not([hidden]) { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
 #nez-vedett .ved-kereso, #nez-lakotelep .ved-kereso { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
 #nez-vedett .ved-kereso > *, #nez-lakotelep .ved-kereso > * { flex: none; }
 #nez-vedett .ved-kereso > .ved-lista, #nez-lakotelep .ved-kereso > .ved-lista { flex: 1 1 auto; }
-/* Védett / Lakótelepek: a panel fix magasságú (mint az Építészeknél), így a mellette nyíló adatlap-popup sem zsugorodik a rövid találati listához */
+/* Protected / Housing estates: the panel has a fixed height (as with Architects), so the data-sheet popup opening beside it does not shrink for a short result list either */
 .panel:has(#nez-vedett:not([hidden])), .panel:has(#nez-lakotelep:not([hidden])) { height: calc(100vh - var(--gutter) - 140px - 150px); }
 .modal-doboz h3 { margin: 22px 0 6px; font-size: 16px; font-weight: 800; }
 .modal-doboz ul { margin: 0 0 12px; padding-left: 20px; }
 .modal-doboz li { margin: 0 0 4px; }
 .modal-doboz a { color: inherit; }
-/* fülek: az ikon marad, az aktív / egér alatti fülön mellette a felirat (kisebb betű és keskenyebb zárt fül, hogy a leghosszabb felirat is elférjen) */
+/* tabs: the icon stays, on the active / hovered tab the label is beside it (smaller type and a narrower closed tab, so that even the longest label fits) */
 .nez button { flex: 0 0 28px; }
 .nez button .tx { font-size: 12px; }
 .nez button[aria-pressed="true"], .nez button:hover, .nez button:focus-visible { flex: 1 1 auto; padding-left: 8px; padding-right: 10px; }
 .nez:has(button:hover) button[aria-pressed="true"]:not(:hover) { flex: 0 0 28px; padding-left: 0; padding-right: 0; }
 
-/* Utak (térkép ikon) és Névjegy (i ikon): asztali és mobil nézetben is ikon */
+/* Streets (map icon) and About (i icon): an icon in both desktop and mobile view */
 .utak-gomb { width: 36px; height: 36px; padding: 0; font-size: 0; background: #fff center / 20px 20px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='1.9' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z'/%3E%3Cpath d='M9 4v14M15 6v14'/%3E%3C/svg%3E"); }
 .utak-gomb[aria-pressed="true"] { background: #000 center / 20px 20px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z'/%3E%3Cpath d='M9 4v14M15 6v14'/%3E%3C/svg%3E"); }
 #about-gomb { font-size: 0 !important; width: 30px; padding: 0 !important;
   background: center / 16px 16px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 11v6'/%3E%3Ccircle cx='12' cy='7.5' r='.6' fill='%23000'/%3E%3C/svg%3E"); }
 
-/* ===== Mobil (<=700px): egysoros felső sáv, kisebb logó/évszám, összecsukott kereső, Rétegek gomb + lenyíló főpanel ===== */
+/* ===== Mobile (<=700px): single-row top bar, smaller logo/year, collapsed search, Layers button + drop-down main panel ===== */
 .reteg-gomb { display: none; }
 @media (max-width: 700px) {
-  :root { --sor: calc(var(--gutter) + 46px); }   /* a felső gombsor magassága a képernyőn */
+  :root { --sor: calc(var(--gutter) + 46px); }   /* the height of the top button row on the screen */
   .brand { width: 128px; }
   .tally-year img { height: 24px; margin-bottom: 3px; }
   .tally-year { font-size: 28px; }
   .tally-count { font-size: 11px; }
-  /* felső gombsor: keresés, Rétegek, Utak (térkép ikon) balra; i + nyelv jobbra; mind 36 px magas, egy vonalban */
+  /* top button row: search, Layers, Streets (map icon) on the left; i + language on the right; all 36 px tall, on one line */
   .tally .kereso { top: var(--sor); left: var(--gutter); right: auto; width: auto; max-width: calc(100vw - 2 * var(--gutter)); z-index: 12; }
   .kereso-sor { gap: 8px; height: 36px; }
   .tally .kereso:not(.nyitva) .kereso-sav { width: 36px; height: 36px; padding: 0; justify-content: center; cursor: pointer; flex: none; }
@@ -402,19 +402,19 @@ button { font: inherit; color: inherit; }
   .tally .kereso.nyitva .utak-gomb, .tally .kereso.nyitva .reteg-gomb { display: none; }
   .tally:has(.kereso.nyitva) .pill { visibility: hidden; }
   .tally .kereso.nyitva .kereso-sav { padding: 0 14px; height: 36px; box-shadow: 0 0 0 2px #000; }
-  .tally .kereso .kereso-sav input { font-size: 16px; }   /* 16 px: az iPhone ne nagyítson rá fókuszkor */
+  .tally .kereso .kereso-sav input { font-size: 16px; }   /* 16 px: so that the iPhone does not zoom in on focus */
   .reteg-gomb { display: inline-flex; align-items: center; gap: 6px; height: 36px; flex: none; cursor: pointer; border: 0; background: #fff; box-shadow: 0 0 0 1px var(--rule); border-radius: 999px; padding: 0 12px; font-weight: 600; font-size: 13px; color: #333; }
   .reteg-gomb svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   .reteg-gomb[aria-pressed="true"] { background: #000; color: #fff; }
   .tally .pill { position: fixed; top: var(--sor); right: var(--gutter); margin: 0; height: 36px; align-items: stretch; }
   .tally .pill button { padding: 0 9px; font-size: 11px; line-height: 30px; }
-  /* főpanel: kezdetben rejtve; a Rétegek gomb nyitja, teljes szélességben (mint az épület-popup) */
-  :root { --pmax: calc(100vh - var(--sor) - 44px - 160px); }   /* a főpanel/adatlap max. magassága: alul kb. 160 px marad a léptetőnek és az idősávnak */
+  /* main panel: hidden at first; the Layers button opens it, at full width (like the building popup) */
+  :root { --pmax: calc(100vh - var(--sor) - 44px - 160px); }   /* the max. height of the main panel/data sheet: about 160 px remains at the bottom for the stepper and the timeline */
   @supports (height: 100dvh) { :root { --pmax: calc(100dvh - var(--sor) - 44px - 160px); } }
   .panel { left: var(--gutter); right: var(--gutter); width: auto; top: calc(var(--sor) + 44px); max-height: var(--pmax); font-size: 13px; }
   .panel:not(.mobil-nyitva) { display: none; }
   .panel:has(#nez-vedett:not([hidden])), .panel:has(#nez-lakotelep:not([hidden])) { height: var(--pmax); }
-  /* kevesebb hely a magyarázatokra és szűrőkre, hogy a lista több sort mutasson */
+  /* less room for the explanations and filters, so that the list shows more rows */
   #nez-vedett .reteg-info, #nez-lakotelep .reteg-info { display: none !important; }
   .panel { padding: 10px 12px; }
   .nez { margin-bottom: 8px; }
@@ -423,11 +423,11 @@ button { font: inherit; color: inherit; }
   #nez-epitesz .ep-dijak label { flex: none; white-space: nowrap; padding: 4px 10px; font-size: 11.5px; }
   #nez-epitesz .ep-db { margin-top: 6px; }
   #nez-epitesz .ep-fej { padding-bottom: 6px; }
-  /* adatlap (Wikipédia-cikk): ugyanoda nyílik, ahol a főpanel; amíg látszik, a főpanel eltűnik */
+  /* data sheet (Wikipedia article): opens in the same place as the main panel; while it is visible, the main panel disappears */
   .arch-popup { left: var(--gutter); right: var(--gutter); width: auto; top: calc(var(--sor) + 44px); bottom: auto; max-height: var(--pmax); }
   body:has(#arch-popup:not([hidden])) .panel { display: none; }
-  /* építész-léptető (legördülő házlista): az alsó harmadban, teljes szélességben, az adatlap felett */
-  /* épületkártya: ugyanott és akkora területen, mint a főpanel; az alja a léptető felett marad (a JS inline helyét felülírjuk) */
+  /* architect stepper (drop-down building list): in the bottom third, at full width, above the data sheet */
+  /* building card: in the same place and area as the main panel; its bottom stays above the stepper (we override the JS inline position) */
   .kartya.rogzitett { left: var(--gutter) !important; right: var(--gutter) !important; width: auto !important; max-width: none; top: calc(var(--sor) + 44px) !important; max-height: var(--pmax) !important; }
   .arch-lep { left: var(--gutter); right: var(--gutter); bottom: 92px; transform: none; max-width: none; z-index: 11; }
   .arch-lep select { flex: 1 1 0; width: 0; min-width: 0; }

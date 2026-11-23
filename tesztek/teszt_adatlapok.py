@@ -1,6 +1,6 @@
-"""A meghatározó épületek adatlapjainak és az építészeti stílusok adatának ellenőrzése.
-Futtatás: py tesztek/teszt_adatlapok.py
-Megfogja az eddigi hibákat: hiányzó 'forrasok'/'kepek' tömb (ettől nem jött elő a popup), törött kulcsok, hiányzó képfájl."""
+"""Checking the data sheets of the defining buildings and the data of the architectural styles.
+Run: py tesztek/teszt_adatlapok.py
+It catches the errors so far: a missing 'forrasok'/'kepek' array (the popup did not appear because of it), broken keys, a missing image file."""
 import json
 import re
 from kozos_teszt import GYOKER, ellenoriz, figyelmeztet, hiba, vege
@@ -33,14 +33,14 @@ def main():
         if len(v.get("szoveg", "")) < 80:
             figyelmeztet(f"{k}: nagyon rövid leírás ({len(v.get('szoveg', ''))} karakter)")
 
-    # a stílusok házlistái
+    # the building lists of the styles
     for stilus, hazak in d.get("stilusok", {}).items():
         for h in hazak:
             if h.get("azon") not in a:
                 hiba(f"stílus '{stilus}': a(z) '{h.get('nev')}' ({h.get('azon')}) házhoz nincs adatlap")
             ellenoriz(KULCS.match(str(h.get("azon", ""))), f"stílus '{stilus}': hibás azonosító: {h.get('azon')}")
 
-    # építészeti stílusok
+    # architectural styles
     e = json.loads(EPITESZ.read_text(encoding="utf-8"))
     nevek = set()
     for s in e:

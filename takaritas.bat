@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-rem Takaritas (atvilagitas, e) szakasz). A projekt mappajaban futtasd: dupla kattintas vagy  takaritas.bat
-rem Csak a jovahagyott A, B, C pontok fajljait torli, majd (E) a Gitbol kiveszi a generalt / nagy fajlokat
-rem a gepedrol valo torles nelkul. NEM commitol es NEM pushol.
+rem Cleanup (review, section e). Run it in the project folder: double-click or  takaritas.bat
+rem It deletes only the files of the approved points A, B, C, then (E) removes the generated / large files from Git
+rem without deleting them from your computer. It does NOT commit and does NOT push.
 echo Ez a szkript torli az atvilagitasban jovahagyott felesleges fajlokat.
 echo Megszakitas: Ctrl+C.   Folytatas:
 pause

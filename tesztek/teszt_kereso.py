@@ -1,7 +1,7 @@
-"""A kereső ellenőrzése a valódi adaton (node kell hozzá). Futtatás: py tesztek/teszt_kereso.py
-A hiba, amit megfog: egy több körvonalból álló OSM-elem (relation, pl. 'Home Center' 4 körvonallal) a név szerinti
-keresés találatai között többször szerepelt. A teszt kiemeli az app.js keresoEpit() függvényét, lefuttatja a
-terkep3d/data_varos/epuletek.json-on, és megszámolja az ismétlődő OSM-azonosítókat."""
+"""Checking the search on the real data (node is needed for it). Run: py tesztek/teszt_kereso.py
+The error it catches: an OSM element made of several outlines (a relation, e.g. 'Home Center' with 4 outlines) appeared several times
+among the hits of the search by name. The test extracts the keresoEpit() function of app.js, runs it on
+terkep3d/data_varos/epuletek.json, and counts the repeated OSM identifiers."""
 import json
 import shutil
 import subprocess

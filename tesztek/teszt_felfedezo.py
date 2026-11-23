@@ -1,6 +1,6 @@
-"""A szöveges oldalak (explore/, e/, sitemap.xml) generátorának ellenőrzése.   Futtatás: py tesztek/teszt_felfedezo.py
-Megfogja: szkript-beszúrás a nevekből, rossz épületek kiválasztása (épületrész, név nélküli, telepről örökölt Wikipédia),
-hiányzó oldalak a sitemapben, 'None'/'undefined' szöveg az oldalakon, és hogy a valódi adaton a fájlszám a Cloudflare-korlát (20 000) alatt marad."""
+"""Checking the generator of the text pages (explore/, e/, sitemap.xml).   Run: py tesztek/teszt_felfedezo.py
+It catches: script injection from the names, selection of wrong buildings (building part, nameless, Wikipedia inherited from an estate),
+missing pages in the sitemap, 'None'/'undefined' text on the pages, and that on the real data the file count stays under the Cloudflare limit (20,000)."""
 import json
 import re
 import sys
@@ -27,11 +27,11 @@ def main():
         ep(2, nev='<script>alert(1)</script> & "idézet"', cim="Kis utca 2", ev=1850, tervezo="Alpár Ignác"),
         ep(3, cim="Nagy utca 3", tervezo="Alpár Ignác", oeny_azonosito="123|abc"),
         ep(4, cim="Nagy utca 4", tervezo="Alpár Ignác és Másik Mester"),
-        ep(5, cim="Név nélkül", ev=1900, resz=1),                       # épületrész: nem kap oldalt
-        ep(6, ev=1900),                                                  # se név, se cím: nem kap oldalt
-        ep(7, nev="Csak telepi wiki", cim="X utca 7", wikipedia="hu:Valami", wikipedia_zona=True),   # nincs saját adat: nem kap oldalt
+        ep(5, cim="Név nélkül", ev=1900, resz=1),                       # building part: gets no page
+        ep(6, ev=1900),                                                  # neither name nor address: gets no page
+        ep(7, nev="Csak telepi wiki", cim="X utca 7", wikipedia="hu:Valami", wikipedia_zona=True),   # no own data: gets no page
         ep(8, nev="Saját wiki", cim="Y utca 8", wikipedia="hu:Saját cikk|hu:Másik"),
-        ep(9, nev="Közönséges ház", cim="Z utca 9"),                     # nincs plusz adat: nem kap oldalt
+        ep(9, nev="Közönséges ház", cim="Z utca 9"),                     # no extra data: gets no page
     ]
     with tempfile.TemporaryDirectory() as t:
         ki = Path(t)
@@ -56,7 +56,7 @@ def main():
         ellenoriz(sm.count("<loc>") == r["oldal"], "a sitemap.xml sorainak száma nem egyezik az oldalak számával")
         ellenoriz(len(list(ki.rglob("index.html"))) == r["oldal"] - 1, "az index.html fájlok száma nem egyezik az oldalak számával (a térkép kezdőlapja a kiadás része, nem ez generálja)")
         ellenoriz("Sitemap:" in (ki / "robots.txt").read_text(encoding="utf-8"), "a robots.txt-ből hiányzik a Sitemap sor")
-    # valódi adat: a fájlszám a Cloudflare-korlát alatt marad
+    # real data: the file count stays under the Cloudflare limit
     valodi = GYOKER / "terkep3d" / "data_varos" / "epuletek.json"
     if valodi.exists():
         db = sum(1 for p in json.loads(valodi.read_text(encoding="utf-8")) if F.kell_oldal(p))

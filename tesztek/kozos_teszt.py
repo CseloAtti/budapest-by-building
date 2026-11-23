@@ -1,8 +1,8 @@
-"""Közös segédek az ellenőrző tesztekhez (csak a Python alap könyvtárát használja)."""
+"""Shared helpers for the checking tests (it uses only Python's standard library)."""
 import sys
 from pathlib import Path
 
-GYOKER = Path(__file__).resolve().parent.parent       # a projekt mappája
+GYOKER = Path(__file__).resolve().parent.parent       # the project folder
 HIBAK = []
 FIGYELMEZTETESEK = []
 

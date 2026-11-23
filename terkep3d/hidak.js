@@ -1,11 +1,11 @@
-// Duna-hidak vázlatos 3D-modellje (a hidak_keszites.py által írt hidak.json alapján).
-// Egy híd = egy Mesh (pályatestek, pillérek, pilonok csúcsonkénti színnel) + egy LineSegments (kábelek, ív, függesztők, rácsos tartó).
-// A Mesh két anyagot kap: rajzolót és kijelölőt (GPU-s azonosító-kép, mint az épületeknél), így a híd az épületekkel együtt, mélység szerint
-// választható ki és ugyanazt a kártyát kapja.
+// Schematic 3D model of the Danube bridges (based on hidak.json written by hidak_keszites.py).
+// One bridge = one Mesh (decks, piers, pylons with per-vertex colour) + one LineSegments (cables, arch, hangers, truss).
+// The Mesh gets two materials: a drawing one and a picking one (a GPU identifier image, as for the buildings), so the bridge can be selected together with the buildings, by depth,
+// and gets the same card.
 
 export const SZINEK = { ut: [0.55, 0.55, 0.53], sin: [0.43, 0.41, 0.39], gy: [0.72, 0.70, 0.65], szerkezet: [0.80, 0.77, 0.70], kabel: 0x4a4744 };
 
-// ---------- tiszta geometria (tömbök; THREE nélkül tesztelhető) ----------
+// ---------- pure geometry (arrays; testable without THREE) ----------
 export function szalag(pontok, szel, vastag, szin) {
   const n = pontok.length, pos = [], col = [], idx = [];
   for (let i = 0; i < n; i++) {
@@ -21,7 +21,7 @@ export function szalag(pontok, szel, vastag, szin) {
   }
   for (let i = 0; i < n - 1; i++) {
     const a = i * 4, b = a + 4;
-    idx.push(a, a + 1, b + 1,  a, b + 1, b,            // felül
+    idx.push(a, a + 1, b + 1,  a, b + 1, b,            // top
              a + 2, b + 3, a + 3,  a + 2, b + 2, b + 3, // alul
              a, b, b + 2,  a, b + 2, a + 2,            // bal oldal
              a + 1, b + 3, b + 1,  a + 1, a + 3, b + 3); // jobb oldal
@@ -29,7 +29,7 @@ export function szalag(pontok, szel, vastag, szin) {
   return { pos, col, idx };
 }
 
-// Forgatott doboz: középpont (x, z), forgás r (a híd iránya), hossz d az irány mentén, szélesség w oldalirányban, y0..y1, oldalirányú eltolás o.
+// Rotated box: centre (x, z), rotation r (the bridge's direction), length d along the direction, width w sideways, y0..y1, sideways offset o.
 export function doboz(x, z, r, d, w, y0, y1, o, szin) {
   const c = Math.cos(r), s = Math.sin(r), pos = [], col = [], idx = [];
   for (const dy of [y0, y1]) for (const [u, v] of [[-d / 2, -w / 2], [d / 2, -w / 2], [d / 2, w / 2], [-d / 2, w / 2]]) {
@@ -52,7 +52,7 @@ export function egyesit(reszek) {
   return { pos, col, idx };
 }
 
-// A híd szilárd részei: pályák, pillérek, pilonok.
+// The solid parts of the bridge: decks, piers, pylons.
 export function hidTest(h, szin) {
   const reszek = [];
   for (const v of h.vonalak) if (v.p.length >= 2) reszek.push(szalag(v.p, v.sz, 2.4, szin));
@@ -65,19 +65,19 @@ export function hidTest(h, szin) {
   return egyesit(reszek);
 }
 
-// Az útpálya feletti elemeket (pilonok, tornyok, kábelek, rácsos tartó) nem rajzoljuk ezeknél a hidaknál (a felhasználó kérésére); csak a pálya és a pillérek látszanak.
-// A lista a híd OSM-azonosítóit tartalmazza, ezért a hidak_keszites.py újrafuttatása után is érvényes marad.
+// For these bridges we do not draw the elements above the roadway (pylons, towers, cables, truss) (at the user's request); only the deck and the piers are visible.
+// The list contains the bridge's OSM identifiers, so it stays valid after hidak_keszites.py is rerun.
 const FELSO_ELREJT = new Set([954850609, 59718711, 106787454, 40726035, 737289237]);
 function felsoNelkul(h) { return (h.osm || []).some(o => FELSO_ELREJT.has(o && o.id)); }
 
-// A vékony vonalak (kábelek, ív, függesztők, rácsos tartó) szakaszpárokként.
+// The thin lines (cables, arch, hangers, truss) as segment pairs.
 export function hidVonalak(h) {
   const pos = [];
   if (!felsoNelkul(h)) for (const k of h.kabelek) for (let i = 0; i < k.length - 1; i++) pos.push(...k[i], ...k[i + 1]);
   return pos;
 }
 
-// ---------- anyagok és a jelenet ----------
+// ---------- materials and the scene ----------
 const VERT = /* glsl */`
   in vec3 color;
   out vec3 vColor;
@@ -114,14 +114,14 @@ const FRAG = /* glsl */`
   }
 `;
 
-// THREE: a három.js névtér; ködUniformok: { uFogColor, uFog } az app.js-ből; elsoGid: a hidakhoz rendelt első kijelölő-azonosító.
+// THREE: the three.js namespace; fogUniforms (ködUniformok): { uFogColor, uFog } from app.js; elsoGid: the first picking identifier assigned to the bridges.
 export function hidakEpit(THREE, adat, koduniformok, elsoGid, szinFn) {
   const csoport = new THREE.Group();
   const meshek = [];
   const vonalak = [];
   adat.hidak.forEach((h, i) => {
     const gid = elsoGid + i, id = gid + 1;
-    const szin = szinFn ? szinFn(h) : SZINEK.szerkezet;   // az építési idő korszakának színe: az egész híd egy tömb, egy szín
+    const szin = szinFn ? szinFn(h) : SZINEK.szerkezet;   // the colour of the era of construction: the whole bridge is one block, one colour
     const test = hidTest(h, szin);
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(test.pos), 3));
@@ -131,7 +131,7 @@ export function hidakEpit(THREE, adat, koduniformok, elsoGid, szinFn) {
       glslVersion: THREE.GLSL3, vertexShader: VERT_ANIM, fragmentShader: FRAG, side: THREE.DoubleSide,
       defines: pick ? { PICK: 1 } : {},
       uniforms: { uFogColor: koduniformok.uFogColor, uFog: koduniformok.uFog, uMaq: koduniformok.uMaquette || { value: new THREE.Color(0.8, 0.8, 0.8) }, uGrey: { value: 0 },
-                  // ugyanaz a belépő animáció, mint az épületeké: az építés évében emelkedik ki a lejátszáskor, betöltéskor beesik
+                  // the same entry animation as for the buildings: it rises in the year of construction on playback, drops in on load
                   uYear: koduniformok.uYear, uNow: koduniformok.uNow, uPlaying: koduniformok.uPlaying, uRise: koduniformok.uRise,
                   uBorn: koduniformok.uBorn, uEv: { value: h.ev || 0 }, uSeedGid: { value: gid },
                   uId: { value: new THREE.Vector3((id % 256) / 255, (Math.floor(id / 256) % 256) / 255, Math.floor(id / 65536) / 255) } },
@@ -155,7 +155,7 @@ export function hidakEpit(THREE, adat, koduniformok, elsoGid, szinFn) {
   return { csoport, meshek, vonalak };
 }
 
-// A hidakból "épület-szerű" adatlap-rekord a meglévő kártyához.
+// A "building-like" data-sheet record from the bridges, for the existing card.
 export function hidRekord(h, korszakIndex) {
   const r = {
     hid: true, nev: h.nev, tipus: 'híd' + (h.szerkezet ? ` (${{ fuggo: 'függőhíd', kabeles: 'kábeles híd', iv: 'ívhíd', racsos: 'rácsos tartós híd', gerenda: 'gerendahíd' }[h.szerkezet] || h.szerkezet})` : ''),
@@ -168,7 +168,7 @@ export function hidRekord(h, korszakIndex) {
 }
 
 
-// A körlap csúcspontárnyalója: ugyanaz a megjelenés/belépő animáció, mint a csempék épületeié (év szerinti felemelkedés, betöltéskor beesés); a méretek méterben.
+// The vertex shader of the disc: the same look/entry animation as for the buildings of the tiles (rising by year, dropping in on load); the sizes are in metres.
 const VERT_ANIM = /* glsl */`
   in vec3 color;
   out vec3 vColor;
@@ -195,12 +195,12 @@ const VERT_ANIM = /* glsl */`
     gl_Position = projectionMatrix * viewMatrix * w;
   }
 `;
-// Vékony, függőleges körlap (pl. az óriáskerék): közép (x, z), a lap síkjának vízszintes iránya (ix, iz egységvektor), sugár R, a közép magassága cy, vastagság T.
-// Ugyanazt a két anyagot kapja, mint a hidak (rajzoló + kijelölő), a kijelölő-azonosító a megadott gid.
+// A thin, vertical disc (e.g. the Ferris wheel): centre (x, z), the horizontal direction of the disc's plane (ix, iz unit vector), radius R, centre height cy, thickness T.
+// It gets the same two materials as the bridges (drawing + picking), the picking identifier is the given gid.
 export function korlapEpit(THREE, koduniformok, gid, szin, x, z, ix, iz, R, cy, T, ev, born) {
   const N = 72, nx = -iz, nz = ix, pos = [], col = [], idx = [];
   const pont = (a, o) => [x + Math.cos(a) * R * ix + o * nx, cy + Math.sin(a) * R, z + Math.cos(a) * R * iz + o * nz];
-  // 0: első közép, 1: hátsó közép, majd a két gyűrű
+  // 0: front centre, 1: rear centre, then the two rings
   pos.push(...[x + (T / 2) * nx, cy, z + (T / 2) * nz], ...[x - (T / 2) * nx, cy, z - (T / 2) * nz]);
   for (let i = 0; i < N; i++) { const a = (i / N) * Math.PI * 2; pos.push(...pont(a, T / 2)); }
   for (let i = 0; i < N; i++) { const a = (i / N) * Math.PI * 2; pos.push(...pont(a, -T / 2)); }
