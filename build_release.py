@@ -131,6 +131,8 @@ def main():
     for p in data_be.iterdir():
         if not p.is_file() or p.name == "epuletek.json":
             continue
+        if p.name == "landcover.png" and (data_be / "landcover.webp").exists():
+            continue  # the viewer loads the smaller landcover.webp
         if p.suffix == ".bin":
             before, after = gzip_write(p, data_out / p.name)
             print(f"  {p.name}: {before / 1e6:.1f} MB -> gzip {after / 1e6:.1f} MB")

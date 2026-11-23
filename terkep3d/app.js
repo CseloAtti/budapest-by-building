@@ -274,7 +274,7 @@ async function buildTerrain() {
   terepMesh = mesh;
   kerekMagassag();
   if (config.terep && config.terep.kep) {
-    new THREE.TextureLoader().load(`${DATA}/landcover.png`, tex => {
+    const coverLoaded = tex => {
       tex.flipY = false;
       tex.colorSpace = THREE.NoColorSpace;
       tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -282,7 +282,10 @@ async function buildTerrain() {
       tex.anisotropy = 4;
       terrainUniforms.uCover.value = tex;
       terrainUniforms.uHasCover.value = 1;
-    });
+    };
+    // the smaller lossless WebP first; the PNG is the fallback if the WebP does not exist
+    new THREE.TextureLoader().load(`${DATA}/landcover.webp`, coverLoaded, undefined,
+      () => new THREE.TextureLoader().load(`${DATA}/landcover.png`, coverLoaded));
   }
 }
 buildTerrain().catch(() => {

@@ -16,7 +16,7 @@ Output:   terkep3d/data/budapest.json    - settings, tile index, year histogram
           terkep3d/data/tiles.bin        - the buildings in 600 m binary tiles
           terkep3d/data/epuletek.json    - the buildings' data for the card (the index = the building's id)
           terkep3d/data/terrain.bin      - terrain mesh (if there is an SRTM tile)
-          terkep3d/data/landcover.png    - water and parks as an image onto the terrain (if there is a viz_zold.json)
+          terkep3d/data/landcover.png    - water and parks as an image onto the terrain (+ landcover.webp, if Pillow is installed) (if there is a viz_zold.json)
 
 The tile format comes from the Amsterdam project (alexbarakov/amsterdam-by-building, MIT licence);
 the tile builder here is a rewritten, Budapest version.
@@ -465,6 +465,12 @@ class Terrain_:
                 row_[1::3] = self.water[r]
                 rows.append(row_)
             png_write(output / "landcover.png", self.kep_w, self.kep_h, rows)
+            try:  # optional: a lossless WebP is ~40% smaller; needs Pillow (pip install pillow), the PNG is the fallback
+                from PIL import Image
+                Image.MAX_IMAGE_PIXELS = None
+                Image.open(output / "landcover.png").save(output / "landcover.webp", lossless=True, method=6, exact=True)
+            except ImportError:
+                print("  (Pillow is not installed: landcover.webp was not made, the PNG is used)")
 
 
 def bridge_axes():
