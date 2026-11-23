@@ -1088,9 +1088,17 @@ function rogzit(gid, x, y) {
   if (!archKiv && adatlapAdat(epuletek[gid]) && !document.getElementById('nez-arch').hidden) hazKiemel(gid);
   else if (hazKiem) hazKiemel(null);
 }
+// The small hover card appears only if the pointer rests on the same building for a moment (not while the mouse just sweeps over the houses),
+// and while a highlight filter is on (e.g. one architect), only over the highlighted buildings.
+let hoverJelolt = -1, hoverIdo = 0;
+const HOVER_KESLELTETES = 350;
 function mutat(gid, x, y) {
-  if (rogzitettGid >= 0 || nincsEger.matches) return;
-  if (gid < 0 || !epuletek[gid]) { kartya.hidden = true; hoverGid = -1; return; }
+  if (rogzitettGid >= 0 || nincsEger.matches) { hoverJelolt = -1; return; }
+  if (gid >= 0 && uniforms.uPickOn.value && !pickData[gid * 4]) gid = -1;
+  if (gid < 0 || !epuletek[gid]) { kartya.hidden = true; hoverGid = -1; hoverJelolt = -1; return; }
+  const most = performance.now();
+  if (gid !== hoverJelolt) { hoverJelolt = gid; hoverIdo = most; kartya.hidden = true; hoverGid = -1; return; }
+  if (most - hoverIdo < HOVER_KESLELTETES) return;
   if (gid !== hoverGid || kartya.hidden) {
     hoverGid = gid;
     kartya.classList.remove('rogzitett');
