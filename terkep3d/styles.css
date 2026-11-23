@@ -432,3 +432,4 @@ button { font: inherit; color: inherit; }
   .arch-lep { left: var(--gutter); right: var(--gutter); bottom: 92px; transform: none; max-width: none; z-index: 11; }
   .arch-lep select { flex: 1 1 0; width: 0; min-width: 0; }
 }
+.kartya > .szerk-urlap { padding: 14px 18px 16px; box-sizing: border-box; }

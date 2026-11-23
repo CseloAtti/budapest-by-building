@@ -1699,7 +1699,8 @@ function lakFrissit() {
 }
 function repuljHelyre(lat, lon, tav) {
   keresoLista.hidden = true;
-  const cel = new THREE.Vector3((lon - LON0) * COSLAT * 111320, 0, -(lat - LAT0) * 110574);
+  const cx = (lon - LON0) * COSLAT * 111320, cz = -(lat - LAT0) * 110574;
+  const cel = new THREE.Vector3(cx, terepMag ? terepMag(cx, cz) : 0, cz);   // the target sits on the terrain, so it also works in the hills
   const irany = camera.position.clone().sub(controls.target);
   irany.setLength(tav);
   if (irany.y < tav * 0.35) irany.y = tav * 0.5;
@@ -2128,7 +2129,7 @@ function repulj(gid, kx, utan) {
   const p = epuletek[gid];
   keresoLista.hidden = true;
   const x = (p.lon - LON0) * COSLAT * 111320, z = -(p.lat - LAT0) * 110574;
-  const cel = new THREE.Vector3(x, 0, z);
+  const cel = new THREE.Vector3(x, terepMag ? terepMag(x, z) : 0, z);   // on the terrain, not at sea level
   const irany = camera.position.clone().sub(controls.target);
   const tav = Math.max(250, Math.min(irany.length(), 450));
   irany.setLength(tav);
@@ -2555,6 +2556,7 @@ function szerkUrlap(gid) {
     } finally { mentes.disabled = false; }
   });
   kartya.replaceChildren(urlap);
+  kartyaHelye(parseFloat(kartya.style.left) - 18, parseFloat(kartya.style.top) - 18);   // the form is taller: keep the card on screen
 }
 
 function szerkAllapot(szoveg, osztaly) {
