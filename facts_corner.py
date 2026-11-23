@@ -23,39 +23,39 @@ import math
 import re
 from pathlib import Path
 
-from common import tenyek_irasa
-from facts_inventory import cim_felbontas
-from century import szoveg_evtartomany
-from facts_oeny import tisztit_utca
+from common import write_facts
+from facts_inventory import address_split
+from century import text_year_range
+from facts_oeny import clean_street
 
-EPULETEK = "data/varos/epuletek.geojson"
-CIMEK = "data/varos/osm_cimek.csv"
-CIMPONTOK = "data/ertekleltar_cimpontok.csv"
-KARTYAK = "data/ertekleltar_kartyak.json"
-NEM_PAROSITOTT = "data/ertekleltar_nem_parositott.csv"
-ATNEVEZES = "forras/utcanev_atnevezesek.csv"
-KIMENET = "data/tenyek/ertekleltar_sarok.csv"
-KOZELITO = "data/varos/ertekleltar_sarok_kozelito.csv"   # data of the '1920-as évek' (1920s) kind (used by the estimator and the card; NOT an exact year)
-JAVASLAT = "data/ertekleltar_sarok_javaslat.csv"
-KEZI_TABLA = "forras/ertekleltar_kezi_parositas.csv"
-KEZI_OSZLOPOK = ["kerulet", "cim", "hrsz", "epites_ideje", "tervezo", "allapot", "javasolt_osm", "jeloltek", "osm_azonosito", "megjegyzes"]
+BUILDINGS = "data/varos/epuletek.geojson"
+ADDRESSES = "data/varos/osm_cimek.csv"
+ADDRESS_POINTS = "data/ertekleltar_cimpontok.csv"
+CARDS = "data/ertekleltar_kartyak.json"
+NOT_PAIRED = "data/ertekleltar_nem_parositott.csv"
+RENAMING = "forras/utcanev_atnevezesek.csv"
+OUTPUT = "data/tenyek/ertekleltar_sarok.csv"
+APPROXIMATE = "data/varos/ertekleltar_sarok_kozelito.csv"   # data of the '1920-as évek' (1920s) kind (used by the estimator and the card; NOT an exact year)
+SUGGESTION = "data/ertekleltar_sarok_javaslat.csv"
+MANUAL_TABLE = "forras/ertekleltar_kezi_parositas.csv"
+MANUAL_COLUMNS = ["kerulet", "cim", "hrsz", "epites_ideje", "tervezo", "allapot", "javasolt_osm", "jeloltek", "osm_azonosito", "megjegyzes"]
 LAT0, LON0 = 47.5, 19.05
 KX = 111320 * math.cos(math.radians(LAT0))
 KY = 110574
 
 
-def geometria():
-    d = json.load(open(EPULETEK, encoding="utf-8"))
+def geometry():
+    d = json.load(open(BUILDINGS, encoding="utf-8"))
     out = []
     for ft in d["features"]:
         pr, g = ft["properties"], ft["geometry"]
         if g["type"] == "Polygon":
-            gyuru = g["coordinates"][0]
+            ring_ = g["coordinates"][0]
         elif g["type"] == "MultiPolygon":
-            gyuru = max((p[0] for p in g["coordinates"]), key=len)
+            ring_ = max((p[0] for p in g["coordinates"]), key=len)
         else:
             continue
-        pts = [((x - LON0) * KX, (y - LAT0) * KY) for x, y in gyuru]
+        pts = [((x - LON0) * KX, (y - LAT0) * KY) for x, y in ring_]
         a = cx = cy = 0.0
         for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
             c = x1 * y2 - x2 * y1
@@ -66,39 +66,39 @@ def geometria():
     return out
 
 
-class Terkep:
-    def __init__(s, geo, cimek_ut, atn):
+class Map:
+    def __init__(s, geo, addresses_path, atn):
         s.b={}      # (tip,id) -> dict
-        s.racs=collections.defaultdict(list)
-        for tip,i,kn,resz,ter,cx,cy,pts in geo:
-            if resz: continue
-            e=(tip,i); s.b[e]=dict(kn=kn,ter=ter,c=(cx,cy),pts=pts,cim=[])
-            if ter>=25: s.racs[(int(cx//60),int(cy//60))].append(e)
-        s.cim=collections.defaultdict(lambda: collections.defaultdict(list))   # (u)->{(kn,szam)->[e]}
-        s.utca=collections.defaultdict(list)  # (u) -> [(kn,szam,e)]
-        with open(cimek_ut,encoding='utf-8-sig',newline='') as f:
+        s.grid=collections.defaultdict(list)
+        for kind,i,kn,part,area_,cx,cy,pts in geo:
+            if part: continue
+            e=(kind,i); s.b[e]=dict(kn=kn,ter=area_,c=(cx,cy),pts=pts,cim=[])
+            if area_>=25: s.grid[(int(cx//60),int(cy//60))].append(e)
+        s.address=collections.defaultdict(lambda: collections.defaultdict(list))   # (u)->{(kn,szam)->[e]}
+        s.street=collections.defaultdict(list)  # (u) -> [(kn,szam,e)]
+        with open(addresses_path,encoding='utf-8-sig',newline='') as f:
             for r in csv.DictReader(f,delimiter=';'):
                 e=(r['osm_tipus'],int(r['id']))
                 if e not in s.b: continue
-                u=tisztit_utca(r['utca']); u=atn.get(u,u)
-                for resz in re.split(r'[;,]',r['hazszam'] or ''):
-                    for m in re.findall(r'\d+',re.sub(r'[A-Za-z]','',resz)) [:2]:
-                        s.utca[u].append((s.b[e]['kn'],int(m),e)); s.b[e]['cim'].append((u,int(m)))
-    def kozel(s,p,R):
+                u=clean_street(r['utca']); u=atn.get(u,u)
+                for part in re.split(r'[;,]',r['hazszam'] or ''):
+                    for m in re.findall(r'\d+',re.sub(r'[A-Za-z]','',part)) [:2]:
+                        s.street[u].append((s.b[e]['kn'],int(m),e)); s.b[e]['cim'].append((u,int(m)))
+    def near(s,p,R):
         cx,cy=p; out=[]
         for gx in range(int((cx-R)//60),int((cx+R)//60)+1):
             for gy in range(int((cy-R)//60),int((cy+R)//60)+1):
-                for e in s.racs.get((gx,gy),()):
-                    d=s.tav(e,p)
+                for e in s.grid.get((gx,gy),()):
+                    d=s.distance(e,p)
                     if d<=R: out.append((d,e))
         return sorted(out)
-    def tav(s,e,p):
+    def distance(s,e,p):
         pts=s.b[e]['pts']; x,y=p
         # inside?
-        bent=False
+        inside=False
         for (x1,y1),(x2,y2) in zip(pts,pts[1:]):
-            if (y1>y)!=(y2>y) and x<(x2-x1)*(y-y1)/(y2-y1)+x1: bent=not bent
-        if bent: return 0.0
+            if (y1>y)!=(y2>y) and x<(x2-x1)*(y-y1)/(y2-y1)+x1: inside=not inside
+        if inside: return 0.0
         m=1e9
         for (x1,y1),(x2,y2) in zip(pts,pts[1:]):
             dx,dy=x2-x1,y2-y1; l=dx*dx+dy*dy
@@ -107,266 +107,266 @@ class Terkep:
         return m
 
 
-    def pontok_betoltese(s, ut):
+    def load_points(s, path_):
         """data/ertekleltar_cimpontok.csv: OSM address points fetched from Overpass (node/way/relation with an addr:* tag), for the streets of the cards."""
-        s.pontok = collections.defaultdict(list)
-        if not Path(ut).exists():
+        s.points = collections.defaultdict(list)
+        if not Path(path_).exists():
             return
-        with open(ut, encoding="utf-8-sig", newline="") as f:
+        with open(path_, encoding="utf-8-sig", newline="") as f:
             for r in csv.DictReader(f, delimiter=";"):
                 m = re.match(r"^\s*(\d+)\s*([A-Za-z]?)(?:\s*[/]?\s*([A-Za-z]))?\s*(?:[-–]\s*(\d+))?", r["hazszam"])
                 if not m:
                     continue
                 a = int(m.group(1)); z = int(m.group(4)) if m.group(4) else a
-                szamok = list(range(a, z + 1, 2)) if 1 < z - a <= 30 else [a, z] if z != a else [a]
+                numbers_ = list(range(a, z + 1, 2)) if 1 < z - a <= 30 else [a, z] if z != a else [a]
                 bet = (m.group(2) or m.group(3) or "").lower()
-                for n in szamok:
-                    s.pontok[(s.alap_utca(tisztit_utca(r["utca"])), n)].append((float(r["lat"]), float(r["lon"]), bet, r["osm_tipus"], int(r["osm_id"])))
+                for n in numbers_:
+                    s.points[(s.base_street(clean_street(r["utca"])), n)].append((float(r["lat"]), float(r["lon"]), bet, r["osm_tipus"], int(r["osm_id"])))
 
     @staticmethod
-    def alap_utca(x):
+    def base_street(x):
         for z in ("utca", "ut", "ter", "koz", "sor", "korut", "setany", "fasor", "lepcso", "park", "rakpart"):
             if x.endswith(z) and len(x) > len(z) + 2:
                 return x[:-len(z)]
         return x
 
-    def cimpont(s, kn, u, hsz):
+    def address_point(s, kn, u, house_no):
         """The OSM address point(s) matching the card's address -> the buildings under them [(dist, e, corner, area)]; only in the same district."""
         if not hasattr(s, "pontok"):
             return []
-        m = re.match(r"(\d+)\s*/?\s*([a-z]?)", hsz)
+        m = re.match(r"(\d+)\s*/?\s*([a-z]?)", house_no)
         if not m:
             return []
         n, bet = int(m.group(1)), m.group(2)
-        talalt = {}
-        for lat, lon, b, tip, oid in s.pontok.get((s.alap_utca(u), n), ()):
+        found = {}
+        for lat, lon, b, kind, oid in s.points.get((s.base_street(u), n), ()):
             if bet and b and b != bet:
                 continue
             p = ((lon - LON0) * KX, (lat - LAT0) * KY)
-            if tip != "node" and (tip, oid) in s.b:
-                d, e = 0.0, (tip, oid)
+            if kind != "node" and (kind, oid) in s.b:
+                d, e = 0.0, (kind, oid)
             else:
-                k = [y for y in s.kozel(p, 10) if s.b[y[1]]["kn"] == kn]
+                k = [y for y in s.near(p, 10) if s.b[y[1]]["kn"] == kn]
                 if not k:
                     continue
                 # the address point is often on the street side, not on the building: the nearest building is needed if it is ≥ 4 m closer than the next one
                 if k[0][0] > 8 or (len(k) > 1 and k[1][0] - k[0][0] < 4 and k[0][0] > 0):
                     for d, e in k[:2]:
-                        if e not in talalt or d < talalt[e]:
-                            talalt[e] = d
+                        if e not in found or d < found[e]:
+                            found[e] = d
                     continue
                 d, e = k[0]
             if s.b[e]["kn"] != kn:
                 continue
-            if e not in talalt or d < talalt[e]:
-                talalt[e] = d
-        return sorted((d, e, any(uu != u for uu, _ in s.b[e]["cim"]), s.b[e]["ter"]) for e, d in talalt.items())
+            if e not in found or d < found[e]:
+                found[e] = d
+        return sorted((d, e, any(uu != u for uu, _ in s.b[e]["cim"]), s.b[e]["ter"]) for e, d in found.items())
 
-    def utca_feloldas(s, u, kn):
+    def street_resolve(s, u, kn):
         """Brings the card's street name to the form in the OSM addresses: utca/út swap, small spelling differences (Herman/Hermann). Returns: (key, remark)."""
-        if any(k == kn for k, _, _ in s.utca.get(u, ())):
+        if any(k == kn for k, _, _ in s.street.get(u, ())):
             return u, ""
         ssz = ("utca", "ut", "ter", "koz", "sor", "korut", "setany", "fasor", "lepcso", "park", "rakpart", "sikatora", "liget")
-        def alap(x):
+        def base(x):
             for z in ssz:
                 if x.endswith(z) and len(x) > len(z) + 2:
                     return x[:-len(z)]
             return x
         if not hasattr(s, "_alap"):
             s._alap = collections.defaultdict(set)
-            for x, l in s.utca.items():
+            for x, l in s.street.items():
                 for k in {k for k, _, _ in l}:
-                    s._alap[(k, alap(x))].add(x)
-        a = alap(u)
+                    s._alap[(k, base(x))].add(x)
+        a = base(u)
         if len(s._alap.get((kn, a), ())) == 1:
             x = next(iter(s._alap[(kn, a)]))
             return x, f"utcanév-alak eltér: {u} -> {x}"
         import difflib
-        kozel = difflib.get_close_matches(a, [b for (k, b) in s._alap if k == kn], n=2, cutoff=0.9)
-        if len(kozel) == 1:
-            x = next(iter(s._alap[(kn, kozel[0])]))
+        near = difflib.get_close_matches(a, [b for (k, b) in s._alap if k == kn], n=2, cutoff=0.9)
+        if len(near) == 1:
+            x = next(iter(s._alap[(kn, near[0])]))
             return x, f"utcanév-alak eltér: {u} -> {x}"
         return None, ""
-    def pozicio(s,kn,u,n,kizar=None):
+    def position(s,kn,u,n,exclude=None):
         """(point, mode) for the sought house number; None if there are not enough neighbours."""
-        lista=[(sz,e) for k,sz,e in s.utca.get(u,()) if (k==kn) and sz%2==n%2 and sz!=n and e!=kizar]
-        if not lista:
-            lista=[(sz,e) for k,sz,e in s.utca.get(u,()) if sz%2==n%2 and sz!=n and e!=kizar and (k==kn)]
-        if not lista: return None
-        szam=collections.defaultdict(list)
-        for sz,e in lista: szam[sz].append(s.b[e]['c'])
-        pt={sz:(sum(c[0] for c in v)/len(v),sum(c[1] for c in v)/len(v)) for sz,v in szam.items()}
-        also=[x for x in pt if x<n]; felso=[x for x in pt if x>n]
-        L=max(also) if also else None; U=min(felso) if felso else None
+        list_=[(sz,e) for k,sz,e in s.street.get(u,()) if (k==kn) and sz%2==n%2 and sz!=n and e!=exclude]
+        if not list_:
+            list_=[(sz,e) for k,sz,e in s.street.get(u,()) if sz%2==n%2 and sz!=n and e!=exclude and (k==kn)]
+        if not list_: return None
+        number=collections.defaultdict(list)
+        for sz,e in list_: number[sz].append(s.b[e]['c'])
+        pt={sz:(sum(c[0] for c in v)/len(v),sum(c[1] for c in v)/len(v)) for sz,v in number.items()}
+        lower_=[x for x in pt if x<n]; upper_=[x for x in pt if x>n]
+        L=max(lower_) if lower_ else None; U=min(upper_) if upper_ else None
         if L is not None and U is not None and U-L<=24:
             t=(n-L)/(U-L); a,b=pt[L],pt[U]
             return (a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])),'interpolált',(L,U)
         # extension from the two neighbouring known numbers
         if L is not None and U is None or (L is None and U is not None) or (L is not None and U is not None):
             if L is not None and (U is None or U-L>24):
-                kozel=sorted(also,reverse=True)[:2]; irany=L
-            else: kozel=sorted(felso)[:2]; irany=U
-            if kozel and abs(irany-n)<=10:
-                a=pt[kozel[0]]
-                if len(kozel)==2:
-                    b=pt[kozel[1]]; k=(n-kozel[0])/(kozel[1]-kozel[0]); 
+                near=sorted(lower_,reverse=True)[:2]; direction=L
+            else: near=sorted(upper_)[:2]; direction=U
+            if near and abs(direction-n)<=10:
+                a=pt[near[0]]
+                if len(near)==2:
+                    b=pt[near[1]]; k=(n-near[0])/(near[1]-near[0]); 
                     k=max(-3,min(3,k))
-                    return (a[0]+k*(b[0]-a[0]),a[1]+k*(b[1]-a[1])),'kiterjesztett',(kozel[0],)
-                return a,'egy szomszéd',(kozel[0],)
+                    return (a[0]+k*(b[0]-a[0]),a[1]+k*(b[1]-a[1])),'kiterjesztett',(near[0],)
+                return a,'egy szomszéd',(near[0],)
         return None
-    def jeloltek(s,kn,u,n,kizar=None,R=30,onmaga=None):
-        r=s.pozicio(kn,u,n,kizar)
+    def candidates(s,kn,u,n,exclude=None,R=30,itself=None):
+        r=s.position(kn,u,n,exclude)
         if not r: return None,'nincs szomszéd',[]
-        p,mod,info=r
+        p,mode,info=r
         c=[]
-        for d,e in s.kozel(p,R):
+        for d,e in s.near(p,R):
             b=s.b[e]
-            if e!=onmaga and any(uu==u for uu,_ in b['cim']): continue      # it already appears on the street with another house number: another house
+            if e!=itself and any(uu==u for uu,_ in b['cim']): continue      # it already appears on the street with another house number: another house
             if b['kn']!=kn and b['kn'] is not None and kn is not None and False: continue
-            sarok = any(uu != u for uu, _ in b['cim'])
-            c.append((d,e,sarok,b['ter']))
-        return p,mod,c
+            corner = any(uu != u for uu, _ in b['cim'])
+            c.append((d,e,corner,b['ter']))
+        return p,mode,c
 
 
 def main():
     atn = {}
     try:
-        with open(ATNEVEZES, encoding="utf-8-sig", newline="") as f:
+        with open(RENAMING, encoding="utf-8-sig", newline="") as f:
             for r in csv.DictReader(f, delimiter=";"):
                 if r.get("regi") and r.get("uj") and "|" not in r["uj"]:
-                    atn[tisztit_utca(r["regi"])] = tisztit_utca(r["uj"])
+                    atn[clean_street(r["regi"])] = clean_street(r["uj"])
     except FileNotFoundError:
         pass
-    T = Terkep(geometria(), CIMEK, atn)
-    T.pontok_betoltese(CIMPONTOK)
-    nem = {(r["kerulet"], r["cim"].strip(), r["hrsz"].strip()) for r in csv.DictReader(open(NEM_PAROSITOTT, encoding="utf-8-sig", newline=""), delimiter=";")}
-    kartyak = [k for k in json.load(open(KARTYAK, encoding="utf-8")) if (str(k["kerulet"]), k["cim"].strip(), (k["hrsz"] or "").strip()) in nem]
-    kesz, javaslat, stat, kozelito = set(), [], collections.Counter(), set()
-    kulcs_k = lambda k: (str(k["kerulet"]), k["cim"].strip(), (k["hrsz"] or "").strip())
+    T = Map(geometry(), ADDRESSES, atn)
+    T.load_points(ADDRESS_POINTS)
+    not_ = {(r["kerulet"], r["cim"].strip(), r["hrsz"].strip()) for r in csv.DictReader(open(NOT_PAIRED, encoding="utf-8-sig", newline=""), delimiter=";")}
+    cards = [k for k in json.load(open(CARDS, encoding="utf-8")) if (str(k["kerulet"]), k["cim"].strip(), (k["hrsz"] or "").strip()) in not_]
+    done, suggestion, stat, approximate = set(), [], collections.Counter(), set()
+    key_k = lambda k: (str(k["kerulet"]), k["cim"].strip(), (k["hrsz"] or "").strip())
 
-    def tenyek(k, e, megj):
+    def facts(k, e, remark):
         if k["ev"]:
-            kesz.add((e[0], e[1], "ev", k["ev"], "ertekleltar", megj))
+            done.add((e[0], e[1], "ev", k["ev"], "ertekleltar", remark))
         elif k.get("korszak"):
-            kozelito.add((e[0], e[1], k["korszak"][0], k["korszak"][1], k["ev_szoveg"], k["forras"]))
+            approximate.add((e[0], e[1], k["korszak"][0], k["korszak"][1], k["ev_szoveg"], k["forras"]))
         else:
-            tart = szoveg_evtartomany(k.get("ev_szoveg"))
-            if tart:
-                kozelito.add((e[0], e[1], tart[0], tart[1], k["ev_szoveg"], k["forras"]))
+            hold = text_year_range(k.get("ev_szoveg"))
+            if hold:
+                approximate.add((e[0], e[1], hold[0], hold[1], k["ev_szoveg"], k["forras"]))
         if k["tervezo"]:
-            kesz.add((e[0], e[1], "tervezo", k["tervezo"], "ertekleltar", megj))
+            done.add((e[0], e[1], "tervezo", k["tervezo"], "ertekleltar", remark))
         if k["stilus"]:
-            kesz.add((e[0], e[1], "stilus", k["stilus"], "ertekleltar", megj))
-        ved = k["vedelem"]
-        if ved and ved not in ("E", "Mk", "Mk / E", "-") and "javasolt" not in ved:
-            kesz.add((e[0], e[1], "vedettseg_helyi", ved, "ertekleltar", megj))
+            done.add((e[0], e[1], "stilus", k["stilus"], "ertekleltar", remark))
+        protect = k["vedelem"]
+        if protect and protect not in ("E", "Mk", "Mk / E", "-") and "javasolt" not in protect:
+            done.add((e[0], e[1], "vedettseg_helyi", protect, "ertekleltar", remark))
 
-    kezi_sorok = []
-    if Path(KEZI_TABLA).exists():
-        with open(KEZI_TABLA, encoding="utf-8-sig", newline="") as f:
-            kezi_sorok = list(csv.DictReader(f, delimiter=";"))
-    kezi_van = {(r["kerulet"], r["cim"].strip(), r["hrsz"].strip()) for r in kezi_sorok}
-    uj_kezi = []
-    for k in kartyak:
+    manual_rows = []
+    if Path(MANUAL_TABLE).exists():
+        with open(MANUAL_TABLE, encoding="utf-8-sig", newline="") as f:
+            manual_rows = list(csv.DictReader(f, delimiter=";"))
+    manual_has = {(r["kerulet"], r["cim"].strip(), r["hrsz"].strip()) for r in manual_rows}
+    new_manual = []
+    for k in cards:
         kn = k["kerulet"]
-        resz = [x for x in re.split(r"\s+[-–=]\s+|;", k["cim"].strip()) if x.strip()]
-        allapot, ered = "nincs házszám / utca", None
-        szamos = False
-        for x in resz:
-            u, hszok = cim_felbontas(x)
-            if not u or len(hszok) != 1 or not re.fullmatch(r"\d+[a-z]?(?:/[a-z0-9]+)?", hszok[0]):
+        part = [x for x in re.split(r"\s+[-–=]\s+|;", k["cim"].strip()) if x.strip()]
+        state, result = "nincs házszám / utca", None
+        numbered = False
+        for x in part:
+            u, house_nos = address_split(x)
+            if not u or len(house_nos) != 1 or not re.fullmatch(r"\d+[a-z]?(?:/[a-z0-9]+)?", house_nos[0]):
                 continue
-            szamos = True
+            numbered = True
             u = atn.get(u, u)
-            n = int(re.match(r"\d+", hszok[0]).group(0))
-            cp = T.cimpont(kn, u, hszok[0])
+            n = int(re.match(r"\d+", house_nos[0]).group(0))
+            cp = T.address_point(kn, u, house_nos[0])
             if cp:
-                ered = (len(cp) == 1, False, "OSM címpont alapján", cp, x)
+                result = (len(cp) == 1, False, "OSM címpont alapján", cp, x)
                 break
-            u2, utcamegj = T.utca_feloldas(u, kn)
+            u2, street_remark = T.street_resolve(u, kn)
             if not u2:
-                allapot = "ismeretlen utca az OSM-címek között"
+                state = "ismeretlen utca az OSM-címek között"
                 continue
             u = u2
-            p, mod, c = T.jeloltek(kn, u, n)
+            p, mode, c = T.candidates(kn, u, n)
             if not c:
-                allapot = f"nincs jelölt ({mod})"
+                state = f"nincs jelölt ({mode})"
                 continue
-            elso = c[0]
-            res = 99 if len(c) == 1 else c[1][0] - elso[0]
-            auto = mod == "interpolált" and ((elso[0] < 5 and res >= 15) or (elso[0] < 1 and res >= 8))
-            valoszinu = False
-            if not auto and mod == "interpolált":
+            first = c[0]
+            res = 99 if len(c) == 1 else c[1][0] - first[0]
+            auto = mode == "interpolált" and ((first[0] < 5 and res >= 15) or (first[0] < 1 and res >= 8))
+            probable = False
+            if not auto and mode == "interpolált":
                 # corner-building rule: the nearest candidate that has an address on another street
-                sarkok = [y for y in c if y[2]]
-                if sarkok and sarkok[0][0] < 5:
-                    tobbi = [y for y in c if y is not sarkok[0]]
-                    r2 = 99 if not tobbi else tobbi[0][0] - sarkok[0][0]
+                corners = [y for y in c if y[2]]
+                if corners and corners[0][0] < 5:
+                    rest = [y for y in c if y is not corners[0]]
+                    r2 = 99 if not rest else rest[0][0] - corners[0][0]
                     if r2 >= 8:
-                        c, auto = [sarkok[0]] + tobbi, True
-                    elif sarkok[0][0] < 4 and r2 >= 4:
-                        c, valoszinu = [sarkok[0]] + tobbi, True
-                elif elso[0] < 4 and res >= 4:
-                    valoszinu = True
-            ered = (auto, valoszinu, mod + (", " + utcamegj if utcamegj else ""), c, x)
+                        c, auto = [corners[0]] + rest, True
+                    elif corners[0][0] < 4 and r2 >= 4:
+                        c, probable = [corners[0]] + rest, True
+                elif first[0] < 4 and res >= 4:
+                    probable = True
+            result = (auto, probable, mode + (", " + street_remark if street_remark else ""), c, x)
             break
-        if not ered:
-            stat[allapot] += 1
-            javaslat.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], allapot, "", "", ""])
-            if szamos and kulcs_k(k) not in kezi_van:
-                uj_kezi.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], allapot, "", "", "", ""])
+        if not result:
+            stat[state] += 1
+            suggestion.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], state, "", "", ""])
+            if numbered and key_k(k) not in manual_has:
+                new_manual.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], state, "", "", "", ""])
             continue
-        auto, valoszinu, mod, c, x = ered
-        jel = " | ".join(f"{e[0]} {e[1]} ({d:.0f} m{', saroképület' if sa else ''})" for d, e, sa, _ in c[:4])
+        auto, probable, mode, c, x = result
+        sign = " | ".join(f"{e[0]} {e[1]} ({d:.0f} m{', saroképület' if sa else ''})" for d, e, sa, _ in c[:4])
         if auto:
             stat["automatikusan párosítva"] += 1
             e = c[0][1]
-            tenyek(k, e, f"{k['forras']} (hiányzó cím '{x.strip()}': {mod} párosítva)" + (f", hrsz {k['hrsz']}" if k["hrsz"] else ""))
-            javaslat.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], "automatikusan párosítva", f"{e[0]} {e[1]}", mod, jel])
+            facts(k, e, f"{k['forras']} (hiányzó cím '{x.strip()}': {mode} párosítva)" + (f", hrsz {k['hrsz']}" if k["hrsz"] else ""))
+            suggestion.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], "automatikusan párosítva", f"{e[0]} {e[1]}", mode, sign])
         else:
-            allapot = "valószínű (kézi megerősítés kell)" if valoszinu else "bizonytalan, jelöltekkel"
-            stat[allapot] += 1
-            javaslat.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], allapot, "", mod, jel])
-            if kulcs_k(k) not in kezi_van:
-                uj_kezi.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], allapot, f"{c[0][1][0]} {c[0][1][1]}" if valoszinu else "", jel, "", ""])
+            state = "valószínű (kézi megerősítés kell)" if probable else "bizonytalan, jelöltekkel"
+            stat[state] += 1
+            suggestion.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], state, "", mode, sign])
+            if key_k(k) not in manual_has:
+                new_manual.append([kn, k["cim"], k["hrsz"], k["ev_szoveg"], k["tervezo"], state, f"{c[0][1][0]} {c[0][1][1]}" if probable else "", sign, "", ""])
     # manual table: new rows to the end; facts based on the filled-in osm_azonosito
-    fej = KEZI_OSZLOPOK
-    if uj_kezi:
-        uj = not Path(KEZI_TABLA).exists()
-        Path(KEZI_TABLA).parent.mkdir(exist_ok=True)
-        with open(KEZI_TABLA, "w" if uj else "a", encoding="utf-8-sig" if uj else "utf-8", newline="") as f:
+    head = MANUAL_COLUMNS
+    if new_manual:
+        new = not Path(MANUAL_TABLE).exists()
+        Path(MANUAL_TABLE).parent.mkdir(exist_ok=True)
+        with open(MANUAL_TABLE, "w" if new else "a", encoding="utf-8-sig" if new else "utf-8", newline="") as f:
             w = csv.writer(f, delimiter=";", lineterminator="\r\n")
-            if uj:
-                w.writerow(fej)
-            w.writerows(uj_kezi)
-        print(f"Kézi tábla: {len(uj_kezi)} új sor -> {KEZI_TABLA}")
-        with open(KEZI_TABLA, encoding="utf-8-sig", newline="") as f:
-            kezi_sorok = list(csv.DictReader(f, delimiter=";"))
-    kartya_kulcs = {kulcs_k(k): k for k in kartyak}
-    kezi_db = 0
-    for r in kezi_sorok:
-        k = kartya_kulcs.get((r["kerulet"], r["cim"].strip(), r["hrsz"].strip()))
+            if new:
+                w.writerow(head)
+            w.writerows(new_manual)
+        print(f"Kézi tábla: {len(new_manual)} új sor -> {MANUAL_TABLE}")
+        with open(MANUAL_TABLE, encoding="utf-8-sig", newline="") as f:
+            manual_rows = list(csv.DictReader(f, delimiter=";"))
+    card_key = {key_k(k): k for k in cards}
+    manual_count = 0
+    for r in manual_rows:
+        k = card_key.get((r["kerulet"], r["cim"].strip(), r["hrsz"].strip()))
         if not k:
             continue
-        for resz in re.split(r"[|;,\n]+", r.get("osm_azonosito") or ""):
-            m = re.search(r"(?:(way|relation)[/ :]*)?(\d{3,})", resz.strip(), flags=re.I)
+        for part in re.split(r"[|;,\n]+", r.get("osm_azonosito") or ""):
+            m = re.search(r"(?:(way|relation)[/ :]*)?(\d{3,})", part.strip(), flags=re.I)
             if m:
-                tenyek(k, ((m.group(1) or "way").lower(), int(m.group(2))), f"{k['forras']} (kézi párosítás)" + (f", hrsz {k['hrsz']}" if k["hrsz"] else ""))
-                kezi_db += 1
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2])))
-    with open(KOZELITO, "w", encoding="utf-8-sig", newline="") as f:
+                facts(k, ((m.group(1) or "way").lower(), int(m.group(2))), f"{k['forras']} (kézi párosítás)" + (f", hrsz {k['hrsz']}" if k["hrsz"] else ""))
+                manual_count += 1
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2])))
+    with open(APPROXIMATE, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["osm_tipus", "id", "ev_tol", "ev_ig", "szoveg", "forras"])
-        w.writerows(sorted(kozelito, key=lambda r: (r[0], r[1])))
-    with open(JAVASLAT, "w", encoding="utf-8-sig", newline="") as f:
+        w.writerows(sorted(approximate, key=lambda r: (r[0], r[1])))
+    with open(SUGGESTION, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["kerulet", "cim", "hrsz", "epites_ideje", "tervezo", "allapot", "osm_epulet", "modszer", "jeloltek"])
-        w.writerows(javaslat)
-    print(f"Feldolgozott nem párosított kártya: {len(kartyak)}")
+        w.writerows(suggestion)
+    print(f"Feldolgozott nem párosított kártya: {len(cards)}")
     for a, n in stat.most_common():
         print(f"  {a}: {n}")
-    print(f"Kézzel párosított (kitöltött osm_azonosito): {kezi_db}")
-    print(f"Tények: {len(kesz)} sor -> {KIMENET};  közelítő korszakadat: {len(kozelito)} -> {KOZELITO};  javaslatok: {JAVASLAT}")
+    print(f"Kézzel párosított (kitöltött osm_azonosito): {manual_count}")
+    print(f"Tények: {len(done)} sor -> {OUTPUT};  közelítő korszakadat: {len(approximate)} -> {APPROXIMATE};  javaslatok: {SUGGESTION}")
 
 
 if __name__ == "__main__":

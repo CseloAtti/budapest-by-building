@@ -22,112 +22,112 @@ from pathlib import Path
 import re
 import unicodedata
 
-from common import poligonok, tenyek_irasa
+from common import polygons, write_facts
 
-LISTA = "data/epforum/budapesti_kortars_epuletek_lista.csv"
-EPULETEK = "data/varos/epuletek.geojson"
-KIMENET = "data/tenyek/epforum.csv"
-NEM_PAROSITOTT = "data/epforum_nem_parositott.csv"
-KEZI_PAROSITAS = "forras/epforum_kezi_parositas.csv"   # for the unmatched items you enter the OSM identifier (osm_azonosito column)
-CIMEK = "data/varos/osm_cimek.csv"      # fallback: if there is no building at the coordinate, we search by address
-CIKKEK = "data/epforum/cikkek.csv"     # facts_epforum_articles.py: the articles of the map point (clicking the point gives Építészfórum a chooser page, so we collect the articles separately)
-MAX_CIKK = 4
+LIST = "data/epforum/budapesti_kortars_epuletek_lista.csv"
+BUILDINGS = "data/varos/epuletek.geojson"
+OUTPUT = "data/tenyek/epforum.csv"
+NOT_PAIRED = "data/epforum_nem_parositott.csv"
+MANUAL_PAIRING = "forras/epforum_kezi_parositas.csv"   # for the unmatched items you enter the OSM identifier (osm_azonosito column)
+ADDRESSES = "data/varos/osm_cimek.csv"      # fallback: if there is no building at the coordinate, we search by address
+ARTICLES = "data/epforum/cikkek.csv"     # facts_epforum_articles.py: the articles of the map point (clicking the point gives Építészfórum a chooser page, so we collect the articles separately)
+MAX_ARTICLE = 4
 
 
-def cikkek_beolvasasa():
-    ki = {}
-    if Path(CIKKEK).exists():
-        for r in csv.DictReader(open(CIKKEK, encoding="utf-8-sig", newline=""), delimiter=";"):
+def read_articles():
+    out = {}
+    if Path(ARTICLES).exists():
+        for r in csv.DictReader(open(ARTICLES, encoding="utf-8-sig", newline=""), delimiter=";"):
             if (r.get("url") or "").startswith("https://epiteszforum.hu/"):
-                ki.setdefault(r["id"], []).append(r["url"])
-    return {k: "|".join(v[:MAX_CIKK]) for k, v in ki.items()}
+                out.setdefault(r["id"], []).append(r["url"])
+    return {k: "|".join(v[:MAX_ARTICLE]) for k, v in out.items()}
 
 
-CIKK_URL = cikkek_beolvasasa()
-KIHAGYOTT_FUNKCIO = {"örökség", "köztér", "emlékhely", "infrastruktúra"}
-MAX_TAV_M = 12.0
-CELLA = 0.002          # fok (~150-220 m)
-FOK_M_LAT = 111000.0
-FOK_M_LON = 111000.0 * math.cos(math.radians(47.5))
+ARTICLE_URL = read_articles()
+SKIPPED_FUNCTION = {"örökség", "köztér", "emlékhely", "infrastruktúra"}
+MAX_DISTANCE_M = 12.0
+CELL = 0.002          # fok (~150-220 m)
+DEGREE_M_LAT = 111000.0
+DEGREE_M_LON = 111000.0 * math.cos(math.radians(47.5))
 
 
-def gyuruben(x, y, gyuru):
-    bent = False
-    for (x1, y1), (x2, y2) in zip(gyuru, gyuru[1:]):
+def in_ring(x, y, ring_):
+    inside = False
+    for (x1, y1), (x2, y2) in zip(ring_, ring_[1:]):
         if (y1 > y) != (y2 > y):
             if x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
-                bent = not bent
-    return bent
+                inside = not inside
+    return inside
 
 
-def szakasz_tav(px, py, ax, ay, bx, by):
+def section_distance(px, py, ax, ay, bx, by):
     dx, dy = bx - ax, by - ay
     h = dx * dx + dy * dy
     t = 0.0 if h == 0 else max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / h))
     return math.hypot(px - (ax + t * dx), py - (ay + t * dy))
 
 
-def terulet_m2(gyuru):
+def area_m2(ring_):
     s = 0.0
-    for (x1, y1), (x2, y2) in zip(gyuru, gyuru[1:]):
-        s += (x1 * FOK_M_LON) * (y2 * FOK_M_LAT) - (x2 * FOK_M_LON) * (y1 * FOK_M_LAT)
+    for (x1, y1), (x2, y2) in zip(ring_, ring_[1:]):
+        s += (x1 * DEGREE_M_LON) * (y2 * DEGREE_M_LAT) - (x2 * DEGREE_M_LON) * (y1 * DEGREE_M_LAT)
     return abs(s) / 2
 
 
-def egyszeru(s):
+def simple(s):
     s = unicodedata.normalize("NFD", (s or "").lower())
     return re.sub(r"[^a-z0-9]+", " ", "".join(c for c in s if unicodedata.category(c) != "Mn")).strip()
 
 
-def cim_kulcs(cim):
+def address_key(address):
     """'Budapest, 1117, Buda-part tér 2.' -> ('buda part ter', '2')"""
-    m = re.match(r"Budapest,\s*\d{4},\s*(.+?)\s+(\d+[A-Za-z]?)(?:\s*[-–/]\s*\d+[A-Za-z]?)?\.?$", (cim or "").strip())
-    return (egyszeru(m.group(1)), egyszeru(m.group(2))) if m else None
+    m = re.match(r"Budapest,\s*\d{4},\s*(.+?)\s+(\d+[A-Za-z]?)(?:\s*[-–/]\s*\d+[A-Za-z]?)?\.?$", (address or "").strip())
+    return (simple(m.group(1)), simple(m.group(2))) if m else None
 
 
-def cim_index():
+def address_index():
     idx = defaultdict(set)
     try:
-        with open(CIMEK, encoding="utf-8-sig") as f:
+        with open(ADDRESSES, encoding="utf-8-sig") as f:
             for r in csv.DictReader(f, delimiter=";"):
-                idx[(egyszeru(r["utca"]), egyszeru(r["hazszam"]))].add((r["osm_tipus"], int(r["id"])))
+                idx[(simple(r["utca"]), simple(r["hazszam"]))].add((r["osm_tipus"], int(r["id"])))
     except FileNotFoundError:
-        print(f"Figyelem: nincs {CIMEK}, a cím alapú tartalék nem működik (py city_assembly.py).")
+        print(f"Figyelem: nincs {ADDRESSES}, a cím alapú tartalék nem működik (py city_assembly.py).")
     return idx
 
 
 def main():
-    sorok = list(csv.DictReader(open(LISTA, encoding="utf-8-sig"), delimiter=";"))
-    cimek = cim_index()
-    cimhasznalat = defaultdict(int)         # how many list entries point to the same address (e.g. BudaPart: Buda-part tér 2.)
-    for r in sorok:
-        k = cim_kulcs(r["Cím"])
+    rows = list(csv.DictReader(open(LIST, encoding="utf-8-sig"), delimiter=";"))
+    addresses = address_index()
+    address_use = defaultdict(int)         # how many list entries point to the same address (e.g. BudaPart: Buda-part tér 2.)
+    for r in rows:
+        k = address_key(r["Cím"])
         if k:
-            cimhasznalat[k] += 1
-    racs = defaultdict(list)
-    with open(EPULETEK, encoding="utf-8") as f:
+            address_use[k] += 1
+    grid = defaultdict(list)
+    with open(BUILDINGS, encoding="utf-8") as f:
         for ft in json.load(f)["features"]:
             pr = ft["properties"]
-            for poly in poligonok(ft["geometry"]):
-                kulso = poly[0]
-                xs = [c[0] for c in kulso]
-                ys = [c[1] for c in kulso]
-                rec = (pr["osm_tipus"], int(pr["id"]), poly, terulet_m2(kulso))
-                for i in range(int((min(xs) - 0.0002) // CELLA), int((max(xs) + 0.0002) // CELLA) + 1):
-                    for j in range(int((min(ys) - 0.0002) // CELLA), int((max(ys) + 0.0002) // CELLA) + 1):
-                        racs[(i, j)].append(rec)
-    kesz, kimaradt = set(), []
+            for poly in polygons(ft["geometry"]):
+                outer = poly[0]
+                xs = [c[0] for c in outer]
+                ys = [c[1] for c in outer]
+                rec = (pr["osm_tipus"], int(pr["id"]), poly, area_m2(outer))
+                for i in range(int((min(xs) - 0.0002) // CELL), int((max(xs) + 0.0002) // CELL) + 1):
+                    for j in range(int((min(ys) - 0.0002) // CELL), int((max(ys) + 0.0002) // CELL) + 1):
+                        grid[(i, j)].append(rec)
+    done, left_out = set(), []
     stat = defaultdict(int)
     # For the items with manual matching (osm_azonosito is filled in) the year/designer facts of the automatic matching are omitted,
     # and of the article links, those named by the manual row's 'cikk_url' column (empty column = all) are carried over to the new building.
-    kezi_athelyez = {}
-    if Path(KEZI_PAROSITAS).exists():
-        for kr in csv.DictReader(open(KEZI_PAROSITAS, encoding="utf-8-sig"), delimiter=";"):
+    manual_relocate = {}
+    if Path(MANUAL_PAIRING).exists():
+        for kr in csv.DictReader(open(MANUAL_PAIRING, encoding="utf-8-sig"), delimiter=";"):
             if re.search(r"\d{3,}", kr.get("osm_azonosito") or "") and (kr.get("epforum_id") or "").strip():
-                kezi_athelyez[kr["epforum_id"].strip()] = {u.strip() for u in re.split(r"[|\s]+", kr.get("cikk_url") or "") if u.strip()}
-    for r in sorok:
-        funkcio = (r["Funkció"] or "").strip()
-        if funkcio.lower() in KIHAGYOTT_FUNKCIO:
+                manual_relocate[kr["epforum_id"].strip()] = {u.strip() for u in re.split(r"[|\s]+", kr.get("cikk_url") or "") if u.strip()}
+    for r in rows:
+        function = (r["Funkció"] or "").strip()
+        if function.lower() in SKIPPED_FUNCTION:
             stat["kihagyott kategória"] += 1
             continue
         if not r["Cím"].startswith("Budapest"):
@@ -136,83 +136,83 @@ def main():
         try:
             lat, lon = float(r["Lat"]), float(r["Lon"])
         except ValueError:
-            kimaradt.append([r["ID"], r["Épület neve"], r["Cím"], "nincs koordináta"])
+            left_out.append([r["ID"], r["Épület neve"], r["Cím"], "nincs koordináta"])
             continue
-        cell = (int(lon // CELLA), int(lat // CELLA))
-        jel = racs.get(cell, [])
-        bent = [(t, i, a) for t, i, poly, a in jel if gyuruben(lon, lat, poly[0]) and not any(gyuruben(lon, lat, h) for h in poly[1:])]
-        mod = "alapterületen belül"
-        if not bent:
-            legjobb = None
-            for t, i, poly, a in jel:
-                d = min(szakasz_tav((lon) * FOK_M_LON, (lat) * FOK_M_LAT, x1 * FOK_M_LON, y1 * FOK_M_LAT, x2 * FOK_M_LON, y2 * FOK_M_LAT)
+        cell = (int(lon // CELL), int(lat // CELL))
+        sign = grid.get(cell, [])
+        inside = [(t, i, a) for t, i, poly, a in sign if in_ring(lon, lat, poly[0]) and not any(in_ring(lon, lat, h) for h in poly[1:])]
+        mode = "alapterületen belül"
+        if not inside:
+            best = None
+            for t, i, poly, a in sign:
+                d = min(section_distance((lon) * DEGREE_M_LON, (lat) * DEGREE_M_LAT, x1 * DEGREE_M_LON, y1 * DEGREE_M_LAT, x2 * DEGREE_M_LON, y2 * DEGREE_M_LAT)
                         for (x1, y1), (x2, y2) in zip(poly[0], poly[0][1:]))
-                if d <= MAX_TAV_M and (legjobb is None or d < legjobb[0]):
-                    legjobb = (d, t, i, a)
-            if legjobb:
-                bent = [(legjobb[1], legjobb[2], legjobb[3])]
-                mod = f"{legjobb[0]:.0f} m-re a ponttól"
-        if not bent:
+                if d <= MAX_DISTANCE_M and (best is None or d < best[0]):
+                    best = (d, t, i, a)
+            if best:
+                inside = [(best[1], best[2], best[3])]
+                mode = f"{best[0]:.0f} m-re a ponttól"
+        if not inside:
             # fallback: by address, but only if that address is on exactly one OSM building, and only one list entry
             # points to it (for a large estate, e.g. BudaPart, the same address belongs to many buildings: we do not guess there)
-            k = cim_kulcs(r["Cím"])
-            talalat = cimek.get(k, set()) if k else set()
-            if len(talalat) == 1 and cimhasznalat[k] == 1:
-                t0, i0 = next(iter(talalat))
-                bent = [(t0, i0, 0.0)]
-                mod = "a cím alapján (a koordinátán nem volt épület)"
+            k = address_key(r["Cím"])
+            hit = addresses.get(k, set()) if k else set()
+            if len(hit) == 1 and address_use[k] == 1:
+                t0, i0 = next(iter(hit))
+                inside = [(t0, i0, 0.0)]
+                mode = "a cím alapján (a koordinátán nem volt épület)"
                 stat["cím alapján"] += 1
-        if not bent:
-            kimaradt.append([r["ID"], r["Épület neve"], r["Cím"], "a koordinátán nincs OSM-épület, a cím sem egyértelmű"])
+        if not inside:
+            left_out.append([r["ID"], r["Épület neve"], r["Cím"], "a koordinátán nincs OSM-épület, a cím sem egyértelmű"])
             stat["nincs épület"] += 1
             continue
         # several buildings: the one with the smallest footprint (the tightest containing one)
-        t, i, _ = min(bent, key=lambda b: b[2])
+        t, i, _ = min(inside, key=lambda b: b[2])
         stat["párosítva"] += 1
-        megj = f"Építészfórum térkép, ID {r['ID']}, {funkcio}; {mod}"
-        athelyezett = kezi_athelyez.get(r["ID"])
-        if athelyezett is None:
+        remark = f"Építészfórum térkép, ID {r['ID']}, {function}; {mode}"
+        relocated = manual_relocate.get(r["ID"])
+        if relocated is None:
             if r["Évtized"].isdigit():
-                kesz.add((t, i, "ev", int(r["Évtized"]), "epforum", megj + " (az elkészülés éve)"))
+                done.add((t, i, "ev", int(r["Évtized"]), "epforum", remark + " (az elkészülés éve)"))
             if r["Építészek"].strip():
-                kesz.add((t, i, "tervezo", r["Építészek"].strip(), "epforum", megj))
-        urlek = [u for u in (CIKK_URL.get(r["ID"]) or "").split("|") if u and not (athelyezett is not None and (not athelyezett or u in athelyezett))]
-        if urlek:
-            kesz.add((t, i, "epforum_url", "|".join(urlek), "epforum", megj))
+                done.add((t, i, "tervezo", r["Építészek"].strip(), "epforum", remark))
+        urls = [u for u in (ARTICLE_URL.get(r["ID"]) or "").split("|") if u and not (relocated is not None and (not relocated or u in relocated))]
+        if urls:
+            done.add((t, i, "epforum_url", "|".join(urls), "epforum", remark))
     # manual matching: forras/epforum_kezi_parositas.csv; the osm_azonosito column holds one or more items (separated by | or ;),
     # e.g. "way 1127749031", "1127749031" (way), "relation 123" or the link of the OSM page. The year and the designer come from the table.
-    kezi_kesz = set()
-    if Path(KEZI_PAROSITAS).exists():
-        for r in csv.DictReader(open(KEZI_PAROSITAS, encoding="utf-8-sig"), delimiter=";"):
-            azok = []
-            for resz in re.split(r"[|;,\n]+", r.get("osm_azonosito") or ""):
-                m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", resz.strip(), flags=re.I)
+    manual_done = set()
+    if Path(MANUAL_PAIRING).exists():
+        for r in csv.DictReader(open(MANUAL_PAIRING, encoding="utf-8-sig"), delimiter=";"):
+            those = []
+            for part in re.split(r"[|;,\n]+", r.get("osm_azonosito") or ""):
+                m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", part.strip(), flags=re.I)
                 if m:
-                    azok.append(((m.group(1) or "way").lower(), int(m.group(2))))
-            if not azok:
+                    those.append(((m.group(1) or "way").lower(), int(m.group(2))))
+            if not those:
                 continue
-            megj = f"Építészfórum térkép, ID {r['epforum_id']}, {r.get('funkcio', '')}; kézi párosítás ({KEZI_PAROSITAS})"
-            ev = (r.get("ev") or "").strip()
-            for t, i in azok:
-                if ev.isdigit():
-                    kezi_kesz.add((t, i, "ev", int(ev), "epforum", megj + " (az elkészülés éve)"))
+            remark = f"Építészfórum térkép, ID {r['epforum_id']}, {r.get('funkcio', '')}; kézi párosítás ({MANUAL_PAIRING})"
+            year = (r.get("ev") or "").strip()
+            for t, i in those:
+                if year.isdigit():
+                    manual_done.add((t, i, "ev", int(year), "epforum", remark + " (az elkészülés éve)"))
                 if (r.get("epitesz") or "").strip():
-                    kezi_kesz.add((t, i, "tervezo", r["epitesz"].strip(), "epforum", megj))
-                kezi_url = "|".join(u for u in (CIKK_URL.get((r.get("epforum_id") or "").strip()) or "").split("|")
+                    manual_done.add((t, i, "tervezo", r["epitesz"].strip(), "epforum", remark))
+                manual_url = "|".join(u for u in (ARTICLE_URL.get((r.get("epforum_id") or "").strip()) or "").split("|")
                                     if u and (not (r.get("cikk_url") or "").strip() or u in (r.get("cikk_url") or "")))
-                if kezi_url:
-                    kezi_kesz.add((t, i, "epforum_url", kezi_url, "epforum", megj))
-            kimaradt = [k for k in kimaradt if str(k[0]) != str(r["epforum_id"])]
+                if manual_url:
+                    manual_done.add((t, i, "epforum_url", manual_url, "epforum", remark))
+            left_out = [k for k in left_out if str(k[0]) != str(r["epforum_id"])]
             stat["kézi párosítás"] += 1
-    kesz |= kezi_kesz
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2])))
-    with open(NEM_PAROSITOTT, "w", encoding="utf-8-sig", newline="") as f:
+    done |= manual_done
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2])))
+    with open(NOT_PAIRED, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["id", "nev", "cim", "miert"])
-        w.writerows(kimaradt)
-    print(f"Bejegyzés: {len(sorok)}; párosítva: {stat['párosítva']}; nem párosított: {len(kimaradt)}; "
+        w.writerows(left_out)
+    print(f"Bejegyzés: {len(rows)}; párosítva: {stat['párosítva']}; nem párosított: {len(left_out)}; "
           f"ebből cím alapján: {stat['cím alapján']}; kézi párosítás: {stat['kézi párosítás']}; kihagyott kategória: {stat['kihagyott kategória']}; nem budapesti: {stat['nem budapesti']}")
-    print(f"Tények: {len(kesz)} sor -> {KIMENET}; nem párosított lista: {NEM_PAROSITOTT}")
+    print(f"Tények: {len(done)} sor -> {OUTPUT}; nem párosított lista: {NOT_PAIRED}")
 
 
 if __name__ == "__main__":

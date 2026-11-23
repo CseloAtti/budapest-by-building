@@ -13,16 +13,16 @@ import re
 import unicodedata
 from collections import Counter, defaultdict
 
-from common import tenyek_irasa
+from common import write_facts
 
-JEGYZEK = "data/muemlek_jegyzek.json"
-CIMEK = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py facts_monuments.py varos: the addresses of the whole city
-ATNEVEZES = "forras/utcanev_atnevezesek.csv"
-KIMENET = "data/tenyek/muemlek.csv"
-HASONLOSAG = 0.9
-VAROS = "varos" in sys.argv[1:]
-EPULETEK = "data/varos/epuletek.geojson"
-ROMAI = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10, "XI": 11, "XII": 12, "XIII": 13,
+REGISTER = "data/muemlek_jegyzek.json"
+ADDRESSES = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py facts_monuments.py varos: the addresses of the whole city
+RENAMING = "forras/utcanev_atnevezesek.csv"
+OUTPUT = "data/tenyek/muemlek.csv"
+SIMILARITY = 0.9
+CITY = "varos" in sys.argv[1:]
+BUILDINGS = "data/varos/epuletek.geojson"
+ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10, "XI": 11, "XII": 12, "XIII": 13,
          "XIV": 14, "XV": 15, "XVI": 16, "XVII": 17, "XVIII": 18, "XIX": 19, "XX": 20, "XXI": 21, "XXII": 22, "XXIII": 23}
 
 
@@ -36,45 +36,45 @@ def norm(s):
     return " ".join(s.split())
 
 
-def szamok(szoveg):
+def numbers_(text_):
     """House numbers: '11-13' -> {11, 13}, '15/A, B' -> {15}, '4;6' -> {4, 6}"""
-    ki = set()
-    for a, b in re.findall(r"(\d+)\s*(?:[-–]\s*(\d+))?", szoveg or ""):
-        ki.add(int(a))
+    out = set()
+    for a, b in re.findall(r"(\d+)\s*(?:[-–]\s*(\d+))?", text_ or ""):
+        out.add(int(a))
         if b:
-            ki.add(int(b))
-    return ki
+            out.add(int(b))
+    return out
 
 
-def cim_felbontas(cim):
+def address_split(address):
     """'Veres Pálné utca 15/A, B' -> ('Veres Pálné utca', {15})"""
-    kezdet = 0
+    start_ = 0
     # 'Október 6. utca 3.': the number after the month name is part of the street name, not a house number
-    h = re.search(r"\b[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+ \d+\.(?=\s+(?:utca|tér|út)\b)", cim)
+    h = re.search(r"\b[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+ \d+\.(?=\s+(?:utca|tér|út)\b)", address)
     if h:
-        kezdet = h.end()
-    m = re.search(r"\d", cim[kezdet:])
+        start_ = h.end()
+    m = re.search(r"\d", address[start_:])
     if not m:
         return None, set()
-    p = kezdet + m.start()
-    return cim[:p].strip(" ,"), szamok(cim[p:])
+    p = start_ + m.start()
+    return address[:p].strip(" ,"), numbers_(address[p:])
 
 
-def alt_cimek(lista):
-    ki = []
-    for s in lista:
+def alt_addresses(list_):
+    out = []
+    for s in list_:
         s = s.strip().strip("()")
-        for resz in re.split(r"\.,\s*|;\s*", s):
-            u, sz = cim_felbontas(resz.strip())
+        for part in re.split(r"\.,\s*|;\s*", s):
+            u, sz = address_split(part.strip())
             if u and sz:
-                ki.append((u, sz))
-    return ki
+                out.append((u, sz))
+    return out
 
 
 def main():
     atn = {}
     try:
-        with open(ATNEVEZES, encoding="utf-8-sig", newline="") as f:
+        with open(RENAMING, encoding="utf-8-sig", newline="") as f:
             for r in csv.DictReader(f, delimiter=";"):
                 if r.get("regi") and r.get("uj"):
                     atn[norm(r["regi"])] = norm(r["uj"])
@@ -82,86 +82,86 @@ def main():
         pass
 
     # In city mode we search for the address within the register's district (otherwise Király utca 12. in the VI. district would also get the Király utca 12. of Újpest).
-    kerulete = {}
-    if VAROS:
-        with open(EPULETEK, encoding="utf-8") as f:
+    district = {}
+    if CITY:
+        with open(BUILDINGS, encoding="utf-8") as f:
             for ft in json.load(f)["features"]:
                 pr = ft["properties"]
                 if pr.get("kerulet"):
-                    kerulete[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
-        if not kerulete:
+                    district[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
+        if not district:
             raise SystemExit("Az épületeknél nincs kerület. Futtasd: py budapest_pbf.py, majd py city_assembly.py")
-    utcak = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # district (0 = inner-city mode) -> street name -> house number -> [(type, id)]
-    with open(CIMEK, encoding="utf-8-sig", newline="") as f:
+    streets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # district (0 = inner-city mode) -> street name -> house number -> [(type, id)]
+    with open(ADDRESSES, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
             e = (r["osm_tipus"], int(r["id"]))
-            if VAROS and e not in kerulete:
+            if CITY and e not in district:
                 continue
-            kn = kerulete.get(e, 0)
-            for sz in szamok(r["hazszam"]):
-                utcak[kn][norm(r["utca"])][sz].append(e)
-    osm_utcak = {kn: list(v) for kn, v in utcak.items()}
+            kn = district.get(e, 0)
+            for sz in numbers_(r["hazszam"]):
+                streets[kn][norm(r["utca"])][sz].append(e)
+    osm_streets = {kn: list(v) for kn, v in streets.items()}
 
-    def utca_megfelelo(utca, kn):
-        n = norm(utca)
+    def street_matching(street, kn):
+        n = norm(street)
         n = atn.get(n, n)
-        if n in utcak[kn]:
+        if n in streets[kn]:
             return n
-        jo = difflib.get_close_matches(n, osm_utcak.get(kn, []), n=1, cutoff=HASONLOSAG)
-        return jo[0] if jo else None
+        good = difflib.get_close_matches(n, osm_streets.get(kn, []), n=1, cutoff=SIMILARITY)
+        return good[0] if good else None
 
-    with open(JEGYZEK, encoding="utf-8") as f:
-        bejegyzesek = json.load(f)["bejegyzesek"]
+    with open(REGISTER, encoding="utf-8") as f:
+        entries = json.load(f)["bejegyzesek"]
 
-    sorok, parositva, nincs_utca, nincs_szam, tobb = 0, 0, Counter(), 0, 0
-    kesz = set()
-    for b in bejegyzesek:
-        cimek = []
-        u, sz = cim_felbontas(b["cim"])
+    rows, paired, none_street, none_number, several = 0, 0, Counter(), 0, 0
+    done = set()
+    for b in entries:
+        addresses = []
+        u, sz = address_split(b["cim"])
         if u and sz:
-            cimek.append((u, sz))
-        cimek += alt_cimek(b.get("alt_cimek", []))
-        talalat = set()
-        kn = ROMAI.get(str(b.get("ker", "")).strip().upper(), 0) if VAROS else 0
-        if VAROS and not kn:
+            addresses.append((u, sz))
+        addresses += alt_addresses(b.get("alt_cimek", []))
+        hit = set()
+        kn = ROMAN.get(str(b.get("ker", "")).strip().upper(), 0) if CITY else 0
+        if CITY and not kn:
             continue
-        for u, sz in cimek:
-            mu = utca_megfelelo(u, kn)
+        for u, sz in addresses:
+            mu = street_matching(u, kn)
             if not mu:
-                nincs_utca[u] += 1
+                none_street[u] += 1
                 continue
             for n in sz:
-                talalat.update(utcak[kn][mu].get(n, []))
-        if not talalat:
-            if cimek and any(utca_megfelelo(u, kn) for u, _ in cimek):
-                nincs_szam += 1
+                hit.update(streets[kn][mu].get(n, []))
+        if not hit:
+            if addresses and any(street_matching(u, kn) for u, _ in addresses):
+                none_number += 1
             continue
-        parositva += 1
-        tobb += len(talalat) > 1
-        megj = f"törzsszám {b['torzsszam']}" + (f", {len(talalat)} OSM-épület" if len(talalat) > 1 else "")
-        for t, i in talalat:
+        paired += 1
+        several += len(hit) > 1
+        remark = f"törzsszám {b['torzsszam']}" + (f", {len(hit)} OSM-épület" if len(hit) > 1 else "")
+        for t, i in hit:
             F = "muemlek"
-            sorok_ki = [("vedettseg", b["vedettseg"]), ("muemlek_torzsszam", b["torzsszam"]),
+            rows_out = [("vedettseg", b["vedettseg"]), ("muemlek_torzsszam", b["torzsszam"]),
                         ("muemlek_hrsz", b["hrsz"]), ("stilus", b["stilus"])]
             if b["evek"]:
-                sorok_ki.append(("ev", b["evek"][0][1]))
+                rows_out.append(("ev", b["evek"][0][1]))
             if b["tervezo"]:
-                sorok_ki.append(("tervezo", b["tervezo"]))
+                rows_out.append(("tervezo", b["tervezo"]))
             if b["emelet"] is not None:
-                sorok_ki.append(("szintek", b["emelet"] + 1))
-            for mezo, ertek in sorok_ki:
-                if ertek not in (None, ""):
-                    kesz.add((t, i, mezo, ertek, F, megj))
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2])))
-    print(f"Bejegyzések a jegyzékben: {len(bejegyzesek)}")
-    print(f"OSM-épülethez párosítva: {parositva} (ebből több OSM-épület: {tobb})")
-    print(f"Az utca megvan, de a házszám nem: {nincs_szam}")
-    if nincs_utca:
-        print(f"\nNem található utcanevek (valószínűleg régi nevek) – {len(nincs_utca)} db:")
-        for u, n in nincs_utca.most_common():
+                rows_out.append(("szintek", b["emelet"] + 1))
+            for field, value in rows_out:
+                if value not in (None, ""):
+                    done.add((t, i, field, value, F, remark))
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2])))
+    print(f"Bejegyzések a jegyzékben: {len(entries)}")
+    print(f"OSM-épülethez párosítva: {paired} (ebből több OSM-épület: {several})")
+    print(f"Az utca megvan, de a házszám nem: {none_number}")
+    if none_street:
+        print(f"\nNem található utcanevek (valószínűleg régi nevek) – {len(none_street)} db:")
+        for u, n in none_street.most_common():
             print(f"  {u}  ({n} bejegyzés)")
-        print(f"\nA mai nevüket írd be ide: {ATNEVEZES} (oszlopok: regi;uj)")
-    print(f"Mentve: {KIMENET}")
+        print(f"\nA mai nevüket írd be ide: {RENAMING} (oszlopok: regi;uj)")
+    print(f"Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":

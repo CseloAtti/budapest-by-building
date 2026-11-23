@@ -16,17 +16,17 @@ import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
 
-LISTA = "data/epforum/budapesti_kortars_epuletek_lista.csv"
-KIMENET = Path("data/epforum/cikkek.csv")
-ALAP = "https://epiteszforum.hu"
-SZUNET = 0.7
+LIST = "data/epforum/budapesti_kortars_epuletek_lista.csv"
+OUTPUT = Path("data/epforum/cikkek.csv")
+BASE = "https://epiteszforum.hu"
+PAUSE = 0.7
 
 
-class Cikkek(HTMLParser):
+class Articles(HTMLParser):
     """The result list: in the .oneItem blocks, the link of the div with class .title."""
     def __init__(self):
         super().__init__()
-        self.cikkek, self._title, self._a = [], False, None
+        self.articles, self._title, self._a = [], False, None
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -42,49 +42,49 @@ class Cikkek(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "a" and self._a is not None:
             h = self._a[0]
-            if h.startswith("/") and not any(h == c[0] for c in self.cikkek):
-                self.cikkek.append((h, re.sub(r"\s+", " ", self._a[1]).strip()))
+            if h.startswith("/") and not any(h == c[0] for c in self.articles):
+                self.articles.append((h, re.sub(r"\s+", " ", self._a[1]).strip()))
             self._a = None
         if tag == "div":
             self._title = False
 
 
-def lekerdez(azon):
-    adat = urllib.parse.urlencode({"map_elements_id": azon}).encode()
-    keres = urllib.request.Request(ALAP + "/terkep/mapresult", data=adat, headers={
+def query(id_):
+    data_ = urllib.parse.urlencode({"map_elements_id": id_}).encode()
+    search_ = urllib.request.Request(BASE + "/terkep/mapresult", data=data_, headers={
         "Content-Type": "application/x-www-form-urlencoded", "X-Requested-With": "XMLHttpRequest",
         "User-Agent": "budapest-by-building (personal, non-commercial map project)"})
-    with urllib.request.urlopen(keres, timeout=30) as v:
-        p = Cikkek()
+    with urllib.request.urlopen(search_, timeout=30) as v:
+        p = Articles()
         p.feed(v.read().decode("utf-8", "replace"))
-        return p.cikkek
+        return p.articles
 
 
 def main():
-    ids = sys.argv[1:] or [r["ID"].strip() for r in csv.DictReader(open(LISTA, encoding="utf-8-sig"), delimiter=";") if r.get("ID", "").strip()]
-    sorok, kesz = [], set()
-    if KIMENET.exists():
-        for r in csv.DictReader(open(KIMENET, encoding="utf-8-sig"), delimiter=";"):
-            sorok.append([r["id"], r["url"], r["cim"]])
-            kesz.add(r["id"])
-    ujak = [i for i in ids if i not in kesz]
-    print(f"{len(ids)} pont, ebből {len(ujak)} még nincs lekérve")
-    for n, azon in enumerate(ujak, 1):
+    ids = sys.argv[1:] or [r["ID"].strip() for r in csv.DictReader(open(LIST, encoding="utf-8-sig"), delimiter=";") if r.get("ID", "").strip()]
+    rows, done = [], set()
+    if OUTPUT.exists():
+        for r in csv.DictReader(open(OUTPUT, encoding="utf-8-sig"), delimiter=";"):
+            rows.append([r["id"], r["url"], r["cim"]])
+            done.add(r["id"])
+    new = [i for i in ids if i not in done]
+    print(f"{len(ids)} pont, ebből {len(new)} még nincs lekérve")
+    for n, id_ in enumerate(new, 1):
         try:
-            cikkek = lekerdez(azon)
+            articles = query(id_)
         except Exception as e:
-            print(f"  {azon}: hiba ({e}); a következő futásnál újra próbálja")
+            print(f"  {id_}: hiba ({e}); a következő futásnál újra próbálja")
             continue
-        sorok += [[azon, ALAP + h, c] for h, c in cikkek] or [[azon, "", "nincs"]]
+        rows += [[id_, BASE + h, c] for h, c in articles] or [[id_, "", "nincs"]]
         if n % 25 == 0:
-            print(f"  {n}/{len(ujak)}")
-        time.sleep(SZUNET)
-    KIMENET.parent.mkdir(parents=True, exist_ok=True)
-    with open(KIMENET, "w", encoding="utf-8-sig", newline="") as f:
+            print(f"  {n}/{len(new)}")
+        time.sleep(PAUSE)
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    with open(OUTPUT, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["id", "url", "cim"])
-        w.writerows(sorok)
-    print(f"Kész: {len(sorok)} sor -> {KIMENET}")
+        w.writerows(rows)
+    print(f"Kész: {len(rows)} sor -> {OUTPUT}")
 
 
 main()

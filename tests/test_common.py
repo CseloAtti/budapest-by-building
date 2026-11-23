@@ -2,28 +2,28 @@
 import sys
 from pathlib import Path
 
-GYOKER = Path(__file__).resolve().parent.parent       # the project folder
-HIBAK = []
-FIGYELMEZTETESEK = []
+ROOT = Path(__file__).resolve().parent.parent       # the project folder
+ERRORS = []
+WARNINGS = []
 
 
-def hiba(uzenet):
-    HIBAK.append(uzenet)
-    print("  HIBA:", uzenet)
+def error_(message):
+    ERRORS.append(message)
+    print("  HIBA:", message)
 
 
-def figyelmeztet(uzenet):
-    FIGYELMEZTETESEK.append(uzenet)
-    print("  figyelem:", uzenet)
+def warn(message):
+    WARNINGS.append(message)
+    print("  figyelem:", message)
 
 
-def ellenoriz(feltetel, uzenet):
-    if not feltetel:
-        hiba(uzenet)
-    return bool(feltetel)
+def check(condition, message):
+    if not condition:
+        error_(message)
+    return bool(condition)
 
 
-def vege(nev):
-    print(f"[{nev}] {'SIKERES' if not HIBAK else 'SIKERTELEN: ' + str(len(HIBAK)) + ' hiba'}"
-          f"{', ' + str(len(FIGYELMEZTETESEK)) + ' figyelmeztetés' if FIGYELMEZTETESEK else ''}")
-    return 1 if HIBAK else 0
+def end_(name_):
+    print(f"[{name_}] {'SIKERES' if not ERRORS else 'SIKERTELEN: ' + str(len(ERRORS)) + ' hiba'}"
+          f"{', ' + str(len(WARNINGS)) + ' figyelmeztetés' if WARNINGS else ''}")
+    return 1 if ERRORS else 0

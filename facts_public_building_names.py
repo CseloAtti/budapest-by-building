@@ -30,24 +30,24 @@ import urllib.request
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from common import kliens_nev, kulcs, pont_gyuruben, teruletu_kozeppont, tenyek_irasa
-from area_common import VAROS_DOBOZ, EpuletIndex
+from common import client_name, building_key, point_in_ring, area_center, write_facts
+from area_common import CITY_BOX, BuildingIndex
 
-EPULETEK = "data/varos/epuletek.geojson"
+BUILDINGS = "data/varos/epuletek.geojson"
 CACHE = Path("data/cache/kozepulet_osm.json")
-KIMENET = "data/tenyek/kozepulet_nev.csv"
-JELENTES = "data/varos/kozepulet_nev_jelentes.md"
-SZERVEREK = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter",
+OUTPUT = "data/tenyek/kozepulet_nev.csv"
+REPORT = "data/varos/kozepulet_nev_jelentes.md"
+SERVERS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter",
              "https://overpass.private.coffee/api/interpreter"]
 SHOP = ("mall|department_store|supermarket|hypermarket|wholesale|doityourself|hardware|furniture|electronics|"
         "car|car_repair|garden_centre|convenience")
 AMENITY = ("marketplace|school|kindergarten|college|university|hospital|clinic|library|theatre|cinema|townhall|courthouse|police|"
            "fire_station|community_centre|arts_centre|place_of_worship|social_facility|nursing_home|public_building|"
            "research_institute|conference_centre|events_venue")
-MIN_FELULET = 300.0
+MIN_SURFACE = 300.0
 
 # function -> the building types (OSM building=*) that certainly belong to it
-ILLO = {
+FITTING = {
     "school": {"school", "university", "college", "kindergarten"}, "kindergarten": {"kindergarten", "school"},
     "college": {"college", "university", "school"}, "university": {"university", "college", "school"},
     "hospital": {"hospital"}, "clinic": {"hospital", "clinic"}, "library": {"library", "public", "civic"},
@@ -74,58 +74,58 @@ ILLO = {
     "works": {"industrial", "factory", "manufacture", "warehouse"}, "industrial": {"industrial", "factory", "manufacture", "warehouse"},
     "office": {"office", "commercial"},
 }
-TERULETI = {"landuse_retail", "landuse_commercial", "landuse_industrial"}   # named large areas: only for few buildings
-MAX_TERULETI_EPULET = 6
-ALTALANOS = {"yes", "public", "civic", "government", "institutional", "commercial", "office", "school", "hospital", "retail",
+AREA = {"landuse_retail", "landuse_commercial", "landuse_industrial"}   # named large areas: only for few buildings
+MAX_AREA_BUILDING = 6
+GENERAL = {"yes", "public", "civic", "government", "institutional", "commercial", "office", "school", "hospital", "retail",
              "industrial", "warehouse"}
-LAKO = {"apartments", "house", "residential", "detached", "terrace", "semidetached_house", "dormitory", "bungalow", "farm",
+RESIDENTIAL = {"apartments", "house", "residential", "detached", "terrace", "semidetached_house", "dormitory", "bungalow", "farm",
         "static_caravan", "houseboat"}
-MELLEK = {"garage", "garages", "shed", "roof", "carport", "hut", "cabin", "service", "kiosk", "greenhouse", "barn",
+SIDE = {"garage", "garages", "shed", "roof", "carport", "hut", "cabin", "service", "kiosk", "greenhouse", "barn",
           "stable", "container", "ruins", "construction", "tent", "bunker", "silo", "transformer_tower", "gatehouse"}
-CELLA = 0.002
+CELL = 0.002
 
 
-def lekeres():
-    doboz = ",".join(str(x) for x in VAROS_DOBOZ)
-    q = (f"[out:json][timeout:300];(nwr[\"amenity\"~\"^({AMENITY})$\"][\"name\"]({doboz});"
-         f"nwr[\"tourism\"~\"^(museum|gallery|hotel)$\"][\"name\"]({doboz});"
-         f"nwr[\"shop\"~\"^({SHOP})$\"][\"name\"]({doboz});"
-         f"nwr[\"landuse\"~\"^(retail|commercial|industrial)$\"][\"name\"]({doboz});"
-         f"nwr[\"man_made\"=\"works\"][\"name\"]({doboz});nwr[\"industrial\"][\"name\"]({doboz});"
-         f"nwr[\"office\"~\"^(company|government|research|it|educational_institution)$\"][\"name\"]({doboz}););out tags geom;")
-    hiba = None
-    for szerver in SZERVEREK:
-        url = szerver + "?" + urllib.parse.urlencode({"data": q})
-        for proba in (1, 2):
+def fetch():
+    box = ",".join(str(x) for x in CITY_BOX)
+    q = (f"[out:json][timeout:300];(nwr[\"amenity\"~\"^({AMENITY})$\"][\"name\"]({box});"
+         f"nwr[\"tourism\"~\"^(museum|gallery|hotel)$\"][\"name\"]({box});"
+         f"nwr[\"shop\"~\"^({SHOP})$\"][\"name\"]({box});"
+         f"nwr[\"landuse\"~\"^(retail|commercial|industrial)$\"][\"name\"]({box});"
+         f"nwr[\"man_made\"=\"works\"][\"name\"]({box});nwr[\"industrial\"][\"name\"]({box});"
+         f"nwr[\"office\"~\"^(company|government|research|it|educational_institution)$\"][\"name\"]({box}););out tags geom;")
+    error_ = None
+    for server in SERVERS:
+        url = server + "?" + urllib.parse.urlencode({"data": q})
+        for try_ in (1, 2):
             try:
-                print(f"Overpass-lekérdezés: {szerver} ({proba}. próba)...")
-                with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": kliens_nev()}), timeout=300) as r:
-                    adat = json.load(r)
-                if adat.get("elements") is not None:
-                    return adat
+                print(f"Overpass-lekérdezés: {server} ({try_}. próba)...")
+                with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": client_name()}), timeout=300) as r:
+                    data_ = json.load(r)
+                if data_.get("elements") is not None:
+                    return data_
             except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as h:
-                hiba = h
+                error_ = h
                 print(f"  nem sikerült: {h}; várok 20 mp-et")
                 time.sleep(20)
-    sys.exit(f"Az Overpass-lekérdezés nem sikerült ({hiba}). Próbáld később, vagy másik hálózaton.")
+    sys.exit(f"Az Overpass-lekérdezés nem sikerült ({error_}). Próbáld később, vagy másik hálózaton.")
 
 
-def adatok():
+def records():
     if CACHE.exists() and "--frissit" not in sys.argv:
         return json.loads(CACHE.read_text(encoding="utf-8"))
-    adat = lekeres()
+    data_ = fetch()
     CACHE.parent.mkdir(parents=True, exist_ok=True)
-    CACHE.write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
-    return adat
+    CACHE.write_text(json.dumps(data_, ensure_ascii=False), encoding="utf-8")
+    return data_
 
 
-def funkcio(c):
+def function(c):
     a = c.get("amenity")
-    if a in ILLO:
+    if a in FITTING:
         return a
-    for kulcs_ in ("tourism", "shop"):
-        if c.get(kulcs_) in ILLO:
-            return c[kulcs_]
+    for key_ in ("tourism", "shop"):
+        if c.get(key_) in FITTING:
+            return c[key_]
     if c.get("landuse") in ("retail", "commercial", "industrial"):
         return "landuse_" + c["landuse"]
     if c.get("man_made") == "works":
@@ -135,103 +135,103 @@ def funkcio(c):
     return "office" if "office" in c else None
 
 
-def gyuru_elem(e):
+def ring_element(e):
     """The plot's outer ring [(lon, lat), ...]; for a relation only if it consists of a single closed outer member."""
     if e["type"] == "way":
         g = [(p["lon"], p["lat"]) for p in e.get("geometry", [])]
         return g if len(g) >= 4 and g[0] == g[-1] else None
     if e["type"] == "relation":
-        kulso = [m for m in e.get("members", []) if m.get("role") == "outer" and m.get("geometry")]
-        if len(kulso) == 1:
-            g = [(p["lon"], p["lat"]) for p in kulso[0]["geometry"]]
+        outer = [m for m in e.get("members", []) if m.get("role") == "outer" and m.get("geometry")]
+        if len(outer) == 1:
+            g = [(p["lon"], p["lat"]) for p in outer[0]["geometry"]]
             return g if len(g) >= 4 and g[0] == g[-1] else None
     return None
 
 
 def main():
-    adat = adatok()
-    elemek = []
-    for e in adat["elements"]:
+    data_ = records()
+    elements = []
+    for e in data_["elements"]:
         c = e.get("tags", {})
-        nev = " ".join(str(c.get("name", "")).split())
-        f = funkcio(c)
-        if not f or len(nev) < 3 or "building" in c:       # if the element is itself the building, its name is already there
+        name_ = " ".join(str(c.get("name", "")).split())
+        f = function(c)
+        if not f or len(name_) < 3 or "building" in c:       # if the element is itself the building, its name is already there
             continue
-        elemek.append((e, c, nev, f))
-    print(f"Névvel ellátott funkcióelem: {len(elemek)}")
+        elements.append((e, c, name_, f))
+    print(f"Névvel ellátott funkcióelem: {len(elements)}")
 
-    with open(EPULETEK, encoding="utf-8") as fh:
+    with open(BUILDINGS, encoding="utf-8") as fh:
         feats = [x for x in json.load(fh)["features"] if not x["properties"].get("resz")]
-    index = EpuletIndex(feats)
-    epulet = {}
-    racs = defaultdict(list)
-    for ft, pl in index.elemek:
+    index = BuildingIndex(feats)
+    building = {}
+    grid = defaultdict(list)
+    for ft, pl in index.elements:
         p = ft["properties"]
-        ter, cx, cy = teruletu_kozeppont(pl[0][0])
-        b = {"k": kulcs(p), "nev": p.get("nev"), "tipus": p.get("tipus") or "yes", "ter": ter, "x": cx, "y": cy, "pl": pl}
-        epulet[b["k"]] = b
-        racs[(int(cx / CELLA), int(cy / CELLA))].append(b)
+        area_, cx, cy = area_center(pl[0][0])
+        b = {"k": building_key(p), "nev": p.get("nev"), "tipus": p.get("tipus") or "yes", "ter": area_, "x": cx, "y": cy, "pl": pl}
+        building[b["k"]] = b
+        grid[(int(cx / CELL), int(cy / CELL))].append(b)
 
-    legjobb = {}     # building -> (rank, plot area, name, function, mode)
+    best = {}     # building -> (rank, plot area, name, function, mode)
 
-    def javasol(b, rang, telek, nev, f, mod):
-        if b["nev"] or b["tipus"] in MELLEK:
+    def suggest(b, rank, plot, name_, f, mode):
+        if b["nev"] or b["tipus"] in SIDE:
             return
-        r = legjobb.get(b["k"])
-        if r is None or (rang, telek) < (r[0], r[1]):
-            legjobb[b["k"]] = (rang, telek, nev, f, mod)
+        r = best.get(b["k"])
+        if r is None or (rank, plot) < (r[0], r[1]):
+            best[b["k"]] = (rank, plot, name_, f, mode)
 
-    pont_db = telek_db = kihagyott_rel = 0
-    for e, c, nev, f in elemek:
+    point_count = plot_count = skipped_rel = 0
+    for e, c, name_, f in elements:
         if e["type"] == "node":
-            ft = index.benne(e["lon"], e["lat"])
+            ft = index.in_(e["lon"], e["lat"])
             if ft is not None:
-                b = epulet[kulcs(ft["properties"])]
-                if b["tipus"] not in LAKO and (b["tipus"] in ILLO[f] or b["tipus"] in ALTALANOS):
-                    javasol(b, 1, 0, nev, f, "pont")
-                    pont_db += 1
+                b = building[building_key(ft["properties"])]
+                if b["tipus"] not in RESIDENTIAL and (b["tipus"] in FITTING[f] or b["tipus"] in GENERAL):
+                    suggest(b, 1, 0, name_, f, "pont")
+                    point_count += 1
             continue
-        g = gyuru_elem(e)
+        g = ring_element(e)
         if not g:
-            kihagyott_rel += e["type"] == "relation"
+            skipped_rel += e["type"] == "relation"
             continue
         xs, ys = [p[0] for p in g], [p[1] for p in g]
-        telek_ter = teruletu_kozeppont(g)[0]
-        bennuk = []
-        for i in range(int(min(xs) / CELLA), int(max(xs) / CELLA) + 1):
-            for j in range(int(min(ys) / CELLA), int(max(ys) / CELLA) + 1):
-                for b in racs.get((i, j), ()):
-                    if min(xs) <= b["x"] <= max(xs) and min(ys) <= b["y"] <= max(ys) and pont_gyuruben(b["x"], b["y"], g):
-                        bennuk.append(b)
-        if not bennuk:
+        plot_area = area_center(g)[0]
+        in_them = []
+        for i in range(int(min(xs) / CELL), int(max(xs) / CELL) + 1):
+            for j in range(int(min(ys) / CELL), int(max(ys) / CELL) + 1):
+                for b in grid.get((i, j), ()):
+                    if min(xs) <= b["x"] <= max(xs) and min(ys) <= b["y"] <= max(ys) and point_in_ring(b["x"], b["y"], g):
+                        in_them.append(b)
+        if not in_them:
             continue
-        telek_db += 1
-        illo = [b for b in bennuk if b["tipus"] in ILLO[f]]
-        if f in TERULETI and len(illo) > MAX_TERULETI_EPULET:
+        plot_count += 1
+        fitting = [b for b in in_them if b["tipus"] in FITTING[f]]
+        if f in AREA and len(fitting) > MAX_AREA_BUILDING:
             continue          # large industrial/business area: the name belongs to the area, not to a building
-        if illo:
-            for b in illo:
-                javasol(b, 2, telek_ter, nev, f, "telek, illő épülettípus")
+        if fitting:
+            for b in fitting:
+                suggest(b, 2, plot_area, name_, f, "telek, illő épülettípus")
         else:
-            nagy = [b for b in bennuk if b["tipus"] in ALTALANOS and b["ter"] >= MIN_FELULET]
-            if nagy and not (f in TERULETI and len(bennuk) > MAX_TERULETI_EPULET):
-                javasol(max(nagy, key=lambda b: b["ter"]), 3, telek_ter, nev, f, "telek, legnagyobb épület")
+            large = [b for b in in_them if b["tipus"] in GENERAL and b["ter"] >= MIN_SURFACE]
+            if large and not (f in AREA and len(in_them) > MAX_AREA_BUILDING):
+                suggest(max(large, key=lambda b: b["ter"]), 3, plot_area, name_, f, "telek, legnagyobb épület")
 
-    sorok = [(b[0], b[1], "nev_kozepulet", v[2], "osm_terulet", f"{v[3]}; {v[4]}") for k, v in legjobb.items() for b in [k]]
-    tenyek_irasa(KIMENET, sorok)
+    rows = [(b[0], b[1], "nev_kozepulet", v[2], "osm_terulet", f"{v[3]}; {v[4]}") for k, v in best.items() for b in [k]]
+    write_facts(OUTPUT, rows)
 
-    mod = Counter(v[4] for v in legjobb.values())
-    fn = Counter(v[3] for v in legjobb.values())
-    sor = ["# Középület-nevek az OSM telekadataiból", "",
-           f"- névvel ellátott funkcióelem az OSM-ben: {len(elemek)} (pont: {pont_db} talált épületben, telek: {telek_db} épületet tartalmazó)",
-           f"- új név: **{len(legjobb)}** épületnek", f"- kihagyott összetett (több részes) telek: {kihagyott_rel}", "",
-           "## Mód szerint"] + [f"- {k}: {v}" for k, v in mod.most_common()] + ["", "## Funkció szerint"] + \
+    mode = Counter(v[4] for v in best.values())
+    fn = Counter(v[3] for v in best.values())
+    row = ["# Középület-nevek az OSM telekadataiból", "",
+           f"- névvel ellátott funkcióelem az OSM-ben: {len(elements)} (pont: {point_count} talált épületben, telek: {plot_count} épületet tartalmazó)",
+           f"- új név: **{len(best)}** épületnek", f"- kihagyott összetett (több részes) telek: {skipped_rel}", "",
+           "## Mód szerint"] + [f"- {k}: {v}" for k, v in mode.most_common()] + ["", "## Funkció szerint"] + \
           [f"- {k}: {v}" for k, v in fn.most_common()] + ["", "## Minta (az első 40)"]
-    for (t, i), v in list(legjobb.items())[:40]:
-        sor.append(f"- {t}/{i}: {v[2]} ({v[3]}; {v[4]})")
-    Path(JELENTES).write_text("\n".join(sor), encoding="utf-8")
-    print(f"Új név {len(legjobb)} épületnek (pont: {mod.get('pont', 0)}, telek: {len(legjobb) - mod.get('pont', 0)}).")
-    print(f"Mentve: {KIMENET}, {JELENTES}")
+    for (t, i), v in list(best.items())[:40]:
+        row.append(f"- {t}/{i}: {v[2]} ({v[3]}; {v[4]})")
+    Path(REPORT).write_text("\n".join(row), encoding="utf-8")
+    print(f"Új név {len(best)} épületnek (pont: {mode.get('pont', 0)}, telek: {len(best) - mode.get('pont', 0)}).")
+    print(f"Mentve: {OUTPUT}, {REPORT}")
 
 
 if __name__ == "__main__":

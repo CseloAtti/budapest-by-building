@@ -13,76 +13,76 @@ import time
 import urllib.parse
 from pathlib import Path
 
-from common import http_json, kulcs, tenyek_irasa
-from area_common import VAROS_DOBOZ, EpuletIndex, adaptiv_geokeres
+from common import http_json, building_key, write_facts
+from area_common import CITY_BOX, BuildingIndex, adaptive_geosearch
 
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_wikipedia_area.py varos  -> the whole city
-OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
-KIMENET = "data/tenyek/wikipedia_terulet.csv"
+CITY = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_wikipedia_area.py varos  -> the whole city
+OSM = "data/varos/epuletek.geojson" if CITY else "data/belvaros_epuletek.geojson"
+OUTPUT = "data/tenyek/wikipedia_terulet.csv"
 CACHE = Path("data/cache")
 API = "https://hu.wikipedia.org/w/api.php"
-DOBOZ = VAROS_DOBOZ if VAROS else (47.490, 19.040, 47.513, 19.062)     # south, west, north, east
-KOZELI_METER = 10
-SZUNET_MP = 2
-UTCA_JELLEGU = re.compile(r"\b(utca|tér|tere|út|útja|körút|fasor|híd|rakpart|sétány|park|kerülete|"
+BOX = CITY_BOX if CITY else (47.490, 19.040, 47.513, 19.062)     # south, west, north, east
+NEARBY_METER = 10
+PAUSE_MP = 2
+STREET_LIKE = re.compile(r"\b(utca|tér|tere|út|útja|körút|fasor|híd|rakpart|sétány|park|kerülete|"
                           r"városrész|negyed|állomás|megállóhely|metróvonal)\b|egyértelműsítő", re.I)
 
 
-def geokeres(d0, w0, d1, w1):
-    nev = "wpgeo_" + hashlib.sha1(f"{d0}{w0}{d1}{w1}".encode()).hexdigest()[:12] + ".json"
-    ut = CACHE / nev
-    if ut.exists():
-        return json.loads(ut.read_text(encoding="utf-8"))
+def geosearch(d0, w0, d1, w1):
+    name_ = "wpgeo_" + hashlib.sha1(f"{d0}{w0}{d1}{w1}".encode()).hexdigest()[:12] + ".json"
+    path_ = CACHE / name_
+    if path_.exists():
+        return json.loads(path_.read_text(encoding="utf-8"))
     url = API + "?" + urllib.parse.urlencode({
         "action": "query", "list": "geosearch", "gsbbox": f"{d1}|{w0}|{d0}|{w1}",
         "gslimit": 500, "gsnamespace": 0, "format": "json"})
-    adat = http_json(url)
+    data_ = http_json(url)
     CACHE.mkdir(parents=True, exist_ok=True)
-    ut.write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
-    time.sleep(SZUNET_MP)
-    return adat
+    path_.write_text(json.dumps(data_, ensure_ascii=False), encoding="utf-8")
+    time.sleep(PAUSE_MP)
+    return data_
 
 
 def main():
-    def keres(d0, w0, d1, w1):
-        return geokeres(d0, w0, d1, w1).get("query", {}).get("geosearch", [])
+    def search_(d0, w0, d1, w1):
+        return geosearch(d0, w0, d1, w1).get("query", {}).get("geosearch", [])
 
-    cikkek = {}
-    for r in adaptiv_geokeres(keres, DOBOZ):
-        cikkek[r["pageid"]] = (r["title"], r["lon"], r["lat"])
-    print(f"Koordinátás cikkek a területen: {len(cikkek)}")
+    articles = {}
+    for r in adaptive_geosearch(search_, BOX):
+        articles[r["pageid"]] = (r["title"], r["lon"], r["lat"])
+    print(f"Koordinátás cikkek a területen: {len(articles)}")
 
     with open(OSM, encoding="utf-8") as f:
         feats = [x for x in json.load(f)["features"] if x["properties"].get("tipus") != "roof"]
-    index = EpuletIndex(feats)
+    index = BuildingIndex(feats)
     del feats
 
-    talalatok = {}   # building -> [(mode, title)]
-    belul = kozeli = utca = nincs = 0
-    for pid, (cim, x, y) in cikkek.items():
-        epulet, mod = index.benne(x, y), "wikipedia_terulet"
-        if epulet is None:
-            if UTCA_JELLEGU.search(cim):
-                utca += 1
+    hits = {}   # building -> [(mode, title)]
+    inside_ = nearby = street = none = 0
+    for pid, (address, x, y) in articles.items():
+        building, mode = index.in_(x, y), "wikipedia_terulet"
+        if building is None:
+            if STREET_LIKE.search(address):
+                street += 1
                 continue
-            epulet = index.kozeli(x, y, KOZELI_METER)
-            mod = "wikipedia_terulet_kozeli" if epulet else None
-        if epulet is None:
-            nincs += 1
+            building = index.nearby(x, y, NEARBY_METER)
+            mode = "wikipedia_terulet_kozeli" if building else None
+        if building is None:
+            none += 1
             continue
-        belul += mod == "wikipedia_terulet"
-        kozeli += mod == "wikipedia_terulet_kozeli"
-        talalatok.setdefault(kulcs(epulet["properties"]), []).append((mod, cim))
+        inside_ += mode == "wikipedia_terulet"
+        nearby += mode == "wikipedia_terulet_kozeli"
+        hits.setdefault(building_key(building["properties"]), []).append((mode, address))
 
-    sorok = []
-    for (t, i), lista in talalatok.items():
-        lista.sort(key=lambda z: (z[0] != "wikipedia_terulet", z[1]))   # the more certain hit first
-        for mod, cim in lista[:3]:
-            sorok.append((t, i, "wikipedia", f"hu:{cim}", mod, "földrajzi keresés"))
-    tenyek_irasa(KIMENET, sorok)
-    print(f"Épületbe esik: {belul}, közeli (≤{KOZELI_METER} m): {kozeli}, utca-jellegű közeli, kihagyva: {utca}, nem párosítható: {nincs}")
-    print(f"Épület, amelyhez cikk került: {len(talalatok)}")
-    print(f"Mentve: {KIMENET}")
+    rows = []
+    for (t, i), list_ in hits.items():
+        list_.sort(key=lambda z: (z[0] != "wikipedia_terulet", z[1]))   # the more certain hit first
+        for mode, address in list_[:3]:
+            rows.append((t, i, "wikipedia", f"hu:{address}", mode, "földrajzi keresés"))
+    write_facts(OUTPUT, rows)
+    print(f"Épületbe esik: {inside_}, közeli (≤{NEARBY_METER} m): {nearby}, utca-jellegű közeli, kihagyva: {street}, nem párosítható: {none}")
+    print(f"Épület, amelyhez cikk került: {len(hits)}")
+    print(f"Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":

@@ -9,10 +9,10 @@ This does NOT run in a browser, but it catches the kinds of error that have occu
 import re
 import shutil
 import subprocess
-from test_common import GYOKER, ellenoriz, figyelmeztet, hiba, vege
+from test_common import ROOT, check, warn, error_, end_
 
-APP = GYOKER / "terkep3d" / "app.js"
-HTML = GYOKER / "terkep3d" / "index.html"
+APP = ROOT / "terkep3d" / "app.js"
+HTML = ROOT / "terkep3d" / "index.html"
 
 
 def main():
@@ -23,42 +23,42 @@ def main():
     node = shutil.which("node")
     if node:
         r = subprocess.run([node, "--check", str(APP)], capture_output=True, text=True)
-        ellenoriz(r.returncode == 0, "node --check hibát jelzett az app.js-en: " + r.stderr.strip()[:300])
+        check(r.returncode == 0, "node --check hibát jelzett az app.js-en: " + r.stderr.strip()[:300])
     else:
-        figyelmeztet("nincs node a gépen: a szintaxis-ellenőrzés kimaradt")
+        warn("nincs node a gépen: a szintaxis-ellenőrzés kimaradt")
 
     # element identifiers
-    html_idk = set(re.findall(r'\bid="([^"]+)"', html))
-    hianyzo = sorted({i for i in re.findall(r"getElementById\('([^']+)'\)", js) if i not in html_idk})
+    html_ids = set(re.findall(r'\bid="([^"]+)"', html))
+    missing = sorted({i for i in re.findall(r"getElementById\('([^']+)'\)", js) if i not in html_ids})
     # elements created from JS (el.id = '...') do not count as an error
-    letrehozott = set(re.findall(r"\.id\s*=\s*'([^']+)'", js)) | set(re.findall(r"id=\\?\"([^\"\\]+)\\?\"", js))
-    hianyzo = [i for i in hianyzo if i not in letrehozott]
-    ellenoriz(not hianyzo, "az app.js ezeket az azonosítókat keresi, de az index.html-ben nincsenek: " + ", ".join(hianyzo[:15]))
+    created = set(re.findall(r"\.id\s*=\s*'([^']+)'", js)) | set(re.findall(r"id=\\?\"([^\"\\]+)\\?\"", js))
+    missing = [i for i in missing if i not in created]
+    check(not missing, "az app.js ezeket az azonosítókat keresi, de az index.html-ben nincsenek: " + ", ".join(missing[:15]))
 
     # the starting call of the view switcher at the end of the file
-    sorok = [s.strip() for s in js.rstrip().splitlines() if s.strip() and not s.strip().startswith("//")]
-    ellenoriz(sorok and "setNezet('period')" in sorok[-1],
-              "a setNezet('period') induló hívás nem az app.js utolsó utasítása (TDZ-hiba veszélye); utolsó sor: " + (sorok[-1][:80] if sorok else ""))
+    rows = [s.strip() for s in js.rstrip().splitlines() if s.strip() and not s.strip().startswith("//")]
+    check(rows and "setNezet('period')" in rows[-1],
+              "a setNezet('period') induló hívás nem az app.js utolsó utasítása (TDZ-hiba veszélye); utolsó sor: " + (rows[-1][:80] if rows else ""))
 
     # dictionaries
     m = re.search(r"\bHU\s*=\s*\{(.*?)\n\s*\};", js, re.S)
-    szotar_hu = set(re.findall(r"\b([a-z_0-9]+):\s*'", js[js.find("const SZOVEG"):js.find("const SZOVEG") + 40000])) if "const SZOVEG" in js else None
-    kulcsok_html = set(re.findall(r'data-t="([^"]+)"', html))
-    if kulcsok_html:
-        hianyzo_t = sorted(k for k in kulcsok_html if not re.search(r"\b" + re.escape(k) + r"\s*:", js))
-        ellenoriz(not hianyzo_t, "az index.html data-t kulcsai hiányoznak a szótárból: " + ", ".join(hianyzo_t[:15]))
+    dict_hu = set(re.findall(r"\b([a-z_0-9]+):\s*'", js[js.find("const SZOVEG"):js.find("const SZOVEG") + 40000])) if "const SZOVEG" in js else None
+    keys_html = set(re.findall(r'data-t="([^"]+)"', html))
+    if keys_html:
+        missing_t = sorted(k for k in keys_html if not re.search(r"\b" + re.escape(k) + r"\s*:", js))
+        check(not missing_t, "az index.html data-t kulcsai hiányoznak a szótárból: " + ", ".join(missing_t[:15]))
 
     # forbidden leftovers
-    ellenoriz("↗" not in js, "ferde nyíl (↗) maradt az app.js-ben")
-    for tiltott in ("debugger;", "console.log("):
-        if tiltott in js:
-            figyelmeztet(f"'{tiltott}' szerepel az app.js-ben ({js.count(tiltott)}×): nyilvános indítás előtt érdemes kivenni")
+    check("↗" not in js, "ferde nyíl (↗) maradt az app.js-ben")
+    for banned in ("debugger;", "console.log("):
+        if banned in js:
+            warn(f"'{banned}' szerepel az app.js-ben ({js.count(banned)}×): nyilvános indítás előtt érdemes kivenni")
 
     # size
-    meret = APP.stat().st_size
-    if meret > 400_000:
-        figyelmeztet(f"az app.js {meret // 1000} KB: érdemes szétbontani, ha tovább nő")
-    return vege("kliens")
+    size = APP.stat().st_size
+    if size > 400_000:
+        warn(f"az app.js {size // 1000} KB: érdemes szétbontani, ha tovább nő")
+    return end_("kliens")
 
 
 if __name__ == "__main__":

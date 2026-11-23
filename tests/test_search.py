@@ -7,10 +7,10 @@ import shutil
 import subprocess
 import tempfile
 from pathlib import Path
-from test_common import GYOKER, ellenoriz, figyelmeztet, vege
+from test_common import ROOT, check, warn, end_
 
-APP = GYOKER / "terkep3d" / "app.js"
-ADAT = GYOKER / "terkep3d" / "data_varos" / "epuletek.json"
+APP = ROOT / "terkep3d" / "app.js"
+DATA = ROOT / "terkep3d" / "data_varos" / "epuletek.json"
 JS = r"""
 const fs = require('fs');
 const src = fs.readFileSync(process.argv[2], 'utf8');
@@ -30,21 +30,21 @@ def main():
     print("[kereso] keresoEpit az epuletek.json-on")
     node = shutil.which("node")
     if not node:
-        figyelmeztet("nincs node a gépen: a kereső-teszt kimaradt")
-        return vege("kereso")
-    if not ADAT.exists():
-        figyelmeztet(f"nincs meg: {ADAT}")
-        return vege("kereso")
+        warn("nincs node a gépen: a kereső-teszt kimaradt")
+        return end_("kereso")
+    if not DATA.exists():
+        warn(f"nincs meg: {DATA}")
+        return end_("kereso")
     with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as f:
         f.write(JS)
-    r = subprocess.run([node, f.name, str(APP), str(ADAT)], capture_output=True, text=True)
+    r = subprocess.run([node, f.name, str(APP), str(DATA)], capture_output=True, text=True)
     Path(f.name).unlink(missing_ok=True)
-    if not ellenoriz(r.returncode == 0, "a keresoEpit nem futott le: " + r.stderr.strip()[:300]):
-        return vege("kereso")
+    if not check(r.returncode == 0, "a keresoEpit nem futott le: " + r.stderr.strip()[:300]):
+        return end_("kereso")
     e = json.loads(r.stdout)
-    ellenoriz(e["tobb"] == 0, f"{e['tobb']} OSM-elem többször szerepel a kereső találatai között (pl. {e['pelda']})")
+    check(e["tobb"] == 0, f"{e['tobb']} OSM-elem többször szerepel a kereső találatai között (pl. {e['pelda']})")
     print(f"  kereshető tétel: {e['db']}, ismétlődő OSM-elem: {e['tobb']}")
-    return vege("kereso")
+    return end_("kereso")
 
 
 if __name__ == "__main__":

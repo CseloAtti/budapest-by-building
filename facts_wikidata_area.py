@@ -13,22 +13,22 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from common import kulcs, legkozelebbi_csucs_m, pont_barmelyikben, poligonok, tenyek_irasa
+from common import building_key, nearest_vertex_m, point_in_any, polygons, write_facts
 
 OSM = "data/belvaros_epuletek.geojson"
-KIMENET = "data/tenyek/wikidata_terulet.csv"
+OUTPUT = "data/tenyek/wikidata_terulet.csv"
 CACHE = Path("data/cache/wdqs_terulet.json")
-DEL, NYUGAT, ESZAK, KELET = 47.490, 19.040, 47.513, 19.062
-KOZELI_METER = 10
-KLIENS = "budapest-by-building/1.0 (tanulasi projekt)"
+DEL, WEST, NORTH, EAST = 47.490, 19.040, 47.513, 19.062
+NEARBY_METER = 10
+CLIENT = "budapest-by-building/1.0 (tanulasi projekt)"
 SPARQL = "https://query.wikidata.org/sparql"
 
-LEKERDEZES = f"""
+QUERY = f"""
 SELECT ?item ?itemLabel ?coord ?ev ?epiteszLabel ?stilusLabel WHERE {{
   SERVICE wikibase:box {{
     ?item wdt:P625 ?coord .
-    bd:serviceParam wikibase:cornerSouthWest "Point({NYUGAT} {DEL})"^^geo:wktLiteral .
-    bd:serviceParam wikibase:cornerNorthEast "Point({KELET} {ESZAK})"^^geo:wktLiteral .
+    bd:serviceParam wikibase:cornerSouthWest "Point({WEST} {DEL})"^^geo:wktLiteral .
+    bd:serviceParam wikibase:cornerNorthEast "Point({EAST} {NORTH})"^^geo:wktLiteral .
   }}
   ?item wdt:P31/wdt:P279* wd:Q41176 .
   ?item p:P571/psv:P571 ?v .
@@ -41,105 +41,105 @@ SELECT ?item ?itemLabel ?coord ?ev ?epiteszLabel ?stilusLabel WHERE {{
 """
 
 
-def lekeres():
+def fetch():
     if CACHE.exists():
         return json.loads(CACHE.read_text(encoding="utf-8"))
-    url = SPARQL + "?" + urllib.parse.urlencode({"query": LEKERDEZES, "format": "json"})
-    req = urllib.request.Request(url, headers={"User-Agent": KLIENS, "Accept": "application/sparql-results+json"})
-    adat = None
-    for probalkozas in range(1, 6):
+    url = SPARQL + "?" + urllib.parse.urlencode({"query": QUERY, "format": "json"})
+    req = urllib.request.Request(url, headers={"User-Agent": CLIENT, "Accept": "application/sparql-results+json"})
+    data_ = None
+    for attempt in range(1, 6):
         try:
             with urllib.request.urlopen(req, timeout=120) as r:
-                adat = json.load(r)
+                data_ = json.load(r)
             break
-        except urllib.error.HTTPError as hiba:
-            if hiba.code not in (429, 500, 502, 503, 504) or probalkozas == 5:
+        except urllib.error.HTTPError as error_:
+            if error_.code not in (429, 500, 502, 503, 504) or attempt == 5:
                 raise
-            varakozas = 70
+            wait = 70
             try:
-                varakozas = max(varakozas, int(hiba.headers.get("Retry-After", 0)) + 5)
+                wait = max(wait, int(error_.headers.get("Retry-After", 0)) + 5)
             except (TypeError, ValueError):
                 pass
-            print(f"A Wikidata szervere most nem fogad ({hiba.code}), {probalkozas}/5. próba. "
-                  f"Várok {varakozas} másodpercet...")
-            time.sleep(varakozas)
-        except urllib.error.URLError as hiba:
-            if probalkozas == 5:
+            print(f"A Wikidata szervere most nem fogad ({error_.code}), {attempt}/5. próba. "
+                  f"Várok {wait} másodpercet...")
+            time.sleep(wait)
+        except urllib.error.URLError as error_:
+            if attempt == 5:
                 raise
-            print(f"Hálózati hiba ({hiba.reason}), {probalkozas}/5. próba. Várok 30 másodpercet...")
+            print(f"Hálózati hiba ({error_.reason}), {attempt}/5. próba. Várok 30 másodpercet...")
             time.sleep(30)
     CACHE.parent.mkdir(parents=True, exist_ok=True)
-    CACHE.write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
-    return adat
+    CACHE.write_text(json.dumps(data_, ensure_ascii=False), encoding="utf-8")
+    return data_
 
 
-def pont_wkt(s):
+def point_wkt(s):
     # "Point(19.05 47.5)"
     x, y = s[s.index("(") + 1:s.index(")")].split()
     return float(x), float(y)
 
 
 def main():
-    sorok_wd = lekeres()["results"]["bindings"]
-    elemek = {}
-    for r in sorok_wd:
+    rows_wd = fetch()["results"]["bindings"]
+    elements = {}
+    for r in rows_wd:
         q = r["item"]["value"].rsplit("/", 1)[-1]
-        e = elemek.setdefault(q, {"nev": None, "pont": None, "ev": None, "epitesz": [], "stilus": []})
+        e = elements.setdefault(q, {"nev": None, "pont": None, "ev": None, "epitesz": [], "stilus": []})
         e["nev"] = r.get("itemLabel", {}).get("value")
-        e["pont"] = pont_wkt(r["coord"]["value"])
+        e["pont"] = point_wkt(r["coord"]["value"])
         e["ev"] = int(r["ev"]["value"].lstrip("+")[:4])
-        for kulcsnev, mezo in (("epiteszLabel", "epitesz"), ("stilusLabel", "stilus")):
-            v = r.get(kulcsnev, {}).get("value")
-            if v and not v.startswith("http") and v not in e[mezo]:
-                e[mezo].append(v)
-    print(f"Wikidata-épületek a területen (építési évvel): {len(elemek)}")
+        for key_name, field in (("epiteszLabel", "epitesz"), ("stilusLabel", "stilus")):
+            v = r.get(key_name, {}).get("value")
+            if v and not v.startswith("http") and v not in e[field]:
+                e[field].append(v)
+    print(f"Wikidata-épületek a területen (építési évvel): {len(elements)}")
 
     with open(OSM, encoding="utf-8") as f:
         feats = [x for x in json.load(f)["features"] if x["properties"].get("tipus") != "roof"]
-    polik = [(ft, poligonok(ft["geometry"])) for ft in feats]
+    polys = [(ft, polygons(ft["geometry"])) for ft in feats]
 
-    sorok, belul, kozeli, nincs = [], 0, 0, 0
-    legjobb = {}   # building -> (distance from the inner point, data)
-    for q, e in elemek.items():
+    rows, inside_, nearby, none = [], 0, 0, 0
+    best = {}   # building -> (distance from the inner point, data)
+    for q, e in elements.items():
         x, y = e["pont"]
-        talalat, mod = None, None
-        for ft, pl in polik:
-            if pl and pont_barmelyikben(x, y, pl):
-                talalat, mod = ft, "wikidata"
+        hit, mode = None, None
+        for ft, pl in polys:
+            if pl and point_in_any(x, y, pl):
+                hit, mode = ft, "wikidata"
                 break
-        if talalat is None:
-            tav = KOZELI_METER
-            for ft, pl in polik:
+        if hit is None:
+            distance = NEARBY_METER
+            for ft, pl in polys:
                 if not pl:
                     continue
-                d = legkozelebbi_csucs_m(x, y, pl[0][0])
-                if d < tav:
-                    talalat, tav = ft, d
-            mod = "wikidata_kozeli" if talalat else None
-        if talalat is None:
-            nincs += 1
+                d = nearest_vertex_m(x, y, pl[0][0])
+                if d < distance:
+                    hit, distance = ft, d
+            mode = "wikidata_kozeli" if hit else None
+        if hit is None:
+            none += 1
             continue
-        belul += mod == "wikidata"
-        kozeli += mod == "wikidata_kozeli"
-        k = kulcs(talalat["properties"])
-        elozo = legjobb.get(k)
+        inside_ += mode == "wikidata"
+        nearby += mode == "wikidata_kozeli"
+        k = building_key(hit["properties"])
+        previous = best.get(k)
         # if several elements fall into a building, the "inside" hit wins
-        if elozo is None or (mod == "wikidata" and elozo[0] != "wikidata"):
-            legjobb[k] = (mod, q, e)
+        if previous is None or (mode == "wikidata" and previous[0] != "wikidata"):
+            best[k] = (mode, q, e)
 
-    for (t, i), (mod, q, e) in legjobb.items():
-        sorok.append((t, i, "wikidata_id", q, mod, ""))
+    for (t, i), (mode, q, e) in best.items():
+        rows.append((t, i, "wikidata_id", q, mode, ""))
         if e["nev"]:
-            sorok.append((t, i, "wikidata_nev", e["nev"], mod, q))
-        sorok.append((t, i, "ev", e["ev"], mod, f"{q}: P571"))
+            rows.append((t, i, "wikidata_nev", e["nev"], mode, q))
+        rows.append((t, i, "ev", e["ev"], mode, f"{q}: P571"))
         if e["epitesz"]:
-            sorok.append((t, i, "tervezo", ", ".join(e["epitesz"]), mod, q))
+            rows.append((t, i, "tervezo", ", ".join(e["epitesz"]), mode, q))
         if e["stilus"]:
-            sorok.append((t, i, "stilus", ", ".join(e["stilus"]), mod, q))
-    tenyek_irasa(KIMENET, sorok)
-    print(f"Épületbe esik: {belul}, közeli (≤{KOZELI_METER} m): {kozeli}, nem párosítható: {nincs}")
-    print(f"Épület, amelyhez adat került: {len(legjobb)}")
-    print(f"Mentve: {KIMENET}")
+            rows.append((t, i, "stilus", ", ".join(e["stilus"]), mode, q))
+    write_facts(OUTPUT, rows)
+    print(f"Épületbe esik: {inside_}, közeli (≤{NEARBY_METER} m): {nearby}, nem párosítható: {none}")
+    print(f"Épület, amelyhez adat került: {len(best)}")
+    print(f"Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":

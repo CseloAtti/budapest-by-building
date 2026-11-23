@@ -18,12 +18,12 @@ from collections import defaultdict
 from pathlib import Path
 from urllib.parse import quote
 
-ALAP_URL = "https://budapestbuildings.com"
-OLDAL_NEV = "Budapest épületei"
-MIN_EPITESZ_DB = 4          # for fewer buildings than this no designer page is made
-EV_FORRAS = {"start_date": "OpenStreetMap", "budapest100": "Budapest100", "wikipedia_lista": "Wikipédia",
+BASE_URL = "https://budapestbuildings.com"
+PAGE_NAME = "Budapest épületei"
+MIN_ARCHITECT_COUNT = 4          # for fewer buildings than this no designer page is made
+YEAR_SOURCE = {"start_date": "OpenStreetMap", "budapest100": "Budapest100", "wikipedia_lista": "Wikipédia",
              "wikidata": "Wikidata", "oeny": "E-Örökség (OENY)", "lechner": "Lechner Tudásközpont", "kezi": "kézi javítás"}
-VEDETTSEG = {"M": "műemlék", "MJ": "műemlék jellegű", "VK": "városképi jelentőségű", "MK": "műemléki környezet",
+PROTECTION = {"M": "műemlék", "MJ": "műemlék jellegű", "VK": "városképi jelentőségű", "MK": "műemléki környezet",
              "MJT": "műemléki jelentőségű terület", "HV": "helyi védelem"}
 
 CSS = """body{margin:0;font:16px/1.55 "Helvetica Neue",Arial,sans-serif;color:#111;background:#f4f6f7}
@@ -40,214 +40,214 @@ def e(s):
     return html.escape(str(s if s is not None else ""), quote=True)
 
 
-def szlug(s):
+def slug(s):
     s = unicodedata.normalize("NFKD", str(s)).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-") or "x"
 
 
-def gazd(p):
+def rich(p):
     return ("r" if p.get("osm_tipus") == "relation" else "w") + str(p["id"])
 
 
-def cim_elso(p):
+def address_first(p):
     return str(p.get("cim") or "").split(";")[0].strip()
 
 
-def cim_cikk(p):
-    return str(p.get("nev") or "").strip() or cim_elso(p)
+def address_article(p):
+    return str(p.get("nev") or "").strip() or address_first(p)
 
 
-def sajat_wikipedia(p):
+def own_wikipedia(p):
     w = p.get("wikipedia")
     if not w or p.get("wikipedia_zona"):
         return []
     return [x.strip()[3:] if x.strip().startswith("hu:") else x.strip() for x in str(w).split("|") if x.strip()]
 
 
-def kell_oldal(p):
-    if p.get("resz") or not cim_cikk(p):
+def needed_page(p):
+    if p.get("resz") or not address_article(p):
         return False
     return bool(p.get("ev") or p.get("tervezo") or p.get("budapest100_url") or p.get("epforum_url") or p.get("legenda_url")
-                or p.get("oeny_azonosito") or p.get("wikidata_id") or sajat_wikipedia(p))
+                or p.get("oeny_azonosito") or p.get("wikidata_id") or own_wikipedia(p))
 
 
-def tervezok(p):
+def designers(p):
     return [x.strip() for x in re.split(r"\s*(?:,|;|\bés\b)\s*", str(p.get("tervezo") or "")) if x.strip()]
 
 
-def tipus_szotar(app_js):
+def type_dict(app_js):
     """The TIPUS_HU dictionary from app.js (so that the type names appear in Hungarian just as on the map)."""
     m = re.search(r"var TIPUS_HU = \{(.*?)\};", app_js, re.S)
     return dict(re.findall(r"(\w+):\s*'([^']*)'", m.group(1))) if m else {}
 
 
-def tipus_nev(v, szotar):
-    r = [szotar.get(x.strip(), x.strip()) for x in str(v or "").split(";") if x.strip() and x.strip() != "yes"]
+def type_name(v, dict_):
+    r = [dict_.get(x.strip(), x.strip()) for x in str(v or "").split(";") if x.strip() and x.strip() != "yes"]
     return ", ".join(r)
 
 
-def oldal(cim, leiras, torzs, url, jsonld=None):
+def page(address, description, serial, url, jsonld=None):
     ld = ""
     if jsonld:
         ld = '<script type="application/ld+json">' + json.dumps(jsonld, ensure_ascii=False).replace("<", "\\u003c") + "</script>"
     return f"""<!doctype html>
 <html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{e(cim)} | {OLDAL_NEV}</title>
-<meta name="description" content="{e(leiras)}">
-<link rel="canonical" href="{ALAP_URL}{url}">
-<meta property="og:title" content="{e(cim)}"><meta property="og:description" content="{e(leiras)}"><meta property="og:type" content="website"><meta property="og:url" content="{ALAP_URL}{url}"><meta property="og:image" content="{ALAP_URL}/megosztas_hu.png"><meta name="twitter:card" content="summary_large_image">
+<title>{e(address)} | {PAGE_NAME}</title>
+<meta name="description" content="{e(description)}">
+<link rel="canonical" href="{BASE_URL}{url}">
+<meta property="og:title" content="{e(address)}"><meta property="og:description" content="{e(description)}"><meta property="og:type" content="website"><meta property="og:url" content="{BASE_URL}{url}"><meta property="og:image" content="{BASE_URL}/megosztas_hu.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><style>{CSS}</style>{ld}</head><body><main>
-<nav><a href="/explore/">{OLDAL_NEV}: szöveges változat</a></nav>
-{torzs}
+<nav><a href="/explore/">{PAGE_NAME}: szöveges változat</a></nav>
+{serial}
 <footer>Adatok: © OpenStreetMap közreműködők (ODbL), Budapest100, Építészfórum, Budapest Legendák, E-Örökség (OENY), Wikipédia. Az építési évek egy része gyűjtött adat, nem hivatalos nyilvántartás. <a href="/">Vissza az interaktív 3D térképre</a>.</footer>
 </main></body></html>
 """
 
 
-def epulet_oldal(p, szotar, kor_lista, ep_szlug):
-    gid = gazd(p)
-    cim = cim_cikk(p)
-    cimsor = cim_elso(p)
-    sorok = []
+def building_page(p, dict_, era_list, ep_slug):
+    gid = rich(p)
+    address = address_article(p)
+    header = address_first(p)
+    rows = []
     if p.get("ev"):
-        fr = EV_FORRAS.get(p.get("ev_forras"))
-        sorok.append(("Építés éve", f"{e(p['ev'])}" + (f" <small>(forrás: {e(fr)})</small>" if fr else "")))
+        fr = YEAR_SOURCE.get(p.get("ev_forras"))
+        rows.append(("Építés éve", f"{e(p['ev'])}" + (f" <small>(forrás: {e(fr)})</small>" if fr else "")))
     if p.get("tervezo"):
-        linkek = []
-        for n in tervezok(p):
-            linkek.append(f'<a href="/explore/architect/{ep_szlug[n]}/">{e(n)}</a>' if n in ep_szlug else e(n))
-        sorok.append(("Tervező", ", ".join(linkek) if linkek else e(p["tervezo"])))
+        links = []
+        for n in designers(p):
+            links.append(f'<a href="/explore/architect/{ep_slug[n]}/">{e(n)}</a>' if n in ep_slug else e(n))
+        rows.append(("Tervező", ", ".join(links) if links else e(p["tervezo"])))
     if p.get("stilus"):
-        sorok.append(("Stílus", e(p["stilus"])))
-    t = tipus_nev(p.get("tipus"), szotar)
+        rows.append(("Stílus", e(p["stilus"])))
+    t = type_name(p.get("tipus"), dict_)
     if t:
-        sorok.append(("Típus", e(t)))
-    kod = p.get("vedettseg") or ("HV" if p.get("vedettseg_helyi") else "")
-    if kod:
-        v = VEDETTSEG.get(kod, kod) + (f" (törzsszám {p['muemlek_torzsszam']})" if p.get("muemlek_torzsszam") and kod != "HV" else "")
-        sorok.append(("Védettség", e(v)))
-    if cimsor:
-        sorok.append(("Cím", e(cimsor)))
-    dl = "<dl>" + "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in sorok) + "</dl>" if sorok else ""
-    tobb = []
+        rows.append(("Típus", e(t)))
+    code_ = p.get("vedettseg") or ("HV" if p.get("vedettseg_helyi") else "")
+    if code_:
+        v = PROTECTION.get(code_, code_) + (f" (törzsszám {p['muemlek_torzsszam']})" if p.get("muemlek_torzsszam") and code_ != "HV" else "")
+        rows.append(("Védettség", e(v)))
+    if header:
+        rows.append(("Cím", e(header)))
+    dl = "<dl>" + "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in rows) + "</dl>" if rows else ""
+    several = []
     if p.get("budapest100_url"):
-        tobb.append(("Budapest100", p["budapest100_url"]))
+        several.append(("Budapest100", p["budapest100_url"]))
     if p.get("epforum_url"):
-        tobb.append(("Építészfórum", p["epforum_url"]))
+        several.append(("Építészfórum", p["epforum_url"]))
     if p.get("legenda_url"):
-        tobb.append(("Budapest Legendák", p["legenda_url"]))
+        several.append(("Budapest Legendák", p["legenda_url"]))
     for a in str(p.get("oeny_azonosito") or "").split("|"):
         if re.fullmatch(r"\d{1,8}", a):
-            tobb.append(("E-Örökség (OENY)", f"https://www.oeny.hu/oeny/eorok/public/monument/{a}"))
-    for w in sajat_wikipedia(p):
-        tobb.append((f"Wikipédia: {w}", "https://hu.wikipedia.org/wiki/" + quote(w.replace(" ", "_"))))
+            several.append(("E-Örökség (OENY)", f"https://www.oeny.hu/oeny/eorok/public/monument/{a}"))
+    for w in own_wikipedia(p):
+        several.append((f"Wikipédia: {w}", "https://hu.wikipedia.org/wiki/" + quote(w.replace(" ", "_"))))
     if p.get("wikidata_id"):
-        tobb.append(("Wikidata", f"https://www.wikidata.org/wiki/{quote(str(p['wikidata_id']))}"))
-    gm = "https://www.google.com/maps/search/?api=1&query=" + quote(f"{cimsor}, Budapest" if cimsor else f"{p['lat']},{p['lon']}")
-    tobb.append(("Google Térkép", gm))
-    tobb_html = "<h2>Tudj meg többet</h2><ul>" + "".join(f'<li><a href="{e(u)}" rel="noopener">{e(n)}</a></li>' for n, u in tobb) + "</ul>"
-    kor = ""
-    if p.get("ev") and kor_lista:
-        for sz, a, b, cimke in kor_lista:
+        several.append(("Wikidata", f"https://www.wikidata.org/wiki/{quote(str(p['wikidata_id']))}"))
+    gm = "https://www.google.com/maps/search/?api=1&query=" + quote(f"{header}, Budapest" if header else f"{p['lat']},{p['lon']}")
+    several.append(("Google Térkép", gm))
+    several_html = "<h2>Tudj meg többet</h2><ul>" + "".join(f'<li><a href="{e(u)}" rel="noopener">{e(n)}</a></li>' for n, u in several) + "</ul>"
+    era = ""
+    if p.get("ev") and era_list:
+        for sz, a, b, label in era_list:
             if a <= int(p["ev"]) <= b:
-                kor = f'<p>Korszak: <a href="/explore/era/{sz}/">{e(cimke)}</a></p>'
+                era = f'<p>Korszak: <a href="/explore/era/{sz}/">{e(label)}</a></p>'
                 break
-    mondat = f"{cim}" + (f" ({cimsor})" if cimsor and cimsor != cim else "") + " Budapest egyik épülete"
+    sentence = f"{address}" + (f" ({header})" if header and header != address else "") + " Budapest egyik épülete"
     if p.get("ev"):
-        mondat += f", építési éve: {p['ev']}"
+        sentence += f", építési éve: {p['ev']}"
     if p.get("tervezo"):
-        mondat += f", tervezője: {p['tervezo']}"
-    mondat += "."
+        sentence += f", tervezője: {p['tervezo']}"
+    sentence += "."
     url = f"/e/{gid}/"
-    ld = {"@context": "https://schema.org", "@type": "Place", "name": cim,
+    ld = {"@context": "https://schema.org", "@type": "Place", "name": address,
           "geo": {"@type": "GeoCoordinates", "latitude": p["lat"], "longitude": p["lon"]}}
-    if cimsor:
-        ld["address"] = {"@type": "PostalAddress", "streetAddress": cimsor, "addressLocality": "Budapest", "addressCountry": "HU"}
-    torzs = f"""<h1>{e(cim)}</h1>
-<p class="k">{e(cimsor) + ", " if cimsor else ""}Budapest</p>
+    if header:
+        ld["address"] = {"@type": "PostalAddress", "streetAddress": header, "addressLocality": "Budapest", "addressCountry": "HU"}
+    serial = f"""<h1>{e(address)}</h1>
+<p class="k">{e(header) + ", " if header else ""}Budapest</p>
 <a class="ter" href="/?e={gid}">Megnyitás a 3D térképen</a>
-<div class="lap"><p>{e(mondat)}</p>{dl}{kor}{tobb_html}</div>"""
-    return url, oldal(cim + (f" – {cimsor}" if cimsor and cimsor != cim else ""), mondat, torzs, url, ld)
+<div class="lap"><p>{e(sentence)}</p>{dl}{era}{several_html}</div>"""
+    return url, page(address + (f" – {header}" if header and header != address else ""), sentence, serial, url, ld)
 
 
-def keszit(ki, epuletek, korszakok, app_js=""):
+def make(out, buildings, eras, app_js=""):
     """ki: the release/ folder; epuletek: the FULL building list; korszakok: the 'periods' list of budapest.json.
     Returns: the number of pages made, in a dictionary."""
-    ki = Path(ki)
-    szotar = tipus_szotar(app_js)
+    out = Path(out)
+    dict_ = type_dict(app_js)
     # eras: (slug, from, to, label)
-    kor_lista = []
-    for k in korszakok:
+    era_list = []
+    for k in eras:
         a, b = int(k["from"]), int(k["to"])
-        kor_lista.append((szlug(k["label"]), a, b, k["label"]))
-    lista = [p for p in epuletek if isinstance(p, dict) and kell_oldal(p)]
+        era_list.append((slug(k["label"]), a, b, k["label"]))
+    list_ = [p for p in buildings if isinstance(p, dict) and needed_page(p)]
     # architect slugs (with at least MIN_EPITESZ_DB buildings)
-    db = defaultdict(list)
-    for p in lista:
-        for n in set(tervezok(p)):
-            db[n].append(p)
-    ep_szlug, hasznalt = {}, set()
-    for n in sorted(db, key=lambda x: (-len(db[x]), x)):
-        if len(db[n]) < MIN_EPITESZ_DB:
+    count_ = defaultdict(list)
+    for p in list_:
+        for n in set(designers(p)):
+            count_[n].append(p)
+    ep_slug, used = {}, set()
+    for n in sorted(count_, key=lambda x: (-len(count_[x]), x)):
+        if len(count_[n]) < MIN_ARCHITECT_COUNT:
             continue
-        sz, i = szlug(n), 2
-        alap = sz
-        while sz in hasznalt:
-            sz, i = f"{alap}-{i}", i + 1
-        hasznalt.add(sz)
-        ep_szlug[n] = sz
-    urlok = ["/", "/explore/"]
+        sz, i = slug(n), 2
+        base = sz
+        while sz in used:
+            sz, i = f"{base}-{i}", i + 1
+        used.add(sz)
+        ep_slug[n] = sz
+    urls_ = ["/", "/explore/"]
 
-    def ir(url, tartalom):
-        f = ki / url.strip("/") / "index.html"
+    def ir(url, content):
+        f = out / url.strip("/") / "index.html"
         f.parent.mkdir(parents=True, exist_ok=True)
-        f.write_text(tartalom, encoding="utf-8")
-        urlok.append(url)
+        f.write_text(content, encoding="utf-8")
+        urls_.append(url)
 
     # building pages
-    for p in lista:
-        url, t = epulet_oldal(p, szotar, kor_lista, ep_szlug)
+    for p in list_:
+        url, t = building_page(p, dict_, era_list, ep_slug)
         ir(url, t)
     # korszakoldalak
-    kor_db = {}
-    for sz, a, b, cimke in kor_lista:
-        tagok = sorted((p for p in lista if p.get("ev") and a <= int(p["ev"]) <= b), key=lambda p: (int(p["ev"]), cim_cikk(p)))
-        kor_db[sz] = len(tagok)
-        if not tagok:
+    era_count = {}
+    for sz, a, b, label in era_list:
+        members = sorted((p for p in list_ if p.get("ev") and a <= int(p["ev"]) <= b), key=lambda p: (int(p["ev"]), address_article(p)))
+        era_count[sz] = len(members)
+        if not members:
             continue
-        li = "".join(f'<li>{e(p["ev"])} – <a href="/e/{gazd(p)}/">{e(cim_cikk(p))}</a>{" (" + e(cim_elso(p)) + ")" if p.get("nev") and cim_elso(p) else ""}</li>' for p in tagok)
-        torzs = f"<h1>{e(cimke)}</h1><p class=\"k\">{len(tagok)} épület ismert építési évvel</p><div class=\"lap\"><ul>{li}</ul></div>"
-        ir(f"/explore/era/{sz}/", oldal(cimke, f"{cimke}: {len(tagok)} budapesti épület ismert építési évvel.", torzs, f"/explore/era/{sz}/"))
+        li = "".join(f'<li>{e(p["ev"])} – <a href="/e/{rich(p)}/">{e(address_article(p))}</a>{" (" + e(address_first(p)) + ")" if p.get("nev") and address_first(p) else ""}</li>' for p in members)
+        serial = f"<h1>{e(label)}</h1><p class=\"k\">{len(members)} épület ismert építési évvel</p><div class=\"lap\"><ul>{li}</ul></div>"
+        ir(f"/explore/era/{sz}/", page(label, f"{label}: {len(members)} budapesti épület ismert építési évvel.", serial, f"/explore/era/{sz}/"))
     # architect pages
-    for n, sz in ep_szlug.items():
-        tagok = sorted(db[n], key=lambda p: (int(p["ev"]) if p.get("ev") else 9999, cim_cikk(p)))
-        li = "".join(f'<li>{(e(p["ev"]) + " – ") if p.get("ev") else ""}<a href="/e/{gazd(p)}/">{e(cim_cikk(p))}</a>{" (" + e(cim_elso(p)) + ")" if p.get("nev") and cim_elso(p) else ""}</li>' for p in tagok)
-        torzs = f"<h1>{e(n)}</h1><p class=\"k\">{len(tagok)} épülete a térképen</p><div class=\"lap\"><ul>{li}</ul></div>"
-        ir(f"/explore/architect/{sz}/", oldal(f"{n} épületei", f"{n} tervezte épületek Budapesten: {len(tagok)} épület.", torzs, f"/explore/architect/{sz}/"))
+    for n, sz in ep_slug.items():
+        members = sorted(count_[n], key=lambda p: (int(p["ev"]) if p.get("ev") else 9999, address_article(p)))
+        li = "".join(f'<li>{(e(p["ev"]) + " – ") if p.get("ev") else ""}<a href="/e/{rich(p)}/">{e(address_article(p))}</a>{" (" + e(address_first(p)) + ")" if p.get("nev") and address_first(p) else ""}</li>' for p in members)
+        serial = f"<h1>{e(n)}</h1><p class=\"k\">{len(members)} épülete a térképen</p><div class=\"lap\"><ul>{li}</ul></div>"
+        ir(f"/explore/architect/{sz}/", page(f"{n} épületei", f"{n} tervezte épületek Budapesten: {len(members)} épület.", serial, f"/explore/architect/{sz}/"))
     # home page
-    ossz = defaultdict(int)
-    for p in epuletek:
+    total = defaultdict(int)
+    for p in buildings:
         k = p.get("kor") if isinstance(p, dict) else None
-        if k and 1 <= k <= len(kor_lista):
-            ossz[k - 1] += 1
-    def kor_sor(i, sz, c):
-        nev = f'<a href="/explore/era/{sz}/">{e(c)}</a>' if kor_db.get(sz) else e(c)
-        return f'<tr><td>{nev}</td><td class="sz">{ossz.get(i, 0):,}</td><td class="sz">{kor_db.get(sz, 0):,}</td></tr>'.replace(",", "&nbsp;")
-    sorok = "".join(kor_sor(i, sz, c) for i, (sz, a, b, c) in enumerate(kor_lista))
-    ep_li = "".join(f'<li><a href="/explore/architect/{sz}/">{e(n)}</a> ({len(db[n])})</li>' for n, sz in ep_szlug.items())
-    torzs = f"""<h1>{OLDAL_NEV}: szöveges változat</h1>
+        if k and 1 <= k <= len(era_list):
+            total[k - 1] += 1
+    def era_row(i, sz, c):
+        name_ = f'<a href="/explore/era/{sz}/">{e(c)}</a>' if era_count.get(sz) else e(c)
+        return f'<tr><td>{name_}</td><td class="sz">{total.get(i, 0):,}</td><td class="sz">{era_count.get(sz, 0):,}</td></tr>'.replace(",", "&nbsp;")
+    rows = "".join(era_row(i, sz, c) for i, (sz, a, b, c) in enumerate(era_list))
+    ep_li = "".join(f'<li><a href="/explore/architect/{sz}/">{e(n)}</a> ({len(count_[n])})</li>' for n, sz in ep_slug.items())
+    serial = f"""<h1>{PAGE_NAME}: szöveges változat</h1>
 <p class="k">Budapest minden ma álló épülete a térképen; itt a részletes adattal rendelkezők kereshető, olvasható oldalai.</p>
 <a class="ter" href="/">Az interaktív 3D térkép</a>
 <div class="lap"><h2>Mikor épültek az épületek?</h2>
-<table><tr><th>Korszak</th><th class="sz">Épület a térképen</th><th class="sz">Ismert évszámú, itt olvasható</th></tr>{sorok}</table>
+<table><tr><th>Korszak</th><th class="sz">Épület a térképen</th><th class="sz">Ismert évszámú, itt olvasható</th></tr>{rows}</table>
 <p><small>A térképen a legtöbb épület kora becsült érték. A korszak-oldalakon csak az ismert építési évvel rendelkező épületek szerepelnek.</small></p>
 <h2>Építészek</h2><ul>{ep_li}</ul></div>"""
-    f = ki / "explore" / "index.html"
+    f = out / "explore" / "index.html"
     f.parent.mkdir(parents=True, exist_ok=True)
-    f.write_text(oldal(f"{OLDAL_NEV}: szöveges változat", "Budapest épületei kor, tervező és védettség szerint: olvasható, kereshető oldalak az interaktív 3D térkép mellé.", torzs, "/explore/"), encoding="utf-8")
+    f.write_text(page(f"{PAGE_NAME}: szöveges változat", "Budapest épületei kor, tervező és védettség szerint: olvasható, kereshető oldalak az interaktív 3D térkép mellé.", serial, "/explore/"), encoding="utf-8")
     # sitemap, robots
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
-         "".join(f"<url><loc>{ALAP_URL}{u}</loc></url>\n" for u in urlok) + "</urlset>\n"
-    (ki / "sitemap.xml").write_text(sm, encoding="utf-8")
-    (ki / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {ALAP_URL}/sitemap.xml\n", encoding="utf-8")
-    return {"epulet": len(lista), "korszak": sum(1 for v in kor_db.values() if v), "epitesz": len(ep_szlug), "oldal": len(urlok)}
+         "".join(f"<url><loc>{BASE_URL}{u}</loc></url>\n" for u in urls_) + "</urlset>\n"
+    (out / "sitemap.xml").write_text(sm, encoding="utf-8")
+    (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n", encoding="utf-8")
+    return {"epulet": len(list_), "korszak": sum(1 for v in era_count.values() if v), "epitesz": len(ep_slug), "oldal": len(urls_)}

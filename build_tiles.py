@@ -38,34 +38,34 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 try:
-    from dem import Domborzat, HibasFajl
+    from dem import Terrain, FaultyFile
 except ImportError:          # without dem.py we work without terrain
-    Domborzat = None
-    HibasFajl = Exception
+    Terrain = None
+    FaultyFile = Exception
 
-VAROS = "varos" in sys.argv[1:]
-ADAT = Path("data")
-KIMENET = Path("terkep3d/data_varos" if VAROS else "terkep3d/data")
+CITY = "varos" in sys.argv[1:]
+DATA = Path("data")
+OUTPUT = Path("terkep3d/data_varos" if CITY else "terkep3d/data")
 LAT0, LON0 = 47.5015, 19.0515
 COSLAT = math.cos(math.radians(LAT0))
-CSEMPE = 600.0
+TILE = 600.0
 MAGIC = 0x34424241
-ELSO_EV_MIN = 1700
-MOST = 2026
-SZOMSZED_M = 150.0
-TEREP_LEPES = 20.0       # m: step of the terrain mesh
-KEP_PX = 2.5             # m: size of a pixel of the water/park image
-TEREP_MARGO = {"nyugat": 5000.0, "kelet": 2000.0, "eszak": 2000.0, "del": 2500.0}   # m, around the buildings
-if VAROS:               # the whole city: coarser mesh and image, smaller margin
-    TEREP_LEPES = 40.0
-    KEP_PX = 5.0
-    TEREP_MARGO = {"nyugat": 2500.0, "kelet": 2500.0, "eszak": 2500.0, "del": 2500.0}
-SIMITAS_LEPES = 40       # number of passes of the strong smoothing of the floodplain (3x3 average)
-ARTER_SZINT = 96.0       # m: the Danube's level (an approximation for the smoothing weight)
-VAROS_MIN_SUGAR = 3      # SRTM cell: in the built-up area the lowest point within a window of this size is taken
+FIRST_YEAR_MIN = 1700
+NOW = 2026
+NEIGHBOR_M = 150.0
+TERRAIN_STEP = 20.0       # m: step of the terrain mesh
+IMAGE_PX = 2.5             # m: size of a pixel of the water/park image
+TERRAIN_MARGIN = {"nyugat": 5000.0, "kelet": 2000.0, "eszak": 2000.0, "del": 2500.0}   # m, around the buildings
+if CITY:               # the whole city: coarser mesh and image, smaller margin
+    TERRAIN_STEP = 40.0
+    IMAGE_PX = 5.0
+    TERRAIN_MARGIN = {"nyugat": 2500.0, "kelet": 2500.0, "eszak": 2500.0, "del": 2500.0}
+SMOOTHING_STEP = 40       # number of passes of the strong smoothing of the floodplain (3x3 average)
+FLOODPLAIN_LEVEL = 96.0       # m: the Danube's level (an approximation for the smoothing weight)
+CITY_MIN_RADIUS = 3      # SRTM cell: in the built-up area the lowest point within a window of this size is taken
 
 # identical to the era list of index.html and year_estimate.py
-KORSZAKOK = [
+ERAS = [
     (1, 1866, "1866-ig – Kiegyezés előtt", "to 1866 – Before the Compromise", "#7a1f1f"),
     (1867, 1918, "1867–1918 – Dualizmus", "1867–1918 – Dualism", "#d9653b"),
     (1919, 1944, "1919–1944 – Horthy-korszak", "1919–1944 – Horthy era", "#e8b04a"),
@@ -74,45 +74,45 @@ KORSZAKOK = [
     (1990, 2010, "1990–2010 – Rendszerváltás utáni évek", "1990–2010 – Post-transition years", "#3d85c6"),
     (2011, 9999, "2011-től – Napjaink", "2011 onwards – Present day", "#8e5bb5"),
 ]
-ROM_KOR = 0     # ancient and medieval ruins are not a separate category: they belong to the "before 1867" era (the "rom" field is still shown on the card)
+RUIN_ERA = 0     # ancient and medieval ruins are not a separate category: they belong to the "before 1867" era (the "rom" field is still shown on the card)
 
 
-def hidak_lechner():
+def bridges_lechner():
     """The data of the Lechner Knowledge Centre for bridges: the rows in data/tenyek/lechner.csv tied to the bridges' OSM ids (manual pairing)
     are written to the corresponding bridge in hidak.json (bridges are not in the building data, so assemble.py does not see them)."""
-    ut = KIMENET / "hidak.json"
-    tenyek = Path("data/tenyek/lechner.csv")
-    if not ut.exists() or not tenyek.exists():
+    path_ = OUTPUT / "hidak.json"
+    facts = Path("data/tenyek/lechner.csv")
+    if not path_.exists() or not facts.exists():
         return
-    mezok = ("lechner_nev", "lechner_epult", "lechner_ev_kezdet", "lechner_ev_veg", "lechner_tervezo", "lechner_illesztes")
-    adat = defaultdict(dict)
-    with open(tenyek, encoding="utf-8-sig", newline="") as f:
+    fields = ("lechner_nev", "lechner_epult", "lechner_ev_kezdet", "lechner_ev_veg", "lechner_tervezo", "lechner_illesztes")
+    data_ = defaultdict(dict)
+    with open(facts, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
-            if r.get("mezo") in mezok and (r.get("ertek") or "").strip():
-                adat[(r["osm_tipus"], str(r["id"]))][r["mezo"]] = r["ertek"].strip()
-    h = json.load(open(ut, encoding="utf-8"))
-    valtozott = db = 0
-    for hid in h.get("hidak", []):
-        talalt = {}
-        for o in hid.get("osm", []):
-            talalt = adat.get((o.get("t", "way"), str(o.get("id")))) or talalt
-            if talalt:
+            if r.get("mezo") in fields and (r.get("ertek") or "").strip():
+                data_[(r["osm_tipus"], str(r["id"]))][r["mezo"]] = r["ertek"].strip()
+    h = json.load(open(path_, encoding="utf-8"))
+    changed = count_ = 0
+    for bridge in h.get("hidak", []):
+        found = {}
+        for o in bridge.get("osm", []):
+            found = data_.get((o.get("t", "way"), str(o.get("id")))) or found
+            if found:
                 break
-        for m in mezok:
-            uj = talalt.get(m)
-            if uj != hid.get(m) and (uj or m in hid):
-                if uj:
-                    hid[m] = uj
+        for m in fields:
+            new = found.get(m)
+            if new != bridge.get(m) and (new or m in bridge):
+                if new:
+                    bridge[m] = new
                 else:
-                    hid.pop(m, None)
-                valtozott += 1
-        db += bool(talalt)
-    if valtozott:
-        ut.write_text(json.dumps(h, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"  Lechner-adat a hidakon: {db} híd" + (" (hidak.json frissítve)" if valtozott else ""))
+                    bridge.pop(m, None)
+                changed += 1
+        count_ += bool(found)
+    if changed:
+        path_.write_text(json.dumps(h, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"  Lechner-adat a hidakon: {count_} híd" + (" (hidak.json frissítve)" if changed else ""))
 
 
-KARTYA_MEZOK = [
+CARD_FIELDS = [
     "id", "osm_tipus", "nev", "tipus", "resz", "szintek",
     "magassag",
     "ev", "ev_forras", "tervezo", "tervezo_forras", "stilus", "vedettseg", "vedettseg_helyi",
@@ -123,51 +123,51 @@ KARTYA_MEZOK = [
 ]
 
 
-def lokalis(lon, lat):
+def local(lon, lat):
     """Degrees -> metres in the view's coordinate system: x east, z south."""
     return ((lon - LON0) * COSLAT * 111320.0, -(lat - LAT0) * 110574.0)
 
 
-def vissza(x, z):
+def back(x, z):
     return (LAT0 - z / 110574.0, LON0 + x / (COSLAT * 111320.0))
 
 
-def korszak_ev_szerint(ev):
-    for i, (tol, ig, *_) in enumerate(KORSZAKOK):
-        if tol <= ev <= ig:
+def era_year_according_to(year):
+    for i, (from_, to, *_) in enumerate(ERAS):
+        if from_ <= year <= to:
             return i
     return 1
 
 
-def gyuru_tisztitas(gyuru):
+def clean_ring(ring_):
     """Converts to local metres, drops the closing (repeated) point and adjacent identical points."""
-    pontok = []
-    for lon, lat in gyuru:
-        p = lokalis(lon, lat)
-        if not pontok or math.dist(p, pontok[-1]) > 0.05:
-            pontok.append(p)
-    if len(pontok) > 1 and math.dist(pontok[0], pontok[-1]) <= 0.05:
-        pontok.pop()
-    return pontok if len(pontok) >= 3 else None
+    points = []
+    for lon, lat in ring_:
+        p = local(lon, lat)
+        if not points or math.dist(p, points[-1]) > 0.05:
+            points.append(p)
+    if len(points) > 1 and math.dist(points[0], points[-1]) <= 0.05:
+        points.pop()
+    return points if len(points) >= 3 else None
 
 
-def poligonok(geo):
+def polygons(geo):
     """The building's polygons: [[outer, hole, hole...], ...] in local metres."""
     if geo["type"] == "Polygon":
-        lista = [geo["coordinates"]]
+        list_ = [geo["coordinates"]]
     elif geo["type"] == "MultiPolygon":
-        lista = geo["coordinates"]
+        list_ = geo["coordinates"]
     else:
         return []
-    ki = []
-    for poly in lista:
-        gyurukk = [gyuru_tisztitas(g) for g in poly]
-        if gyurukk and gyurukk[0]:
-            ki.append([gyurukk[0]] + [g for g in gyurukk[1:] if g])
-    return ki
+    out = []
+    for poly in list_:
+        rings_ = [clean_ring(g) for g in poly]
+        if rings_ and rings_[0]:
+            out.append([rings_[0]] + [g for g in rings_[1:] if g])
+    return out
 
 
-def kozeppont(poly):
+def center(poly):
     gy = poly[0]
     a2 = cx = cz = 0.0
     for (x0, z0), (x1, z1) in zip(gy, gy[1:] + gy[:1]):
@@ -180,64 +180,64 @@ def kozeppont(poly):
     return (cx / (3 * a2), cz / (3 * a2))
 
 
-def doboz_elmos(g):
+def box_blur(g):
     """3x3 average (at the edge the last value is repeated). g: [[...], ...]"""
     n, m = len(g), len(g[0])
     v = []
     for r in range(n):
-        sor = g[r]
-        v.append([(sor[max(c - 1, 0)] + sor[c] + sor[min(c + 1, m - 1)]) / 3 for c in range(m)])
-    ki = []
+        row = g[r]
+        v.append([(row[max(c - 1, 0)] + row[c] + row[min(c + 1, m - 1)]) / 3 for c in range(m)])
+    out = []
     for r in range(n):
         a, b, c_ = v[max(r - 1, 0)], v[r], v[min(r + 1, n - 1)]
-        ki.append([(a[c] + b[c] + c_[c]) / 3 for c in range(m)])
-    return ki
+        out.append([(a[c] + b[c] + c_[c]) / 3 for c in range(m)])
+    return out
 
 
-def minimum_szuro(g, sugar):
+def minimum_filter(g, radius):
     """Minimum of a square window (separable: first along the rows, then along the columns)."""
     n, m = len(g), len(g[0])
-    v = [[min(sor[max(c - sugar, 0):c + sugar + 1]) for c in range(m)] for sor in g]
-    return [[min(v[k][c] for k in range(max(r - sugar, 0), min(r + sugar, n - 1) + 1)) for c in range(m)]
+    v = [[min(row[max(c - radius, 0):c + radius + 1]) for c in range(m)] for row in g]
+    return [[min(v[k][c] for k in range(max(r - radius, 0), min(r + radius, n - 1) + 1)) for c in range(m)]
             for r in range(n)]
 
 
-ALMINTA = 4   # vertical sub-sampling per pixel for soft (anti-aliased) edges
+SUBSAMPLE = 4   # vertical sub-sampling per pixel for soft (anti-aliased) edges
 
 
-def kitolt(szakaszok, gyuruk, w, h):
+def fill(sections, rings, w, h):
     """Even-odd fill: records the inside of the rings as spans (row -> [(a, b), ...]),
     with ALMINTA sub-rows per row. The coordinates are in pixel units."""
-    ys = [p[1] for gy in gyuruk for p in gy]
+    ys = [p[1] for gy in rings for p in gy]
     if not ys:
         return
-    vodrok = defaultdict(list)       # row -> the edges touching it (otherwise every row would look at every edge)
-    for gy in gyuruk:
+    buckets = defaultdict(list)       # row -> the edges touching it (otherwise every row would look at every edge)
+    for gy in rings:
         for (x1, y1), (x2, y2) in zip(gy, gy[1:] + gy[:1]):
             if y1 != y2:
                 e = (min(y1, y2), max(y1, y2), x1, y1, x2, y2)
                 for r in range(max(0, int(math.floor(e[0]))), min(h - 1, int(math.floor(e[1]))) + 1):
-                    vodrok[r].append(e)
+                    buckets[r].append(e)
     for r in range(max(0, int(math.floor(min(ys)))), min(h - 1, int(math.floor(max(ys)))) + 1):
-        el = vodrok.get(r, ())
-        for k in range(ALMINTA):
-            yc = r + (k + 0.5) / ALMINTA
+        el = buckets.get(r, ())
+        for k in range(SUBSAMPLE):
+            yc = r + (k + 0.5) / SUBSAMPLE
             xs = [x1 + (yc - y1) * (x2 - x1) / (y2 - y1) for (lo, hi, x1, y1, x2, y2) in el if lo <= yc < hi]
             xs.sort()
             for a, b in zip(xs[::2], xs[1::2]):
                 a, b = max(a, 0.0), min(b, float(w))
                 if b > a:
-                    szakaszok[r].append((a, b))
+                    sections[r].append((a, b))
 
 
-def lefed(szakaszok, w, h):
+def cover(sections, w, h):
     """From the spans, 0..255 coverage per row (bytes), where the fractions at the edge give the anti-aliasing."""
-    sorok = []
-    suly = 255.0 / ALMINTA
+    rows = []
+    weight = 255.0 / SUBSAMPLE
     for r in range(h):
-        sp = szakaszok[r]
+        sp = sections[r]
         if not sp:
-            sorok.append(bytes(w))
+            rows.append(bytes(w))
             continue
         d = {}                   # the inner, fully covered cells (only where there is a span: fast for large images)
         p = {}                   # the edge, partially covered cells
@@ -250,143 +250,143 @@ def lefed(szakaszok, w, h):
                 p[ib] = p.get(ib, 0.0) + (b - ib)
                 d[ia + 1] = d.get(ia + 1, 0.0) + 1.0
                 d[ib] = d.get(ib, 0.0) - 1.0
-        sor = bytearray(w)
+        row = bytearray(w)
         acc = 0.0
         ks = sorted(set(d) | set(p))
 
-        def atvalt(v):
+        def convert(v):
             return 255 if v >= 254.5 else int(v + 0.5)
 
         for n, c in enumerate(ks):
             acc += d.get(c, 0.0)
             if c < w:
-                sor[c] = atvalt((acc + p.get(c, 0.0)) * suly)
+                row[c] = convert((acc + p.get(c, 0.0)) * weight)
             if n + 1 < len(ks) and ks[n + 1] > c + 1 and acc > 1e-9:       # between two cells of interest the coverage is constant
                 hi = min(ks[n + 1], w)
                 if hi > c + 1:
-                    sor[c + 1:hi] = bytes([atvalt(acc * suly)]) * (hi - c - 1)
-        sorok.append(bytes(sor))
-    return sorok
+                    row[c + 1:hi] = bytes([convert(acc * weight)]) * (hi - c - 1)
+        rows.append(bytes(row))
+    return rows
 
 
-def png_iras(ut, w, h, sorok_rgb):
+def png_write(path_, w, h, rows_rgb):
     """A simple RGB PNG (with the standard library). sorok_rgb: h rows, w*3 bytes per row."""
-    def chunk(tipus, adat):
-        c = struct.pack(">I", len(adat)) + tipus + adat
-        return c + struct.pack(">I", zlib.crc32(tipus + adat) & 0xFFFFFFFF)
-    raw = b"".join(b"\x00" + bytes(s) for s in sorok_rgb)
-    Path(ut).write_bytes(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
+    def chunk(type_, data_):
+        c = struct.pack(">I", len(data_)) + type_ + data_
+        return c + struct.pack(">I", zlib.crc32(type_ + data_) & 0xFFFFFFFF)
+    raw = b"".join(b"\x00" + bytes(s) for s in rows_rgb)
+    Path(path_).write_bytes(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
                          + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
 
 
-def gyuru_terulet(gyuru):
-    return abs(sum(x0 * z1 - x1 * z0 for (x0, z0), (x1, z1) in zip(gyuru, gyuru[1:] + gyuru[:1]))) / 2
+def ring_area(ring_):
+    return abs(sum(x0 * z1 - x1 * z0 for (x0, z0), (x1, z1) in zip(ring_, ring_[1:] + ring_[:1]))) / 2
 
 
-class Terep:
+class Terrain_:
     """Terrain from SRTM: a mesh for display, and the base height of the buildings."""
 
-    def __init__(self, ep, viz):
+    def __init__(self, ep, water):
         xs = [e["x"] for e in ep]
         zs = [e["z"] for e in ep]
-        self.x0 = math.floor((min(xs) - TEREP_MARGO["nyugat"]) / TEREP_LEPES) * TEREP_LEPES
-        self.x1 = math.ceil((max(xs) + TEREP_MARGO["kelet"]) / TEREP_LEPES) * TEREP_LEPES
-        self.z0 = math.floor((min(zs) - TEREP_MARGO["eszak"]) / TEREP_LEPES) * TEREP_LEPES
-        self.z1 = math.ceil((max(zs) + TEREP_MARGO["del"]) / TEREP_LEPES) * TEREP_LEPES
-        self.nx = int((self.x1 - self.x0) / TEREP_LEPES) + 1
-        self.nz = int((self.z1 - self.z0) / TEREP_LEPES) + 1
-        lat_e, lon_ny = vissza(self.x0, self.z0)
-        lat_d, lon_k = vissza(self.x1, self.z1)
-        d = Domborzat(ADAT)
-        fok = Domborzat.FOK
-        ny, kel = math.floor(lon_ny * fok) / fok, math.ceil(lon_k * fok) / fok
-        de, ez = math.floor(lat_d * fok) / fok, math.ceil(lat_e * fok) / fok
-        sor, osz, self.lat_f, self.lon_ny, g = d.racs(ny, kel, de, ez)
+        self.x0 = math.floor((min(xs) - TERRAIN_MARGIN["nyugat"]) / TERRAIN_STEP) * TERRAIN_STEP
+        self.x1 = math.ceil((max(xs) + TERRAIN_MARGIN["kelet"]) / TERRAIN_STEP) * TERRAIN_STEP
+        self.z0 = math.floor((min(zs) - TERRAIN_MARGIN["eszak"]) / TERRAIN_STEP) * TERRAIN_STEP
+        self.z1 = math.ceil((max(zs) + TERRAIN_MARGIN["del"]) / TERRAIN_STEP) * TERRAIN_STEP
+        self.nx = int((self.x1 - self.x0) / TERRAIN_STEP) + 1
+        self.nz = int((self.z1 - self.z0) / TERRAIN_STEP) + 1
+        lat_e, lon_ny = back(self.x0, self.z0)
+        lat_d, lon_k = back(self.x1, self.z1)
+        d = Terrain(DATA)
+        degree = Terrain.DEGREE
+        ny, kel = math.floor(lon_ny * degree) / degree, math.ceil(lon_k * degree) / degree
+        de, ez = math.floor(lat_d * degree) / degree, math.ceil(lat_e * degree) / degree
+        row, class_, self.lat_f, self.lon_ny, g = d.grid(ny, kel, de, ez)
         # missing values (if there were any) with the median height
-        ervenyes = [v for r in g for v in r if v == v]
-        med = statistics.median(ervenyes)
+        valid = [v for r in g for v in r if v == v]
+        med = statistics.median(valid)
         g = [[v if v == v else med for v in r] for r in g]
-        self.dsm_stat = (min(ervenyes), max(ervenyes))
+        self.dsm_stat = (min(valid), max(valid))
         # in the built-up areas SRTM also measures the buildings (surface model): there the nearby lowest point is taken
-        suruseg = [[0.0] * osz for _ in range(sor)]
-        cella_m2 = (110574.0 / fok) * (111320.0 * COSLAT / fok)
+        density = [[0.0] * class_ for _ in range(row)]
+        cell_m2 = (110574.0 / degree) * (111320.0 * COSLAT / degree)
         for e in ep:
-            r = int(round((self.lat_f - vissza(e["x"], e["z"])[0]) * fok))
-            c = int(round((vissza(e["x"], e["z"])[1] - self.lon_ny) * fok))
-            if 0 <= r < sor and 0 <= c < osz:
-                suruseg[r][c] += sum(gyuru_terulet(p[0]) for p in e["poly"]) / cella_m2
-        suruseg = doboz_elmos(doboz_elmos([[min(1.0, v) for v in r] for r in suruseg]))
-        sima = doboz_elmos(g)
-        alacsony = doboz_elmos(minimum_szuro(g, VAROS_MIN_SUGAR))
-        self.g = [[sima[r][c] + (alacsony[r][c] - sima[r][c]) * min(1.0, suruseg[r][c] * 2.5) for c in range(osz)]
-                  for r in range(sor)]
+            r = int(round((self.lat_f - back(e["x"], e["z"])[0]) * degree))
+            c = int(round((back(e["x"], e["z"])[1] - self.lon_ny) * degree))
+            if 0 <= r < row and 0 <= c < class_:
+                density[r][c] += sum(ring_area(p[0]) for p in e["poly"]) / cell_m2
+        density = box_blur(box_blur([[min(1.0, v) for v in r] for r in density]))
+        plain = box_blur(g)
+        low = box_blur(minimum_filter(g, CITY_MIN_RADIUS))
+        self.g = [[plain[r][c] + (low[r][c] - plain[r][c]) * min(1.0, density[r][c] * 2.5) for c in range(class_)]
+                  for r in range(row)]
         # on the floodplain (Pest) the noise of SRTM and the remains of the buildings would give a bumpy surface: it is strongly smoothed there,
         # on the hills (the height between 15 and 45 m above the Danube's level, gradually) the detail is kept
         self.g0 = self.g          # the unsmoothed grid for measuring the water level
-        eros = self.g
-        for _ in range(SIMITAS_LEPES):
-            eros = doboz_elmos(eros)
-        self.g = [[self.g[r][c] + (eros[r][c] - self.g[r][c])
-                   * min(1.0, max(0.0, (45.0 - (eros[r][c] - ARTER_SZINT)) / 30.0))
-                   for c in range(osz)] for r in range(sor)]
-        self.sor, self.osz = sor, osz
+        strong = self.g
+        for _ in range(SMOOTHING_STEP):
+            strong = box_blur(strong)
+        self.g = [[self.g[r][c] + (strong[r][c] - self.g[r][c])
+                   * min(1.0, max(0.0, (45.0 - (strong[r][c] - FLOODPLAIN_LEVEL)) / 30.0))
+                   for c in range(class_)] for r in range(row)]
+        self.row, self.class_ = row, class_
         # image of water and parks
-        self.kep_w = int((self.x1 - self.x0) / KEP_PX) + 1
-        self.kep_h = int((self.z1 - self.z0) / KEP_PX) + 1
+        self.kep_w = int((self.x1 - self.x0) / IMAGE_PX) + 1
+        self.kep_h = int((self.z1 - self.z0) / IMAGE_PX) + 1
         park_sz = [[] for _ in range(self.kep_h)]
-        viz_sz = [[] for _ in range(self.kep_h)]
+        water_sz = [[] for _ in range(self.kep_h)]
         self.van_kep = False
-        for p in viz or []:
-            gyuruk = []
+        for p in water or []:
+            rings = []
             for gy in p["gyuruk"]:
                 pts = []
                 for lon, lat in gy:
-                    x, z = lokalis(lon, lat)
-                    pts.append(((x - self.x0) / KEP_PX, (z - self.z0) / KEP_PX))
-                gyuruk.append(pts)
-            kitolt(viz_sz if p["fajta"] == "viz" else park_sz, gyuruk, self.kep_w, self.kep_h)
+                    x, z = local(lon, lat)
+                    pts.append(((x - self.x0) / IMAGE_PX, (z - self.z0) / IMAGE_PX))
+                rings.append(pts)
+            fill(water_sz if p["fajta"] == "viz" else park_sz, rings, self.kep_w, self.kep_h)
             self.van_kep = True
-        self.park = lefed(park_sz, self.kep_w, self.kep_h)
-        self.viz = lefed(viz_sz, self.kep_w, self.kep_h)
+        self.park = cover(park_sz, self.kep_w, self.kep_h)
+        self.water = cover(water_sz, self.kep_w, self.kep_h)
         # the Danube's level: the median of the water surface (this becomes the view's zero level)
-        vizi = []
+        water_ = []
         for r in range(0, self.kep_h, 4):
-            sor_ = self.viz[r]
+            row_ = self.water[r]
             for c in range(0, self.kep_w, 4):
-                if sor_[c] > 200:
-                    vizi.append(self.dsm(self.x0 + c * KEP_PX, self.z0 + r * KEP_PX, self.g0))
-        self.ref = statistics.median(vizi) if vizi else 96.0
-        self.vizi_cellak = len(vizi)
-        self.part_racs()
+                if row_[c] > 200:
+                    water_.append(self.dsm(self.x0 + c * IMAGE_PX, self.z0 + r * IMAGE_PX, self.g0))
+        self.ref = statistics.median(water_) if water_ else 96.0
+        self.vizi_cellak = len(water_)
+        self.part_grid()
 
-    def part_racs(self):
+    def part_grid(self):
         """For the water level of lakes: the lowest height of the land near the water surface (on a coarse grid).
         Lakes lying higher (e.g. Lake Naplás) are therefore at their shore's level, not at the Danube's level (in a pit)."""
         K = 3
-        fok = Domborzat.FOK
-        nr, nc = (self.sor + K - 1) // K, (self.osz + K - 1) // K
+        degree = Terrain.DEGREE
+        nr, nc = (self.row + K - 1) // K, (self.class_ + K - 1) // K
         INF = 1e9
-        kozep = [[0.0] * nc for _ in range(nr)]
-        szaraz = [[INF] * nc for _ in range(nr)]
+        middle = [[0.0] * nc for _ in range(nr)]
+        dry = [[INF] * nc for _ in range(nr)]
         for i in range(nr):
-            r = min(i * K + K // 2, self.sor - 1)
+            r = min(i * K + K // 2, self.row - 1)
             for j in range(nc):
-                c = min(j * K + K // 2, self.osz - 1)
-                kozep[i][j] = self.g[r][c]
-                x, z = lokalis(self.lon_ny + c / fok, self.lat_f - r / fok)
-                if not self.vizen(x, z):
-                    szaraz[i][j] = self.g[r][c]
-        mn = minimum_szuro(szaraz, 8)                    # ~700 m surroundings
-        self.part = doboz_elmos([[mn[i][j] if mn[i][j] < INF else kozep[i][j] for j in range(nc)] for i in range(nr)])
+                c = min(j * K + K // 2, self.class_ - 1)
+                middle[i][j] = self.g[r][c]
+                x, z = local(self.lon_ny + c / degree, self.lat_f - r / degree)
+                if not self.on_water(x, z):
+                    dry[i][j] = self.g[r][c]
+        mn = minimum_filter(dry, 8)                    # ~700 m surroundings
+        self.part = box_blur([[mn[i][j] if mn[i][j] < INF else middle[i][j] for j in range(nc)] for i in range(nr)])
         self.part_k = K
 
-    def part_szint(self, x, z):
+    def part_level(self, x, z):
         """The shore level around the point (x, z) (m above sea level), with bilinear interpolation on the coarse grid."""
-        lat, lon = vissza(x, z)
-        fok = Domborzat.FOK
+        lat, lon = back(x, z)
+        degree = Terrain.DEGREE
         K = self.part_k
-        r = ((self.lat_f - lat) * fok - K // 2) / K
-        c = ((lon - self.lon_ny) * fok - K // 2) / K
+        r = ((self.lat_f - lat) * degree - K // 2) / K
+        c = ((lon - self.lon_ny) * degree - K // 2) / K
         nr, nc = len(self.part), len(self.part[0])
         r = min(max(r, 0.0), nr - 1.001)
         c = min(max(c, 0.0), nc - 1.001)
@@ -397,342 +397,342 @@ class Terep:
 
     def dsm(self, x, z, g=None):
         """The height computed from SRTM (m above sea level) at the point (x, z), with bilinear interpolation."""
-        lat, lon = vissza(x, z)
-        fok = Domborzat.FOK
-        r = (self.lat_f - lat) * fok
-        c = (lon - self.lon_ny) * fok
-        r = min(max(r, 0.0), self.sor - 1.001)
-        c = min(max(c, 0.0), self.osz - 1.001)
+        lat, lon = back(x, z)
+        degree = Terrain.DEGREE
+        r = (self.lat_f - lat) * degree
+        c = (lon - self.lon_ny) * degree
+        r = min(max(r, 0.0), self.row - 1.001)
+        c = min(max(c, 0.0), self.class_ - 1.001)
         r0, c0 = int(r), int(c)
         fr, fc = r - r0, c - c0
         g = g or self.g
         return (g[r0][c0] * (1 - fc) + g[r0][c0 + 1] * fc) * (1 - fr) + (g[r0 + 1][c0] * (1 - fc) + g[r0 + 1][c0 + 1] * fc) * fr
 
-    def talaj(self, x, z):
+    def ground(self, x, z):
         """The ground height relative to the Danube's level (the view's level 0), at least 0."""
         return max(0.0, self.dsm(x, z) - self.ref)
 
-    def vizen(self, x, z):
-        c = int((x - self.x0) / KEP_PX)
-        r = int((z - self.z0) / KEP_PX)
-        return 0 <= r < self.kep_h and 0 <= c < self.kep_w and self.viz[r][c] > 127
+    def on_water(self, x, z):
+        c = int((x - self.x0) / IMAGE_PX)
+        r = int((z - self.z0) / IMAGE_PX)
+        return 0 <= r < self.kep_h and 0 <= c < self.kep_w and self.water[r][c] > 127
 
-    def vizarany(self, x, z):
+    def water_ratio(self, x, z):
         """Water coverage in the ~20 m surroundings of the point (0..1): the soft transition of the shoreline in the terrain."""
-        c0 = (x - self.x0) / KEP_PX
-        r0 = (z - self.z0) / KEP_PX
-        fel = TEREP_LEPES * 0.75 / KEP_PX
-        db = 0
+        c0 = (x - self.x0) / IMAGE_PX
+        r0 = (z - self.z0) / IMAGE_PX
+        half = TERRAIN_STEP * 0.75 / IMAGE_PX
+        count_ = 0
         n = 0
         for dr in range(-4, 5):
-            r = int(r0 + dr * fel / 4)
+            r = int(r0 + dr * half / 4)
             if not 0 <= r < self.kep_h:
                 continue
-            sor = self.viz[r]
+            row = self.water[r]
             for dc in range(-4, 5):
-                c = int(c0 + dc * fel / 4)
+                c = int(c0 + dc * half / 4)
                 if 0 <= c < self.kep_w:
                     n += 1
-                    db += sor[c]
-        return db / (255.0 * n) if n else 0.0
+                    count_ += row[c]
+        return count_ / (255.0 * n) if n else 0.0
 
-    def iras(self, kimenet):
+    def write(self, output):
         """terrain.bin and landcover.png."""
         hs = array("h")
         for j in range(self.nz):
-            z = self.z0 + j * TEREP_LEPES
+            z = self.z0 + j * TERRAIN_STEP
             for i in range(self.nx):
-                x = self.x0 + i * TEREP_LEPES
-                f = self.vizarany(x, z)
-                szaraz = max(0.0, self.dsm(x, z) - self.ref)
-                szint = 0.0
+                x = self.x0 + i * TERRAIN_STEP
+                f = self.water_ratio(x, z)
+                dry = max(0.0, self.dsm(x, z) - self.ref)
+                level = 0.0
                 if f > 0.0:
                     # the lake stands at its shore's level (the Danube and the small lakes of the floodplain stay at zero level)
-                    p = self.part_szint(x, z) - self.ref
+                    p = self.part_level(x, z) - self.ref
                     t = min(1.0, max(0.0, (p - 4.0) / 8.0))
-                    szint = max(0.0, p) * t * t * (3 - 2 * t)
-                h = (1.0 - f) * szaraz + f * szint
+                    level = max(0.0, p) * t * t * (3 - 2 * t)
+                h = (1.0 - f) * dry + f * level
                 hs.append(int(round(h * 10)))
         if sys.byteorder != "little":
             hs.byteswap()
-        (kimenet / "terrain.bin").write_bytes(struct.pack("<IIffff", self.nx, self.nz, self.x0, self.z0,
-                                                          TEREP_LEPES, self.ref) + hs.tobytes())
+        (output / "terrain.bin").write_bytes(struct.pack("<IIffff", self.nx, self.nz, self.x0, self.z0,
+                                                          TERRAIN_STEP, self.ref) + hs.tobytes())
         if self.van_kep:
-            sorok = []
+            rows = []
             for r in range(self.kep_h):
-                sor_ = bytearray(self.kep_w * 3)
-                sor_[0::3] = self.park[r]
-                sor_[1::3] = self.viz[r]
-                sorok.append(sor_)
-            png_iras(kimenet / "landcover.png", self.kep_w, self.kep_h, sorok)
+                row_ = bytearray(self.kep_w * 3)
+                row_[0::3] = self.park[r]
+                row_[1::3] = self.water[r]
+                rows.append(row_)
+            png_write(output / "landcover.png", self.kep_w, self.kep_h, rows)
 
 
-def hid_tengelyek():
+def bridge_axes():
     """The axis points of the Danube bridges over the water (terkep3d/data_varos/hidak.json, build_bridges.py): the dedicated bridge model is shown
     instead of the bridge buildings in OSM (piers, stone towers). Grid: (cell) -> [(x, z, radius)]."""
-    ut = KIMENET / "hidak.json"
-    if not VAROS or not ut.exists():
+    path_ = OUTPUT / "hidak.json"
+    if not CITY or not path_.exists():
         return {}
-    racs = defaultdict(list)
-    for h in json.load(open(ut, encoding="utf-8")).get("hidak", []):
+    grid = defaultdict(list)
+    for h in json.load(open(path_, encoding="utf-8")).get("hidak", []):
         r = float(h.get("hw") or 8.0) + 6.0
         for x, z in h.get("tengely", []):
-            racs[(int(x // 40), int(z // 40))].append((x, z, r))
-    return racs
+            grid[(int(x // 40), int(z // 40))].append((x, z, r))
+    return grid
 
 
-def hid_alatt(racs, x, z):
+def bridge_under(grid, x, z):
     cx, cz = int(x // 40), int(z // 40)
     for dx in (-1, 0, 1):
         for dz in (-1, 0, 1):
-            for px, pz, r in racs.get((cx + dx, cz + dz), ()):
+            for px, pz, r in grid.get((cx + dx, cz + dz), ()):
                 if (px - x) ** 2 + (pz - z) ** 2 <= r * r:
                     return True
     return False
 
 
-def ismert_statisztika(ep):
+def known_statistics(ep):
     """The numbers of the About window: how many different buildings have an exact year, and how many different buildings there are. Several
     outlines of one building (OSM element) and the parts of a building drawn from parts count as one building; bridge elements and ruins do not count."""
-    def kulcs(e):
+    def building_key(e):
         pr = e["pr"]
         if pr.get("resz") and pr.get("szulo_id"):
             return (pr.get("szulo_tipus") or "way", pr["szulo_id"])
         return (pr.get("osm_tipus") or "way", pr.get("id"))
-    egyedi = {kulcs(e) for e in ep}
-    ismert = {kulcs(e) for e in ep if e["ev"] is not None and not e["rom"]}
-    return {"epulet_egyedi": len(egyedi), "ismert_ev_epulet": len(ismert)}
+    unique = {building_key(e) for e in ep}
+    known = {building_key(e) for e in ep if e["ev"] is not None and not e["rom"]}
+    return {"epulet_egyedi": len(unique), "ismert_ev_epulet": len(known)}
 
 
-def veletlen(kulcs):
+def random_(building_key):
     """A value between 0 and 1 computed from the id (so always the same)."""
-    return (zlib.crc32(kulcs.encode()) % 10000 + 0.5) / 10000
+    return (zlib.crc32(building_key.encode()) % 10000 + 0.5) / 10000
 
 
 def main():
-    ut = ADAT / ("varos/epuletek_vegleges.geojson" if VAROS else "belvaros_epuletek_vegleges.geojson")
-    print(f"Beolvasás: {ut}")
-    gj = json.load(open(ut, encoding="utf-8"))
+    path_ = DATA / ("varos/epuletek_vegleges.geojson" if CITY else "belvaros_epuletek_vegleges.geojson")
+    print(f"Beolvasás: {path_}")
+    gj = json.load(open(path_, encoding="utf-8"))
     ep = []
-    hid_racs = hid_tengelyek()
-    hid_elrejtve = 0
+    bridge_grid = bridge_axes()
+    bridge_hidden = 0
     for f in gj["features"]:
         pr = f["properties"]
-        polyk = poligonok(f["geometry"])
+        polyk = polygons(f["geometry"])
         if not polyk:
             continue
-        kp = [kozeppont(p) for p in polyk]
+        kp = [center(p) for p in polyk]
         x = sum(p[0] for p in kp) / len(kp)
         z = sum(p[1] for p in kp) / len(kp)
-        if hid_racs and hid_alatt(hid_racs, x, z):      # the OSM bridge building (pier, stone tower) in place of the dedicated bridge model
-            hid_elrejtve += 1
+        if bridge_grid and bridge_under(bridge_grid, x, z):      # the OSM bridge building (pier, stone tower) in place of the dedicated bridge model
+            bridge_hidden += 1
             continue
-        ev = pr.get("ev")
+        year = pr.get("ev")
         try:
-            ev = int(ev) if ev not in (None, "") else None
+            year = int(year) if year not in (None, "") else None
         except (TypeError, ValueError):
-            ev = None
-        if ev is not None and not (1 <= ev <= MOST):
-            ev = None
-        rom = bool(pr.get("rom"))
-        if rom:
-            ev = None
-        ep.append({"pr": pr, "poly": polyk, "x": x, "z": z, "ev": ev, "rom": rom,
-                   "est": None if rom else pr.get("ev_becsles_korszak"), "ev_kep": None, "fajta": None, "kor": None})
-    print(f"Épületek: {len(ep)}" + (f" (a Duna-hidak alatt/helyén kihagyva: {hid_elrejtve} OSM-épület, mert a hidakat a saját modell mutatja)" if hid_racs else ""))
+            year = None
+        if year is not None and not (1 <= year <= NOW):
+            year = None
+        ruin = bool(pr.get("rom"))
+        if ruin:
+            year = None
+        ep.append({"pr": pr, "poly": polyk, "x": x, "z": z, "ev": year, "rom": ruin,
+                   "est": None if ruin else pr.get("ev_becsles_korszak"), "ev_kep": None, "fajta": None, "kor": None})
+    print(f"Épületek: {len(ep)}" + (f" (a Duna-hidak alatt/helyén kihagyva: {bridge_hidden} OSM-épület, mert a hidakat a saját modell mutatja)" if bridge_grid else ""))
     gj = None
 
     # grid for the neighbour search
-    racs = defaultdict(list)
+    grid = defaultdict(list)
     for i, e in enumerate(ep):
-        racs[(int(e["x"] // SZOMSZED_M), int(e["z"] // SZOMSZED_M))].append(i)
+        grid[(int(e["x"] // NEIGHBOR_M), int(e["z"] // NEIGHBOR_M))].append(i)
 
-    def kozel(e, felt, sugar=SZOMSZED_M):
-        cx, cz = int(e["x"] // SZOMSZED_M), int(e["z"] // SZOMSZED_M)
-        r = int(math.ceil(sugar / SZOMSZED_M))
-        ki = []
+    def near(e, condition, radius=NEIGHBOR_M):
+        cx, cz = int(e["x"] // NEIGHBOR_M), int(e["z"] // NEIGHBOR_M)
+        r = int(math.ceil(radius / NEIGHBOR_M))
+        out = []
         for dx in range(-r, r + 1):
             for dz in range(-r, r + 1):
-                for j in racs.get((cx + dx, cz + dz), ()):
+                for j in grid.get((cx + dx, cz + dz), ()):
                     o = ep[j]
-                    if felt(o) and math.hypot(o["x"] - e["x"], o["z"] - e["z"]) <= sugar:
-                        ki.append(j)
-        return ki
+                    if condition(o) and math.hypot(o["x"] - e["x"], o["z"] - e["z"]) <= radius:
+                        out.append(j)
+        return out
 
     # 0) ruins (ancient, medieval remains): they go into the "before 1867" era, are visible from the first year, and affect nothing else
     for e in ep:
         if e["rom"]:
-            e["ev_kep"], e["fajta"], e["kor"] = ELSO_EV_MIN, 0, ROM_KOR
+            e["ev_kep"], e["fajta"], e["kor"] = FIRST_YEAR_MIN, 0, RUIN_ERA
 
     # 1) known years
-    ismert_korszakonkent = defaultdict(list)
+    known_per_era = defaultdict(list)
     for e in ep:
         if e["ev"]:
             e["ev_kep"], e["fajta"] = e["ev"], 0
-            e["kor"] = korszak_ev_szerint(e["ev"])
-            ismert_korszakonkent[e["kor"]].append(e["ev"])
+            e["kor"] = era_year_according_to(e["ev"])
+            known_per_era[e["kor"]].append(e["ev"])
 
     # 2) buildings of estimated era: a year from the nearby known years of the same era
-    becsult = 0
+    estimated = 0
     for e in ep:
         if e["fajta"] is not None or e["est"] is None:
             continue
         k = int(e["est"])
-        kozeli = [ep[j]["ev"] for j in kozel(e, lambda o, k=k: o["ev"] and o["kor"] == k)]
-        lista = sorted(kozeli) if kozeli else sorted(ismert_korszakonkent.get(k, []))
-        if not lista:
-            tol, ig = KORSZAKOK[k][0], min(KORSZAKOK[k][1], MOST)
-            lista = [(tol + ig) // 2]
-        q = veletlen(f'{e["pr"].get("osm_tipus")}{e["pr"]["id"]}')
-        e["ev_kep"], e["fajta"], e["kor"] = lista[min(int(q * len(lista)), len(lista) - 1)], 1, k
-        becsult += 1
+        nearby = [ep[j]["ev"] for j in near(e, lambda o, k=k: o["ev"] and o["kor"] == k)]
+        list_ = sorted(nearby) if nearby else sorted(known_per_era.get(k, []))
+        if not list_:
+            from_, to = ERAS[k][0], min(ERAS[k][1], NOW)
+            list_ = [(from_ + to) // 2]
+        q = random_(f'{e["pr"].get("osm_tipus")}{e["pr"]["id"]}')
+        e["ev_kep"], e["fajta"], e["kor"] = list_[min(int(q * len(list_)), len(list_) - 1)], 1, k
+        estimated += 1
 
     # 3) the rest (e.g. building parts without an estimate): they get the year of the nearest building that already has one
-    maradek = [e for e in ep if e["fajta"] is None]
-    if VAROS:
+    remainder = [e for e in ep if e["fajta"] is None]
+    if CITY:
         # in the whole city many buildings have no year: they get the year of the nearest building with a known (or estimated) year,
         # for this a separate grid is built from the known ones only (for fast lookup)
-        ism = defaultdict(list)
+        repeat = defaultdict(list)
         for e in ep:
             if e["fajta"] is not None and not e["rom"]:
-                ism[(int(e["x"] // SZOMSZED_M), int(e["z"] // SZOMSZED_M))].append(e)
+                repeat[(int(e["x"] // NEIGHBOR_M), int(e["z"] // NEIGHBOR_M))].append(e)
         # the parts (building:part) of one building get an era together: that of the building nearest to the parts' common centre.
         # Earlier each part was searched separately, and the parts of one house could get different colours (42 buildings).
-        csop = defaultdict(list)
-        tavoli = 0
-        for e in maradek:
+        grp_ = defaultdict(list)
+        distant = 0
+        for e in remainder:
             sz = e["pr"].get("szulo_id")
-            csop[(e["pr"].get("szulo_tipus"), sz) if sz else id(e)].append(e)
-        for tagok in csop.values():
-            e = {"x": sum(t["x"] for t in tagok) / len(tagok), "z": sum(t["z"] for t in tagok) / len(tagok)}
-            cx, cz = int(e["x"] // SZOMSZED_M), int(e["z"] // SZOMSZED_M)
-            for sugar in (SZOMSZED_M, 400.0, 1500.0):
-                r = int(math.ceil(sugar / SZOMSZED_M))
-                legjobb, tav = None, sugar
+            grp_[(e["pr"].get("szulo_tipus"), sz) if sz else id(e)].append(e)
+        for members in grp_.values():
+            e = {"x": sum(t["x"] for t in members) / len(members), "z": sum(t["z"] for t in members) / len(members)}
+            cx, cz = int(e["x"] // NEIGHBOR_M), int(e["z"] // NEIGHBOR_M)
+            for radius in (NEIGHBOR_M, 400.0, 1500.0):
+                r = int(math.ceil(radius / NEIGHBOR_M))
+                best, distance = None, radius
                 for dx in range(-r, r + 1):
                     for dz in range(-r, r + 1):
-                        for o in ism.get((cx + dx, cz + dz), ()):
+                        for o in repeat.get((cx + dx, cz + dz), ()):
                             dd = math.hypot(o["x"] - e["x"], o["z"] - e["z"])
-                            if dd <= tav:
-                                legjobb, tav = o, dd
-                if legjobb:
-                    ertek = (legjobb["ev_kep"], legjobb["kor"], 2)
+                            if dd <= distance:
+                                best, distance = o, dd
+                if best:
+                    value = (best["ev_kep"], best["kor"], 2)
                     break
             else:
-                ertek = (1890, 1, 2)
-                tavoli += len(tagok)
-            for t in tagok:
-                t["ev_kep"], t["kor"], t["fajta"] = ertek
-        if tavoli:
-            print(f"  Figyelem: {tavoli} épületnek 1500 m-en belül sincs korszakos szomszédja: 1890-et kapott")
-    for e in ([] if VAROS else maradek):
-        for sugar in (SZOMSZED_M, 400.0, 1500.0):
-            jel = kozel(e, lambda o: o["fajta"] is not None and o is not e and not o["rom"], sugar)
-            if jel:
-                j = min(jel, key=lambda j: math.hypot(ep[j]["x"] - e["x"], ep[j]["z"] - e["z"]))
+                value = (1890, 1, 2)
+                distant += len(members)
+            for t in members:
+                t["ev_kep"], t["kor"], t["fajta"] = value
+        if distant:
+            print(f"  Figyelem: {distant} épületnek 1500 m-en belül sincs korszakos szomszédja: 1890-et kapott")
+    for e in ([] if CITY else remainder):
+        for radius in (NEIGHBOR_M, 400.0, 1500.0):
+            sign = near(e, lambda o: o["fajta"] is not None and o is not e and not o["rom"], radius)
+            if sign:
+                j = min(sign, key=lambda j: math.hypot(ep[j]["x"] - e["x"], ep[j]["z"] - e["z"]))
                 e["ev_kep"], e["kor"] = ep[j]["ev_kep"], ep[j]["kor"]
                 e["fajta"] = 2
                 break
         else:
             e["ev_kep"], e["kor"], e["fajta"] = 1890, 1, 2
-    print(f"  ismert év: {sum(1 for e in ep if e['fajta'] == 0)}, becsült korszak: {becsult}, "
-          f"szomszédtól átvett: {len(maradek)}")
+    print(f"  ismert év: {sum(1 for e in ep if e['fajta'] == 0)}, becsült korszak: {estimated}, "
+          f"szomszédtól átvett: {len(remainder)}")
 
     # terrain
-    terep = None
-    viz = None
-    viz_ut = ADAT / ("varos/viz_zold.json" if VAROS else "viz_zold.json")
-    if viz_ut.exists():
-        viz = json.load(open(viz_ut, encoding="utf-8"))
-        print(f"  víz és parkok: {len(viz)} sokszög ({viz_ut})")
+    terrain = None
+    water = None
+    water_path = DATA / ("varos/viz_zold.json" if CITY else "viz_zold.json")
+    if water_path.exists():
+        water = json.load(open(water_path, encoding="utf-8"))
+        print(f"  víz és parkok: {len(water)} sokszög ({water_path})")
     else:
-        print(f"  (nincs {viz_ut}: víz és parkok nélkül)")
-    if Domborzat is None:
+        print(f"  (nincs {water_path}: víz és parkok nélkül)")
+    if Terrain is None:
         print("  (nincs dem.py: domborzat nélkül)")
     else:
         try:
-            terep = Terep(ep, viz)
-            print(f"  domborzat: {terep.nx}x{terep.nz} pont, a Duna szintje {terep.ref:.1f} m "
-                  f"({terep.vizi_cellak} vízminta), az SRTM értékei {terep.dsm_stat[0]:.0f}-{terep.dsm_stat[1]:.0f} m")
-        except HibasFajl as hiba:
-            print(f"  (domborzat nélkül: {hiba})")
+            terrain = Terrain_(ep, water)
+            print(f"  domborzat: {terrain.nx}x{terrain.nz} pont, a Duna szintje {terrain.ref:.1f} m "
+                  f"({terrain.vizi_cellak} vízminta), az SRTM értékei {terrain.dsm_stat[0]:.0f}-{terrain.dsm_stat[1]:.0f} m")
+        except FaultyFile as error_:
+            print(f"  (domborzat nélkül: {error_})")
     for e in ep:
         e["base"] = 0.0
-        if terep:
-            e["base"] = min(terep.talaj(x, z) for poly in e["poly"] for (x, z) in poly[0])
+        if terrain:
+            e["base"] = min(terrain.ground(x, z) for poly in e["poly"] for (x, z) in poly[0])
 
     # number of storeys for every element; the parts (building:part) of one building get the largest number of storeys,
     # so that in the storeys view the whole building has one colour (e.g. the Parliament)
     for e in ep:
         pr = e["pr"]
-        szint = pr.get("szintek")
+        level = pr.get("szintek")
         try:
-            szint = int(round(float(szint))) if szint not in (None, "") else None
+            level = int(round(float(level))) if level not in (None, "") else None
         except (TypeError, ValueError):
-            szint = None
-        if not szint:
-            szint = int(round(max(3.0, float(pr.get("magassag") or 12.0)) / 3.2))
+            level = None
+        if not level:
+            level = int(round(max(3.0, float(pr.get("magassag") or 12.0)) / 3.2))
         elif pr.get("magassag_forras") == "height":
             # the storeys view's colour should follow the actual height: data that records few storeys (e.g. a church with 4 'storeys',
             # 96 m tall) should not light up pale next to equally tall but multi-storey buildings
             try:
-                szint = max(szint, int(round(float(pr["magassag"]) / 3.2)))
+                level = max(level, int(round(float(pr["magassag"]) / 3.2)))
             except (TypeError, ValueError, KeyError):
                 pass
-        e["szint"] = max(1, min(127, szint))
-    csoport = defaultdict(int)
+        e["szint"] = max(1, min(127, level))
+    group_ = defaultdict(int)
     for e in ep:
         if e["pr"].get("szulo_id"):
             k = (e["pr"].get("szulo_tipus"), e["pr"]["szulo_id"])
-            csoport[k] = max(csoport[k], e["szint"])
+            group_[k] = max(group_[k], e["szint"])
     for e in ep:
         if e["pr"].get("szulo_id"):
-            e["szint"] = csoport[(e["pr"].get("szulo_tipus"), e["pr"]["szulo_id"])]
+            e["szint"] = group_[(e["pr"].get("szulo_tipus"), e["pr"]["szulo_id"])]
 
     # tiles
-    csempek = defaultdict(list)
+    tiles = defaultdict(list)
     for gid, e in enumerate(ep):
         e["gid"] = gid
-        csempek[(int(e["x"] // CSEMPE), int(e["z"] // CSEMPE))].append(e)
+        tiles[(int(e["x"] // TILE), int(e["z"] // TILE))].append(e)
 
-    KIMENET.mkdir(parents=True, exist_ok=True)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
     pack = bytearray()
-    jegyzek = []
-    hisztogram = defaultdict(lambda: [0] * len(KORSZAKOK))
-    ev_min = MOST
-    for (tx, tz), lista in sorted(csempek.items()):
-        ox, oz = tx * CSEMPE, tz * CSEMPE
-        gid_, ev_, flag_, per_, flo_, en_, l0_, l1_ = (array("I"), array("h"), array("B"), array("B"),
+    register = []
+    histogram = defaultdict(lambda: [0] * len(ERAS))
+    year_min = NOW
+    for (tx, tz), list_ in sorted(tiles.items()):
+        ox, oz = tx * TILE, tz * TILE
+        gid_, year_, flag_, per_, flo_, en_, l0_, l1_ = (array("I"), array("h"), array("B"), array("B"),
                                                          array("B"), array("B"), array("I"), array("I"))
-        part_start, mag_, ring_start, vert_start, hole_ = (array("I", [0]), array("f"), array("I", [0]),
+        part_start, core_, ring_start, vertex_start, hole_ = (array("I", [0]), array("f"), array("I", [0]),
                                                            array("I", [0]), array("B"))
         xz_, y_ = array("h"), array("h")
-        for e in lista:
+        for e in list_:
             pr = e["pr"]
             h = float(pr.get("magassag") or 12.0)
             h = max(3.0, h)
-            szint = e["szint"]
+            level = e["szint"]
             gid_.append(e["gid"])
-            ev_.append(max(ELSO_EV_MIN, int(e["ev_kep"])))   # buildings from before 1700 also appear in the first year
+            year_.append(max(FIRST_YEAR_MIN, int(e["ev_kep"])))   # buildings from before 1700 also appear in the first year
             flag_.append(e["fajta"])
             per_.append(e["kor"])
-            flo_.append(szint)
+            flo_.append(level)
             en_.append(0)
             l0_.append(int(round((e["base"] + 100) * 10)))   # base height in dm, with a +100 m offset
             l1_.append(0)
-            ev_min = min(ev_min, e["ev_kep"])
-            hisztogram[e["ev_kep"]][e["kor"]] += 1
+            year_min = min(year_min, e["ev_kep"])
+            histogram[e["ev_kep"]][e["kor"]] += 1
             for poly in e["poly"]:
-                mag_.append(h)
-                for k, gyuru in enumerate(poly):
-                    for (x, z) in gyuru:
+                core_.append(h)
+                for k, ring_ in enumerate(poly):
+                    for (x, z) in ring_:
                         xz_.append(max(-32768, min(32767, int(round((x - ox) * 10)))))
                         xz_.append(max(-32768, min(32767, int(round((z - oz) * 10)))))
                         y_.append(0)
-                    vert_start.append(len(y_))
+                    vertex_start.append(len(y_))
                     hole_.append(0 if k == 0 else 1)
                 ring_start.append(len(hole_))
-            part_start.append(len(mag_))
+            part_start.append(len(core_))
 
         def pad(b):
             return b + b"\0" * (-len(b) % 4)
@@ -743,77 +743,77 @@ def main():
                 a.byteswap()
             return pad(a.tobytes())
 
-        head = struct.pack("<IIIIIff", MAGIC, len(gid_), len(mag_), len(hole_), len(y_), float(ox), float(oz))
+        head = struct.pack("<IIIIIff", MAGIC, len(gid_), len(core_), len(hole_), len(y_), float(ox), float(oz))
         tile = head
-        for a in (gid_, ev_, flag_, per_, flo_, en_, l0_, l1_, part_start, mag_, ring_start, vert_start,
+        for a in (gid_, year_, flag_, per_, flo_, en_, l0_, l1_, part_start, core_, ring_start, vertex_start,
                   hole_, xz_, y_):
             tile += bytes_(a)
-        jegyzek.append({"file": f"{tx}_{tz}", "pack": "tiles.bin", "offset": len(pack), "length": len(tile)})
+        register.append({"file": f"{tx}_{tz}", "pack": "tiles.bin", "offset": len(pack), "length": len(tile)})
         pack += tile
-    (KIMENET / "tiles.bin").write_bytes(bytes(pack))
+    (OUTPUT / "tiles.bin").write_bytes(bytes(pack))
 
     # the card's data
-    rekordok = []
-    kepek = {}
-    kepek_ut = ADAT / ("varos/commons_kepek.json" if VAROS else "commons_kepek.json")
-    if kepek_ut.exists():
-        kepek = json.load(open(kepek_ut, encoding="utf-8"))
-        print(f"  Commons-fotók: {len(kepek)} épületcsoport")
+    records = []
+    images = {}
+    images_path = DATA / ("varos/commons_kepek.json" if CITY else "commons_kepek.json")
+    if images_path.exists():
+        images = json.load(open(images_path, encoding="utf-8"))
+        print(f"  Commons-fotók: {len(images)} épületcsoport")
     for e in ep:
         pr = e["pr"]
-        r = {k: pr[k] for k in KARTYA_MEZOK if pr.get(k) not in (None, "", False)}
-        lat, lon = vissza(e["x"], e["z"])
-        r["lat"], r["lon"] = (round(lat, 5), round(lon, 5)) if VAROS else (round(lat, 6), round(lon, 6))
-        if kepek:
+        r = {k: pr[k] for k in CARD_FIELDS if pr.get(k) not in (None, "", False)}
+        lat, lon = back(e["x"], e["z"])
+        r["lat"], r["lon"] = (round(lat, 5), round(lon, 5)) if CITY else (round(lat, 6), round(lon, 6))
+        if images:
             if pr.get("resz") and pr.get("szulo_id"):
                 kk = f"{pr.get('szulo_tipus') or 'way'}:{pr['szulo_id']}"
             else:
                 kk = f"{pr.get('osm_tipus') or 'way'}:{pr.get('id')}"
-            k = kepek.get(kk)
+            k = images.get(kk)
             if k:
                 r["kep"] = [k["f"], k.get("a", ""), k.get("l", ""), k.get("u", ""), k.get("m", ""), k.get("r", 0)]
         r["kor"] = e["kor"]
-        rekordok.append(r)
-    (KIMENET / "epuletek.json").write_text(json.dumps(rekordok, ensure_ascii=False, separators=(",", ":")),
+        records.append(r)
+    (OUTPUT / "epuletek.json").write_text(json.dumps(records, ensure_ascii=False, separators=(",", ":")),
                                            encoding="utf-8")
 
-    hidak_lechner()
+    bridges_lechner()
 
     xs = [e["x"] for e in ep]
     zs = [e["z"] for e in ep]
-    kozep = ((min(xs) + max(xs)) / 2, (min(zs) + max(zs)) / 2)
+    middle = ((min(xs) + max(xs)) / 2, (min(zs) + max(zs)) / 2)
     span = max(max(xs) - min(xs), max(zs) - min(zs))
-    ev_min = max(ELSO_EV_MIN, ev_min)
+    year_min = max(FIRST_YEAR_MIN, year_min)
     config = {
         "name": "Budapest, épületenként",
-        "yearMin": int(ev_min), "yearMax": MOST,
-        "periods": [{"from": a, "to": b, "label": hu, "label_en": en, "color": szin}
-                    for a, b, hu, en, szin in KORSZAKOK],
-        "home": ({"x": 340, "z": 1100, "azimuth": -40, "elevation": 24, "span": 3300} if VAROS else
-                 {"x": round(kozep[0]), "z": round(kozep[1]), "azimuth": 20, "elevation": 38, "span": round(span * 0.9)}),
-        "stats": {"buildings": len(ep), **ismert_statisztika(ep)},
-        "packs": ["tiles.bin"], "tiles": jegyzek,
-        "histogram": {str(max(y, ev_min)): v for y, v in sorted(hisztogram.items())},
+        "yearMin": int(year_min), "yearMax": NOW,
+        "periods": [{"from": a, "to": b, "label": hu, "label_en": en, "color": color}
+                    for a, b, hu, en, color in ERAS],
+        "home": ({"x": 340, "z": 1100, "azimuth": -40, "elevation": 24, "span": 3300} if CITY else
+                 {"x": round(middle[0]), "z": round(middle[1]), "azimuth": 20, "elevation": 38, "span": round(span * 0.9)}),
+        "stats": {"buildings": len(ep), **known_statistics(ep)},
+        "packs": ["tiles.bin"], "tiles": register,
+        "histogram": {str(max(y, year_min)): v for y, v in sorted(histogram.items())},
     }
     # years below ev_min (if there were any) go into the first year
-    hist = defaultdict(lambda: [0] * len(KORSZAKOK))
-    for y, v in hisztogram.items():
-        yy = max(y, int(ev_min))
+    hist = defaultdict(lambda: [0] * len(ERAS))
+    for y, v in histogram.items():
+        yy = max(y, int(year_min))
         for i, c in enumerate(v):
             hist[yy][i] += c
     config["histogram"] = {str(y): v for y, v in sorted(hist.items())}
-    if terep:
-        terep.iras(KIMENET)
-        config["terep"] = {"van": True, "ref": terep.ref, "kep": terep.van_kep,
-                           "x0": terep.x0, "z0": terep.z0, "w": terep.x1 - terep.x0 + 0.0, "h": terep.z1 - terep.z0 + 0.0,
+    if terrain:
+        terrain.write(OUTPUT)
+        config["terep"] = {"van": True, "ref": terrain.ref, "kep": terrain.van_kep,
+                           "x0": terrain.x0, "z0": terrain.z0, "w": terrain.x1 - terrain.x0 + 0.0, "h": terrain.z1 - terrain.z0 + 0.0,
                            "eszrevetel": "SRTM: NASA, Shuttle Radar Topography Mission"}
-        alapok = sorted(e["base"] for e in ep)
-        print(f"  épület-talpmagasság: 0-{alapok[-1]:.0f} m, medián {alapok[len(alapok) // 2]:.1f} m")
-    (KIMENET / "budapest.json").write_text(json.dumps(config, ensure_ascii=False), encoding="utf-8")
+        bases = sorted(e["base"] for e in ep)
+        print(f"  épület-talpmagasság: 0-{bases[-1]:.0f} m, medián {bases[len(bases) // 2]:.1f} m")
+    (OUTPUT / "budapest.json").write_text(json.dumps(config, ensure_ascii=False), encoding="utf-8")
 
-    meret = (KIMENET / "tiles.bin").stat().st_size
-    print(f"Csempék: {len(jegyzek)}, tiles.bin: {meret // 1024} KB")
-    print(f"Kész: {KIMENET}/ (a 3D nézet: terkep3d/index.html, kiszolgálva a szerkesztő szerverrel)")
+    size = (OUTPUT / "tiles.bin").stat().st_size
+    print(f"Csempék: {len(register)}, tiles.bin: {size // 1024} KB")
+    print(f"Kész: {OUTPUT}/ (a 3D nézet: terkep3d/index.html, kiszolgálva a szerkesztő szerverrel)")
 
 
 if __name__ == "__main__":

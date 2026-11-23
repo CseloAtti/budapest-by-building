@@ -13,37 +13,37 @@ import csv
 import json
 from pathlib import Path
 
-BEMENET = Path("data/varos/epuletek_vegleges.geojson")
-KIMENET = Path("data/varos/veletlen_kozelito.csv")
-REGI = Path("data/tenyek/veletlen_ev.csv")
-KERULETEK = {2, 12}
-EV_TOL, EV_IG = 1890, 1938
-SZOVEG = f"helyi védett épület, pontos építési éve nem ismert; feltételezés: {EV_TOL}–{EV_IG}"
+INPUT = Path("data/varos/epuletek_vegleges.geojson")
+OUTPUT = Path("data/varos/veletlen_kozelito.csv")
+OLD = Path("data/tenyek/veletlen_ev.csv")
+DISTRICTS = {2, 12}
+YEAR_FROM, YEAR_TO = 1890, 1938
+TEXT = f"helyi védett épület, pontos építési éve nem ismert; feltételezés: {YEAR_FROM}–{YEAR_TO}"
 
 
 def main():
-    with open(BEMENET, encoding="utf-8") as f:
+    with open(INPUT, encoding="utf-8") as f:
         feats = json.load(f)["features"]
-    sorok, kerulet_db = [], {}
+    rows, district_count = [], {}
     for ft in feats:
         p = ft["properties"]
-        if p.get("kerulet") not in KERULETEK or p.get("vedettseg") != "HV" or p.get("resz"):
+        if p.get("kerulet") not in DISTRICTS or p.get("vedettseg") != "HV" or p.get("resz"):
             continue
         if p.get("ev") not in (None, "") and p.get("ev_forras") != "veletlen":
             continue          # it has a real year
-        sorok.append((p.get("osm_tipus") or "way", int(p["id"]), EV_TOL, EV_IG, SZOVEG, "feltételezés"))
-        kerulet_db[p["kerulet"]] = kerulet_db.get(p["kerulet"], 0) + 1
-    sorok = sorted(set(sorok), key=lambda s: (s[0], s[1]))
-    KIMENET.parent.mkdir(parents=True, exist_ok=True)
-    with open(KIMENET, "w", encoding="utf-8-sig", newline="") as f:
+        rows.append((p.get("osm_tipus") or "way", int(p["id"]), YEAR_FROM, YEAR_TO, TEXT, "feltételezés"))
+        district_count[p["kerulet"]] = district_count.get(p["kerulet"], 0) + 1
+    rows = sorted(set(rows), key=lambda s: (s[0], s[1]))
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    with open(OUTPUT, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["osm_tipus", "id", "ev_tol", "ev_ig", "szoveg", "forras"])
-        w.writerows(sorok)
-    print(f"Feltételezett korszakot (közelítő adat, {EV_TOL}–{EV_IG}) kapott: {len(sorok)} épület; kerületenként: {dict(sorted(kerulet_db.items()))}")
-    print(f"Mentve: {KIMENET}")
-    if REGI.exists():
-        REGI.unlink()
-        print(f"Törölve a régi, kitalált évszámokat tartalmazó fájl: {REGI}")
+        w.writerows(rows)
+    print(f"Feltételezett korszakot (közelítő adat, {YEAR_FROM}–{YEAR_TO}) kapott: {len(rows)} épület; kerületenként: {dict(sorted(district_count.items()))}")
+    print(f"Mentve: {OUTPUT}")
+    if OLD.exists():
+        OLD.unlink()
+        print(f"Törölve a régi, kitalált évszámokat tartalmazó fájl: {OLD}")
 
 
 if __name__ == "__main__":

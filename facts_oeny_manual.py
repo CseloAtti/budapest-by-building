@@ -23,127 +23,127 @@ import re
 import urllib.parse
 from pathlib import Path
 
-from common import tenyek_irasa
+from common import write_facts
 
-NEM_PAROSITOTT = "data/oeny_nem_parositott.csv"
-TABLA = "forras/oeny_kezi_parositas.csv"
-KARTYAK = "data/oeny_epuletek.json"
-JEGYZEK = "data/muemlek_jegyzek.json"
-KIMENET = "data/tenyek/oeny_kezi.csv"
-OSZLOPOK = ["torzsszam", "megnevezes", "cim", "miert_nem_parosult", "kiolvasott_tervezo", "kiolvasott_ev",
+NOT_PAIRED = "data/oeny_nem_parositott.csv"
+TABLE = "forras/oeny_kezi_parositas.csv"
+CARDS = "data/oeny_epuletek.json"
+REGISTER = "data/muemlek_jegyzek.json"
+OUTPUT = "data/tenyek/oeny_kezi.csv"
+COLUMNS = ["torzsszam", "megnevezes", "cim", "miert_nem_parosult", "kiolvasott_tervezo", "kiolvasott_ev",
             "lehetseges_epuletek_a_tobbi_cim_alapjan", "oeny_oldal", "osm_kereses", "arcgis_lat", "arcgis_lon",
             "terbeli_biztonsag", "terbeli_javaslat", "osm_azonosito", "megjegyzes"]
 
 
-def olvas(ut):
-    with open(ut, encoding="utf-8-sig", newline="") as f:
+def read_(path_):
+    with open(path_, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f, delimiter=";"))
 
 
-def oeny_azonositok():
+def oeny_identifiers():
     try:
-        return {int(k["torzsszam"]): k.get("azonositok", []) for k in json.loads(Path(KARTYAK).read_text(encoding="utf-8"))}
+        return {int(k["torzsszam"]): k.get("azonositok", []) for k in json.loads(Path(CARDS).read_text(encoding="utf-8"))}
     except (FileNotFoundError, ValueError, KeyError):
         return {}
 
 
-def tabla_szinkron():
+def table_sync():
     """Creates or extends the manual table with the unmatched entries (it does not touch the filled-in rows)."""
-    if not Path(NEM_PAROSITOTT).exists():
-        raise SystemExit(f"Hiányzik: {NEM_PAROSITOTT}. Előbb futtasd: py facts_oeny.py varos")
+    if not Path(NOT_PAIRED).exists():
+        raise SystemExit(f"Hiányzik: {NOT_PAIRED}. Előbb futtasd: py facts_oeny.py varos")
     # Several rows can belong to one serial number. We append a new row only if the table has fewer rows for the given
     # serial number than the unmatched list (you may correct the address in the table, that does not count as new).
-    sorok = olvas(TABLA) if Path(TABLA).exists() else []
-    van = collections.Counter(r["torzsszam"].strip() for r in sorok)
-    azon = oeny_azonositok()
-    uj = 0
-    for r in olvas(NEM_PAROSITOTT):
-        tsz = r["torzsszam"].strip()
-        if van[tsz] > 0:
-            van[tsz] -= 1
+    rows = read_(TABLE) if Path(TABLE).exists() else []
+    has = collections.Counter(r["torzsszam"].strip() for r in rows)
+    id_ = oeny_identifiers()
+    new = 0
+    for r in read_(NOT_PAIRED):
+        serial_no = r["torzsszam"].strip()
+        if has[serial_no] > 0:
+            has[serial_no] -= 1
             continue
-        a = azon.get(int(tsz), []) if tsz.isdigit() else []
-        cim = r["cim"].split(",")[0].strip()
-        sorok.append({
-            **{k: r.get(k, "") for k in OSZLOPOK[:7]}, "arcgis_lat": "", "arcgis_lon": "", "terbeli_biztonsag": "", "terbeli_javaslat": "",
+        a = id_.get(int(serial_no), []) if serial_no.isdigit() else []
+        address = r["cim"].split(",")[0].strip()
+        rows.append({
+            **{k: r.get(k, "") for k in COLUMNS[:7]}, "arcgis_lat": "", "arcgis_lon": "", "terbeli_biztonsag": "", "terbeli_javaslat": "",
             "oeny_oldal": f"https://www.oeny.hu/oeny/eorok/public/monument/{a[0]}" if a else "",
-            "osm_kereses": "https://www.openstreetmap.org/search?query=" + urllib.parse.quote(f"{cim}, Budapest"),
+            "osm_kereses": "https://www.openstreetmap.org/search?query=" + urllib.parse.quote(f"{address}, Budapest"),
             "osm_azonosito": "", "megjegyzes": "",
         })
-        uj += 1
-    if not uj:
-        return sorok, 0            # no new row: we do NOT rewrite the table's file (everything you set up in Excel stays)
-    if Path(TABLA).exists():
+        new += 1
+    if not new:
+        return rows, 0            # no new row: we do NOT rewrite the table's file (everything you set up in Excel stays)
+    if Path(TABLE).exists():
         # we append the new rows only to the end, and do not touch the existing rows, order or columns
-        with open(TABLA, "rb") as f:
-            adat = f.read()
-        with open(TABLA, encoding="utf-8-sig", newline="") as f:
-            fej = next(csv.reader(f, delimiter=";"))
-        sorvege = "\r\n" if b"\r\n" in adat else "\n"
-        with open(TABLA, "a", encoding="utf-8", newline="") as f:
-            if not adat.endswith((b"\n", b"\r")):
-                f.write(sorvege)
-            w = csv.DictWriter(f, fieldnames=fej, delimiter=";", extrasaction="ignore", lineterminator=sorvege)
-            w.writerows(sorok[-uj:])
+        with open(TABLE, "rb") as f:
+            data_ = f.read()
+        with open(TABLE, encoding="utf-8-sig", newline="") as f:
+            head = next(csv.reader(f, delimiter=";"))
+        line_end = "\r\n" if b"\r\n" in data_ else "\n"
+        with open(TABLE, "a", encoding="utf-8", newline="") as f:
+            if not data_.endswith((b"\n", b"\r")):
+                f.write(line_end)
+            w = csv.DictWriter(f, fieldnames=head, delimiter=";", extrasaction="ignore", lineterminator=line_end)
+            w.writerows(rows[-new:])
     else:
-        Path(TABLA).parent.mkdir(parents=True, exist_ok=True)
-        with open(TABLA, "w", encoding="utf-8-sig", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=OSZLOPOK, delimiter=";", extrasaction="ignore")
+        Path(TABLE).parent.mkdir(parents=True, exist_ok=True)
+        with open(TABLE, "w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=COLUMNS, delimiter=";", extrasaction="ignore")
             w.writeheader()
-            w.writerows(sorok)
-    return sorok, uj
+            w.writerows(rows)
+    return rows, new
 
 
 def main():
-    sorok, uj = tabla_szinkron()
-    konyv = {}
+    rows, new = table_sync()
+    book = {}
     try:
-        for b in json.loads(Path(JEGYZEK).read_text(encoding="utf-8"))["bejegyzesek"]:
-            konyv[int(b["torzsszam"])] = b
+        for b in json.loads(Path(REGISTER).read_text(encoding="utf-8"))["bejegyzesek"]:
+            book[int(b["torzsszam"])] = b
     except (FileNotFoundError, ValueError, KeyError):
         pass
-    azon = oeny_azonositok()
-    kesz = set()
-    kitoltott = hianyzo = 0
-    for r in sorok:
+    id_ = oeny_identifiers()
+    done = set()
+    filled = missing = 0
+    for r in rows:
         osm = []
-        for resz in re.split(r"[|;,\n]+", r.get("osm_azonosito") or ""):
-            m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", resz.strip(), flags=re.I)
+        for part in re.split(r"[|;,\n]+", r.get("osm_azonosito") or ""):
+            m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", part.strip(), flags=re.I)
             if m:
                 osm.append(((m.group(1) or "way").lower(), int(m.group(2))))
         if not osm:
-            hianyzo += 1
+            missing += 1
             continue
-        kitoltott += 1
-        tsz = int(r["torzsszam"])
-        b = konyv.get(tsz)
-        megj = f"E-Örökség, törzsszám {tsz}, kézi párosítás"
-        sorok_ki = [("muemlek_torzsszam", tsz, "oeny")]
-        for az in azon.get(tsz, [])[:3]:
-            sorok_ki.append(("oeny_azonosito", az, "oeny"))
+        filled += 1
+        serial_no = int(r["torzsszam"])
+        b = book.get(serial_no)
+        remark = f"E-Örökség, törzsszám {serial_no}, kézi párosítás"
+        rows_out = [("muemlek_torzsszam", serial_no, "oeny")]
+        for az in id_.get(serial_no, [])[:3]:
+            rows_out.append(("oeny_azonosito", az, "oeny"))
         if b:
-            sorok_ki += [("vedettseg", b["vedettseg"], "muemlek"), ("muemlek_hrsz", b["hrsz"], "muemlek"), ("stilus", b["stilus"], "muemlek")]
+            rows_out += [("vedettseg", b["vedettseg"], "muemlek"), ("muemlek_hrsz", b["hrsz"], "muemlek"), ("stilus", b["stilus"], "muemlek")]
             if b["evek"]:
-                sorok_ki.append(("ev", b["evek"][0][1], "muemlek"))
+                rows_out.append(("ev", b["evek"][0][1], "muemlek"))
             if b["tervezo"]:
-                sorok_ki.append(("tervezo", b["tervezo"], "muemlek"))
+                rows_out.append(("tervezo", b["tervezo"], "muemlek"))
             if b["emelet"] is not None:
-                sorok_ki.append(("szintek", b["emelet"] + 1, "muemlek"))
+                rows_out.append(("szintek", b["emelet"] + 1, "muemlek"))
         else:
-            sorok_ki.append(("vedettseg", "MJT" if "területe" in r["megnevezes"].lower() else "M", "oeny"))
+            rows_out.append(("vedettseg", "MJT" if "területe" in r["megnevezes"].lower() else "M", "oeny"))
         mev = re.match(r"\s*(\d{4})(?:\.0)?\s*$", r.get("kiolvasott_ev") or "")   # Excel may convert it to "1934.0"
         if mev:
-            sorok_ki.append(("ev", int(mev.group(1)), "oeny"))
+            rows_out.append(("ev", int(mev.group(1)), "oeny"))
         if (r.get("kiolvasott_tervezo") or "").strip():
-            sorok_ki.append(("tervezo", r["kiolvasott_tervezo"].strip(), "oeny"))
+            rows_out.append(("tervezo", r["kiolvasott_tervezo"].strip(), "oeny"))
         for t, i in osm:
-            for mezo, ertek, forras in sorok_ki:
-                if ertek not in (None, ""):
-                    kesz.add((t, i, mezo, ertek, forras, megj))
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2], str(s[3]))))
-    print(f"Táblázat: {TABLA} ({len(sorok)} sor, ebből új: {uj})")
-    print(f"OSM-hez kötve: {kitoltott}; még kitöltendő: {hianyzo}")
-    print(f"Tények: {len(kesz)} sor -> {KIMENET}")
+            for field, value, source in rows_out:
+                if value not in (None, ""):
+                    done.add((t, i, field, value, source, remark))
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2], str(s[3]))))
+    print(f"Táblázat: {TABLE} ({len(rows)} sor, ebből új: {new})")
+    print(f"OSM-hez kötve: {filled}; még kitöltendő: {missing}")
+    print(f"Tények: {len(done)} sor -> {OUTPUT}")
 
 
 if __name__ == "__main__":

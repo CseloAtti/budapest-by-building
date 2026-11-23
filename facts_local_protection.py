@@ -10,114 +10,114 @@ import json
 import sys
 from collections import Counter, defaultdict
 
-from common import tenyek_irasa
-from facts_monuments import ROMAI, VAROS, EPULETEK, alt_cimek, cim_felbontas, norm, szamok
+from common import write_facts
+from facts_monuments import ROMAN, CITY, BUILDINGS, alt_addresses, address_split, norm, numbers_
 
-JEGYZEK = "data/helyi_vedelem.json"
-CIMEK = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py facts_local_protection.py varos: the addresses of the whole city
-ATNEVEZES = "forras/utcanev_atnevezesek.csv"
-KIMENET = "data/tenyek/helyi_vedelem.csv"
-HASONLOSAG = 0.9
+REGISTER = "data/helyi_vedelem.json"
+ADDRESSES = "data/varos/osm_cimek.csv" if "varos" in sys.argv[1:] else "data/osm_cimek.csv"   # py facts_local_protection.py varos: the addresses of the whole city
+RENAMING = "forras/utcanev_atnevezesek.csv"
+OUTPUT = "data/tenyek/helyi_vedelem.csv"
+SIMILARITY = 0.9
 
 
 def main():
     atn = {}
     try:
-        with open(ATNEVEZES, encoding="utf-8-sig", newline="") as f:
+        with open(RENAMING, encoding="utf-8-sig", newline="") as f:
             for r in csv.DictReader(f, delimiter=";"):
                 if r.get("regi") and r.get("uj"):
                     atn[norm(r["regi"])] = [norm(x) for x in r["uj"].split("|") if x.strip()]
     except FileNotFoundError:
         pass
     # In city mode we search within the district given in the list (otherwise the houses of a same-named street in another district would also match).
-    kerulete = {}
-    if VAROS:
-        with open(EPULETEK, encoding="utf-8") as f:
+    district = {}
+    if CITY:
+        with open(BUILDINGS, encoding="utf-8") as f:
             for ft in json.load(f)["features"]:
                 pr = ft["properties"]
                 if pr.get("kerulet"):
-                    kerulete[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
-        if not kerulete:
+                    district[(pr["osm_tipus"], int(pr["id"]))] = pr["kerulet"]
+        if not district:
             raise SystemExit("Az épületeknél nincs kerület. Futtasd: py budapest_pbf.py, majd py city_assembly.py")
-    utcak_kn = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # district (0 = inner-city mode) -> street -> house number -> buildings
-    with open(CIMEK, encoding="utf-8-sig", newline="") as f:
+    streets_kn = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))   # district (0 = inner-city mode) -> street -> house number -> buildings
+    with open(ADDRESSES, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
             e = (r["osm_tipus"], int(r["id"]))
-            if VAROS and e not in kerulete:
+            if CITY and e not in district:
                 continue
-            for sz in szamok(r["hazszam"]):
-                utcak_kn[kerulete.get(e, 0)][norm(r["utca"])][sz].append(e)
-    utcak = utcak_kn[0]
-    osm_utcak = list(utcak)
+            for sz in numbers_(r["hazszam"]):
+                streets_kn[district.get(e, 0)][norm(r["utca"])][sz].append(e)
+    streets = streets_kn[0]
+    osm_streets = list(streets)
 
-    def jeloltek(utca):
-        n = norm(utca)
-        ki = []
+    def candidates(street):
+        n = norm(street)
+        out = []
         for j in atn.get(n, [n]):
-            if j in utcak:
-                ki.append(j)
+            if j in streets:
+                out.append(j)
             else:
-                jo = difflib.get_close_matches(j, osm_utcak, n=1, cutoff=HASONLOSAG)
-                if jo:
-                    ki.append(jo[0])
-        return list(dict.fromkeys(ki))
+                good = difflib.get_close_matches(j, osm_streets, n=1, cutoff=SIMILARITY)
+                if good:
+                    out.append(good[0])
+        return list(dict.fromkeys(out))
 
-    with open(JEGYZEK, encoding="utf-8") as f:
-        bejegyzesek = json.load(f)["bejegyzesek"]
+    with open(REGISTER, encoding="utf-8") as f:
+        entries = json.load(f)["bejegyzesek"]
 
-    kesz, parositva, nincs_utca, nincs_szam, ketertelmu, tobb = set(), 0, Counter(), 0, 0, 0
-    for b in bejegyzesek:
-        cimek = []
-        u, sz = cim_felbontas(b["cim"])
+    done, paired, none_street, none_number, ambiguous, several = set(), 0, Counter(), 0, 0, 0
+    for b in entries:
+        addresses = []
+        u, sz = address_split(b["cim"])
         if u and sz:
-            cimek.append((u, sz))
-        cimek += alt_cimek(b.get("alt_cimek", []))
-        talalat, volt_utca = set(), False
-        kn = ROMAI.get(str(b.get("ker", "")).strip().upper(), 0) if VAROS else 0
-        if VAROS and not kn:
+            addresses.append((u, sz))
+        addresses += alt_addresses(b.get("alt_cimek", []))
+        hit, was_street = set(), False
+        kn = ROMAN.get(str(b.get("ker", "")).strip().upper(), 0) if CITY else 0
+        if CITY and not kn:
             continue
-        utcak = utcak_kn[kn]
-        osm_utcak = list(utcak)
-        for u, sz in cimek:
-            jl = jeloltek(u)
+        streets = streets_kn[kn]
+        osm_streets = list(streets)
+        for u, sz in addresses:
+            jl = candidates(u)
             if not jl:
-                nincs_utca[u] += 1
+                none_street[u] += 1
                 continue
-            volt_utca = True
-            talalatok = []
+            was_street = True
+            hits = []
             for mu in jl:
                 t = set()
                 for n in sz:
-                    t.update(utcak[mu].get(n, []))
+                    t.update(streets[mu].get(n, []))
                 if t:
-                    talalatok.append(t)
-            if len(talalatok) > 1:
-                ketertelmu += 1
-            elif talalatok:
-                talalat.update(talalatok[0])
-        if not talalat:
-            nincs_szam += volt_utca
+                    hits.append(t)
+            if len(hits) > 1:
+                ambiguous += 1
+            elif hits:
+                hit.update(hits[0])
+        if not hit:
+            none_number += was_street
             continue
-        parositva += 1
-        tobb += len(talalat) > 1
-        megj = "54/1993. Főv. Kgy. rendelet melléklete (2001)" + (", közelítő év" if b.get("ev_korul") else "")
-        for t, i in talalat:
-            tenyek = [("vedettseg_helyi", "helyi védelem"), ("helyi_vedett_hrsz", b["hrsz"]),
+        paired += 1
+        several += len(hit) > 1
+        remark = "54/1993. Főv. Kgy. rendelet melléklete (2001)" + (", közelítő év" if b.get("ev_korul") else "")
+        for t, i in hit:
+            facts = [("vedettseg_helyi", "helyi védelem"), ("helyi_vedett_hrsz", b["hrsz"]),
                       ("helyi_vedett_megnevezes", b["megnevezes"]), ("tervezo", b["tervezo"]), ("ev", b["ev"])]
-            for mezo, ertek in tenyek:
-                if ertek not in (None, ""):
-                    kesz.add((t, i, mezo, ertek, "helyi_vedelem", megj))
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2])))
-    print(f"Bejegyzések a listán: {len(bejegyzesek)}")
-    print(f"OSM-épülethez párosítva: {parositva} (ebből több OSM-épület: {tobb})")
-    print(f"Az utca megvan, de a házszám nem (az OSM-épületen nincs cím): {nincs_szam}")
-    if ketertelmu:
-        print(f"Kétértelmű, kihagyva: {ketertelmu}")
-    if nincs_utca:
-        print(f"Nem található utcanevek: {len(nincs_utca)} db (valószínűleg a területünkön kívül, vagy az OSM-ben nincs címük)")
-        for u, n in nincs_utca.most_common(15):
+            for field, value in facts:
+                if value not in (None, ""):
+                    done.add((t, i, field, value, "helyi_vedelem", remark))
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2])))
+    print(f"Bejegyzések a listán: {len(entries)}")
+    print(f"OSM-épülethez párosítva: {paired} (ebből több OSM-épület: {several})")
+    print(f"Az utca megvan, de a házszám nem (az OSM-épületen nincs cím): {none_number}")
+    if ambiguous:
+        print(f"Kétértelmű, kihagyva: {ambiguous}")
+    if none_street:
+        print(f"Nem található utcanevek: {len(none_street)} db (valószínűleg a területünkön kívül, vagy az OSM-ben nincs címük)")
+        for u, n in none_street.most_common(15):
             print(f"  {u}  ({n})")
-    print(f"Mentve: {KIMENET}")
+    print(f"Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":

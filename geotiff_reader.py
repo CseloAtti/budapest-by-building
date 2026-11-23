@@ -7,96 +7,96 @@ ModelTiepoint (33922) tags. It decompresses only the blocks actually requested a
 import struct
 import zlib
 
-TIPUS = {1: ("B", 1), 2: ("s", 1), 3: ("H", 2), 4: ("I", 4), 5: ("II", 8), 6: ("b", 1), 7: ("B", 1), 8: ("h", 2),
+TYPE = {1: ("B", 1), 2: ("s", 1), 3: ("H", 2), 4: ("I", 4), 5: ("II", 8), 6: ("b", 1), 7: ("B", 1), 8: ("h", 2),
          9: ("i", 4), 10: ("ii", 8), 11: ("f", 4), 12: ("d", 8), 16: ("Q", 8), 17: ("q", 8), 18: ("Q", 8)}
 
 
-def lzw_kibont(adat):
+def lzw_unpack(data_):
     """TIFF-LZW (MSB, with early code-width change)."""
     CLEAR, EOI = 256, 257
-    ki = bytearray()
-    tabla = None
-    szeles = 9
-    kovetkezo = 258
-    puffer = 0
-    bitek = 0
-    elozo = None
-    for b in adat:
-        puffer = (puffer << 8) | b
-        bitek += 8
-        while bitek >= szeles:
-            kod = (puffer >> (bitek - szeles)) & ((1 << szeles) - 1)
-            bitek -= szeles
-            puffer &= (1 << bitek) - 1
-            if kod == EOI:
-                return bytes(ki)
-            if kod == CLEAR:
-                tabla = [bytes([i]) for i in range(256)] + [b"", b""]
-                szeles, kovetkezo, elozo = 9, 258, None
+    out = bytearray()
+    table = None
+    wide = 9
+    next_ = 258
+    buffer = 0
+    bits = 0
+    previous = None
+    for b in data_:
+        buffer = (buffer << 8) | b
+        bits += 8
+        while bits >= wide:
+            code_ = (buffer >> (bits - wide)) & ((1 << wide) - 1)
+            bits -= wide
+            buffer &= (1 << bits) - 1
+            if code_ == EOI:
+                return bytes(out)
+            if code_ == CLEAR:
+                table = [bytes([i]) for i in range(256)] + [b"", b""]
+                wide, next_, previous = 9, 258, None
                 continue
-            if tabla is None:
-                tabla = [bytes([i]) for i in range(256)] + [b"", b""]
-                kovetkezo = 258
-            if elozo is None:
-                if kod < len(tabla):
-                    ki += tabla[kod]
-                    elozo = tabla[kod]
+            if table is None:
+                table = [bytes([i]) for i in range(256)] + [b"", b""]
+                next_ = 258
+            if previous is None:
+                if code_ < len(table):
+                    out += table[code_]
+                    previous = table[code_]
                 continue
-            if kod < len(tabla):
-                bejegyzes = tabla[kod]
-            elif kod == len(tabla):
-                bejegyzes = elozo + elozo[:1]
+            if code_ < len(table):
+                entry = table[code_]
+            elif code_ == len(table):
+                entry = previous + previous[:1]
             else:
                 raise ValueError("hibás LZW-adat")
-            ki += bejegyzes
-            tabla.append(elozo + bejegyzes[:1])
-            kovetkezo = len(tabla)
-            elozo = bejegyzes
-            if kovetkezo >= (1 << szeles) - 1 and szeles < 12:
-                szeles += 1
-    return bytes(ki)
+            out += entry
+            table.append(previous + entry[:1])
+            next_ = len(table)
+            previous = entry
+            if next_ >= (1 << wide) - 1 and wide < 12:
+                wide += 1
+    return bytes(out)
 
 
 class GeoTiff:
-    def __init__(self, adat):
-        self.d = adat
-        if adat[:2] == b"II":
+    def __init__(self, data_):
+        self.d = data_
+        if data_[:2] == b"II":
             self.e = "<"
-        elif adat[:2] == b"MM":
+        elif data_[:2] == b"MM":
             self.e = ">"
         else:
             raise ValueError("nem TIFF fájl")
-        onkod = struct.unpack(self.e + "H", adat[2:4])[0]
-        self.big = onkod == 43
-        if onkod == 43:
-            ifd = struct.unpack(self.e + "Q", adat[8:16])[0]
-        elif onkod == 42:
-            ifd = struct.unpack(self.e + "I", adat[4:8])[0]
+        self_code = struct.unpack(self.e + "H", data_[2:4])[0]
+        self.big = self_code == 43
+        if self_code == 43:
+            ifd = struct.unpack(self.e + "Q", data_[8:16])[0]
+        elif self_code == 42:
+            ifd = struct.unpack(self.e + "I", data_[4:8])[0]
         else:
             raise ValueError("nem TIFF fájl")
         self.c = self._ifd(ifd)
         t = self.c
         self.w, self.h = t[256][0], t[257][0]
         self.bit = t.get(258, [8])[0]
-        self.tomor = t.get(259, [1])[0]
+        self.compressed = t.get(259, [1])[0]
         self.pred = t.get(317, [1])[0]
         self.forma = t.get(339, [1])[0]
         if t.get(277, [1])[0] != 1:
             raise ValueError("csak egysávos TIFF támogatott")
-        if self.tomor not in (1, 5, 8, 32946):
-            raise ValueError("nem támogatott tömörítés: %s" % self.tomor)
+        if self.compressed not in (1, 5, 8, 32946):
+            raise ValueError("nem támogatott tömörítés: %s" % self.compressed)
         if 322 in t:
             self.csempes = True
             self.bw, self.bh = t[322][0], t[323][0]
-            self.offs, self.hossz = t[324], t[325]
+            self.offs, self.length = t[324], t[325]
         else:
             self.csempes = False
             self.bw, self.bh = self.w, t.get(278, [self.h])[0]
-            self.offs, self.hossz = t[273], t[279]
-        skala, tie = t.get(33550), t.get(33922)
-        if not skala or not tie:
+            self.offs, self.length = t[273], t[279]
+        scale, tie = t.get(33550), t.get(33922)
+        if not scale or not tie:
             raise ValueError("nincs georeferencia (ModelPixelScale/Tiepoint)")
-        self.sx, self.sy = skala[0], skala[1]
+        self.sx, self.sy = scale[0], scale[1]
         self.x0 = tie[3] - tie[0] * self.sx          # the coordinate of the top-left corner
         self.y0 = tie[4] + tie[1] * self.sy
         self.nodata = None
@@ -106,94 +106,94 @@ class GeoTiff:
             except (ValueError, TypeError):
                 pass
         if self.forma == 3:
-            self.kod = {32: "f", 64: "d"}[self.bit]
+            self.code_ = {32: "f", 64: "d"}[self.bit]
         else:
-            self.kod = {(8, 1): "B", (16, 1): "H", (32, 1): "I", (8, 2): "b", (16, 2): "h", (32, 2): "i"}[(self.bit, self.forma)]
-        self.meret = self.bit // 8
+            self.code_ = {(8, 1): "B", (16, 1): "H", (32, 1): "I", (8, 2): "b", (16, 2): "h", (32, 2): "i"}[(self.bit, self.forma)]
+        self.size = self.bit // 8
 
-    def _ifd(self, ut):
+    def _ifd(self, path_):
         e, d = self.e, self.d
-        ki = {}
+        out = {}
         if self.big:
-            n = struct.unpack(e + "Q", d[ut:ut + 8])[0]
-            elso, bejegyzes, inline, mutato = ut + 8, 20, 8, "Q"
+            n = struct.unpack(e + "Q", d[path_:path_ + 8])[0]
+            first, entry, inline, indicator = path_ + 8, 20, 8, "Q"
         else:
-            n = struct.unpack(e + "H", d[ut:ut + 2])[0]
-            elso, bejegyzes, inline, mutato = ut + 2, 12, 4, "I"
+            n = struct.unpack(e + "H", d[path_:path_ + 2])[0]
+            first, entry, inline, indicator = path_ + 2, 12, 4, "I"
         for k in range(n):
-            o = elso + bejegyzes * k
+            o = first + entry * k
             if self.big:
-                tag, tip, db, ertek = struct.unpack(e + "HHQ8s", d[o:o + bejegyzes])
+                tag, kind, count_, value = struct.unpack(e + "HHQ8s", d[o:o + entry])
             else:
-                tag, tip, db, ertek = struct.unpack(e + "HHI4s", d[o:o + bejegyzes])
-            if tip not in TIPUS:
+                tag, kind, count_, value = struct.unpack(e + "HHI4s", d[o:o + entry])
+            if kind not in TYPE:
                 continue
-            fmt, mer = TIPUS[tip]
-            osszes = mer * db
-            if osszes <= inline:
-                nyers = ertek[:osszes]
+            fmt, mer = TYPE[kind]
+            all_ = mer * count_
+            if all_ <= inline:
+                raw = value[:all_]
             else:
-                p = struct.unpack(e + mutato, ertek[:struct.calcsize(mutato)])[0]
-                nyers = d[p:p + osszes]
-            if tip == 2:
-                ki[tag] = [nyers.decode("latin-1")]
-            elif tip in (5, 10):
-                ki[tag] = [x / y if y else 0.0 for x, y in struct.iter_unpack(e + fmt, nyers)]
+                p = struct.unpack(e + indicator, value[:struct.calcsize(indicator)])[0]
+                raw = d[p:p + all_]
+            if kind == 2:
+                out[tag] = [raw.decode("latin-1")]
+            elif kind in (5, 10):
+                out[tag] = [x / y if y else 0.0 for x, y in struct.iter_unpack(e + fmt, raw)]
             else:
-                ki[tag] = list(struct.unpack(e + fmt * db, nyers))
-        return ki
+                out[tag] = list(struct.unpack(e + fmt * count_, raw))
+        return out
 
-    def blokk(self, index):
+    def block(self, index):
         """Decompressing one block (strip or tile): (block_width, block_height, list of values concatenated row by row)."""
-        nyers = self.d[self.offs[index]: self.offs[index] + self.hossz[index]]
-        if self.tomor in (8, 32946):
-            nyers = zlib.decompress(nyers)
-        elif self.tomor == 5:
-            nyers = lzw_kibont(nyers)
+        raw = self.d[self.offs[index]: self.offs[index] + self.length[index]]
+        if self.compressed in (8, 32946):
+            raw = zlib.decompress(raw)
+        elif self.compressed == 5:
+            raw = lzw_unpack(raw)
         bw = self.bw
         if self.csempes:
             bh = self.bh
         else:
             bh = min(self.bh, self.h - index * self.bh)
-        db = bw * bh
-        nyers = nyers[:db * self.meret]
-        if len(nyers) < db * self.meret:
-            nyers = nyers + b"\x00" * (db * self.meret - len(nyers))
-        ertek = list(struct.unpack(self.e + self.kod * db, nyers))
+        count_ = bw * bh
+        raw = raw[:count_ * self.size]
+        if len(raw) < count_ * self.size:
+            raw = raw + b"\x00" * (count_ * self.size - len(raw))
+        value = list(struct.unpack(self.e + self.code_ * count_, raw))
         if self.pred == 2 and self.forma != 3:
-            maszk = (1 << self.bit) - 1
-            for sor in range(bh):
-                o = sor * bw
+            mask = (1 << self.bit) - 1
+            for row in range(bh):
+                o = row * bw
                 for k in range(1, bw):
-                    ertek[o + k] = (ertek[o + k] + ertek[o + k - 1]) & maszk
+                    value[o + k] = (value[o + k] + value[o + k - 1]) & mask
             if self.forma == 2:       # signed: converting back
-                fel = 1 << (self.bit - 1)
-                ertek = [v - (1 << self.bit) if v >= fel else v for v in ertek]
-        return bw, bh, ertek
+                half = 1 << (self.bit - 1)
+                value = [v - (1 << self.bit) if v >= half else v for v in value]
+        return bw, bh, value
 
-    def koordinata_pixelre(self, x, y):
+    def coordinate_per_pixel(self, x, y):
         return (x - self.x0) / self.sx, (self.y0 - y) / self.sy
 
-    def ertekek(self, pontok):
+    def values_(self, points):
         """points: [(x, y)] in the file's projection. Returns: a list, the point's value or None (outside / nodata)."""
-        ki = [None] * len(pontok)
-        csoport = {}
-        for n, (x, y) in enumerate(pontok):
-            c, r = self.koordinata_pixelre(x, y)
+        out = [None] * len(points)
+        group_ = {}
+        for n, (x, y) in enumerate(points):
+            c, r = self.coordinate_per_pixel(x, y)
             c, r = int(c // 1), int(r // 1)
             if not (0 <= c < self.w and 0 <= r < self.h):
                 continue
             if self.csempes:
-                per_sor = (self.w + self.bw - 1) // self.bw
-                bi = (r // self.bh) * per_sor + (c // self.bw)
-                csoport.setdefault(bi, []).append((n, c % self.bw, r % self.bh))
+                per_row = (self.w + self.bw - 1) // self.bw
+                bi = (r // self.bh) * per_row + (c // self.bw)
+                group_.setdefault(bi, []).append((n, c % self.bw, r % self.bh))
             else:
-                csoport.setdefault(r // self.bh, []).append((n, c, r % self.bh))
-        for bi, lista in csoport.items():
-            bw, bh, ertek = self.blokk(bi)
-            for n, c, r in lista:
-                v = ertek[r * bw + c]
+                group_.setdefault(r // self.bh, []).append((n, c, r % self.bh))
+        for bi, list_ in group_.items():
+            bw, bh, value = self.block(bi)
+            for n, c, r in list_:
+                v = value[r * bw + c]
                 if self.nodata is not None and v == self.nodata:
                     continue
-                ki[n] = v
-        return ki
+                out[n] = v
+        return out

@@ -17,14 +17,14 @@ import sys
 from pathlib import Path
 
 
-class HibasFajl(Exception):
+class FaultyFile(Exception):
     pass
 
 
-def _uzenetek(b, pos):
+def _messages(b, pos):
     """The messages of an HDF5 object header (OHDR, version 2): [(type, data), ...]."""
     if b[pos:pos + 4] != b"OHDR" or b[pos + 4] != 2:
-        raise HibasFajl("nem 2-es változatú HDF5 objektumfejléc")
+        raise FaultyFile("nem 2-es változatú HDF5 objektumfejléc")
     fl = b[pos + 5]
     p = pos + 6
     if fl & 0x20:
@@ -32,12 +32,12 @@ def _uzenetek(b, pos):
     if fl & 0x10:
         p += 4
     n = 1 << (fl & 3)
-    meret = int.from_bytes(b[p:p + n], "little")
+    size = int.from_bytes(b[p:p + n], "little")
     p += n
-    ki = []
-    blokkok = [(p, p + meret)]
-    while blokkok:
-        s, e = blokkok.pop(0)
+    out = []
+    blocks = [(p, p + size)]
+    while blocks:
+        s, e = blocks.pop(0)
         q = s
         while q + 4 <= e:
             t = b[q]
@@ -49,102 +49,102 @@ def _uzenetek(b, pos):
                 break
             if q + sz > e + 4:
                 break
-            ki.append((t, b[q:q + sz]))
+            out.append((t, b[q:q + sz]))
             if t == 0x10 and sz >= 16:
                 off, ln = struct.unpack("<QQ", b[q:q + 16])
-                blokkok.append((off + 4, off + ln - 4))
+                blocks.append((off + 4, off + ln - 4))
             q += sz
-    return ki
+    return out
 
 
-class Csempe:
+class Tile:
     N = 3601
 
-    def __init__(self, ut):
-        ut = Path(ut)
-        m = re.match(r"([NS])(\d+)([EW])(\d+)", ut.name.upper())
+    def __init__(self, path_):
+        path_ = Path(path_)
+        m = re.match(r"([NS])(\d+)([EW])(\d+)", path_.name.upper())
         if not m:
-            raise HibasFajl(f"a fájlnévből nem olvasható ki a csempe sarka: {ut.name}")
+            raise FaultyFile(f"a fájlnévből nem olvasható ki a csempe sarka: {path_.name}")
         lat = int(m.group(2)) * (1 if m.group(1) == "N" else -1)
         lon = int(m.group(4)) * (1 if m.group(3) == "E" else -1)
         self.lat_felso = lat + 1      # the tile's northern edge
         self.lon_nyugati = lon        # the tile's western edge
-        b = ut.read_bytes()
+        b = path_.read_bytes()
         if b[:8] != b"\x89HDF\r\n\x1a\n":
-            raise HibasFajl(f"{ut.name}: nem HDF5/NetCDF-4 fájl")
-        helye = None
+            raise FaultyFile(f"{path_.name}: nem HDF5/NetCDF-4 fájl")
+        place = None
         i = b.find(b"OHDR")
         while i != -1:
             try:
-                uz = _uzenetek(b, i)
-                tomb = {t: d for t, d in uz}
-                ds, dt, ly = tomb.get(1), tomb.get(3), tomb.get(8)
+                uz = _messages(b, i)
+                array_ = {t: d for t, d in uz}
+                ds, dt, ly = array_.get(1), array_.get(3), array_.get(8)
                 if ds and dt and ly and ds[0] == 2 and ds[1] == 2:
                     dims = struct.unpack("<QQ", ds[4:20])
                     if dims == (self.N, self.N) and dt[0] & 0x0F == 0 and struct.unpack("<I", dt[4:8])[0] == 2:
                         if ly[0] != 3 or ly[1] != 1:
-                            raise HibasFajl(f"{ut.name}: a magassági adat nem egybefüggő (tömörített vagy darabolt)")
-                        helye = struct.unpack("<QQ", ly[2:18])
+                            raise FaultyFile(f"{path_.name}: a magassági adat nem egybefüggő (tömörített vagy darabolt)")
+                        place = struct.unpack("<QQ", ly[2:18])
                         break
-            except (HibasFajl, struct.error, IndexError):
-                if helye is None and False:
+            except (FaultyFile, struct.error, IndexError):
+                if place is None and False:
                     raise
             i = b.find(b"OHDR", i + 4)
-        if not helye:
-            raise HibasFajl(f"{ut.name}: nem találom benne a {self.N}x{self.N}-es magassági adatot")
-        cim, hossz = helye
-        if hossz != self.N * self.N * 2:
-            raise HibasFajl(f"{ut.name}: váratlan adatméret")
-        self.adat = array.array("h")
-        self.adat.frombytes(b[cim:cim + hossz])
+        if not place:
+            raise FaultyFile(f"{path_.name}: nem találom benne a {self.N}x{self.N}-es magassági adatot")
+        address, length = place
+        if length != self.N * self.N * 2:
+            raise FaultyFile(f"{path_.name}: váratlan adatméret")
+        self.data_ = array.array("h")
+        self.data_.frombytes(b[address:address + length])
         if sys.byteorder != "little":
-            self.adat.byteswap()
+            self.data_.byteswap()
 
-    def kozel(self, lon, lat):
+    def near(self, lon, lat):
         return self.lon_nyugati <= lon <= self.lon_nyugati + 1 and self.lat_felso - 1 <= lat <= self.lat_felso
 
-    def minta(self, sor, oszlop):
-        return self.adat[sor * self.N + oszlop]
+    def sample(self, row, column):
+        return self.data_[row * self.N + column]
 
 
-class Domborzat:
+class Terrain:
     """All the SRTM tiles in the folder as one."""
 
-    FOK = 3600  # minta / fok
+    DEGREE = 3600  # minta / fok
 
-    def __init__(self, mappa):
-        self.csempek = []
-        for ut in sorted(Path(mappa).glob("*SRTMGL1*.nc")):
-            self.csempek.append(Csempe(ut))
-        if not self.csempek:
-            raise HibasFajl(f"nincs SRTM-csempe (*.SRTMGL1_NC.nc) a(z) {mappa} mappában")
+    def __init__(self, folder):
+        self.tiles = []
+        for path_ in sorted(Path(folder).glob("*SRTMGL1*.nc")):
+            self.tiles.append(Tile(path_))
+        if not self.tiles:
+            raise FaultyFile(f"nincs SRTM-csempe (*.SRTMGL1_NC.nc) a(z) {folder} mappában")
 
-    def _csempe(self, lon, lat):
-        for c in self.csempek:
-            if c.kozel(lon, lat):
+    def _tile(self, lon, lat):
+        for c in self.tiles:
+            if c.near(lon, lat):
                 return c
         return None
 
-    def racs(self, lon_ny, lon_k, lat_d, lat_e):
+    def grid(self, lon_ny, lon_k, lat_d, lat_e):
         """The heights of the given rectangle on SRTM's own grid (metres, floating point).
         Returns: (rows, columns, lat_top, lon_west, [[...], ...]) - the rows from north to south."""
-        sor0 = int(round((lat_e - lat_d) * self.FOK))
-        j0 = int(round(lat_e * self.FOK))
-        i0 = int(round(lon_ny * self.FOK))
-        sorok = sor0 + 1
-        oszlopok = int(round((lon_k - lon_ny) * self.FOK)) + 1
-        ki = []
-        for r in range(sorok):
-            lat = (j0 - r) / self.FOK
-            sor = []
-            for c in range(oszlopok):
-                lon = (i0 + c) / self.FOK
-                cs = self._csempe(lon, lat)
+        row0 = int(round((lat_e - lat_d) * self.DEGREE))
+        j0 = int(round(lat_e * self.DEGREE))
+        i0 = int(round(lon_ny * self.DEGREE))
+        rows = row0 + 1
+        columns = int(round((lon_k - lon_ny) * self.DEGREE)) + 1
+        out = []
+        for r in range(rows):
+            lat = (j0 - r) / self.DEGREE
+            row = []
+            for c in range(columns):
+                lon = (i0 + c) / self.DEGREE
+                cs = self._tile(lon, lat)
                 if cs is None:
-                    raise HibasFajl(f"a terület ({lon:.4f}, {lat:.4f}) pontja nincs a letöltött csempék között")
-                s = round((cs.lat_felso - lat) * self.FOK)
-                o = round((lon - cs.lon_nyugati) * self.FOK)
-                v = cs.minta(min(s, Csempe.N - 1), min(o, Csempe.N - 1))
-                sor.append(float(v) if v != -32768 else float("nan"))
-            ki.append(sor)
-        return sorok, oszlopok, j0 / self.FOK, i0 / self.FOK, ki
+                    raise FaultyFile(f"a terület ({lon:.4f}, {lat:.4f}) pontja nincs a letöltött csempék között")
+                s = round((cs.lat_felso - lat) * self.DEGREE)
+                o = round((lon - cs.lon_nyugati) * self.DEGREE)
+                v = cs.sample(min(s, Tile.N - 1), min(o, Tile.N - 1))
+                row.append(float(v) if v != -32768 else float("nan"))
+            out.append(row)
+        return rows, columns, j0 / self.DEGREE, i0 / self.DEGREE, out

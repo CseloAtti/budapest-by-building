@@ -16,20 +16,20 @@ from pathlib import Path
 LON0, LAT0 = 19.05, 47.5
 KX = math.cos(math.radians(LAT0)) * 111320.0
 KY = 110574.0
-SUGAR = 110.0             # m: the street's line is fitted from the houses of the same street within a surrounding of this radius
-MIN_SZOMSZED = 4          # at least this many houses are needed for the fit (including the house itself)
-MIN_NYUJTOTTSAG = 1.6     # along the principal axis the spread must be at least this many times larger than perpendicular to it
-MIN_UTCASZELESSEG = 14.0  # m: there must be at least this much between the centre lines of the two sides' house rows
-MAX_TAVOLSAG = 45.0       # m: a point farther than this is not accepted (courtyard house, faulty fit)
-CELLA = 110.0
+RADIUS = 110.0             # m: the street's line is fitted from the houses of the same street within a surrounding of this radius
+MIN_NEIGHBOR = 4          # at least this many houses are needed for the fit (including the house itself)
+MIN_ELONGATION = 1.6     # along the principal axis the spread must be at least this many times larger than perpendicular to it
+MIN_STREET_WIDTH = 14.0  # m: there must be at least this much between the centre lines of the two sides' house rows
+MAX_DISTANCE = 45.0       # m: a point farther than this is not accepted (courtyard house, faulty fit)
+CELL = 110.0
 
 
-def gyuru_xy(geo):
-    gyuru = geo["coordinates"][0] if geo["type"] == "Polygon" else geo["coordinates"][0][0]
-    return [((p[0] - LON0) * KX, (p[1] - LAT0) * KY) for p in gyuru]
+def ring_xy(geo):
+    ring_ = geo["coordinates"][0] if geo["type"] == "Polygon" else geo["coordinates"][0][0]
+    return [((p[0] - LON0) * KX, (p[1] - LAT0) * KY) for p in ring_]
 
 
-def kozeppont(xy):
+def center(xy):
     a2 = cx = cy = 0.0
     for i in range(len(xy) - 1):
         c = xy[i][0] * xy[i + 1][1] - xy[i + 1][0] * xy[i][1]
@@ -41,7 +41,7 @@ def kozeppont(xy):
     return cx / (3 * a2), cy / (3 * a2)
 
 
-def benne_van(xy, x, y):
+def in_has(xy, x, y):
     be = False
     for i in range(len(xy) - 1):
         (x0, y0), (x1, y1) = xy[i], xy[i + 1]
@@ -50,15 +50,15 @@ def benne_van(xy, x, y):
     return be
 
 
-class Racs:
-    def __init__(self, cella):
-        self.c = cella
+class Grid:
+    def __init__(self, cell):
+        self.c = cell
         self.d = defaultdict(list)
 
-    def hozzaad(self, x, y, adat):
-        self.d[(int(x // self.c), int(y // self.c))].append((x, y, adat))
+    def add_(self, x, y, data_):
+        self.d[(int(x // self.c), int(y // self.c))].append((x, y, data_))
 
-    def kozel(self, x, y, r):
+    def near(self, x, y, r):
         cx, cy = int(x // self.c), int(y // self.c)
         n = int(r // self.c) + 1
         r2 = r * r
@@ -69,71 +69,71 @@ class Racs:
                         yield px, py, a
 
 
-def szamol(feats, cimek_csv):
-    if not Path(cimek_csv).exists():
+def compute(feats, addresses_csv):
+    if not Path(addresses_csv).exists():
         return 0
-    utca = {}
-    with open(cimek_csv, encoding="utf-8-sig", newline="") as f:
+    street = {}
+    with open(addresses_csv, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
             if r["utca"] and r["hazszam"]:
-                utca.setdefault((r["osm_tipus"], int(r["id"])), r["utca"].strip())
-    alap = Racs(CELLA)               # the footprints of all buildings: the street point must not fall inside a building
-    csoport = defaultdict(list)      # street name -> [(feature, x, y)]
+                street.setdefault((r["osm_tipus"], int(r["id"])), r["utca"].strip())
+    base = Grid(CELL)               # the footprints of all buildings: the street point must not fall inside a building
+    group_ = defaultdict(list)      # street name -> [(feature, x, y)]
     for ft in feats:
         if ft["geometry"]["type"] not in ("Polygon", "MultiPolygon"):
             continue
-        xy = gyuru_xy(ft["geometry"])
-        x, y = kozeppont(xy)
-        alap.hozzaad(x, y, xy)
+        xy = ring_xy(ft["geometry"])
+        x, y = center(xy)
+        base.add_(x, y, xy)
         pr = ft["properties"]
         if pr.get("resz"):
             continue
-        u = utca.get((pr.get("osm_tipus") or "way", int(pr["id"])))
+        u = street.get((pr.get("osm_tipus") or "way", int(pr["id"])))
         if u:
-            csoport[u].append((ft, x, y))
+            group_[u].append((ft, x, y))
 
-    def epuletben(px, py):
-        return any(benne_van(xy, px, py) for _, _, xy in alap.kozel(px, py, 90.0))
+    def in_building(px, py):
+        return any(in_has(xy, px, py) for _, _, xy in base.near(px, py, 90.0))
 
-    db = 0
-    for u, lista in csoport.items():
-        if len(lista) < MIN_SZOMSZED:
+    count_ = 0
+    for u, list_ in group_.items():
+        if len(list_) < MIN_NEIGHBOR:
             continue
-        racs = Racs(CELLA)
-        for _, x, y in lista:
-            racs.hozzaad(x, y, None)
-        for ft, x, y in lista:
-            q = [(px, py) for px, py, _ in racs.kozel(x, y, SUGAR)]
-            if len(q) < MIN_SZOMSZED:
+        grid = Grid(CELL)
+        for _, x, y in list_:
+            grid.add_(x, y, None)
+        for ft, x, y in list_:
+            q = [(px, py) for px, py, _ in grid.near(x, y, RADIUS)]
+            if len(q) < MIN_NEIGHBOR:
                 continue
             mx = sum(p[0] for p in q) / len(q)
             my = sum(p[1] for p in q) / len(q)
             sxx = sum((p[0] - mx) ** 2 for p in q) / len(q)
             syy = sum((p[1] - my) ** 2 for p in q) / len(q)
             sxy = sum((p[0] - mx) * (p[1] - my) for p in q) / len(q)
-            kozep = (sxx + syy) / 2
-            sug = math.sqrt(((sxx - syy) / 2) ** 2 + sxy ** 2)
-            nagy, kicsi = kozep + sug, kozep - sug
-            if kicsi <= 1e-9 or math.sqrt(nagy / kicsi) < MIN_NYUJTOTTSAG:
+            middle = (sxx + syy) / 2
+            radius = math.sqrt(((sxx - syy) / 2) ** 2 + sxy ** 2)
+            large, small = middle + radius, middle - radius
+            if small <= 1e-9 or math.sqrt(large / small) < MIN_ELONGATION:
                 continue
             fi = 0.5 * math.atan2(2 * sxy, sxx - syy)
             dx, dy = math.cos(fi), math.sin(fi)          # the street's direction
             nx, ny = -dy, dx                              # perpendicular to it
             s_ = [(p[0] - mx) * nx + (p[1] - my) * ny for p in q]
-            fent = [v for v in s_ if v > 0]
-            lent = [v for v in s_ if v <= 0]
-            if len(fent) < 2 or len(lent) < 2:
+            above = [v for v in s_ if v > 0]
+            below = [v for v in s_ if v <= 0]
+            if len(above) < 2 or len(below) < 2:
                 continue                  # there are same-named houses only on one side of the street: we do not know which way the street is
-            af, al = sum(fent) / len(fent), sum(lent) / len(lent)
-            if af - al < MIN_UTCASZELESSEG:
+            af, al = sum(above) / len(above), sum(below) / len(below)
+            if af - al < MIN_STREET_WIDTH:
                 continue
             t = (x - mx) * dx + (y - my) * dy
-            kozepvonal = (af + al) / 2
-            px = mx + t * dx + kozepvonal * nx
-            py = my + t * dy + kozepvonal * ny
-            if math.hypot(px - x, py - y) > MAX_TAVOLSAG or epuletben(px, py):
+            centerline = (af + al) / 2
+            px = mx + t * dx + centerline * nx
+            py = my + t * dy + centerline * ny
+            if math.hypot(px - x, py - y) > MAX_DISTANCE or in_building(px, py):
                 continue
             ft["properties"]["sv_lat"] = round(LAT0 + py / KY, 6)
             ft["properties"]["sv_lon"] = round(LON0 + px / KX, 6)
-            db += 1
-    return db
+            count_ += 1
+    return count_

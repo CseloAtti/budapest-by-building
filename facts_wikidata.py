@@ -16,71 +16,71 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from common import http_json, kulcs, tenyek_irasa
+from common import http_json, building_key, write_facts
 
 import sys
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_wikidata.py varos  -> the whole city
-OSM = "data/varos/epuletek_vegleges.geojson" if VAROS else "data/belvaros_epuletek.geojson"
-KIMENET = "data/tenyek/wikidata.csv"
-KOZELITO = "data/varos/wikidata_kozelito.csv"
+CITY = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_wikidata.py varos  -> the whole city
+OSM = "data/varos/epuletek_vegleges.geojson" if CITY else "data/belvaros_epuletek.geojson"
+OUTPUT = "data/tenyek/wikidata.csv"
+APPROXIMATE = "data/varos/wikidata_kozelito.csv"
 CACHE = Path("data/cache")
 API = "https://www.wikidata.org/w/api.php"
-KLIENS = "budapest-by-building/1.0 (tanulasi projekt)"
-CSOMAG = 50
-SZUNET_MP = 2
+CLIENT = "budapest-by-building/1.0 (tanulasi projekt)"
+BATCH = 50
+PAUSE_MP = 2
 
 
-def lekeres(azonositok, props):
+def fetch(identifiers, props):
     """Fetching a batch of Wikidata elements (with a disk cache)."""
-    nev = "wd_" + hashlib.sha1((props + "|" + "|".join(azonositok)).encode()).hexdigest()[:16] + ".json"
-    ut = CACHE / nev
-    if ut.exists():
-        return json.loads(ut.read_text(encoding="utf-8"))
-    params = {"action": "wbgetentities", "ids": "|".join(azonositok), "props": props,
+    name_ = "wd_" + hashlib.sha1((props + "|" + "|".join(identifiers)).encode()).hexdigest()[:16] + ".json"
+    path_ = CACHE / name_
+    if path_.exists():
+        return json.loads(path_.read_text(encoding="utf-8"))
+    params = {"action": "wbgetentities", "ids": "|".join(identifiers), "props": props,
               "languages": "hu|en", "format": "json"}
     if "sitelinks" in props:
         params["sitefilter"] = "huwiki|enwiki"
     url = API + "?" + urllib.parse.urlencode(params)
-    adat = http_json(url)
+    data_ = http_json(url)
     CACHE.mkdir(parents=True, exist_ok=True)
-    ut.write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
-    time.sleep(SZUNET_MP)
-    return adat
+    path_.write_text(json.dumps(data_, ensure_ascii=False), encoding="utf-8")
+    time.sleep(PAUSE_MP)
+    return data_
 
 
-def wikipedia_cikk(entitas):
+def wikipedia_article(entity):
     """The Wikipedia article, if there is one: 'hu:Title' (preferred) or 'en:Title'."""
-    s = (entitas or {}).get("sitelinks", {})
-    for kulcs_, nyelv in (("huwiki", "hu"), ("enwiki", "en")):
-        if kulcs_ in s and s[kulcs_].get("title"):
-            return f"{nyelv}:{s[kulcs_]['title']}"
+    s = (entity or {}).get("sitelinks", {})
+    for key_, language in (("huwiki", "hu"), ("enwiki", "en")):
+        if key_ in s and s[key_].get("title"):
+            return f"{language}:{s[key_]['title']}"
     return None
 
 
-def csomagokban(lista, n):
-    for i in range(0, len(lista), n):
-        yield lista[i:i + n]
+def in_batches(list_, n):
+    for i in range(0, len(list_), n):
+        yield list_[i:i + n]
 
 
-def cimke(entitas):
-    c = (entitas or {}).get("labels", {})
-    for nyelv in ("hu", "en"):
-        if nyelv in c:
-            return c[nyelv]["value"]
+def label(entity):
+    c = (entity or {}).get("labels", {})
+    for language in ("hu", "en"):
+        if language in c:
+            return c[language]["value"]
     return None
 
 
-def elemek_id(claims, prop):
+def elements_id(claims, prop):
     """The identifiers (Q...) of the value items of the given property."""
-    ki = []
+    out = []
     for c in claims.get(prop, []):
         v = c.get("mainsnak", {}).get("datavalue", {}).get("value")
         if isinstance(v, dict) and v.get("id"):
-            ki.append(v["id"])
-    return ki
+            out.append(v["id"])
+    return out
 
 
-def ev_a_claimekbol(claims):
+def year_a_from_claims(claims):
     """Year of construction/founding, only if precise at least to the year (precision >= 9)."""
     for c in claims.get("P571", []):
         v = c.get("mainsnak", {}).get("datavalue", {}).get("value")
@@ -91,7 +91,7 @@ def ev_a_claimekbol(claims):
     return None
 
 
-def ev_tartomany(claims):
+def year_range(claims):
     """A P571 of decade (precision 8) or century (7) accuracy: (ev_tol, ev_ig, text), otherwise None."""
     for c in claims.get("P571", []):
         v = c.get("mainsnak", {}).get("datavalue", {}).get("value")
@@ -108,72 +108,72 @@ def ev_tartomany(claims):
 def main():
     with open(OSM, encoding="utf-8") as f:
         feats = [x for x in json.load(f)["features"] if x["properties"].get("tipus") != "roof"]
-    epulet_qid = {}
+    building_qid = {}
     for ft in feats:
         for q in re.findall(r"Q\d+", ft["properties"].get("wikidata") or ""):
-            epulet_qid.setdefault(kulcs(ft["properties"]), []).append(q)
-    qidok = sorted({q for v in epulet_qid.values() for q in v})
-    print(f"Wikidata-címkés épületek: {len(epulet_qid)}, különböző elemek: {len(qidok)}")
-    if not qidok:
+            building_qid.setdefault(building_key(ft["properties"]), []).append(q)
+    qids_ = sorted({q for v in building_qid.values() for q in v})
+    print(f"Wikidata-címkés épületek: {len(building_qid)}, különböző elemek: {len(qids_)}")
+    if not qids_:
         return
 
-    entitasok = {}
-    for cs in csomagokban(qidok, CSOMAG):
-        entitasok.update(lekeres(cs, "claims|labels|sitelinks").get("entities", {}))
-    print(f"Letöltött elemek: {len(entitasok)}")
+    entities = {}
+    for cs in in_batches(qids_, BATCH):
+        entities.update(fetch(cs, "claims|labels|sitelinks").get("entities", {}))
+    print(f"Letöltött elemek: {len(entities)}")
 
     # the names of the architects and styles
-    masodlagos = set()
-    for e in entitasok.values():
+    secondary = set()
+    for e in entities.values():
         cl = e.get("claims", {})
-        masodlagos.update(elemek_id(cl, "P84"))
-        masodlagos.update(elemek_id(cl, "P149"))
-    nevek = {}
-    for cs in csomagokban(sorted(masodlagos), CSOMAG):
-        for q, e in lekeres(cs, "labels").get("entities", {}).items():
-            nevek[q] = cimke(e)
+        secondary.update(elements_id(cl, "P84"))
+        secondary.update(elements_id(cl, "P149"))
+    names = {}
+    for cs in in_batches(sorted(secondary), BATCH):
+        for q, e in fetch(cs, "labels").get("entities", {}).items():
+            names[q] = label(e)
 
     W = "wikidata"
-    sorok, ev_db, tervezo_db, stilus_db = [], 0, 0, 0
-    kozelito = []
-    for k, qk in epulet_qid.items():
+    rows, year_count, designer_count, style_count = [], 0, 0, 0
+    approximate = []
+    for k, qk in building_qid.items():
         for q in qk:
-            e = entitasok.get(q)
+            e = entities.get(q)
             if not e or "missing" in e:
                 continue
             cl = e.get("claims", {})
             t, i = k
-            if cimke(e):
-                sorok.append((t, i, "wikidata_nev", cimke(e), W, q))
-            if wikipedia_cikk(e):
-                sorok.append((t, i, "wikipedia", wikipedia_cikk(e), W, q))
-            ev = ev_a_claimekbol(cl)
-            if ev:
-                sorok.append((t, i, "ev", ev, W, f"{q}: P571"))
-                ev_db += 1
+            if label(e):
+                rows.append((t, i, "wikidata_nev", label(e), W, q))
+            if wikipedia_article(e):
+                rows.append((t, i, "wikipedia", wikipedia_article(e), W, q))
+            year = year_a_from_claims(cl)
+            if year:
+                rows.append((t, i, "ev", year, W, f"{q}: P571"))
+                year_count += 1
             else:
-                tart = ev_tartomany(cl)
-                if tart:
-                    kozelito.append((t, i, tart[0], tart[1], f"{q}: {tart[2]}", "wikidata"))
-            epitesz = [nevek.get(x) for x in elemek_id(cl, "P84") if nevek.get(x)]
-            if epitesz:
-                sorok.append((t, i, "tervezo", ", ".join(epitesz), W, q))
-                tervezo_db += 1
-            stilus = [nevek.get(x) for x in elemek_id(cl, "P149") if nevek.get(x)]
-            if stilus:
-                sorok.append((t, i, "stilus", ", ".join(stilus), W, q))
-                stilus_db += 1
-    tenyek_irasa(KIMENET, sorok)
-    if VAROS:
+                hold = year_range(cl)
+                if hold:
+                    approximate.append((t, i, hold[0], hold[1], f"{q}: {hold[2]}", "wikidata"))
+            architect = [names.get(x) for x in elements_id(cl, "P84") if names.get(x)]
+            if architect:
+                rows.append((t, i, "tervezo", ", ".join(architect), W, q))
+                designer_count += 1
+            style = [names.get(x) for x in elements_id(cl, "P149") if names.get(x)]
+            if style:
+                rows.append((t, i, "stilus", ", ".join(style), W, q))
+                style_count += 1
+    write_facts(OUTPUT, rows)
+    if CITY:
         import csv
-        Path(KOZELITO).parent.mkdir(parents=True, exist_ok=True)
-        with open(KOZELITO, "w", encoding="utf-8-sig", newline="") as f:
+        Path(APPROXIMATE).parent.mkdir(parents=True, exist_ok=True)
+        with open(APPROXIMATE, "w", encoding="utf-8-sig", newline="") as f:
             w = csv.writer(f, delimiter=";")
             w.writerow(["osm_tipus", "id", "ev_tol", "ev_ig", "szoveg", "forras"])
-            w.writerows(kozelito)
-        print(f"Közelítő (évtized/évszázad) év: {len(kozelito)} -> {KOZELITO}")
-    print(f"Építési év: {ev_db}, építész: {tervezo_db}, stílus: {stilus_db}")
-    print(f"Mentve: {KIMENET}")
+            w.writerows(approximate)
+        print(f"Közelítő (évtized/évszázad) év: {len(approximate)} -> {APPROXIMATE}")
+    print(f"Építési év: {year_count}, építész: {designer_count}, stílus: {style_count}")
+    print(f"Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":

@@ -5,19 +5,19 @@ import json
 from pathlib import Path
 
 BE = Path("forras/zonak_poligon.geojson")
-KI = Path("terkep3d/zonak.json")
+OUT = Path("terkep3d/zonak.json")
 
 
 def main():
-    zonak = {}
+    zones = {}
     for f in json.loads(BE.read_text(encoding="utf-8")).get("features", []):
         p = f.get("properties", {})
-        nev = (p.get("nev") or "").strip()
-        if not nev or nev in zonak:
+        name_ = (p.get("nev") or "").strip()
+        if not name_ or name_ in zones:
             continue
-        zonak[nev] = {"t": p.get("tipus") or "", "k": p.get("kerulet") or "", "a": p.get("ev_tol") or None, "b": p.get("ev_ig") or None}
-    KI.write_text(json.dumps(zonak, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"  zonak.json: {len(zonak)} zóna")
+        zones[name_] = {"t": p.get("tipus") or "", "k": p.get("kerulet") or "", "a": p.get("ev_tol") or None, "b": p.get("ev_ig") or None}
+    OUT.write_text(json.dumps(zones, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"  zonak.json: {len(zones)} zóna")
 
 
 if __name__ == "__main__":

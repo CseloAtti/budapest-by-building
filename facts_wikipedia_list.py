@@ -30,31 +30,31 @@ import math
 import re
 from pathlib import Path
 
-from common import tenyek_irasa
+from common import write_facts
 
-SOROK = "data/wikipedia_lista/sorok.csv"
-SOROK_TEMA = "data/wikipedia_lista/sorok_tema.csv"     # the topic lists (schools, hospitals ...), if downloaded
-EPULETEK = "data/varos/epuletek.geojson"
-CIMEK = "data/varos/osm_cimek.csv"
-TENYEK = "data/tenyek"
-KEZI = "forras/wikipedia_lista_kezi.csv"
-KIMENET = "data/tenyek/wikipedia_lista.csv"
-ELLENORZES = "forras/wikipedia_lista_ellenorzes.csv"
-ARANY = 3                   # the largest candidate is this many times larger than the second: that is the main building
-MIN_TERULET = 40            # m²: a smaller building (pantry, garage) is not regarded as a candidate
+ROWS = "data/wikipedia_lista/sorok.csv"
+ROWS_TOPIC = "data/wikipedia_lista/sorok_tema.csv"     # the topic lists (schools, hospitals ...), if downloaded
+BUILDINGS = "data/varos/epuletek.geojson"
+ADDRESSES = "data/varos/osm_cimek.csv"
+FACTS = "data/tenyek"
+MANUAL = "forras/wikipedia_lista_kezi.csv"
+OUTPUT = "data/tenyek/wikipedia_lista.csv"
+CHECK = "forras/wikipedia_lista_ellenorzes.csv"
+RATIO = 3                   # the largest candidate is this many times larger than the second: that is the main building
+MIN_AREA = 40            # m²: a smaller building (pantry, garage) is not regarded as a candidate
 KX = 111000 * math.cos(math.radians(47.5))
-ALTALANOS = re.compile(r"^(bérház|lakóház|ház|irodaház|lakó- és irodaház|üzletház|családi ház|villa|társasház|lakóépület|bérpalota)$", re.I)
-ELBONTVA = re.compile(r"elbont|lebont|elpusztult|megsemmis|már nem áll|nem áll fenn|nem létezik", re.I)
-ROMAI = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10, "XI": 11, "XII": 12, "XIII": 13, "XIV": 14,
+GENERAL = re.compile(r"^(bérház|lakóház|ház|irodaház|lakó- és irodaház|üzletház|családi ház|villa|társasház|lakóépület|bérpalota)$", re.I)
+DEMOLISHED = re.compile(r"elbont|lebont|elpusztult|megsemmis|már nem áll|nem áll fenn|nem létezik", re.I)
+ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10, "XI": 11, "XII": 12, "XIII": 13, "XIV": 14,
          "XV": 15, "XVI": 16, "XVII": 17, "XVIII": 18, "XIX": 19, "XX": 20, "XXI": 21, "XXII": 22, "XXIII": 23}
 
 
-def olvas(ut):
-    with open(ut, encoding="utf-8-sig", newline="") as f:
+def read_(path_):
+    with open(path_, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f, delimiter=";"))
 
 
-def utcakulcs(s):
+def street_key(s):
     s = s.lower().replace(".", "").strip()
     s = re.sub(r"\b(utca|u)\b$", "u", s)
     s = re.sub(r"\b(körút|krt)\b$", "krt", s)
@@ -62,45 +62,45 @@ def utcakulcs(s):
     return re.sub(r"\s+", " ", s)
 
 
-def szamok(h):
-    ki = set()
+def numbers_(h):
+    out = set()
     for a, b in re.findall(r"(\d+)\s*[a-zA-Z]?(?:\s*[-–]\s*(\d+))?", h or ""):
         a = int(a)
-        ki.add(a)
+        out.add(a)
         if b and a < int(b) < a + 60:
-            ki.update(range(a, int(b) + 1, 2) if (int(b) - a) % 2 == 0 else range(a, int(b) + 1))
-    return ki
+            out.update(range(a, int(b) + 1, 2) if (int(b) - a) % 2 == 0 else range(a, int(b) + 1))
+    return out
 
 
-def tokenek(h):
+def tokens(h):
     """[(number, suffix)]: '89/c' -> (89, 'c'); '1-5' -> (1,''), (3,''), (5,''); the elements of the range have no suffix."""
-    ki = []
+    out = []
     for a, sa, b in re.findall(r"(\d+)\s*(?:/?\s*([a-zA-Z])\b)?(?:\s*[-–]\s*(\d+))?", h or ""):
         a = int(a)
         if b and a < int(b) < a + 60:
-            ki += [(n, "") for n in (range(a, int(b) + 1, 2) if (int(b) - a) % 2 == 0 else range(a, int(b) + 1))]
+            out += [(n, "") for n in (range(a, int(b) + 1, 2) if (int(b) - a) % 2 == 0 else range(a, int(b) + 1))]
         else:
-            ki.append((a, sa.lower()))
+            out.append((a, sa.lower()))
             if b:
-                ki.append((int(b), ""))
-    return list(dict.fromkeys(ki))
+                out.append((int(b), ""))
+    return list(dict.fromkeys(out))
 
 
-def terulet(g):
+def area(g):
     r = g[0]
     return abs(sum(r[i][0] * r[i + 1][1] - r[i + 1][0] * r[i][1] for i in range(len(r) - 1))) / 2 * KX * 111000
 
 
-def osm_azon(s):
-    ki = []
-    for resz in re.split(r"[|;,\n]+", s or ""):
-        m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", resz.strip(), flags=re.I)
+def osm_id(s):
+    out = []
+    for part in re.split(r"[|;,\n]+", s or ""):
+        m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", part.strip(), flags=re.I)
         if m:
-            ki.append(((m.group(1) or "way").lower(), int(m.group(2))))
-    return ki
+            out.append(((m.group(1) or "way").lower(), int(m.group(2))))
+    return out
 
 
-def ev_ertek(s):
+def year_value(s):
     if re.search(r"évek|század|\bvagy\b", s or ""):          # '1880-as évek' (the 1880s), '19. század' (19th century): not an exact year
         return None
     m = re.search(r"\b(1[0-9]{3}|20[0-2][0-9])\b", s or "")
@@ -108,205 +108,205 @@ def ev_ertek(s):
 
 
 def main():
-    for ut in (SOROK, EPULETEK, CIMEK):
-        if not Path(ut).exists():
-            raise SystemExit(f"Hiányzik: {ut}" + (" - előbb futtasd: py facts_wikipedia_list_download.py" if ut == SOROK else ""))
-    sorok = olvas(SOROK) + (olvas(SOROK_TEMA) if Path(SOROK_TEMA).exists() else [])
+    for path_ in (ROWS, BUILDINGS, ADDRESSES):
+        if not Path(path_).exists():
+            raise SystemExit(f"Hiányzik: {path_}" + (" - előbb futtasd: py facts_wikipedia_list_download.py" if path_ == ROWS else ""))
+    rows = read_(ROWS) + (read_(ROWS_TOPIC) if Path(ROWS_TOPIC).exists() else [])
     # buildings: area, district, OSM name; addresses
     ep = {}
-    for f in json.load(open(EPULETEK, encoding="utf-8"))["features"]:
+    for f in json.load(open(BUILDINGS, encoding="utf-8"))["features"]:
         p = f["properties"]
         if p.get("tipus") == "roof":
             continue
         k = (p["osm_tipus"], int(p["id"]))
-        ter = terulet(f["geometry"]["coordinates"])
-        if k not in ep or ter > ep[k]["ter"]:
-            ep[k] = {"ter": ter, "ker": p.get("kerulet"), "nev": p.get("nev")}
-    cim = collections.defaultdict(list)
-    for r in olvas(CIMEK):
-        cim[(r["osm_tipus"], int(r["id"]))].append((utcakulcs(r["utca"]), szamok(r["hazszam"])))
-    utca_szam = collections.defaultdict(dict)          # (street key, number) -> {building key: {suffixes}}
-    osm_cimek_szoveg = collections.defaultdict(set)
-    for r_ in olvas(CIMEK):
+        area_ = area(f["geometry"]["coordinates"])
+        if k not in ep or area_ > ep[k]["ter"]:
+            ep[k] = {"ter": area_, "ker": p.get("kerulet"), "nev": p.get("nev")}
+    address = collections.defaultdict(list)
+    for r in read_(ADDRESSES):
+        address[(r["osm_tipus"], int(r["id"]))].append((street_key(r["utca"]), numbers_(r["hazszam"])))
+    street_number = collections.defaultdict(dict)          # (street key, number) -> {building key: {suffixes}}
+    osm_addresses_text = collections.defaultdict(set)
+    for r_ in read_(ADDRESSES):
         k = (r_["osm_tipus"], int(r_["id"]))
         if k not in ep:
             continue
-        u = utcakulcs(r_["utca"])
-        osm_cimek_szoveg[k].add((u, r_["hazszam"].strip().lower()))
-        for n, suf in tokenek(r_["hazszam"]):
-            utca_szam[(u, n)].setdefault(k, set()).add(suf)
+        u = street_key(r_["utca"])
+        osm_addresses_text[k].add((u, r_["hazszam"].strip().lower()))
+        for n, suf in tokens(r_["hazszam"]):
+            street_number[(u, n)].setdefault(k, set()).add(suf)
     # name / style already present from another source
-    van_nev, van_stilus = set(), set()
-    for ut in sorted(Path(TENYEK).glob("*.csv")):
-        if ut.name == Path(KIMENET).name:
+    has_name, has_style = set(), set()
+    for path_ in sorted(Path(FACTS).glob("*.csv")):
+        if path_.name == Path(OUTPUT).name:
             continue
-        for r in olvas(ut):
+        for r in read_(path_):
             k = (r.get("osm_tipus") or "way", int(r["id"])) if (r.get("id") or "").isdigit() else None
             if k and (r.get("ertek") or "").strip():
                 if r["mezo"] == "nev":
-                    van_nev.add(k)
+                    has_name.add(k)
                 elif r["mezo"] == "stilus":
-                    van_stilus.add(k)
+                    has_style.add(k)
     # manual decisions
-    kezi = {}
-    if Path(KEZI).exists():
-        for r in olvas(KEZI):
+    manual = {}
+    if Path(MANUAL).exists():
+        for r in read_(MANUAL):
             if (r.get("utca") or "").strip() and (r.get("sor") or "").strip():
-                kezi[(r["utca"].strip(), r["sor"].strip())] = (r.get("osm_azonosito") or "").strip()
+                manual[(r["utca"].strip(), r["sor"].strip())] = (r.get("osm_azonosito") or "").strip()
     else:
-        Path(KEZI).parent.mkdir(parents=True, exist_ok=True)
-        with open(KEZI, "w", encoding="utf-8-sig", newline="") as f:
+        Path(MANUAL).parent.mkdir(parents=True, exist_ok=True)
+        with open(MANUAL, "w", encoding="utf-8-sig", newline="") as f:
             csv.writer(f, delimiter=";").writerow(["utca", "sor", "osm_azonosito", "megjegyzes"])
 
-    def jeloltek(uk, n, suf):
+    def candidates(uk, n, suf):
         """Buildings bearing the (street, house number[, suffix]) address and of at least MIN_TERULET m²; the suffix (89/c) makes it more precise."""
-        mind = [k for k in utca_szam.get((uk, n), {}) if ep[k]["ter"] >= MIN_TERULET]
+        everything = [k for k in street_number.get((uk, n), {}) if ep[k]["ter"] >= MIN_AREA]
         if suf:
-            pontos = [k for k in mind if suf in utca_szam[(uk, n)][k]]
+            exact = [k for k in everything if suf in street_number[(uk, n)][k]]
         else:
-            pontos = [k for k in mind if "" in utca_szam[(uk, n)][k]]
-        return pontos or mind
+            exact = [k for k in everything if "" in street_number[(uk, n)][k]]
+        return exact or everything
 
-    def kulcsszavak(sz):
+    def keywords(sz):
         return {w for w in re.findall(r"[a-záéíóöőúüű]{5,}", sz.lower()) if w not in ("bérház", "bérpalota", "lakóház", "épület", "lakóépület", "irodaház")}
 
     # pass 1: in which districts the street runs (based on the unambiguous hits)
-    kerek = collections.defaultdict(collections.Counter)
-    for r in sorok:
-        for n, suf in tokenek(r["szam"]):
-            j = jeloltek(utcakulcs(r["utca"]), n, suf)
+    round_ = collections.defaultdict(collections.Counter)
+    for r in rows:
+        for n, suf in tokens(r["szam"]):
+            j = candidates(street_key(r["utca"]), n, suf)
             if len(j) == 1:
-                kerek[r["utca"]][ep[j[0]]["ker"]] += 1
-    fo_ker = {u: {k for k, v in c.items() if v >= max(3, 0.1 * sum(c.values()))} for u, c in kerek.items()}
+                round_[r["utca"]][ep[j[0]]["ker"]] += 1
+    fo_district = {u: {k for k, v in c.items() if v >= max(3, 0.1 * sum(c.values()))} for u, c in round_.items()}
 
-    paros = []                     # (row, [building keys])
-    ellenorzes, stat = [], collections.Counter()
-    for r in sorok:
+    even = []                     # (row, [building keys])
+    check, stat = [], collections.Counter()
+    for r in rows:
         sz = r["szam"]
-        alap = {"lap": r["lap"], "utca": r["utca"], "sor": r["sor"], "szam": sz, "nev": r["nev"], "ev": r["ev"], "tervezo": r["tervezo"],
+        base = {"lap": r["lap"], "utca": r["utca"], "sor": r["sor"], "szam": sz, "nev": r["nev"], "ev": r["ev"], "tervezo": r["tervezo"],
                 "szakasz": r["szakasz"], "megjegyzes_wikipedia": r["megjegyzes"]}
-        if ELBONTVA.search(" ".join((r["nev"], r["megjegyzes"], r["ev"]))):
+        if DEMOLISHED.search(" ".join((r["nev"], r["megjegyzes"], r["ev"]))):
             stat["elbontott: kihagyva"] += 1
             continue
-        dont = kezi.get((r["utca"], r["sor"]), "")
-        if dont.lower() == "nem":
+        decide = manual.get((r["utca"], r["sor"]), "")
+        if decide.lower() == "nem":
             stat["kézi: nem"] += 1
             continue
-        if dont and osm_azon(dont):
-            paros.append((r, osm_azon(dont)))
+        if decide and osm_id(decide):
+            even.append((r, osm_id(decide)))
             stat["kézi: megadott épület"] += 1
             continue
-        toks = tokenek(sz)
+        toks = tokens(sz)
         if not toks:
             stat["nincs használható házszám"] += 1
             continue
-        uk = utcakulcs(r["utca"])
-        ker = int(r["kerulet"]) if (r["kerulet"] or "").isdigit() else None
+        uk = street_key(r["utca"])
+        district = int(r["kerulet"]) if (r["kerulet"] or "").isdigit() else None
         m = re.search(r"\b([IVX]+)\.\s*kerület", r["szakasz"] or "")
-        ker = ker or (ROMAI.get(m.group(1)) if m else None)
-        talalt, hianyzik, tobb = [], [], []
-        kw = kulcsszavak(r["nev"])
+        district = district or (ROMAN.get(m.group(1)) if m else None)
+        found, missing, several = [], [], []
+        kw = keywords(r["nev"])
         for n, suf in toks:
-            jel = jeloltek(uk, n, suf)
-            if ker:
-                jel = [k for k in jel if ep[k]["ker"] == ker] or jel
-            fk = fo_ker.get(r["utca"])
-            if fk and len(jel) > 1:
-                jel = [k for k in jel if ep[k]["ker"] in fk] or jel
-            if len(jel) > 1:                                  # match by name: the OSM name or type has a word in common
-                nevesek = [k for k in jel if kw and kulcsszavak(ep[k]["nev"] or "") & kw]
-                if len(nevesek) == 1:
-                    jel = nevesek
-            if len(jel) > 1:
-                jel.sort(key=lambda k: -ep[k]["ter"])
-                cimek_ = [frozenset(osm_cimek_szoveg[k]) for k in jel]
-                if ep[jel[0]]["ter"] >= ARANY * ep[jel[1]]["ter"]:          # the largest is the main building, the rest are outbuildings
-                    jel = jel[:1]
-                elif len(set(cimek_)) == 1 and ep[jel[0]]["ter"] <= ARANY * ep[jel[-1]]["ter"] and len({ep[k]["ker"] for k in jel}) == 1:
+            sign = candidates(uk, n, suf)
+            if district:
+                sign = [k for k in sign if ep[k]["ker"] == district] or sign
+            fk = fo_district.get(r["utca"])
+            if fk and len(sign) > 1:
+                sign = [k for k in sign if ep[k]["ker"] in fk] or sign
+            if len(sign) > 1:                                  # match by name: the OSM name or type has a word in common
+                named = [k for k in sign if kw and keywords(ep[k]["nev"] or "") & kw]
+                if len(named) == 1:
+                    sign = named
+            if len(sign) > 1:
+                sign.sort(key=lambda k: -ep[k]["ter"])
+                addresses_ = [frozenset(osm_addresses_text[k]) for k in sign]
+                if ep[sign[0]]["ter"] >= RATIO * ep[sign[1]]["ter"]:          # the largest is the main building, the rest are outbuildings
+                    sign = sign[:1]
+                elif len(set(addresses_)) == 1 and ep[sign[0]]["ter"] <= RATIO * ep[sign[-1]]["ter"] and len({ep[k]["ker"] for k in sign}) == 1:
                     pass                                          # sibling buildings with the same title and similar size: all of them get it
                 else:
-                    tobb.append((n, jel))
+                    several.append((n, sign))
                     continue
-            if len(jel) >= 1:
-                talalt += jel
+            if len(sign) >= 1:
+                found += sign
             else:
-                hianyzik.append(n)
-        talalt = list(dict.fromkeys(talalt))
-        if talalt and not tobb:
-            paros.append((r, talalt))
-            stat["párosítva" if not hianyzik else "párosítva (néhány házszám hiányzik az OSM-ben)"] += 1
+                missing.append(n)
+        found = list(dict.fromkeys(found))
+        if found and not several:
+            even.append((r, found))
+            stat["párosítva" if not missing else "párosítva (néhány házszám hiányzik az OSM-ben)"] += 1
         else:
-            if tobb:
-                kat = "több jelölt (több épület viseli ezt a címet)"
-                javaslat = " | ".join(f"{t} {i}" for _, jel in tobb[:2] for t, i in jel[:3])
+            if several:
+                category = "több jelölt (több épület viseli ezt a címet)"
+                suggestion = " | ".join(f"{t} {i}" for _, sign in several[:2] for t, i in sign[:3])
             else:
-                kat = "nincs OSM-épület ezzel a címmel"
-                javaslat = ""
-            stat[kat[:20]] += 1
-            ellenorzes.append({**alap, "kategoria": kat, "javasolt_osm": javaslat, "hianyzo_hazszam": " ".join(map(str, hianyzik))})
+                category = "nincs OSM-épület ezzel a címmel"
+                suggestion = ""
+            stat[category[:20]] += 1
+            check.append({**base, "kategoria": category, "javasolt_osm": suggestion, "hianyzo_hazszam": " ".join(map(str, missing))})
 
     # rows pointing to the same building: if they carry different data, we write nothing
-    epulet_sorok = collections.defaultdict(list)
-    for r, ks in paros:
+    building_rows = collections.defaultdict(list)
+    for r, ks in even:
         for k in ks:
-            epulet_sorok[k].append(r)
-    kesz, ellenorzott_sorok = set(), set()
-    for k, lista in epulet_sorok.items():
-        evek = {ev_ertek(x["ev"]) for x in lista if ev_ertek(x["ev"])}
-        nevek = {x["nev"] for x in lista if x["nev"]}
-        if len(lista) > 1 and evek and max(evek) - min(evek) > 2:      # a difference in names is no obstacle (a corner house in the lists of two streets): there we write no name
-            for x in lista:
-                if (x["utca"], x["sor"]) not in ellenorzott_sorok:
-                    ellenorzott_sorok.add((x["utca"], x["sor"]))
-                    ellenorzes.append({"lap": x["lap"], "utca": x["utca"], "sor": x["sor"], "szam": x["szam"], "nev": x["nev"], "ev": x["ev"],
+            building_rows[k].append(r)
+    done, checked_rows = set(), set()
+    for k, list_ in building_rows.items():
+        years = {year_value(x["ev"]) for x in list_ if year_value(x["ev"])}
+        names = {x["nev"] for x in list_ if x["nev"]}
+        if len(list_) > 1 and years and max(years) - min(years) > 2:      # a difference in names is no obstacle (a corner house in the lists of two streets): there we write no name
+            for x in list_:
+                if (x["utca"], x["sor"]) not in checked_rows:
+                    checked_rows.add((x["utca"], x["sor"]))
+                    check.append({"lap": x["lap"], "utca": x["utca"], "sor": x["sor"], "szam": x["szam"], "nev": x["nev"], "ev": x["ev"],
                                        "tervezo": x["tervezo"], "szakasz": x["szakasz"], "megjegyzes_wikipedia": x["megjegyzes"],
                                        "kategoria": "több sor mutat ugyanarra az épületre, eltérő adattal",
                                        "javasolt_osm": f"{k[0]} {k[1]}", "hianyzo_hazszam": ""})
             stat["több sor, eltérő adat"] += 1
-    def egyezo(k, mezo_fn):
-        vals = {mezo_fn(x) for x in epulet_sorok[k]}
+    def matching(k, field_fn):
+        vals = {field_fn(x) for x in building_rows[k]}
         vals.discard(None)
         vals.discard("")
         return vals
 
-    for r, ks in paros:
-        if (r["utca"], r["sor"]) in ellenorzott_sorok:
+    for r, ks in even:
+        if (r["utca"], r["sor"]) in checked_rows:
             continue
-        megj = f"hu.wikipedia.org {r['lap']}, {r['sor']}. sor ({r['utca']} {r['szam']})"
-        ev = ev_ertek(r["ev"])
-        tervezo = re.sub(r"\s+", " ", r["tervezo"]).strip()
-        if tervezo.lower() in ("", "?", "ismeretlen", "-", "–", "nem ismert", "n. a.", "n.a.") or "?" in tervezo or re.search(r"\bvagy\b", tervezo):
-            tervezo = ""
+        remark = f"hu.wikipedia.org {r['lap']}, {r['sor']}. sor ({r['utca']} {r['szam']})"
+        year = year_value(r["ev"])
+        designer = re.sub(r"\s+", " ", r["tervezo"]).strip()
+        if designer.lower() in ("", "?", "ismeretlen", "-", "–", "nem ismert", "n. a.", "n.a.") or "?" in designer or re.search(r"\bvagy\b", designer):
+            designer = ""
         for k in ks:
-            if len(epulet_sorok[k]) > 1:      # several lists mention it: only the consistent data goes out
-                if ev and len(egyezo(k, lambda x: ev_ertek(x["ev"]))) > 1:
-                    ev = None
-                if tervezo and len(egyezo(k, lambda x: re.sub(r"\s+", " ", x["tervezo"]).strip())) > 1:
-                    tervezo = ""
-                nev_ok = len(egyezo(k, lambda x: x["nev"].strip())) <= 1
+            if len(building_rows[k]) > 1:      # several lists mention it: only the consistent data goes out
+                if year and len(matching(k, lambda x: year_value(x["ev"]))) > 1:
+                    year = None
+                if designer and len(matching(k, lambda x: re.sub(r"\s+", " ", x["tervezo"]).strip())) > 1:
+                    designer = ""
+                name_ok = len(matching(k, lambda x: x["nev"].strip())) <= 1
             else:
-                nev_ok = True
-            if ev:
-                kesz.add((k[0], k[1], "ev", ev, "wikipedia_lista", megj))
-            if tervezo:
-                kesz.add((k[0], k[1], "tervezo", tervezo, "wikipedia_lista", megj))
-            if nev_ok and r["nev"] and not ALTALANOS.match(r["nev"].strip()) and r["nev"].strip()[0].isupper() and k not in van_nev and not ep[k]["nev"]:
-                kesz.add((k[0], k[1], "nev", r["nev"].strip(), "wikipedia_lista", megj))
-            if r["stilus"] and k not in van_stilus:
-                kesz.add((k[0], k[1], "stilus", r["stilus"].strip(), "wikipedia_lista", megj))
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2], str(s[3]))))
+                name_ok = True
+            if year:
+                done.add((k[0], k[1], "ev", year, "wikipedia_lista", remark))
+            if designer:
+                done.add((k[0], k[1], "tervezo", designer, "wikipedia_lista", remark))
+            if name_ok and r["nev"] and not GENERAL.match(r["nev"].strip()) and r["nev"].strip()[0].isupper() and k not in has_name and not ep[k]["nev"]:
+                done.add((k[0], k[1], "nev", r["nev"].strip(), "wikipedia_lista", remark))
+            if r["stilus"] and k not in has_style:
+                done.add((k[0], k[1], "stilus", r["stilus"].strip(), "wikipedia_lista", remark))
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2], str(s[3]))))
 
-    mezok = ["kategoria", "lap", "utca", "sor", "szam", "nev", "ev", "tervezo", "szakasz", "megjegyzes_wikipedia", "javasolt_osm", "hianyzo_hazszam"]
-    ellenorzes.sort(key=lambda x: (x["kategoria"], x["utca"], int(x["sor"]) if str(x["sor"]).isdigit() else 0))
-    with open(ELLENORZES, "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=mezok, delimiter=";", extrasaction="ignore")
+    fields = ["kategoria", "lap", "utca", "sor", "szam", "nev", "ev", "tervezo", "szakasz", "megjegyzes_wikipedia", "javasolt_osm", "hianyzo_hazszam"]
+    check.sort(key=lambda x: (x["kategoria"], x["utca"], int(x["sor"]) if str(x["sor"]).isdigit() else 0))
+    with open(CHECK, "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fields, delimiter=";", extrasaction="ignore")
         w.writeheader()
-        w.writerows(ellenorzes)
-    print(f"Wikipedia-sorok: {len(sorok)}")
+        w.writerows(check)
+    print(f"Wikipedia-sorok: {len(rows)}")
     for k, v in sorted(stat.items()):
         print(f"  {k}: {v}")
-    print(f"Tények: {len(kesz)} sor -> {KIMENET} ({len(epulet_sorok)} épület)")
-    print(f"Ellenőrizendő: {len(ellenorzes)} sor -> {ELLENORZES}")
+    print(f"Tények: {len(done)} sor -> {OUTPUT} ({len(building_rows)} épület)")
+    print(f"Ellenőrizendő: {len(check)} sor -> {CHECK}")
 
 
 if __name__ == "__main__":

@@ -12,49 +12,49 @@ import json
 import sys
 from pathlib import Path
 
-from common import tenyek_irasa
+from common import write_facts
 
-DONTES = Path("forras/romok_kezi.csv")
-EPULETEK = "data/varos/epuletek.geojson"
-KIMENET = "data/tenyek/romok.csv"
-OSZLOPOK = ["osm_tipus", "id", "jelleg", "kor", "nev", "megjegyzes"]
+DECISION = Path("forras/romok_kezi.csv")
+BUILDINGS = "data/varos/epuletek.geojson"
+OUTPUT = "data/tenyek/romok.csv"
+COLUMNS = ["osm_tipus", "id", "jelleg", "kor", "nev", "megjegyzes"]
 
 
 def main():
-    sorok = []
-    if DONTES.exists():
-        with open(DONTES, encoding="utf-8-sig") as f:
-            sorok = list(csv.DictReader(f, delimiter=";"))
-    ismert = {(r["osm_tipus"], str(r["id"])) for r in sorok}
-    uj = 0
+    rows = []
+    if DECISION.exists():
+        with open(DECISION, encoding="utf-8-sig") as f:
+            rows = list(csv.DictReader(f, delimiter=";"))
+    known = {(r["osm_tipus"], str(r["id"])) for r in rows}
+    new = 0
     try:
-        with open(EPULETEK, encoding="utf-8") as f:
+        with open(BUILDINGS, encoding="utf-8") as f:
             for ft in json.load(f)["features"]:
                 p = ft["properties"]
                 if p.get("resz") or p.get("tipus") != "ruins":
                     continue
                 k = (p["osm_tipus"], str(p["id"]))
-                if k in ismert:
+                if k in known:
                     continue
-                ismert.add(k)
-                sorok.append({"osm_tipus": k[0], "id": k[1], "jelleg": "ellenorizendo", "kor": "", "nev": p.get("nev") or "",
+                known.add(k)
+                rows.append({"osm_tipus": k[0], "id": k[1], "jelleg": "ellenorizendo", "kor": "", "nev": p.get("nev") or "",
                               "megjegyzes": "új building=ruins épület"})
-                uj += 1
+                new += 1
     except FileNotFoundError:
-        print(f"Figyelem: nincs {EPULETEK}, új romokat nem keresek.")
-    if uj:
-        with open(DONTES, "w", encoding="utf-8-sig", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=OSZLOPOK, delimiter=";")
+        print(f"Figyelem: nincs {BUILDINGS}, új romokat nem keresek.")
+    if new:
+        with open(DECISION, "w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=COLUMNS, delimiter=";")
             w.writeheader()
-            w.writerows(sorok)
-    tenyek = [(r["osm_tipus"], int(r["id"]), "rom", (r["kor"] or "rom").strip(), "romok_kezi", (r.get("megjegyzes") or "").strip())
-              for r in sorok if (r["jelleg"] or "").strip() == "rom"]
-    tenyek_irasa(KIMENET, tenyek)
-    szam = {}
-    for r in sorok:
-        szam[r["jelleg"]] = szam.get(r["jelleg"], 0) + 1
-    print(f"Rom: {szam.get('rom', 0)}; nem rom: {szam.get('nem_rom', 0)}; még nem döntött: {szam.get('ellenorizendo', 0)}"
-          f"{f' (új: {uj})' if uj else ''}. Mentve: {KIMENET}")
+            w.writerows(rows)
+    facts = [(r["osm_tipus"], int(r["id"]), "rom", (r["kor"] or "rom").strip(), "romok_kezi", (r.get("megjegyzes") or "").strip())
+              for r in rows if (r["jelleg"] or "").strip() == "rom"]
+    write_facts(OUTPUT, facts)
+    number = {}
+    for r in rows:
+        number[r["jelleg"]] = number.get(r["jelleg"], 0) + 1
+    print(f"Rom: {number.get('rom', 0)}; nem rom: {number.get('nem_rom', 0)}; még nem döntött: {number.get('ellenorizendo', 0)}"
+          f"{f' (új: {new})' if new else ''}. Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":

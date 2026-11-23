@@ -27,19 +27,19 @@ import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from common import tenyek_irasa
+from common import write_facts
 
-BEMENET = Path("data/bp100/budapest100_teljes.csv")
-CIMEK = Path("data/varos/osm_cimek.csv")
-EPULETEK = Path("data/varos/epuletek_vegleges.geojson")
-ATNEVEZES = Path("forras/utcanev_atnevezesek.csv")
-KIMENET = "data/tenyek/budapest100.csv"
-NEM_PAROSITOTT = Path("data/bp100_nem_parositott.csv")
-KEPEK = Path("data/bp100/kepek.json")        # facts_bp100_images.py: {page_url: image_url}
-HASONLOSAG = 0.9
-JO_FORRAS = ("Szövegből (pontos kifejezés)", "Szöveg bevezetőjéből")
-MAX_EPULET = 6
-MAX_TARTOMANY = 12
+INPUT = Path("data/bp100/budapest100_teljes.csv")
+ADDRESSES = Path("data/varos/osm_cimek.csv")
+BUILDINGS = Path("data/varos/epuletek_vegleges.geojson")
+RENAMING = Path("forras/utcanev_atnevezesek.csv")
+OUTPUT = "data/tenyek/budapest100.csv"
+NOT_PAIRED = Path("data/bp100_nem_parositott.csv")
+IMAGES = Path("data/bp100/kepek.json")        # facts_bp100_images.py: {page_url: image_url}
+SIMILARITY = 0.9
+GOOD_SOURCE = ("Szövegből (pontos kifejezés)", "Szöveg bevezetőjéből")
+MAX_BUILDING = 6
+MAX_RANGE = 12
 
 
 def norm(s):
@@ -53,36 +53,36 @@ def norm(s):
     return " ".join(s.split())
 
 
-def haz_szamok(szoveg):
+def house_numbers(text_):
     """'11-13' -> {11,12,13 of the same parity: 11, 13}; '15/A, B' -> {15}; '4;6' -> {4, 6}"""
-    ki = set()
-    for a, b in re.findall(r"(\d+)\s*(?:[-–]\s*(\d+))?", szoveg or ""):
+    out = set()
+    for a, b in re.findall(r"(\d+)\s*(?:[-–]\s*(\d+))?", text_ or ""):
         a = int(a)
-        ki.add(a)
+        out.add(a)
         if b:
             b = int(b)
-            ki.add(b)
-            if a < b <= a + MAX_TARTOMANY and (b - a) % 2 == 0:
-                ki.update(range(a, b + 1, 2))
-    return ki
+            out.add(b)
+            if a < b <= a + MAX_RANGE and (b - a) % 2 == 0:
+                out.update(range(a, b + 1, 2))
+    return out
 
 
-def cim_felbontas(cim):
+def address_split(address):
     """'Károly körút 22.' -> ('Károly körút', {22}); 'Október 6. utca 3.' handled."""
-    kezdet = 0
-    h = re.search(r"\b[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+ \d+\.(?=\s+(?:utca|tér|út)\b)", cim)
+    start_ = 0
+    h = re.search(r"\b[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+ \d+\.(?=\s+(?:utca|tér|út)\b)", address)
     if h:
-        kezdet = h.end()
-    m = re.search(r"\d", cim[kezdet:])
+        start_ = h.end()
+    m = re.search(r"\d", address[start_:])
     if not m:
         return None, set()
-    p = kezdet + m.start()
-    return cim[:p].strip(" ,"), haz_szamok(cim[p:])
+    p = start_ + m.start()
+    return address[:p].strip(" ,"), house_numbers(address[p:])
 
 
-def kerulet_irszambol(zip_kod):
+def district_from_postcode(zip_code):
     try:
-        z = int(float(zip_kod))
+        z = int(float(zip_code))
     except (TypeError, ValueError):
         return None
     if 1011 <= z <= 1239:
@@ -91,152 +91,152 @@ def kerulet_irszambol(zip_kod):
     return None
 
 
-def kerulet_szam(x):
+def district_number(x):
     try:
         return int(x)
     except (TypeError, ValueError):
         pass
-    romai = {"I": 1, "V": 5, "X": 10}
+    roman = {"I": 1, "V": 5, "X": 10}
     s = str(x or "").strip().rstrip(".").upper()
-    if s and all(c in romai for c in s):
+    if s and all(c in roman for c in s):
         t = 0
         for c, n in zip(s, s[1:] + " "):
-            v = romai[c]
-            t += -v if n in romai and romai[n] > v else v
+            v = roman[c]
+            t += -v if n in roman and roman[n] > v else v
         return t
     return None
 
 
-def kerulet_terkep():
+def district_map():
     """(osm_tipus, id) -> district number, from the building file."""
-    if not EPULETEK.exists():
+    if not BUILDINGS.exists():
         return {}
-    with open(EPULETEK, encoding="utf-8") as f:
+    with open(BUILDINGS, encoding="utf-8") as f:
         g = json.load(f)
-    ki = {}
+    out = {}
     for ft in g["features"]:
         p = ft["properties"]
-        k = kerulet_szam(p.get("kerulet"))
+        k = district_number(p.get("kerulet"))
         if k:
-            ki[(p.get("osm_tipus") or "way", int(p["id"]))] = k
-    return ki
+            out[(p.get("osm_tipus") or "way", int(p["id"]))] = k
+    return out
 
 
 def main():
-    if not BEMENET.exists():
-        sys.exit("Nincs " + str(BEMENET))
+    if not INPUT.exists():
+        sys.exit("Nincs " + str(INPUT))
     atn = {}
-    if ATNEVEZES.exists():
-        for r in csv.DictReader(open(ATNEVEZES, encoding="utf-8-sig", newline=""), delimiter=";"):
+    if RENAMING.exists():
+        for r in csv.DictReader(open(RENAMING, encoding="utf-8-sig", newline=""), delimiter=";"):
             if r.get("regi") and r.get("uj"):
                 atn[norm(r["regi"])] = [norm(x) for x in r["uj"].split("|") if x.strip()]
-    kerulet = kerulet_terkep()
-    print("Épület a kerület-térképen:", len(kerulet))
-    utcak = defaultdict(lambda: defaultdict(list))
-    for r in csv.DictReader(open(CIMEK, encoding="utf-8-sig", newline=""), delimiter=";"):
-        for sz in haz_szamok(r["hazszam"]):
-            utcak[norm(r["utca"])][sz].append((r["osm_tipus"], int(r["id"])))
-    osm_utcak = list(utcak)
+    district_ = district_map()
+    print("Épület a kerület-térképen:", len(district_))
+    streets = defaultdict(lambda: defaultdict(list))
+    for r in csv.DictReader(open(ADDRESSES, encoding="utf-8-sig", newline=""), delimiter=";"):
+        for sz in house_numbers(r["hazszam"]):
+            streets[norm(r["utca"])][sz].append((r["osm_tipus"], int(r["id"])))
+    osm_streets = list(streets)
 
-    def utca_jeloltek(utca):
-        n = norm(utca)
-        ki = []
+    def street_candidates(street):
+        n = norm(street)
+        out = []
         for j in atn.get(n, [n]):
-            if j in utcak:
-                ki.append(j)
+            if j in streets:
+                out.append(j)
             else:
-                jo = difflib.get_close_matches(j, osm_utcak, n=1, cutoff=HASONLOSAG)
-                if jo:
-                    ki.append(jo[0])
-        return list(dict.fromkeys(ki))
+                good = difflib.get_close_matches(j, osm_streets, n=1, cutoff=SIMILARITY)
+                if good:
+                    out.append(good[0])
+        return list(dict.fromkeys(out))
 
-    sorok = list(csv.DictReader(open(BEMENET, encoding="utf-8-sig", newline="")))
+    rows = list(csv.DictReader(open(INPUT, encoding="utf-8-sig", newline="")))
     stat = Counter()
-    kepek = json.load(open(KEPEK, encoding="utf-8")) if KEPEK.exists() else {}
-    kesz, kimaradt = set(), []
-    for r in sorok:
-        ev = (r.get("built_year") or "").strip()
+    images = json.load(open(IMAGES, encoding="utf-8")) if IMAGES.exists() else {}
+    done, left_out = set(), []
+    for r in rows:
+        year = (r.get("built_year") or "").strip()
         # we match even without a year (because of the link), but take a year only from a reliable source
-        if not ev:
+        if not year:
             stat["nincs év a forrásban"] += 1
-            ev = None
-        elif r.get("year_source") not in JO_FORRAS:
+            year = None
+        elif r.get("year_source") not in GOOD_SOURCE:
             stat["gyenge évforrás (évet nem veszünk át)"] += 1
-            ev = None
+            year = None
         else:
             try:
-                ev = int(float(ev))
+                year = int(float(year))
             except ValueError:
                 stat["hibás év"] += 1
-                ev = None
+                year = None
             else:
-                if not 1000 <= ev <= 2030:
+                if not 1000 <= year <= 2030:
                     stat["hihetetlen év"] += 1
-                    ev = None
-        cim = (r.get("clean_address") or "").strip()
-        u, sz = cim_felbontas(cim)
+                    year = None
+        address = (r.get("clean_address") or "").strip()
+        u, sz = address_split(address)
         if not u or not sz:
-            kimaradt.append([cim, ev, "nincs házszám"])
+            left_out.append([address, year, "nincs házszám"])
             stat["nincs házszám a címben"] += 1
             continue
-        jeloltek = utca_jeloltek(u)
-        if not jeloltek:
-            kimaradt.append([cim, ev, "ismeretlen utcanév"])
+        candidates = street_candidates(u)
+        if not candidates:
+            left_out.append([address, year, "ismeretlen utcanév"])
             stat["ismeretlen utcanév"] += 1
             continue
-        talalat = set()
-        for mu in jeloltek:
+        hit = set()
+        for mu in candidates:
             for n in sz:
-                talalat.update(utcak[mu].get(n, []))
-        if not talalat:
-            kimaradt.append([cim, ev, "az utcán nincs ilyen házszámú OSM-épület"])
+                hit.update(streets[mu].get(n, []))
+        if not hit:
+            left_out.append([address, year, "az utcán nincs ilyen házszámú OSM-épület"])
             stat["nincs ilyen házszám"] += 1
             continue
-        ker = kerulet_irszambol(r.get("zip_code"))
-        if kerulet:
-            if ker:
-                talalat = {t for t in talalat if kerulet.get(t) == ker}
-                if not talalat:
-                    kimaradt.append([cim, ev, "a megadott kerületben (%s.) nincs ilyen című épület" % ker])
+        district = district_from_postcode(r.get("zip_code"))
+        if district_:
+            if district:
+                hit = {t for t in hit if district_.get(t) == district}
+                if not hit:
+                    left_out.append([address, year, "a megadott kerületben (%s.) nincs ilyen című épület" % district])
                     stat["nincs ilyen című épület a kerületben"] += 1
                     continue
             else:
-                kerek = {kerulet.get(t) for t in talalat}
-                if len(kerek) > 1:
-                    kimaradt.append([cim, ev, "irányítószám nélkül több kerületben is van ilyen cím"])
+                round_ = {district_.get(t) for t in hit}
+                if len(round_) > 1:
+                    left_out.append([address, year, "irányítószám nélkül több kerületben is van ilyen cím"])
                     stat["kétértelmű (nincs irányítószám)"] += 1
                     continue
-        if len(talalat) > MAX_EPULET:
-            kimaradt.append([cim, ev, "túl sok (%d) lehetséges épület" % len(talalat)])
+        if len(hit) > MAX_BUILDING:
+            left_out.append([address, year, "túl sok (%d) lehetséges épület" % len(hit)])
             stat["túl sok jelölt"] += 1
             continue
         stat["párosítva"] += 1
-        stat["párosított OSM-épület"] += len(talalat)
-        megj = f"Budapest100: {cim}" + (f" ({len(talalat)} OSM-épület)" if len(talalat) > 1 else "") + f" {r.get('url', '')}"
+        stat["párosított OSM-épület"] += len(hit)
+        remark = f"Budapest100: {address}" + (f" ({len(hit)} OSM-épület)" if len(hit) > 1 else "") + f" {r.get('url', '')}"
         url = (r.get("url") or "").strip()
         if not re.fullmatch(r"https://budapest100\.hu/house/[A-Za-z0-9_%\-]+/?", url):
             url = ""
-        for t, i in talalat:
-            if ev:
-                kesz.add((t, i, "ev", ev, "budapest100", megj.strip()))
+        for t, i in hit:
+            if year:
+                done.add((t, i, "ev", year, "budapest100", remark.strip()))
             if url:
-                kesz.add((t, i, "budapest100_url", url, "budapest100", megj.strip()))
-                kep = kepek.get(url) or kepek.get(url.rstrip("/") + "/") or kepek.get(url.rstrip("/")) or {}
-                if isinstance(kep, str):
-                    kep = {"kep": kep, "foto": ""}
-                if kep.get("kep"):
-                    kesz.add((t, i, "budapest100_kep", kep["kep"], "budapest100", megj.strip()))
-                    if kep.get("foto"):
-                        kesz.add((t, i, "budapest100_foto", kep["foto"], "budapest100", megj.strip()))
-    tenyek_irasa(KIMENET, sorted(kesz, key=lambda s: (s[0], s[1], s[2])))
-    with open(NEM_PAROSITOTT, "w", encoding="utf-8-sig", newline="") as f:
+                done.add((t, i, "budapest100_url", url, "budapest100", remark.strip()))
+                image = images.get(url) or images.get(url.rstrip("/") + "/") or images.get(url.rstrip("/")) or {}
+                if isinstance(image, str):
+                    image = {"kep": image, "foto": ""}
+                if image.get("kep"):
+                    done.add((t, i, "budapest100_kep", image["kep"], "budapest100", remark.strip()))
+                    if image.get("foto"):
+                        done.add((t, i, "budapest100_foto", image["foto"], "budapest100", remark.strip()))
+    write_facts(OUTPUT, sorted(done, key=lambda s: (s[0], s[1], s[2])))
+    with open(NOT_PAIRED, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["cim", "ev", "miert"])
-        w.writerows(kimaradt)
-    print(f"Bejegyzés: {len(sorok)}")
+        w.writerows(left_out)
+    print(f"Bejegyzés: {len(rows)}")
     for k, v in stat.most_common():
         print(f"  {k}: {v}")
-    print(f"Tények: {len(kesz)} sor -> {KIMENET}; nem párosított: {NEM_PAROSITOTT}")
+    print(f"Tények: {len(done)} sor -> {OUTPUT}; nem párosított: {NOT_PAIRED}")
 
 
 if __name__ == "__main__":

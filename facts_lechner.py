@@ -8,155 +8,155 @@ from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
 
-from common import kulcs, tenyek_irasa
-from area_common import EpuletIndex
+from common import building_key, write_facts
+from area_common import BuildingIndex
 
 KML = "data/lechner.kml"
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_lechner.py varos  -> the whole city
-OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
-KIMENET = "data/tenyek/lechner.csv"
-PONTOK = "data/lechner_pontok.json"
-KEZI = "forras/lechner_kezi_parositas.csv"   # manual checking of the near and the unmatched points: you fill in the 'osm_azonosito' column
-KOZELI_METER = 15  # if a point does not fall into a building, we accept a building within this many metres
+CITY = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_lechner.py varos  -> the whole city
+OSM = "data/varos/epuletek.geojson" if CITY else "data/belvaros_epuletek.geojson"
+OUTPUT = "data/tenyek/lechner.csv"
+POINTS = "data/lechner_pontok.json"
+MANUAL = "forras/lechner_kezi_parositas.csv"   # manual checking of the near and the unmatched points: you fill in the 'osm_azonosito' column
+NEARBY_METER = 15  # if a point does not fall into a building, we accept a building within this many metres
 ns = {"k": "http://www.opengis.net/kml/2.2"}
-VAGAS = r"újjáépít|átépít|átalakít|felújít|rekonstrukció|restaurál|bővít|majd|bizonytalan"
+CUT = r"újjáépít|átépít|átalakít|felújít|rekonstrukció|restaurál|bővít|majd|bizonytalan"
 
 
-def idoszak(szoveg):
+def period(text_):
     """The start and end year of the construction period, and whether it is unambiguous.
     '1875–1884' -> (1875, 1884, True); '1817, majd 1909–1913' ('1817, then 1909–1913') -> (1817, 1817, False)."""
-    if not szoveg:
+    if not text_:
         return None, None, False
-    bizonyos = not re.search(r"majd|bizonytalan|körül|as évek|\?|század", szoveg)
-    elso_resz = re.split(VAGAS, szoveg, maxsplit=1)[0]
-    m = re.search(r"(?<!\d)(1[0-9]{3}|20[0-2][0-9])\s*[–-]\s*(\d{2,4})(?!\d)", elso_resz)
+    certain = not re.search(r"majd|bizonytalan|körül|as évek|\?|század", text_)
+    first_part = re.split(CUT, text_, maxsplit=1)[0]
+    m = re.search(r"(?<!\d)(1[0-9]{3}|20[0-2][0-9])\s*[–-]\s*(\d{2,4})(?!\d)", first_part)
     if m:
-        kezdet = int(m.group(1))
-        veg_szoveg = m.group(2)
-        veg = int(veg_szoveg) if len(veg_szoveg) == 4 else int(m.group(1)[:2] + veg_szoveg)
-        if veg < kezdet:
-            veg = kezdet
-        return kezdet, veg, bizonyos
-    evek = [int(x) for x in re.findall(r"(?<!\d)(1[0-9]{3}|20[0-2][0-9])(?!\d)", elso_resz)]
-    if not evek:
+        start_ = int(m.group(1))
+        end_text = m.group(2)
+        end_ = int(end_text) if len(end_text) == 4 else int(m.group(1)[:2] + end_text)
+        if end_ < start_:
+            end_ = start_
+        return start_, end_, certain
+    years = [int(x) for x in re.findall(r"(?<!\d)(1[0-9]{3}|20[0-2][0-9])(?!\d)", first_part)]
+    if not years:
         return None, None, False
-    if len(evek) > 1:
-        bizonyos = False
-    return min(evek), max(evek), bizonyos
+    if len(years) > 1:
+        certain = False
+    return min(years), max(years), certain
 
 
-def kml_beolvas(ut):
-    gyoker = ET.parse(ut).getroot()
-    pontok = []
-    for p in gyoker.findall(".//k:Placemark", ns):
-        nev = " ".join((p.findtext("k:name", namespaces=ns) or "").split())
-        koord = p.findtext("k:Point/k:coordinates", namespaces=ns)
-        if not koord:
+def kml_read(path_):
+    root = ET.parse(path_).getroot()
+    points = []
+    for p in root.findall(".//k:Placemark", ns):
+        name_ = " ".join((p.findtext("k:name", namespaces=ns) or "").split())
+        coord = p.findtext("k:Point/k:coordinates", namespaces=ns)
+        if not coord:
             continue
-        lon, lat = (float(x) for x in koord.strip().split(",")[:2])
-        leiras = html.unescape(p.findtext("k:description", namespaces=ns) or "")
-        leiras = re.sub(r"<br\s*/?>", "\n", leiras)
-        leiras = re.sub(r"<[^>]+>", "", leiras)
-        m = re.search(r"Épült:\s*([^\n]*)", leiras)
-        epult = m.group(1).split("Tervező:")[0].strip() if m else None
-        m = re.search(r"Tervező:\s*([^\n]*)", leiras)
-        tervezo = m.group(1).strip() if m else None
-        if tervezo in ("–", "-", "—"):          # in the Lechner description this is the sign of "no designer"
-            tervezo = None
-        kezdet, veg, bizonyos = idoszak(epult)
-        pontok.append({"nev": nev, "lat": lat, "lon": lon, "epult": epult,
-                       "ev_kezdet": kezdet, "ev_veg": veg, "ev_egyertelmu": bizonyos,
-                       "tervezo": tervezo})
-    return pontok
+        lon, lat = (float(x) for x in coord.strip().split(",")[:2])
+        description = html.unescape(p.findtext("k:description", namespaces=ns) or "")
+        description = re.sub(r"<br\s*/?>", "\n", description)
+        description = re.sub(r"<[^>]+>", "", description)
+        m = re.search(r"Épült:\s*([^\n]*)", description)
+        built = m.group(1).split("Tervező:")[0].strip() if m else None
+        m = re.search(r"Tervező:\s*([^\n]*)", description)
+        designer = m.group(1).strip() if m else None
+        if designer in ("–", "-", "—"):          # in the Lechner description this is the sign of "no designer"
+            designer = None
+        start_, end_, certain = period(built)
+        points.append({"nev": name_, "lat": lat, "lon": lon, "epult": built,
+                       "ev_kezdet": start_, "ev_veg": end_, "ev_egyertelmu": certain,
+                       "tervezo": designer})
+    return points
 
 
-def kezi_beolvas():
+def manual_read():
     """name -> [(osm_tipus, id), ...]  (empty list: 'nincs' = there is no OSM building for this point). Empty cell: the automatic one stays."""
-    ki = {}
-    if not Path(KEZI).exists():
-        return ki
-    with open(KEZI, encoding="utf-8-sig", newline="") as f:
+    out = {}
+    if not Path(MANUAL).exists():
+        return out
+    with open(MANUAL, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f, delimiter=";"):
-            ertek = (r.get("osm_azonosito") or "").strip()
-            if not ertek:
+            value = (r.get("osm_azonosito") or "").strip()
+            if not value:
                 continue
-            if re.fullmatch(r"nincs|-|–|nem", ertek, flags=re.I):
-                ki[r["lechner_nev"].strip()] = []
+            if re.fullmatch(r"nincs|-|–|nem", value, flags=re.I):
+                out[r["lechner_nev"].strip()] = []
                 continue
-            azok = []
-            for resz in re.split(r"[|;,\n]+", ertek):
-                m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", resz.strip(), flags=re.I)
+            those = []
+            for part in re.split(r"[|;,\n]+", value):
+                m = re.search(r"(?:(way|relation|node)[/ :]*)?(\d{3,})", part.strip(), flags=re.I)
                 if m:
-                    azok.append(((m.group(1) or "way").lower(), int(m.group(2))))
-            if azok:
-                ki[r["lechner_nev"].strip()] = azok
-    return ki
+                    those.append(((m.group(1) or "way").lower(), int(m.group(2))))
+            if those:
+                out[r["lechner_nev"].strip()] = those
+    return out
 
 
 def main():
-    kezi = kezi_beolvas()
-    pontok = kml_beolvas(KML)
+    manual = manual_read()
+    points = kml_read(KML)
     with open(OSM, encoding="utf-8") as f:
         feats = [x for x in json.load(f)["features"] if x["properties"].get("tipus") != "roof"]
-    index = EpuletIndex(feats)
+    index = BuildingIndex(feats)
     del feats
-    xs = [p[0] for ft, pl in index.elemek for poli in pl for p in poli[0]]
-    ys = [p[1] for ft, pl in index.elemek for poli in pl for p in poli[0]]
+    xs = [p[0] for ft, pl in index.elements for poly in pl for p in poly[0]]
+    ys = [p[1] for ft, pl in index.elements for poly in pl for p in poly[0]]
     lon_min, lon_max, lat_min, lat_max = min(xs), max(xs), min(ys), max(ys)
-    terulet = [p for p in pontok if lon_min <= p["lon"] <= lon_max and lat_min <= p["lat"] <= lat_max]
-    print(f"Pontok a KML-ben: {len(pontok)}, ebből a területen: {len(terulet)}")
+    area = [p for p in points if lon_min <= p["lon"] <= lon_max and lat_min <= p["lat"] <= lat_max]
+    print(f"Pontok a KML-ben: {len(points)}, ebből a területen: {len(area)}")
 
-    sorok = []
-    belul = kozeli = nincs = kezi_db = 0
-    for p in terulet:
+    rows = []
+    inside_ = nearby = none = manual_count = 0
+    for p in area:
         x, y = p["lon"], p["lat"]
-        if p["nev"].strip() in kezi:                      # manually checked point: the building(s) you gave, with the source "lechner"
-            azok = kezi[p["nev"].strip()]
-            if not azok:
-                nincs += 1
+        if p["nev"].strip() in manual:                      # manually checked point: the building(s) you gave, with the source "lechner"
+            those = manual[p["nev"].strip()]
+            if not those:
+                none += 1
                 p["illesztes"] = None
                 continue
-            kezi_db += 1
-            p["illesztes"] = {"osm_tipus": azok[0][0], "id": azok[0][1], "mod": "kezi"}
-            for t, i in azok:
+            manual_count += 1
+            p["illesztes"] = {"osm_tipus": those[0][0], "id": those[0][1], "mod": "kezi"}
+            for t, i in those:
                 L = "lechner"
-                sorok += [(t, i, "lechner_nev", p["nev"], L, ""), (t, i, "lechner_epult", p["epult"] or "", L, ""),
+                rows += [(t, i, "lechner_nev", p["nev"], L, ""), (t, i, "lechner_epult", p["epult"] or "", L, ""),
                           (t, i, "lechner_ev_kezdet", p["ev_kezdet"] or "", L, ""), (t, i, "lechner_ev_veg", p["ev_veg"] or "", L, ""),
                           (t, i, "lechner_tervezo", p["tervezo"] or "", L, ""), (t, i, "lechner_illesztes", "kezi", L, "")]
                 if p["tervezo"]:
-                    sorok.append((t, i, "tervezo", p["tervezo"], L, p["nev"]))
+                    rows.append((t, i, "tervezo", p["tervezo"], L, p["nev"]))
                 if p["ev_veg"] and p["ev_egyertelmu"]:
-                    sorok.append((t, i, "ev", p["ev_veg"], L, p["epult"] or ""))
+                    rows.append((t, i, "ev", p["ev_veg"], L, p["epult"] or ""))
             continue
-        talalat, mod = index.benne(x, y), "belul"
-        if talalat is None:
-            talalat = index.kozeli(x, y, KOZELI_METER)
-            mod = "kozeli" if talalat else None
-        if talalat is None:
-            nincs += 1
+        hit, mode = index.in_(x, y), "belul"
+        if hit is None:
+            hit = index.nearby(x, y, NEARBY_METER)
+            mode = "kozeli" if hit else None
+        if hit is None:
+            none += 1
             p["illesztes"] = None
             continue
-        belul += mod == "belul"
-        kozeli += mod == "kozeli"
-        t, i = kulcs(talalat["properties"])
-        p["illesztes"] = {"osm_tipus": t, "id": i, "mod": mod}
+        inside_ += mode == "belul"
+        nearby += mode == "kozeli"
+        t, i = building_key(hit["properties"])
+        p["illesztes"] = {"osm_tipus": t, "id": i, "mod": mode}
         L = "lechner"
-        sorok += [(t, i, "lechner_nev", p["nev"], L, ""),
+        rows += [(t, i, "lechner_nev", p["nev"], L, ""),
                   (t, i, "lechner_epult", p["epult"] or "", L, ""),
                   (t, i, "lechner_ev_kezdet", p["ev_kezdet"] or "", L, ""),
                   (t, i, "lechner_ev_veg", p["ev_veg"] or "", L, ""),
                   (t, i, "lechner_tervezo", p["tervezo"] or "", L, ""),
-                  (t, i, "lechner_illesztes", mod, L, "")]
+                  (t, i, "lechner_illesztes", mode, L, "")]
         if p["tervezo"]:
-            sorok.append((t, i, "tervezo", p["tervezo"], L if mod == "belul" else "lechner_kozeli", p["nev"]))
+            rows.append((t, i, "tervezo", p["tervezo"], L if mode == "belul" else "lechner_kozeli", p["nev"]))
         # The OSM start_date is typically the year of completion, so we use the end year
         if p["ev_veg"] and p["ev_egyertelmu"]:
-            sorok.append((t, i, "ev", p["ev_veg"], L if mod == "belul" else "lechner_kozeli", p["epult"] or ""))
-    tenyek_irasa(KIMENET, [s for s in sorok if s[3] != ""])
-    with open(PONTOK, "w", encoding="utf-8") as f:
-        json.dump(pontok, f, ensure_ascii=False, indent=1)
-    print(f"Épületbe esik: {belul}, közeli (≤{KOZELI_METER} m): {kozeli}, kézzel párosított: {kezi_db}, nem párosítható: {nincs}")
-    print(f"Mentve: {KIMENET}")
+            rows.append((t, i, "ev", p["ev_veg"], L if mode == "belul" else "lechner_kozeli", p["epult"] or ""))
+    write_facts(OUTPUT, [s for s in rows if s[3] != ""])
+    with open(POINTS, "w", encoding="utf-8") as f:
+        json.dump(points, f, ensure_ascii=False, indent=1)
+    print(f"Épületbe esik: {inside_}, közeli (≤{NEARBY_METER} m): {nearby}, kézzel párosított: {manual_count}, nem párosítható: {none}")
+    print(f"Mentve: {OUTPUT}")
 
 
 main()

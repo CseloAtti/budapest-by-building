@@ -31,87 +31,87 @@ from pathlib import Path
 
 import commons_images as ck
 
-ADAT = Path("data")
-CACHE = ADAT / "cache"
+DATA = Path("data")
+CACHE = DATA / "cache"
 WD_API = "https://www.wikidata.org/w/api.php"
 SPARQL = "https://query.wikidata.org/sparql"
 UA = ck.UA
-SZUNET = 1.2
-RANG = {"wd": 5, "cim": 4, "nev": 3, "kat": 2, "hely": 1}
-VAROS_DOBOZ = (47.34, 18.92, 47.62, 19.35)          # south, west, north, east (slightly larger than the city boundary)
+PAUSE = 1.2
+RANK = {"wd": 5, "cim": 4, "nev": 3, "kat": 2, "hely": 1}
+CITY_BOX = (47.34, 18.92, 47.62, 19.35)          # south, west, north, east (slightly larger than the city boundary)
 
 
 # ---------- network ----------
-def kerj(url, params, fejlec=None, timeout=120):
-    for kiserlet in range(8):
+def request_(url, params, header=None, timeout=120):
+    for attempt in range(8):
         try:
             u = url + "?" + urllib.parse.urlencode(params)
-            with urllib.request.urlopen(urllib.request.Request(u, headers={**UA, **(fejlec or {})}), timeout=timeout) as v:
+            with urllib.request.urlopen(urllib.request.Request(u, headers={**UA, **(header or {})}), timeout=timeout) as v:
                 return json.load(v)
         except urllib.error.HTTPError as h:
             var = h.headers.get("Retry-After")
-            var = int(var) if var and var.isdigit() else 30 * (kiserlet + 1)
+            var = int(var) if var and var.isdigit() else 30 * (attempt + 1)
             print(f"    HTTP {h.code}, várok {var} s", flush=True)
             time.sleep(var)
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as h:
             print(f"    újrapróbálom ({type(h).__name__}: {h})", flush=True)
-            time.sleep(2 ** kiserlet * 2)
+            time.sleep(2 ** attempt * 2)
     raise SystemExit("A szerver nem válaszol. Futtasd újra később, onnan folytatja, ahol abbamaradt.")
 
 
-def cache_be(nev, alap):
-    ut = CACHE / nev
-    if ut.exists():
-        return json.loads(ut.read_text(encoding="utf-8"))
-    return alap
+def cache_in(name_, base):
+    path_ = CACHE / name_
+    if path_.exists():
+        return json.loads(path_.read_text(encoding="utf-8"))
+    return base
 
 
-def cache_ki(nev, adat):
+def cache_out(name_, data_):
     CACHE.mkdir(parents=True, exist_ok=True)
-    (CACHE / nev).write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
+    (CACHE / name_).write_text(json.dumps(data_, ensure_ascii=False), encoding="utf-8")
 
 
-def fajl_cim(nev):
+def file_address(name_):
     """'Some_file.jpg' or the Special:FilePath URL -> 'File:Some file.jpg'."""
-    nev = urllib.parse.unquote(str(nev))
-    nev = nev.rsplit("Special:FilePath/", 1)[-1]
-    nev = re.sub(r"^(?:File|Fájl):", "", nev, flags=re.I)
-    return "File:" + nev.replace("_", " ").strip()
+    name_ = urllib.parse.unquote(str(name_))
+    name_ = name_.rsplit("Special:FilePath/", 1)[-1]
+    name_ = re.sub(r"^(?:File|Fájl):", "", name_, flags=re.I)
+    return "File:" + name_.replace("_", " ").strip()
 
 
 # ---------- 2. Wikidata ----------
-def entitasok(qidek):
+def entities(qids):
     """{Q: {"p18": [file titles], "p373": category|None}} for the tagged items (wbgetentities, 50 per request)."""
-    ered = cache_be("wd_entitasok.json", {})
-    kell = sorted(q for q in set(qidek) if re.fullmatch(r"Q\d+", q) and q not in ered)
-    print(f"Wikidata-elemek lekérése: {len(kell)} új ({len(ered)} már megvan)", flush=True)
-    for i in range(0, len(kell), 50):
-        resz = kell[i:i + 50]
-        j = kerj(WD_API, {"action": "wbgetentities", "ids": "|".join(resz), "props": "claims", "format": "json"})
-        for q in resz:
+    result = cache_in("wd_entitasok.json", {})
+    needed = sorted(q for q in set(qids) if re.fullmatch(r"Q\d+", q) and q not in result)
+    print(f"Wikidata-elemek lekérése: {len(needed)} új ({len(result)} már megvan)", flush=True)
+    for i in range(0, len(needed), 50):
+        part = needed[i:i + 50]
+        j = request_(WD_API, {"action": "wbgetentities", "ids": "|".join(part), "props": "claims", "format": "json"})
+        for q in part:
             e = (j.get("entities") or {}).get(q) or {}
             cl = e.get("claims") or {}
             p18 = [c["mainsnak"]["datavalue"]["value"] for c in cl.get("P18", [])
                    if c.get("mainsnak", {}).get("datavalue")]
             p373 = next((c["mainsnak"]["datavalue"]["value"] for c in cl.get("P373", [])
                          if c.get("mainsnak", {}).get("datavalue")), None)
-            ered[q] = {"p18": [fajl_cim(x) for x in p18], "p373": p373}
-        cache_ki("wd_entitasok.json", ered)
-        time.sleep(SZUNET)
+            result[q] = {"p18": [file_address(x) for x in p18], "p373": p373}
+        cache_out("wd_entitasok.json", result)
+        time.sleep(PAUSE)
         if (i // 50) % 20 == 0:
-            print(f"  {min(i + 50, len(kell))}/{len(kell)}", flush=True)
-    return ered
+            print(f"  {min(i + 50, len(needed))}/{len(needed)}", flush=True)
+    return result
 
 
-def sparql_elemek():
+def sparql_elements():
     """All of Budapest's Wikidata items that have a coordinate and (P18 or P373): in a 3x3 grid, against the timeout."""
-    ered = cache_be("wd_budapest.json", {"kesz": [], "elemek": {}})
-    d, ny, e, k = VAROS_DOBOZ
+    result = cache_in("wd_budapest.json", {"kesz": [], "elemek": {}})
+    d, ny, e, k = CITY_BOX
     n = 3
     for a in range(n):
         for b in range(n):
-            kulcs = f"{a}_{b}"
-            if kulcs in ered["kesz"]:
+            building_key = f"{a}_{b}"
+            if building_key in result["kesz"]:
                 continue
             s0, s1 = d + (e - d) * a / n, d + (e - d) * (a + 1) / n
             w0, w1 = ny + (k - ny) * b / n, ny + (k - ny) * (b + 1) / n
@@ -124,192 +124,192 @@ def sparql_elemek():
   OPTIONAL {{ ?item rdfs:label ?label . FILTER(LANG(?label) = "hu") }}
 }}"""
             print(f"Wikidata SPARQL: {a * n + b + 1}/{n * n}", flush=True)
-            j = kerj(SPARQL, {"query": q, "format": "json"}, {"Accept": "application/sparql-results+json"}, timeout=180)
+            j = request_(SPARQL, {"query": q, "format": "json"}, {"Accept": "application/sparql-results+json"}, timeout=180)
             for r in j["results"]["bindings"]:
                 qid = r["item"]["value"].rsplit("/", 1)[-1]
                 m = re.match(r"Point\(([-\d.]+) ([-\d.]+)\)", r["coord"]["value"])
                 if not m:
                     continue
-                el = ered["elemek"].setdefault(qid, {"lon": float(m.group(1)), "lat": float(m.group(2)),
+                el = result["elemek"].setdefault(qid, {"lon": float(m.group(1)), "lat": float(m.group(2)),
                                                      "p18": [], "p373": None, "cimke": ""})
                 if "img" in r:
-                    c = fajl_cim(r["img"]["value"])
+                    c = file_address(r["img"]["value"])
                     if c not in el["p18"]:
                         el["p18"].append(c)
                 if "cat" in r:
                     el["p373"] = r["cat"]["value"]
                 if "label" in r:
                     el["cimke"] = r["label"]["value"]
-            ered["kesz"].append(kulcs)
-            cache_ki("wd_budapest.json", ered)
+            result["kesz"].append(building_key)
+            cache_out("wd_budapest.json", result)
             time.sleep(5)
-    print(f"  {len(ered['elemek'])} Wikidata-elem koordinátával és képpel/kategóriával", flush=True)
-    return ered["elemek"]
+    print(f"  {len(result['elemek'])} Wikidata-elem koordinátával és képpel/kategóriával", flush=True)
+    return result["elemek"]
 
 
 # ---------- 3. categories ----------
-def kategoria_tagjai(kategoriak):
+def category_members_of(categories):
     """{category: [file titles]} (at most 100 files per category)."""
-    ered = cache_be("commons_kategoriak.json", {})
-    kell = sorted(k for k in set(kategoriak) if k not in ered)
-    print(f"Commons-kategóriák: {len(kell)} új ({len(ered)} már megvan)", flush=True)
-    for i, kat in enumerate(kell, 1):
-        j = kerj(ck.API, {"action": "query", "list": "categorymembers", "cmtitle": "Category:" + kat,
+    result = cache_in("commons_kategoriak.json", {})
+    needed = sorted(k for k in set(categories) if k not in result)
+    print(f"Commons-kategóriák: {len(needed)} új ({len(result)} már megvan)", flush=True)
+    for i, category in enumerate(needed, 1):
+        j = request_(ck.API, {"action": "query", "list": "categorymembers", "cmtitle": "Category:" + category,
                           "cmtype": "file", "cmlimit": 100, "format": "json"})
         if "error" in j:
             print(f"    a Commons hibát jelzett: {str(j['error'])[:120]}", flush=True)
             time.sleep(20)
             continue
-        ered[kat] = [m["title"] for m in (j.get("query") or {}).get("categorymembers", [])]
-        time.sleep(SZUNET)
+        result[category] = [m["title"] for m in (j.get("query") or {}).get("categorymembers", [])]
+        time.sleep(PAUSE)
         if i % 25 == 0:
-            cache_ki("commons_kategoriak.json", ered)
-            print(f"  kategóriák: {i}/{len(kell)}", flush=True)
-    cache_ki("commons_kategoriak.json", ered)
-    return ered
+            cache_out("commons_kategoriak.json", result)
+            print(f"  kategóriák: {i}/{len(needed)}", flush=True)
+    cache_out("commons_kategoriak.json", result)
+    return result
 
 
-def cimpont(fajl):
+def address_point(file):
     """A score within the category by file name: facade image first, detail photo last."""
-    t = ck.norm(re.sub(r"\.[A-Za-z0-9]{3,4}$", "", fajl.split(":", 1)[-1]))
-    if any(ck.norm(x) in t for x in ck.TILTOTT):
+    t = ck.norm(re.sub(r"\.[A-Za-z0-9]{3,4}$", "", file.split(":", 1)[-1]))
+    if any(ck.norm(x) in t for x in ck.BANNED):
         return None
-    return (-40 if ck.RESZLET.search(t) else 0) + (10 if "homlokzat" in t or "facade" in t else 0) \
+    return (-40 if ck.DETAIL.search(t) else 0) + (10 if "homlokzat" in t or "facade" in t else 0) \
         - (15 if "fortepan" in t else 0)
 
 
-def legjobb_fajlok(tagok, db=3):
-    jel = [(cimpont(f), f) for f in tagok]
-    jel = [x for x in jel if x[0] is not None and re.search(r"\.(jpe?g|png|tiff?|webp)$", x[1], re.I)]
-    jel.sort(key=lambda x: -x[0])
-    return [f for _, f in jel[:db]]
+def best_files(members, count_=3):
+    sign = [(address_point(f), f) for f in members]
+    sign = [x for x in sign if x[0] is not None and re.search(r"\.(jpe?g|png|tiff?|webp)$", x[1], re.I)]
+    sign.sort(key=lambda x: -x[0])
+    return [f for _, f in sign[:count_]]
 
 
 # ---------- finding buildings by coordinate ----------
-def racs_epitese(ep):
-    racs = defaultdict(list)
-    for kulcs, e in ep.items():
+def grid_construction(ep):
+    grid = defaultdict(list)
+    for building_key, e in ep.items():
         xs = [c[0] for c in e["gyuru"]]
         ys = [c[1] for c in e["gyuru"]]
         e["doboz"] = (min(xs), max(xs), min(ys), max(ys))
         for i in range(int(e["doboz"][0] / 0.001), int(e["doboz"][1] / 0.001) + 1):
             for j in range(int(e["doboz"][2] / 0.001), int(e["doboz"][3] / 0.001) + 1):
-                racs[(i, j)].append(kulcs)
-    return racs
+                grid[(i, j)].append(building_key)
+    return grid
 
 
-def hol_van(ep, racs, lat, lon):
-    legjobb, kis = None, None
-    for kulcs in racs.get((int(lon / 0.001), int(lat / 0.001)), ()):
-        e = ep[kulcs]
+def where_has(ep, grid, lat, lon):
+    best, small = None, None
+    for building_key in grid.get((int(lon / 0.001), int(lat / 0.001)), ()):
+        e = ep[building_key]
         d = e["doboz"]
-        if d[0] <= lon <= d[1] and d[2] <= lat <= d[3] and ck._pont_gyuruben(lon, lat, e["gyuru"]):
-            ter = (d[1] - d[0]) * (d[3] - d[2])
-            if kis is None or ter < kis:
-                legjobb, kis = kulcs, ter
-    return legjobb
+        if d[0] <= lon <= d[1] and d[2] <= lat <= d[3] and ck._point_in_ring(lon, lat, e["gyuru"]):
+            area_ = (d[1] - d[0]) * (d[3] - d[2])
+            if small is None or area_ < small:
+                best, small = building_key, area_
+    return best
 
 
 # ---------- main ----------
 def main():
-    ck.VAROS = True
-    ep = ck.epuletek_beolvasasa()
+    ck.CITY = True
+    ep = ck.read_buildings()
     print(f"Épületek: {len(ep)}", flush=True)
-    meglevo_ut = ADAT / "varos" / "commons_kepek.json"
-    meglevo = json.loads(meglevo_ut.read_text(encoding="utf-8")) if meglevo_ut.exists() else {}
+    existing_path = DATA / "varos" / "commons_kepek.json"
+    existing = json.loads(existing_path.read_text(encoding="utf-8")) if existing_path.exists() else {}
 
     # 1. the OSM tags
-    csoport_qid = defaultdict(set)          # csoportkulcs -> {Q}
-    csoport_fajl = defaultdict(list)        # group key -> [(mode, file title)]
-    csoport_kat = defaultdict(list)         # group key -> [(mode, category)]
+    group_qid = defaultdict(set)          # csoportkulcs -> {Q}
+    group_file = defaultdict(list)        # group key -> [(mode, file title)]
+    group_category = defaultdict(list)         # group key -> [(mode, category)]
     osm_wd = osm_commons = 0
     for e in ep.values():
         if e.get("wikidata"):
-            csoport_qid[e["kulcs"]].add(str(e["wikidata"]).split(";")[0].strip())
+            group_qid[e["kulcs"]].add(str(e["wikidata"]).split(";")[0].strip())
             osm_wd += 1
         c = (e.get("commons") or "").strip()
         if c:
             osm_commons += 1
             if re.match(r"(File|Fájl):", c, re.I):
-                csoport_fajl[e["kulcs"]].append(("wd", fajl_cim(c)))
+                group_file[e["kulcs"]].append(("wd", file_address(c)))
             else:
-                csoport_kat[e["kulcs"]].append(("kat", re.sub(r"^(Category|Kategória):", "", c, flags=re.I).strip()))
+                group_category[e["kulcs"]].append(("kat", re.sub(r"^(Category|Kategória):", "", c, flags=re.I).strip()))
     print(f"OSM-címkék: wikidata {osm_wd}, wikimedia_commons {osm_commons}", flush=True)
 
     # 2. Wikidata
-    ent = entitasok([q for qs in csoport_qid.values() for q in qs])
-    sp = sparql_elemek()
-    racs = racs_epitese(ep)
-    koord_db = 0
+    ent = entities([q for qs in group_qid.values() for q in qs])
+    sp = sparql_elements()
+    grid = grid_construction(ep)
+    coord_count = 0
     for qid, el in sp.items():
-        kulcs = hol_van(ep, racs, el["lat"], el["lon"])
-        if kulcs:
-            csoport_qid[ep[kulcs]["kulcs"]].add(qid)
+        building_key = where_has(ep, grid, el["lat"], el["lon"])
+        if building_key:
+            group_qid[ep[building_key]["kulcs"]].add(qid)
             ent.setdefault(qid, {"p18": el["p18"], "p373": el["p373"]})
-            koord_db += 1
-    print(f"  koordináta szerint épületbe illesztett Wikidata-elem: {koord_db}", flush=True)
-    for csoport, qs in csoport_qid.items():
+            coord_count += 1
+    print(f"  koordináta szerint épületbe illesztett Wikidata-elem: {coord_count}", flush=True)
+    for group_, qs in group_qid.items():
         for q in sorted(qs):
             e = ent.get(q) or {}
             for f in e.get("p18", [])[:2]:
-                csoport_fajl[csoport].append(("wd", f))
+                group_file[group_].append(("wd", f))
             if e.get("p373"):
-                csoport_kat[csoport].append(("kat", e["p373"]))
+                group_category[group_].append(("kat", e["p373"]))
 
     # 3. categories
-    tagok = kategoria_tagjai([k for lista in csoport_kat.values() for _, k in lista])
-    jeloltek = defaultdict(list)            # group -> [(mode, file title)] in order
-    for csoport in set(csoport_fajl) | set(csoport_kat):
-        lista = list(csoport_fajl.get(csoport, []))
-        for mod, kat in csoport_kat.get(csoport, []):
-            for f in legjobb_fajlok(tagok.get(kat, [])):
-                lista.append(("kat", f))
-        lista = [x for i, x in enumerate(lista) if x not in lista[:i]]
-        jeloltek[csoport] = lista[:6]
+    members = category_members_of([k for list_ in group_category.values() for _, k in list_])
+    candidates = defaultdict(list)            # group -> [(mode, file title)] in order
+    for group_ in set(group_file) | set(group_category):
+        list_ = list(group_file.get(group_, []))
+        for mode, category in group_category.get(group_, []):
+            for f in best_files(members.get(category, [])):
+                list_.append(("kat", f))
+        list_ = [x for i, x in enumerate(list_) if x not in list_[:i]]
+        candidates[group_] = list_[:6]
 
     # 4. image data
-    ii = ck.imageinfo([f for lista in jeloltek.values() for _, f in lista])
+    ii = ck.imageinfo([f for list_ in candidates.values() for _, f in list_])
 
     # 5. merging
-    uj = dict(meglevo)
+    new = dict(existing)
     stat = defaultdict(int)
-    for csoport, lista in jeloltek.items():
-        for mod, cim in lista:
-            info = ii.get(cim) or ii.get(cim.replace("_", " "))
+    for group_, list_ in candidates.items():
+        for mode, address in list_:
+            info = ii.get(address) or ii.get(address.replace("_", " "))
             if not info:
                 continue
             if not str(info.get("mime", "")).startswith("image/") or info.get("mime") in ("image/svg+xml", "image/gif"):
                 continue
-            if info.get("width", 0) < ck.MIN_SZELES:
+            if info.get("width", 0) < ck.MIN_WIDE:
                 continue
             em = info.get("extmetadata") or {}
-            licenc = ck.szoveg((em.get("LicenseShortName") or {}).get("value"))
-            if not licenc or "non-free" in licenc.lower() or licenc.lower().startswith("fair use"):
+            licence = ck.text_((em.get("LicenseShortName") or {}).get("value"))
+            if not licence or "non-free" in licence.lower() or licence.lower().startswith("fair use"):
                 continue
-            reszlet = 1 if ck.RESZLET.search(ck.norm(re.sub(r"\.[A-Za-z0-9]{3,4}$", "", cim.split(":", 1)[-1]))) else 0
-            regi = uj.get(csoport)
-            if regi:
+            detail = 1 if ck.DETAIL.search(ck.norm(re.sub(r"\.[A-Za-z0-9]{3,4}$", "", address.split(":", 1)[-1]))) else 0
+            old = new.get(group_)
+            if old:
                 # a better-mode match wins; with the same mode, the non-detail photo
-                if RANG.get(regi.get("m"), 0) > RANG[mod] or (RANG.get(regi.get("m"), 0) == RANG[mod] and (regi.get("r", 0) <= reszlet)):
+                if RANK.get(old.get("m"), 0) > RANK[mode] or (RANK.get(old.get("m"), 0) == RANK[mode] and (old.get("r", 0) <= detail)):
                     break
-            uj[csoport] = {"f": cim.split(":", 1)[-1].replace(" ", "_"),
-                           "a": ck.szoveg((em.get("Artist") or {}).get("value"))[:90], "l": licenc,
-                           "u": ck.szoveg((em.get("LicenseUrl") or {}).get("value")), "m": mod, "r": reszlet}
-            stat[mod] += 1
+            new[group_] = {"f": address.split(":", 1)[-1].replace(" ", "_"),
+                           "a": ck.text_((em.get("Artist") or {}).get("value"))[:90], "l": licence,
+                           "u": ck.text_((em.get("LicenseUrl") or {}).get("value")), "m": mode, "r": detail}
+            stat[mode] += 1
             break
-    meglevo_ut.parent.mkdir(parents=True, exist_ok=True)
-    meglevo_ut.write_text(json.dumps(uj, ensure_ascii=False, indent=0), encoding="utf-8")
-    jel = ["# Commons-fotók a Wikidata és az OSM-címkék alapján", "",
+    existing_path.parent.mkdir(parents=True, exist_ok=True)
+    existing_path.write_text(json.dumps(new, ensure_ascii=False, indent=0), encoding="utf-8")
+    sign = ["# Commons-fotók a Wikidata és az OSM-címkék alapján", "",
            f"- OSM `wikidata` címkével: {osm_wd} épület, `wikimedia_commons` címkével: {osm_commons} épület",
-           f"- koordináta szerint épületbe illesztett Wikidata-elem (képpel vagy kategóriával): {koord_db}",
+           f"- koordináta szerint épületbe illesztett Wikidata-elem (képpel vagy kategóriával): {coord_count}",
            f"- új vagy lecserélt fotó: Wikidata-kép {stat['wd']}, Commons-kategória {stat['kat']}",
-           f"- épület fotóval összesen: {len(uj)}", "", "## Példák az ellenőrzéshez", ""]
-    nevek = {e["kulcs"]: (e["nev"] or "") for e in ep.values()}
-    pelda = [(c, k) for c, k in uj.items() if k.get("m") in ("wd", "kat")][:60]
-    for c, k in pelda:
-        jel.append(f"- {k['m']}; {nevek.get(c) or c}; https://commons.wikimedia.org/wiki/File:{k['f']}")
-    (ADAT / "varos" / "commons_wikidata_jelentes.md").write_text("\n".join(jel) + "\n", encoding="utf-8")
-    print(f"Kész: {len(uj)} épületnek van fotója (új/lecserélt: Wikidata {stat['wd']}, kategória {stat['kat']}).")
+           f"- épület fotóval összesen: {len(new)}", "", "## Példák az ellenőrzéshez", ""]
+    names = {e["kulcs"]: (e["nev"] or "") for e in ep.values()}
+    example = [(c, k) for c, k in new.items() if k.get("m") in ("wd", "kat")][:60]
+    for c, k in example:
+        sign.append(f"- {k['m']}; {names.get(c) or c}; https://commons.wikimedia.org/wiki/File:{k['f']}")
+    (DATA / "varos" / "commons_wikidata_jelentes.md").write_text("\n".join(sign) + "\n", encoding="utf-8")
+    print(f"Kész: {len(new)} épületnek van fotója (új/lecserélt: Wikidata {stat['wd']}, kategória {stat['kat']}).")
     print("Mentve: data/varos/commons_kepek.json, data/varos/commons_wikidata_jelentes.md  (most futtasd: py build_tiles.py)")
 
 

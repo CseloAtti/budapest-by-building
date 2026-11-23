@@ -24,21 +24,21 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_explore
 
-GYOKER = Path(__file__).resolve().parent
-FORRAS = GYOKER / "terkep3d"
-KI = GYOKER / "release"
+ROOT = Path(__file__).resolve().parent
+SOURCE = ROOT / "terkep3d"
+OUT = ROOT / "release"
 MARKER = ".kiadas_mappa"                   # by this we recognise that we created the folder (we delete only such)
 LIMIT = 25 * 1024 * 1024                    # Cloudflare: at most 25 MiB per file
-DARAB_CEL = 15 * 1024 * 1024                # target size of one data piece (well below the limit)
-FAJL_LIMIT = 20000
+COUNT_TARGET = 15 * 1024 * 1024                # target size of one data piece (well below the limit)
+FILE_LIMIT = 20000
 
 # the files and folders needed by the viewer (relative to the terkep3d folder)
-FAJLOK = ["index.html", "app.js", "styles.css", "worker.js", "bridges.js", "adatlapok.json", "epitesz.json", "epitesz_dijak.json",
+FILES = ["index.html", "app.js", "styles.css", "worker.js", "bridges.js", "adatlapok.json", "epitesz.json", "epitesz_dijak.json",
           "favicon.svg", "epitesz_elete.json", "epitesz_korok_kezi.json", "epitesz_kizart.json", "kerulethatarok.json", "zonak.json",
           "LICENSE-amsterdam.txt", "LICENSE-threejs.txt", "megosztas_hu.png", "megosztas_en.png"]
-MAPPAK = ["vendor", "arculat"]
-KEPEK_KIT = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"}
-ADAT = "data_varos"
+FOLDERS = ["vendor", "arculat"]
+IMAGES_OUT = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"}
+DATA = "data_varos"
 
 
 EN_OG = {
@@ -50,11 +50,11 @@ EN_OG = {
 }
 
 
-def en_oldal(html):
+def en_page(html):
     """An English entry page (/en/) from the Hungarian home page: its own title/description/share image, English interface (html lang), <base href="/"> for the relative paths."""
     m = re.search(r"<!--OG-->.*?<!--/OG-->", html, flags=re.S)
     if not m:
-        hiba("az index.html-ből hiányzik a <!--OG--> ... <!--/OG--> blokk.")
+        error_("az index.html-ből hiányzik a <!--OG--> ... <!--/OG--> blokk.")
     b = m.group(0)
     b = re.sub(r"<title>.*?</title>", "<title>" + EN_OG["title"] + "</title>", b)
     b = re.sub(r'(name="description" content=")[^"]*', lambda x: x.group(1) + EN_OG["desc"], b)
@@ -71,111 +71,111 @@ def en_oldal(html):
     return html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n  <base href="/">', 1)
 
 
-def hiba(uzenet):
-    sys.exit("HIBA: " + uzenet)
+def error_(message):
+    sys.exit("HIBA: " + message)
 
 
-def csere(szoveg, regi, uj, nev):
-    if szoveg.count(regi) != 1:
-        hiba(f"nem találom az app.js-ben a(z) '{nev}' részt pontosan egyszer (az app.js közben megváltozott: a build_release.py-t frissíteni kell).")
-    return szoveg.replace(regi, uj, 1)
+def swap(text_, old, new, name_):
+    if text_.count(old) != 1:
+        error_(f"nem találom az app.js-ben a(z) '{name_}' részt pontosan egyszer (az app.js közben megváltozott: a build_release.py-t frissíteni kell).")
+    return text_.replace(old, new, 1)
 
 
-def karcsusit(ep):
+def slim(ep):
     """Dropping the default fields from the building list (the viewer reads it the same way): "osm_tipus": "way"."""
     return [{k: v for k, v in p.items() if not (k == "osm_tipus" and v == "way")} if isinstance(p, dict) else p for p in ep]
 
 
-def gzip_iras(forras, cel):
+def gzip_write(source, target):
     """A binary file gzip-compressed, with the same name (mtime=0: the same input always gives the same output)."""
-    adat = forras.read_bytes()
-    cel.write_bytes(gzip.compress(adat, compresslevel=9, mtime=0))
-    return len(adat), cel.stat().st_size
+    data_ = source.read_bytes()
+    target.write_bytes(gzip.compress(data_, compresslevel=9, mtime=0))
+    return len(data_), target.stat().st_size
 
 
 def main():
-    if not FORRAS.exists():
-        hiba(f"nincs meg a {FORRAS} mappa; a projekt mappájából futtasd.")
-    if KI.exists():
-        if not (KI / MARKER).exists():
-            hiba(f"a {KI} mappa már létezik, és nem ez a szkript hozta létre; nevezd át vagy töröld, majd futtasd újra.")
-        shutil.rmtree(KI)
-    KI.mkdir()
-    (KI / MARKER).write_text("A build_release.py hozta létre; biztonságosan törölhető.\n", encoding="utf-8")
+    if not SOURCE.exists():
+        error_(f"nincs meg a {SOURCE} mappa; a projekt mappájából futtasd.")
+    if OUT.exists():
+        if not (OUT / MARKER).exists():
+            error_(f"a {OUT} mappa már létezik, és nem ez a szkript hozta létre; nevezd át vagy töröld, majd futtasd újra.")
+        shutil.rmtree(OUT)
+    OUT.mkdir()
+    (OUT / MARKER).write_text("A build_release.py hozta létre; biztonságosan törölhető.\n", encoding="utf-8")
 
     # 1. simple copies
-    for f in FAJLOK:
-        if not (FORRAS / f).exists():
+    for f in FILES:
+        if not (SOURCE / f).exists():
             print(f"  figyelem: hiányzik a {f}, kimarad")
             continue
-        shutil.copy2(FORRAS / f, KI / f)
-    for m in MAPPAK:
-        if (FORRAS / m).exists():
-            shutil.copytree(FORRAS / m, KI / m)
+        shutil.copy2(SOURCE / f, OUT / f)
+    for m in FOLDERS:
+        if (SOURCE / m).exists():
+            shutil.copytree(SOURCE / m, OUT / m)
     # images: only the image files (the kepek.csv files are needed for editing, not for the visitor)
-    kepek = FORRAS / "kepek"
-    if kepek.exists():
-        db = 0
-        for p in kepek.rglob("*"):
-            if p.is_file() and p.suffix.lower() in KEPEK_KIT:
-                cel = KI / "kepek" / p.relative_to(kepek)
-                cel.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(p, cel)
-                db += 1
-        print(f"  adatlap-képek: {db} fájl")
+    images = SOURCE / "kepek"
+    if images.exists():
+        count_ = 0
+        for p in images.rglob("*"):
+            if p.is_file() and p.suffix.lower() in IMAGES_OUT:
+                target = OUT / "kepek" / p.relative_to(images)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(p, target)
+                count_ += 1
+        print(f"  adatlap-képek: {count_} fájl")
 
     # 2. the data folder, epuletek.json split
-    adat_be = FORRAS / ADAT
-    adat_ki = KI / ADAT
-    adat_ki.mkdir()
-    for p in adat_be.iterdir():
+    data_be = SOURCE / DATA
+    data_out = OUT / DATA
+    data_out.mkdir()
+    for p in data_be.iterdir():
         if not p.is_file() or p.name == "epuletek.json":
             continue
         if p.suffix == ".bin":
-            elotte, utana = gzip_iras(p, adat_ki / p.name)
-            print(f"  {p.name}: {elotte / 1e6:.1f} MB -> gzip {utana / 1e6:.1f} MB")
+            before, after = gzip_write(p, data_out / p.name)
+            print(f"  {p.name}: {before / 1e6:.1f} MB -> gzip {after / 1e6:.1f} MB")
         else:
-            shutil.copy2(p, adat_ki / p.name)
-    ep_teljes = json.loads((adat_be / "epuletek.json").read_text(encoding="utf-8"))
-    ep = karcsusit(ep_teljes)
-    teljes = len(json.dumps(ep, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
-    n = max(1, math.ceil(teljes / DARAB_CEL))
-    meret = math.ceil(len(ep) / n)
+            shutil.copy2(p, data_out / p.name)
+    ep_full = json.loads((data_be / "epuletek.json").read_text(encoding="utf-8"))
+    ep = slim(ep_full)
+    full = len(json.dumps(ep, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+    n = max(1, math.ceil(full / COUNT_TARGET))
+    size = math.ceil(len(ep) / n)
     for i in range(n):
-        resz = ep[i * meret:(i + 1) * meret]
-        (adat_ki / f"epuletek_{i}.json").write_text(json.dumps(resz, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"  epuletek.json: {len(ep)} épület, {teljes / 1e6:.1f} MB -> {n} darab")
+        part = ep[i * size:(i + 1) * size]
+        (data_out / f"epuletek_{i}.json").write_text(json.dumps(part, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"  epuletek.json: {len(ep)} épület, {full / 1e6:.1f} MB -> {n} darab")
 
     # 3. the release app.js
-    js = (FORRAS / "app.js").read_text(encoding="utf-8")
-    js = csere(js, "fetch(`${DATA}/epuletek.json`).then(r => r.json()),",
+    js = (SOURCE / "app.js").read_text(encoding="utf-8")
+    js = swap(js, "fetch(`${DATA}/epuletek.json`).then(r => r.json()),",
                f"Promise.all(Array.from({{ length: {n} }}, (_, i) => fetch(`${{DATA}}/epuletek_${{i}}.json`).then(r => r.json()))).then(a => a.flat()),",
                "épületek betöltése")
-    js = csere(js, """fetch('/api/ping', { cache: 'no-store' }).then(r => r.json()).then(d => {
+    js = swap(js, """fetch('/api/ping', { cache: 'no-store' }).then(r => r.json()).then(d => {
   szerkeszto = !!d.szerkeszto;
   if (szerkeszto) { szerkPanel(); window.__dbg = { nezet: nezetErtekek, uniforms, camera, controls, pick, rogzit, bezar, epuletek, config }; }
 }).catch(() => {});""", "/* nyilvános kiadás: nincs szerkesztő (és nincs window.__dbg) */", "szerkesztő bekapcsolása")
-    (KI / "app.js").write_text(js, encoding="utf-8")
+    (OUT / "app.js").write_text(js, encoding="utf-8")
     node = shutil.which("node")
     if node:
-        r = subprocess.run([node, "--check", str(KI / "app.js")], capture_output=True, text=True)
+        r = subprocess.run([node, "--check", str(OUT / "app.js")], capture_output=True, text=True)
         if r.returncode:
-            hiba("a kiadási app.js szintaktikailag hibás: " + r.stderr[:300])
+            error_("a kiadási app.js szintaktikailag hibás: " + r.stderr[:300])
 
     # 3b. text pages for search engines and sharing (explore/, e/, sitemap.xml, robots.txt); the About text on the map links to them
-    config = json.loads((adat_be / "budapest.json").read_text(encoding="utf-8"))
-    szoveg = build_explore.keszit(KI, ep_teljes, config["periods"], js)
-    print(f"  szöveges oldalak: {szoveg['epulet']} épület, {szoveg['korszak']} korszak, {szoveg['epitesz']} építész ({szoveg['oldal']} oldal)")
+    config = json.loads((data_be / "budapest.json").read_text(encoding="utf-8"))
+    text_ = build_explore.make(OUT, ep_full, config["periods"], js)
+    print(f"  szöveges oldalak: {text_['epulet']} épület, {text_['korszak']} korszak, {text_['epitesz']} építész ({text_['oldal']} oldal)")
 
     # 3c. English entry page (/en/): social sites do not run JS, so the English preview needs a separate HTML
-    (KI / "en").mkdir()
-    (KI / "en" / "index.html").write_text(en_oldal((KI / "index.html").read_text(encoding="utf-8")), encoding="utf-8")
-    for kep in ("megosztas_hu.png", "megosztas_en.png"):
-        if not (KI / kep).exists():
-            print(f"  FIGYELEM: hiányzik a terkep3d/{kep} (1200x630 megosztási kép) - addig a megosztott linkeknek nem lesz képe")
+    (OUT / "en").mkdir()
+    (OUT / "en" / "index.html").write_text(en_page((OUT / "index.html").read_text(encoding="utf-8")), encoding="utf-8")
+    for image in ("megosztas_hu.png", "megosztas_en.png"):
+        if not (OUT / image).exists():
+            print(f"  FIGYELEM: hiányzik a terkep3d/{image} (1200x630 megosztási kép) - addig a megosztott linkeknek nem lesz képe")
 
     # 4. cache headers (Cloudflare)
-    (KI / "_headers").write_text(
+    (OUT / "_headers").write_text(
         "/data_varos/*\n  Cache-Control: public, max-age=86400\n"
         "/vendor/*\n  Cache-Control: public, max-age=604800\n"
         "/kepek/*\n  Cache-Control: public, max-age=604800\n"
@@ -187,16 +187,16 @@ def main():
         "/*.css\n  Cache-Control: public, max-age=3600\n", encoding="utf-8")
 
     # 5. check
-    fajlok = [p for p in KI.rglob("*") if p.is_file()]
-    nagyok = [p for p in fajlok if p.stat().st_size > LIMIT]
-    if nagyok:
-        hiba("25 MiB-nál nagyobb fájl: " + ", ".join(f"{p.relative_to(KI)} ({p.stat().st_size / 1048576:.1f} MiB)" for p in nagyok))
-    if len(fajlok) > FAJL_LIMIT:
-        hiba(f"túl sok fájl: {len(fajlok)} (a korlát {FAJL_LIMIT})")
-    ossz = sum(p.stat().st_size for p in fajlok)
-    print(f"Kész: {KI}")
-    print(f"  fájlok: {len(fajlok)}, összesen {ossz / 1e6:.1f} MB; a legnagyobb: "
-          + ", ".join(f"{p.name} {p.stat().st_size / 1e6:.1f} MB" for p in sorted(fajlok, key=lambda p: -p.stat().st_size)[:3]))
+    files = [p for p in OUT.rglob("*") if p.is_file()]
+    large_ = [p for p in files if p.stat().st_size > LIMIT]
+    if large_:
+        error_("25 MiB-nál nagyobb fájl: " + ", ".join(f"{p.relative_to(OUT)} ({p.stat().st_size / 1048576:.1f} MiB)" for p in large_))
+    if len(files) > FILE_LIMIT:
+        error_(f"túl sok fájl: {len(files)} (a korlát {FILE_LIMIT})")
+    total = sum(p.stat().st_size for p in files)
+    print(f"Kész: {OUT}")
+    print(f"  fájlok: {len(files)}, összesen {total / 1e6:.1f} MB; a legnagyobb: "
+          + ", ".join(f"{p.name} {p.stat().st_size / 1e6:.1f} MB" for p in sorted(files, key=lambda p: -p.stat().st_size)[:3]))
     print("Ezt a 'release' mappát kell a Cloudflare Pagesre feltölteni.")
 
 

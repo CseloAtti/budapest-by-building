@@ -22,8 +22,8 @@ OVERPASS_URLS = [
 ]
 
 # the displayed area: slightly larger than the examined building area (south, west, north, east)
-DEL, NYUGAT, ESZAK, KELET = 47.480, 19.025, 47.523, 19.075
-BBOX = f"{DEL},{NYUGAT},{ESZAK},{KELET}"
+DEL, WEST, NORTH, EAST = 47.480, 19.025, 47.523, 19.075
+BBOX = f"{DEL},{WEST},{NORTH},{EAST}"
 
 QUERY = f"""
 [out:json][timeout:180];
@@ -44,138 +44,138 @@ out geom;
 """
 
 
-def letolt():
-    adat = urllib.parse.urlencode({"data": QUERY}).encode("utf-8")
-    for kor in range(3):
+def download():
+    data_ = urllib.parse.urlencode({"data": QUERY}).encode("utf-8")
+    for era in range(3):
         for url in OVERPASS_URLS:
             print(f"Próbálkozás: {url}")
-            keres = urllib.request.Request(url, data=adat, headers={"User-Agent": "budapest-by-building-tanulas/0.1"})
+            search_ = urllib.request.Request(url, data=data_, headers={"User-Agent": "budapest-by-building-tanulas/0.1"})
             try:
-                with urllib.request.urlopen(keres, timeout=200) as valasz:
-                    eredmeny = json.load(valasz)
-            except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as hiba:
-                print(f"  Nem sikerült: {hiba}")
+                with urllib.request.urlopen(search_, timeout=200) as answer:
+                    result_ = json.load(answer)
+            except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error_:
+                print(f"  Nem sikerült: {error_}")
                 continue
-            if eredmeny.get("remark"):
-                print("  A szerver figyelmeztet:", eredmeny["remark"])
+            if result_.get("remark"):
+                print("  A szerver figyelmeztet:", result_["remark"])
                 continue
-            print("  Letöltött elemek:", dict(Counter(e["type"] for e in eredmeny["elements"])))
-            return eredmeny["elements"]
+            print("  Letöltött elemek:", dict(Counter(e["type"] for e in result_["elements"])))
+            return result_["elements"]
         print("Minden szerver hibázott, 20 másodperc várakozás...")
         time.sleep(20)
     raise SystemExit("Nem sikerült letölteni. Próbáld meg később.")
 
 
-def gyurukke_fuz(szakaszok):
+def into_rings_append(sections):
     """Joins fragmented outline segments into closed rings (like geojson_keszites.py)."""
-    szakaszok = [list(s) for s in szakaszok if len(s) >= 2]
-    gyuruk = []
-    while szakaszok:
-        gyuru = szakaszok.pop(0)
-        while gyuru[0] != gyuru[-1]:
-            for i, s in enumerate(szakaszok):
-                if s[0] == gyuru[-1]:
-                    gyuru.extend(s[1:])
-                elif s[-1] == gyuru[-1]:
-                    gyuru.extend(reversed(s[:-1]))
-                elif s[-1] == gyuru[0]:
-                    gyuru = s[:-1] + gyuru
-                elif s[0] == gyuru[0]:
-                    gyuru = list(reversed(s[1:])) + gyuru
+    sections = [list(s) for s in sections if len(s) >= 2]
+    rings = []
+    while sections:
+        ring_ = sections.pop(0)
+        while ring_[0] != ring_[-1]:
+            for i, s in enumerate(sections):
+                if s[0] == ring_[-1]:
+                    ring_.extend(s[1:])
+                elif s[-1] == ring_[-1]:
+                    ring_.extend(reversed(s[:-1]))
+                elif s[-1] == ring_[0]:
+                    ring_ = s[:-1] + ring_
+                elif s[0] == ring_[0]:
+                    ring_ = list(reversed(s[1:])) + ring_
                 else:
                     continue
-                szakaszok.pop(i)
+                sections.pop(i)
                 break
             else:
                 break
-        if gyuru[0] == gyuru[-1] and len(gyuru) >= 4:
-            gyuruk.append(gyuru)
-    return gyuruk
+        if ring_[0] == ring_[-1] and len(ring_) >= 4:
+            rings.append(ring_)
+    return rings
 
 
-def vag(gyuru):
+def clip(ring_):
     """Sutherland-Hodgman: clips the polygon to the displayed rectangle. gyuru: [(lon, lat), ...] closed."""
-    pontok = gyuru[:-1] if gyuru[0] == gyuru[-1] else list(gyuru)
+    points = ring_[:-1] if ring_[0] == ring_[-1] else list(ring_)
     # (inside?, intersection point) with the four edges
-    hatarok = [
-        (lambda p: p[0] >= NYUGAT, lambda a, b: (NYUGAT, a[1] + (b[1] - a[1]) * (NYUGAT - a[0]) / (b[0] - a[0]))),
-        (lambda p: p[0] <= KELET, lambda a, b: (KELET, a[1] + (b[1] - a[1]) * (KELET - a[0]) / (b[0] - a[0]))),
+    boundaries = [
+        (lambda p: p[0] >= WEST, lambda a, b: (WEST, a[1] + (b[1] - a[1]) * (WEST - a[0]) / (b[0] - a[0]))),
+        (lambda p: p[0] <= EAST, lambda a, b: (EAST, a[1] + (b[1] - a[1]) * (EAST - a[0]) / (b[0] - a[0]))),
         (lambda p: p[1] >= DEL, lambda a, b: (a[0] + (b[0] - a[0]) * (DEL - a[1]) / (b[1] - a[1]), DEL)),
-        (lambda p: p[1] <= ESZAK, lambda a, b: (a[0] + (b[0] - a[0]) * (ESZAK - a[1]) / (b[1] - a[1]), ESZAK)),
+        (lambda p: p[1] <= NORTH, lambda a, b: (a[0] + (b[0] - a[0]) * (NORTH - a[1]) / (b[1] - a[1]), NORTH)),
     ]
-    for bent, metszes in hatarok:
-        if not pontok:
+    for inside, cut_ in boundaries:
+        if not points:
             return []
-        ki = []
-        elozo = pontok[-1]
-        for p in pontok:
-            if bent(p):
-                if not bent(elozo):
-                    ki.append(metszes(elozo, p))
-                ki.append(p)
-            elif bent(elozo):
-                ki.append(metszes(elozo, p))
-            elozo = p
-        pontok = ki
-    return pontok if len(pontok) >= 3 else []
+        out = []
+        previous = points[-1]
+        for p in points:
+            if inside(p):
+                if not inside(previous):
+                    out.append(cut_(previous, p))
+                out.append(p)
+            elif inside(previous):
+                out.append(cut_(previous, p))
+            previous = p
+        points = out
+    return points if len(points) >= 3 else []
 
 
-def pont_gyuruben(pont, gyuru):
-    x, y = pont
-    bent = False
-    for (x1, y1), (x2, y2) in zip(gyuru, gyuru[1:] + gyuru[:1]):
+def point_in_ring(point, ring_):
+    x, y = point
+    inside = False
+    for (x1, y1), (x2, y2) in zip(ring_, ring_[1:] + ring_[:1]):
         if (y1 > y) != (y2 > y):
             if x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
-                bent = not bent
-    return bent
+                inside = not inside
+    return inside
 
 
-def fajta(tags):
+def kind(tags):
     if tags.get("natural") == "water" or tags.get("waterway") == "riverbank":
         return "viz"
     return "park"
 
 
 def main():
-    elemek = letolt()
-    kesz = []
-    ki = Counter()
-    for e in elemek:
+    elements = download()
+    done = []
+    out = Counter()
+    for e in elements:
         tags = e.get("tags", {})
         if not tags:
             continue
-        f = fajta(tags)
+        f = kind(tags)
         if e["type"] == "way":
             gy = [(p["lon"], p["lat"]) for p in e.get("geometry", [])]
-            kulsok = [gy] if len(gy) >= 4 and gy[0] == gy[-1] else []
-            belsok = []
+            outer_ = [gy] if len(gy) >= 4 and gy[0] == gy[-1] else []
+            inner_ = []
         else:
-            kulso_sz, belso_sz = [], []
+            outer_sz, inner_sz = [], []
             for m in e.get("members", []):
                 if m["type"] != "way" or not m.get("geometry"):
                     continue
                 sz = [(p["lon"], p["lat"]) for p in m["geometry"]]
-                (belso_sz if m.get("role") == "inner" else kulso_sz).append(sz)
-            kulsok, belsok = gyurukke_fuz(kulso_sz), gyurukke_fuz(belso_sz)
-        if not kulsok:
-            ki[f"{f}: nem zárható gyűrű"] += 1
+                (inner_sz if m.get("role") == "inner" else outer_sz).append(sz)
+            outer_, inner_ = into_rings_append(outer_sz), into_rings_append(inner_sz)
+        if not outer_:
+            out[f"{f}: nem zárható gyűrű"] += 1
             continue
-        for k in kulsok:
-            vagott = vag(k)
-            if not vagott:
-                ki[f"{f}: a területen kívül"] += 1
+        for k in outer_:
+            cut = clip(k)
+            if not cut:
+                out[f"{f}: a területen kívül"] += 1
                 continue
-            gyuruk = [vagott + [vagott[0]]]
-            for b in belsok:
-                if pont_gyuruben(b[0], k):
-                    bv = vag(b)
+            rings = [cut + [cut[0]]]
+            for b in inner_:
+                if point_in_ring(b[0], k):
+                    bv = clip(b)
                     if bv:
-                        gyuruk.append(bv + [bv[0]])
-            kesz.append({"fajta": f, "gyuruk": [[list(p) for p in g] for g in gyuruk]})
-            ki[f"{f}: kész"] += 1
+                        rings.append(bv + [bv[0]])
+            done.append({"fajta": f, "gyuruk": [[list(p) for p in g] for g in rings]})
+            out[f"{f}: kész"] += 1
     Path("data").mkdir(exist_ok=True)
-    Path("data/viz_zold.json").write_text(json.dumps(kesz), encoding="utf-8")
-    for k, v in sorted(ki.items()):
+    Path("data/viz_zold.json").write_text(json.dumps(done), encoding="utf-8")
+    for k, v in sorted(out.items()):
         print(f"  {k}: {v}")
     print("Mentve: data/viz_zold.json  (most futtasd: py build_tiles.py)")
 

@@ -14,15 +14,15 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from test_common import GYOKER, ellenoriz, figyelmeztet, vege
+from test_common import ROOT, check, warn, end_
 
-T3 = GYOKER / "terkep3d"
+T3 = ROOT / "terkep3d"
 CORE = T3 / "vendor" / "three.core.js"
-KIS = T3 / "vendor" / "haromszogeles.js"
+SMALL = T3 / "vendor" / "haromszogeles.js"
 WORKER = T3 / "worker.js"
-ADAT = T3 / "data_varos"
+DATA = T3 / "data_varos"
 
-OSSZEVET = r"""
+COMPARE = r"""
 import fs from 'fs';
 const [dir, mappa] = process.argv.slice(2);
 const A = await import(dir + '/w_regi.mjs'), B = await import(dir + '/w_uj.mjs');
@@ -39,7 +39,7 @@ for (const t of cfg.tiles) {
 console.log(JSON.stringify({ csempe: n, elteres: rossz, haromszog: tri }));
 """
 
-BETOLT = r"""
+LOAD = r"""
 const fs = require('fs');
 const src = fs.readFileSync(process.argv[2], 'utf8');
 const f = src.slice(src.indexOf('async function binarisBetolt('), src.indexOf('let terepMesh'));
@@ -53,82 +53,82 @@ eval(f + '; globalThis.binarisBetolt = binarisBetolt;');
 """
 
 
-def kivonat(szoveg):
+def extract(text_):
     """The earcut + ShapeUtils part (from the '/* eslint-disable */ ... earcut' line to the end of the addContour function)."""
-    L = szoveg.split("\n")
+    L = text_.split("\n")
     i = next(n for n, s in enumerate(L) if s.startswith("/* eslint-disable */") and "earcut" in L[n + 1])
     j = next(n for n, s in enumerate(L) if s.startswith("function addContour("))
     k = next(n for n in range(j, len(L)) if L[n] == "}")
     return "\n".join(L[i:k + 1])
 
 
-def worker_valtozat(cel, import_nev, kimenet):
+def worker_variant(target, import_name, output):
     s = WORKER.read_text(encoding="utf-8")
-    s = s.replace("'./vendor/haromszogeles.js'", f"'./{import_nev}'").replace("'./vendor/three.core.js'", f"'./{import_nev}'")
+    s = s.replace("'./vendor/haromszogeles.js'", f"'./{import_name}'").replace("'./vendor/three.core.js'", f"'./{import_name}'")
     s = s[:s.index("self.onmessage")] + "\nexport { parse, build };\n"
-    (cel / kimenet).write_text(s, encoding="utf-8")
+    (target / output).write_text(s, encoding="utf-8")
 
 
 def main():
     print("[letoltes] háromszögelés kivonata, tömörített bináris betöltés, karcsúsított épületlista")
     w = WORKER.read_text(encoding="utf-8")
-    importok = [s for s in w.splitlines() if s.startswith("import ")]
-    ellenoriz(not any("three.core.js'" in s or "three.module.js'" in s for s in importok), "a worker.js még mindig a teljes three.js-t importálja")
-    ellenoriz("'./vendor/haromszogeles.js'" in w, "a worker.js nem a vendor/haromszogeles.js-t importálja")
-    ellenoriz(KIS.exists(), f"nincs meg: {KIS}")
-    if CORE.exists() and KIS.exists():
-        ellenoriz(kivonat(KIS.read_text(encoding="utf-8")) == kivonat(CORE.read_text(encoding="utf-8")),
+    imports = [s for s in w.splitlines() if s.startswith("import ")]
+    check(not any("three.core.js'" in s or "three.module.js'" in s for s in imports), "a worker.js még mindig a teljes three.js-t importálja")
+    check("'./vendor/haromszogeles.js'" in w, "a worker.js nem a vendor/haromszogeles.js-t importálja")
+    check(SMALL.exists(), f"nincs meg: {SMALL}")
+    if CORE.exists() and SMALL.exists():
+        check(extract(SMALL.read_text(encoding="utf-8")) == extract(CORE.read_text(encoding="utf-8")),
                   "a haromszogeles.js kivonata eltér a three.core.js-ben lévőtől (a three.js frissült? másold át újra)")
 
     node = shutil.which("node")
     if not node:
-        figyelmeztet("nincs node a gépen: a hálók összevetése és a betöltés-teszt kimaradt")
-    elif not (ADAT / "tiles.bin").exists():
-        figyelmeztet(f"nincs meg: {ADAT / 'tiles.bin'}")
+        warn("nincs node a gépen: a hálók összevetése és a betöltés-teszt kimaradt")
+    elif not (DATA / "tiles.bin").exists():
+        warn(f"nincs meg: {DATA / 'tiles.bin'}")
     else:
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             shutil.copy(CORE, d / "three.core.mjs")
-            shutil.copy(KIS, d / "haromszogeles.mjs")
-            worker_valtozat(d, "three.core.mjs", "w_regi.mjs")
-            worker_valtozat(d, "haromszogeles.mjs", "w_uj.mjs")
-            (d / "osszevet.mjs").write_text(OSSZEVET, encoding="utf-8")
-            r = subprocess.run([node, str(d / "osszevet.mjs"), d.as_uri(), str(ADAT)], capture_output=True, text=True)
-            if ellenoriz(r.returncode == 0, "a hálók összevetése nem futott le: " + r.stderr.strip()[:300]):
+            shutil.copy(SMALL, d / "haromszogeles.mjs")
+            worker_variant(d, "three.core.mjs", "w_regi.mjs")
+            worker_variant(d, "haromszogeles.mjs", "w_uj.mjs")
+            (d / "osszevet.mjs").write_text(COMPARE, encoding="utf-8")
+            r = subprocess.run([node, str(d / "osszevet.mjs"), d.as_uri(), str(DATA)], capture_output=True, text=True)
+            if check(r.returncode == 0, "a hálók összevetése nem futott le: " + r.stderr.strip()[:300]):
                 e = json.loads(r.stdout)
-                ellenoriz(e["elteres"] == 0, f"{e['elteres']} csempén eltér a régi és az új worker hálója")
+                check(e["elteres"] == 0, f"{e['elteres']} csempén eltér a régi és az új worker hálója")
                 print(f"  csempe: {e['csempe']}, háromszög: {e['haromszog']}, eltérő csempe: {e['elteres']}")
 
-            nyers = ADAT / ("terrain.bin" if (ADAT / "terrain.bin").exists() else "tiles.bin")
-            tomor = d / "tomor.bin"
-            tomor.write_bytes(gzip.compress(nyers.read_bytes(), compresslevel=9, mtime=0))
-            (d / "betolt.js").write_text(BETOLT, encoding="utf-8")
-            r = subprocess.run([node, str(d / "betolt.js"), str(T3 / "app.js"), str(nyers), str(tomor)], capture_output=True, text=True)
-            if ellenoriz(r.returncode == 0, "a binarisBetolt nem futott le: " + r.stderr.strip()[:300]):
+            raw = DATA / ("terrain.bin" if (DATA / "terrain.bin").exists() else "tiles.bin")
+            compressed = d / "tomor.bin"
+            compressed.write_bytes(gzip.compress(raw.read_bytes(), compresslevel=9, mtime=0))
+            (d / "betolt.js").write_text(LOAD, encoding="utf-8")
+            r = subprocess.run([node, str(d / "betolt.js"), str(T3 / "app.js"), str(raw), str(compressed)], capture_output=True, text=True)
+            if check(r.returncode == 0, "a binarisBetolt nem futott le: " + r.stderr.strip()[:300]):
                 e = json.loads(r.stdout)
-                ellenoriz(e["egyezik"], f"a binarisBetolt nem az eredeti bájtsort adta vissza ({e})")
-                print(f"  {nyers.name}: {e['nyers']} bájt; gzip {tomor.stat().st_size} bájt; kibontva egyezik: {e['egyezik']}")
+                check(e["egyezik"], f"a binarisBetolt nem az eredeti bájtsort adta vissza ({e})")
+                print(f"  {raw.name}: {e['nyers']} bájt; gzip {compressed.stat().st_size} bájt; kibontva egyezik: {e['egyezik']}")
 
     # the release's helper functions
-    sys.path.insert(0, str(GYOKER))
+    sys.path.insert(0, str(ROOT))
     import build_release as K
-    minta = [{"id": 1, "osm_tipus": "way", "kor": 3}, {"id": 2, "osm_tipus": "relation", "kor": 1}, {"id": 3, "kor": 2, "nev": "way"}]
-    ellenoriz(K.karcsusit(minta) == [{"id": 1, "kor": 3}, {"id": 2, "osm_tipus": "relation", "kor": 1}, {"id": 3, "kor": 2, "nev": "way"}],
+    sample = [{"id": 1, "osm_tipus": "way", "kor": 3}, {"id": 2, "osm_tipus": "relation", "kor": 1}, {"id": 3, "kor": 2, "nev": "way"}]
+    check(K.slim(sample) == [{"id": 1, "kor": 3}, {"id": 2, "osm_tipus": "relation", "kor": 1}, {"id": 3, "kor": 2, "nev": "way"}],
               "a karcsusit nem csak a \"osm_tipus\": \"way\" mezőt hagyta el")
     with tempfile.TemporaryDirectory() as d:
         a, b = Path(d) / "a.bin", Path(d) / "b.bin"
         a.write_bytes(bytes(range(256)) * 100 + b"\0" * 5000)
-        K.gzip_iras(a, b)
-        ellenoriz(gzip.decompress(b.read_bytes()) == a.read_bytes(), "a gzip_iras kimenete kibontva nem az eredeti")
-    if (ADAT / "epuletek.json").exists():
-        ep = json.loads((ADAT / "epuletek.json").read_text(encoding="utf-8"))
-        ki = K.karcsusit(ep)
-        visszaall = [{**({"osm_tipus": "way"} if "osm_tipus" not in p else {}), **p} for p in ki]
-        ellenoriz(all(p.get("osm_tipus", "way") == q.get("osm_tipus", "way") and {k: v for k, v in p.items() if k != "osm_tipus"} == {k: v for k, v in q.items() if k != "osm_tipus"}
-                      for p, q in zip(ep, visszaall)) and len(ep) == len(ki),
+        K.gzip_write(a, b)
+        check(gzip.decompress(b.read_bytes()) == a.read_bytes(), "a gzip_iras kimenete kibontva nem az eredeti")
+    if (DATA / "epuletek.json").exists():
+        ep = json.loads((DATA / "epuletek.json").read_text(encoding="utf-8"))
+        out = K.slim(ep)
+        restore = [{**({"osm_tipus": "way"} if "osm_tipus" not in p else {}), **p} for p in out]
+        check(all(p.get("osm_tipus", "way") == q.get("osm_tipus", "way") and {k: v for k, v in p.items() if k != "osm_tipus"} == {k: v for k, v in q.items() if k != "osm_tipus"}
+                      for p, q in zip(ep, restore)) and len(ep) == len(out),
                   "a karcsúsított épületlista a valódi adaton nem ugyanazt jelenti, mint az eredeti")
         print(f"  epuletek.json: {len(ep)} épület, ebből 'way' mező elhagyva: {sum(1 for p in ep if p.get('osm_tipus') == 'way')}")
-    return vege("letoltes")
+    return end_("letoltes")
 
 
 if __name__ == "__main__":

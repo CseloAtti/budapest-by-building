@@ -25,29 +25,29 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-ADAT = Path("data")
-NYERS = ADAT / "budapest_nyers"
-HATAR = ADAT / "budapest_hatar.json"
-NAPLO = ADAT / "budapest_letoltes_naplo.txt"
-SZERVEREK = ["https://overpass.kumi.systems/api/interpreter",
+DATA = Path("data")
+RAW = DATA / "budapest_nyers"
+BOUNDARY = DATA / "budapest_hatar.json"
+LOG = DATA / "budapest_letoltes_naplo.txt"
+SERVERS = ["https://overpass.kumi.systems/api/interpreter",
              "https://overpass.private.coffee/api/interpreter",
              "https://overpass-api.de/api/interpreter"]
 UA = {"User-Agent": "budapest-by-building/0.1 (https://github.com/CseloAtti/budapest-by-building; oktatasi projekt)"}
-CELLA_LAT = 0.01          # kb. 1,1 km
-CELLA_LON = 0.015         # kb. 1,1 km
-SZUNET = 4.0              # s, between two Overpass requests
-MAX_MELYSEG = 2           # if a cell is too large, it is split into quarters at most this many times
+CELL_LAT = 0.01          # kb. 1,1 km
+CELL_LON = 0.015         # kb. 1,1 km
+PAUSE = 4.0              # s, between two Overpass requests
+MAX_DEPTH = 2           # if a cell is too large, it is split into quarters at most this many times
 
 
-def naplo(uzenet):
-    sor = time.strftime("%Y-%m-%d %H:%M:%S ") + str(uzenet)
-    print(sor, flush=True)
-    NAPLO.parent.mkdir(exist_ok=True)
-    with open(NAPLO, "a", encoding="utf-8") as f:
-        f.write(sor + "\n")
+def log(message):
+    row = time.strftime("%Y-%m-%d %H:%M:%S ") + str(message)
+    print(row, flush=True)
+    LOG.parent.mkdir(exist_ok=True)
+    with open(LOG, "a", encoding="utf-8") as f:
+        f.write(row + "\n")
 
 
-def ne_aludjon():
+def keep_awake():
     """On Windows: while the program runs, the machine must not go into sleep mode."""
     if sys.platform == "win32":
         try:
@@ -58,122 +58,122 @@ def ne_aludjon():
 
 
 # ---------- Overpass ----------
-def overpass(lekerdezes, idokorlat=240):
+def overpass(query, timeout_=240):
     """One Overpass query. Returns the elements; None if the server found it too large (remark/timeout);
     raises an exception if no server answers."""
-    adat = urllib.parse.urlencode({"data": lekerdezes}).encode("utf-8")
-    for kor in range(4):
-        for szerver in SZERVEREK:
+    data_ = urllib.parse.urlencode({"data": query}).encode("utf-8")
+    for era in range(4):
+        for server in SERVERS:
             try:
-                k = urllib.request.Request(szerver, data=adat, headers=UA)
-                with urllib.request.urlopen(k, timeout=idokorlat + 60) as v:
+                k = urllib.request.Request(server, data=data_, headers=UA)
+                with urllib.request.urlopen(k, timeout=timeout_ + 60) as v:
                     j = json.load(v)
             except urllib.error.HTTPError as h:
-                var = 60 * (kor + 1) if h.code in (429, 502, 503, 504) else 15
-                naplo(f"    {szerver.split('/')[2]}: HTTP {h.code}, várok {var} s")
+                var = 60 * (era + 1) if h.code in (429, 502, 503, 504) else 15
+                log(f"    {server.split('/')[2]}: HTTP {h.code}, várok {var} s")
                 time.sleep(var)
                 continue
             except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError) as h:
-                naplo(f"    {szerver.split('/')[2]}: {type(h).__name__}")
+                log(f"    {server.split('/')[2]}: {type(h).__name__}")
                 time.sleep(10)
                 continue
             if j.get("remark"):
                 if "timed out" in j["remark"] or "out of memory" in j["remark"] or "memory" in j["remark"]:
                     return None        # the cell is too large: it must be split
-                naplo(f"    a szerver figyelmeztet: {j['remark'][:120]}")
+                log(f"    a szerver figyelmeztet: {j['remark'][:120]}")
                 time.sleep(20)
                 continue
             return j.get("elements", [])
-        naplo("    minden szerver hibázott, 2 perc várakozás...")
+        log("    minden szerver hibázott, 2 perc várakozás...")
         time.sleep(120)
     raise RuntimeError("Az Overpass-szerverek nem válaszolnak")
 
 
 # ---------- 1. the city boundary ----------
-def gyurukke_fuz(szakaszok):
-    szakaszok = [list(s) for s in szakaszok if len(s) >= 2]
-    gyuruk = []
-    while szakaszok:
-        gyuru = szakaszok.pop(0)
-        while gyuru[0] != gyuru[-1]:
-            for i, s in enumerate(szakaszok):
-                if s[0] == gyuru[-1]:
-                    gyuru.extend(s[1:])
-                elif s[-1] == gyuru[-1]:
-                    gyuru.extend(reversed(s[:-1]))
-                elif s[-1] == gyuru[0]:
-                    gyuru = s[:-1] + gyuru
-                elif s[0] == gyuru[0]:
-                    gyuru = list(reversed(s[1:])) + gyuru
+def into_rings_append(sections):
+    sections = [list(s) for s in sections if len(s) >= 2]
+    rings = []
+    while sections:
+        ring_ = sections.pop(0)
+        while ring_[0] != ring_[-1]:
+            for i, s in enumerate(sections):
+                if s[0] == ring_[-1]:
+                    ring_.extend(s[1:])
+                elif s[-1] == ring_[-1]:
+                    ring_.extend(reversed(s[:-1]))
+                elif s[-1] == ring_[0]:
+                    ring_ = s[:-1] + ring_
+                elif s[0] == ring_[0]:
+                    ring_ = list(reversed(s[1:])) + ring_
                 else:
                     continue
-                szakaszok.pop(i)
+                sections.pop(i)
                 break
             else:
                 break
-        if gyuru[0] == gyuru[-1] and len(gyuru) >= 4:
-            gyuruk.append(gyuru)
-    return gyuruk
+        if ring_[0] == ring_[-1] and len(ring_) >= 4:
+            rings.append(ring_)
+    return rings
 
 
-def terulet(gy):
+def area(gy):
     return abs(sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(gy, gy[1:] + gy[:1]))) / 2
 
 
-def pont_gyuruben(x, y, gyuru):
-    bent = False
-    for (x1, y1), (x2, y2) in zip(gyuru, gyuru[1:] + gyuru[:1]):
+def point_in_ring(x, y, ring_):
+    inside = False
+    for (x1, y1), (x2, y2) in zip(ring_, ring_[1:] + ring_[:1]):
         if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
-            bent = not bent
-    return bent
+            inside = not inside
+    return inside
 
 
-def hatar_letoltese():
-    if HATAR.exists():
-        return json.loads(HATAR.read_text(encoding="utf-8"))
-    naplo("1. lépés: a városhatár letöltése")
+def download_boundary():
+    if BOUNDARY.exists():
+        return json.loads(BOUNDARY.read_text(encoding="utf-8"))
+    log("1. lépés: a városhatár letöltése")
     q = ('[out:json][timeout:120];relation["boundary"="administrative"]["name"="Budapest"]'
          '["admin_level"~"^(5|6|7)$"];out geom;')
-    elemek = overpass(q)
-    legjobb = None
-    for e in elemek or []:
-        kulso = [[(p["lon"], p["lat"]) for p in m["geometry"]] for m in e.get("members", [])
+    elements = overpass(q)
+    best = None
+    for e in elements or []:
+        outer = [[(p["lon"], p["lat"]) for p in m["geometry"]] for m in e.get("members", [])
                  if m.get("type") == "way" and m.get("role") == "outer" and m.get("geometry")]
-        gyuruk = gyurukke_fuz(kulso)
-        if gyuruk:
-            nagy = max(terulet(g) for g in gyuruk)
-            if legjobb is None or nagy > legjobb[0]:
-                legjobb = (nagy, gyuruk, e.get("id"))
-    if not legjobb:
+        rings = into_rings_append(outer)
+        if rings:
+            large = max(area(g) for g in rings)
+            if best is None or large > best[0]:
+                best = (large, rings, e.get("id"))
+    if not best:
         raise RuntimeError("Nem találtam a városhatárt")
-    gyuruk = [[list(p) for p in g] for g in legjobb[1]]
-    adat = {"osm_relacio": legjobb[2], "gyuruk": gyuruk,
-            "bbox": [min(p[1] for g in gyuruk for p in g), min(p[0] for g in gyuruk for p in g),
-                     max(p[1] for g in gyuruk for p in g), max(p[0] for g in gyuruk for p in g)]}
-    HATAR.write_text(json.dumps(adat), encoding="utf-8")
-    naplo(f"   városhatár kész (relation {legjobb[2]}), befoglaló téglalap: {adat['bbox']}")
-    return adat
+    rings = [[list(p) for p in g] for g in best[1]]
+    data_ = {"osm_relacio": best[2], "gyuruk": rings,
+            "bbox": [min(p[1] for g in rings for p in g), min(p[0] for g in rings for p in g),
+                     max(p[1] for g in rings for p in g), max(p[0] for g in rings for p in g)]}
+    BOUNDARY.write_text(json.dumps(data_), encoding="utf-8")
+    log(f"   városhatár kész (relation {best[2]}), befoglaló téglalap: {data_['bbox']}")
+    return data_
 
 
 # ---------- 2. the buildings ----------
-def cellak(hatar):
-    gyuruk = [[tuple(p) for p in g] for g in hatar["gyuruk"]]
-    del_, ny, eszak, kelet = hatar["bbox"]
-    ki = []
-    for i in range(math.floor(del_ / CELLA_LAT), math.ceil(eszak / CELLA_LAT)):
-        for j in range(math.floor(ny / CELLA_LON), math.ceil(kelet / CELLA_LON)):
-            d, n = i * CELLA_LAT, j * CELLA_LON
-            e, k = d + CELLA_LAT, n + CELLA_LON
-            pontok = [(n + (k - n) * a / 6, d + (e - d) * b / 6) for a in range(7) for b in range(7)]
-            bent = any(pont_gyuruben(x, y, g) for (x, y) in pontok for g in gyuruk)
-            if not bent:       # the boundary's vertex lies in the cell (a thin slice)
-                bent = any(d <= p[1] <= e and n <= p[0] <= k for g in gyuruk for p in g)
-            if bent:
-                ki.append((i, j))
-    return ki
+def cells(boundary):
+    rings = [[tuple(p) for p in g] for g in boundary["gyuruk"]]
+    del_, ny, north, east = boundary["bbox"]
+    out = []
+    for i in range(math.floor(del_ / CELL_LAT), math.ceil(north / CELL_LAT)):
+        for j in range(math.floor(ny / CELL_LON), math.ceil(east / CELL_LON)):
+            d, n = i * CELL_LAT, j * CELL_LON
+            e, k = d + CELL_LAT, n + CELL_LON
+            points = [(n + (k - n) * a / 6, d + (e - d) * b / 6) for a in range(7) for b in range(7)]
+            inside = any(point_in_ring(x, y, g) for (x, y) in points for g in rings)
+            if not inside:       # the boundary's vertex lies in the cell (a thin slice)
+                inside = any(d <= p[1] <= e and n <= p[0] <= k for g in rings for p in g)
+            if inside:
+                out.append((i, j))
+    return out
 
 
-def epulet_lekerdezes(d, n, e, k):
+def building_query(d, n, e, k):
     bbox = f"{d:.6f},{n:.6f},{e:.6f},{k:.6f}"
     return (f'[out:json][timeout:240];'
             f'way["building"]["building"!="roof"]({bbox});out tags geom;'
@@ -183,77 +183,77 @@ def epulet_lekerdezes(d, n, e, k):
             f'node["addr:housenumber"]["addr:street"]({bbox});out;')
 
 
-def terulet_letolt(d, n, e, k, melyseg=0):
+def area_download(d, n, e, k, depth=0):
     """The elements of a rectangle; if the server finds it too large, it splits it into four parts."""
-    elemek = overpass(epulet_lekerdezes(d, n, e, k))
-    time.sleep(SZUNET)
-    if elemek is not None:
-        return elemek
-    if melyseg >= MAX_MELYSEG:
+    elements = overpass(building_query(d, n, e, k))
+    time.sleep(PAUSE)
+    if elements is not None:
+        return elements
+    if depth >= MAX_DEPTH:
         raise RuntimeError(f"Egy cella túl nagy még bontva is: {d},{n},{e},{k}")
-    naplo(f"    a cella túl nagy, négy részre bontom ({melyseg + 1}. szint)")
+    log(f"    a cella túl nagy, négy részre bontom ({depth + 1}. szint)")
     kd, kn = (d + e) / 2, (n + k) / 2
-    ki = []
+    out = []
     for a, b, c, f in ((d, n, kd, kn), (d, kn, kd, k), (kd, n, e, kn), (kd, kn, e, k)):
-        ki += terulet_letolt(a, b, c, f, melyseg + 1)
-    return ki
+        out += area_download(a, b, c, f, depth + 1)
+    return out
 
 
-def epuletek_letoltese(hatar):
-    NYERS.mkdir(parents=True, exist_ok=True)
-    lista = cellak(hatar)
-    hianyzik = [c for c in lista if not (NYERS / f"c_{c[0]}_{c[1]}.json.gz").exists()]
-    naplo(f"2. lépés: épületek letöltése: {len(lista)} cella, ebből {len(lista) - len(hianyzik)} már megvan")
-    kezdet = time.time()
-    for sorszam, (i, j) in enumerate(hianyzik, 1):
-        d, n = i * CELLA_LAT, j * CELLA_LON
-        elemek = terulet_letolt(d, n, d + CELLA_LAT, n + CELLA_LON)
-        ut = NYERS / f"c_{i}_{j}.json.gz"
-        tmp = ut.with_suffix(".tmp")
+def download_buildings(boundary):
+    RAW.mkdir(parents=True, exist_ok=True)
+    list_ = cells(boundary)
+    missing = [c for c in list_ if not (RAW / f"c_{c[0]}_{c[1]}.json.gz").exists()]
+    log(f"2. lépés: épületek letöltése: {len(list_)} cella, ebből {len(list_) - len(missing)} már megvan")
+    start_ = time.time()
+    for serial, (i, j) in enumerate(missing, 1):
+        d, n = i * CELL_LAT, j * CELL_LON
+        elements = area_download(d, n, d + CELL_LAT, n + CELL_LON)
+        path_ = RAW / f"c_{i}_{j}.json.gz"
+        tmp = path_.with_suffix(".tmp")
         with gzip.open(tmp, "wt", encoding="utf-8") as f:
-            json.dump(elemek, f, ensure_ascii=False)
-        tmp.replace(ut)
-        if sorszam % 10 == 0 or sorszam == len(hianyzik):
-            eltelt = time.time() - kezdet
-            hatra = eltelt / sorszam * (len(hianyzik) - sorszam)
-            naplo(f"   épületek: {sorszam}/{len(hianyzik)} cella kész, kb. {hatra / 60:.0f} perc van hátra")
+            json.dump(elements, f, ensure_ascii=False)
+        tmp.replace(path_)
+        if serial % 10 == 0 or serial == len(missing):
+            elapsed = time.time() - start_
+            back = elapsed / serial * (len(missing) - serial)
+            log(f"   épületek: {serial}/{len(missing)} cella kész, kb. {back / 60:.0f} perc van hátra")
     # summary
-    db = {"way": 0, "relation": 0, "node": 0}
-    for ut in NYERS.glob("c_*.json.gz"):
-        with gzip.open(ut, "rt", encoding="utf-8") as f:
+    count_ = {"way": 0, "relation": 0, "node": 0}
+    for path_ in RAW.glob("c_*.json.gz"):
+        with gzip.open(path_, "rt", encoding="utf-8") as f:
             for e in json.load(f):
-                db[e["type"]] = db.get(e["type"], 0) + 1
-    naplo(f"   épületek kész: {len(list(NYERS.glob('c_*.json.gz')))} cella; elemek (a cellahatárokon kétszer is lehet): {db}")
+                count_[e["type"]] = count_.get(e["type"], 0) + 1
+    log(f"   épületek kész: {len(list(RAW.glob('c_*.json.gz')))} cella; elemek (a cellahatárokon kétszer is lehet): {count_}")
 
 
 # ---------- 3. Commons ----------
-def commons_letoltese(hatar):
+def download_commons(boundary):
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import commons_images
-    naplo("3. lépés: a Commons helyadatos fájljainak keresése (ez a leghosszabb, akár több óra)")
-    commons_images.varos_fajlok_lekerese([[tuple(p) for p in g] for g in hatar["gyuruk"]], naplo)
+    log("3. lépés: a Commons helyadatos fájljainak keresése (ez a leghosszabb, akár több óra)")
+    commons_images.fetch_city_files([[tuple(p) for p in g] for g in boundary["gyuruk"]], log)
 
 
-def lepes_ujraprobalva(nev, fuggveny, *args):
+def step_retrying(name_, function, *args):
     """Unattended: if a step stops with an error, it retries after 10 minutes, at most 30 times."""
-    for kiserlet in range(1, 31):
+    for attempt in range(1, 31):
         try:
-            return fuggveny(*args)
+            return function(*args)
         except (SystemExit, Exception) as h:
             if isinstance(h, KeyboardInterrupt):
                 raise
-            naplo(f"!! {nev}: hiba ({type(h).__name__}: {h}); {kiserlet}. kísérlet, 10 perc múlva újra")
+            log(f"!! {name_}: hiba ({type(h).__name__}: {h}); {attempt}. kísérlet, 10 perc múlva újra")
             time.sleep(600)
-    raise SystemExit(f"{nev}: nem sikerült, indítsd újra később")
+    raise SystemExit(f"{name_}: nem sikerült, indítsd újra később")
 
 
 def main():
-    ne_aludjon()
-    naplo("=== Budapest letöltése indul ===")
-    hatar = lepes_ujraprobalva("városhatár", hatar_letoltese)
-    lepes_ujraprobalva("épületek", epuletek_letoltese, hatar)
-    lepes_ujraprobalva("Commons", commons_letoltese, hatar)
-    naplo("=== MINDEN LETÖLTÉS KÉSZ. Most jöhet a feldolgozás. ===")
+    keep_awake()
+    log("=== Budapest letöltése indul ===")
+    boundary = step_retrying("városhatár", download_boundary)
+    step_retrying("épületek", download_buildings, boundary)
+    step_retrying("Commons", download_commons, boundary)
+    log("=== MINDEN LETÖLTÉS KÉSZ. Most jöhet a feldolgozás. ===")
 
 
 if __name__ == "__main__":

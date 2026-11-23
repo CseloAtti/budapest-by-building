@@ -14,141 +14,141 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from common import http_json, kulcs, tenyek_irasa
-from area_common import VAROS_DOBOZ, EpuletIndex, adaptiv_geokeres
-from facts_wikidata import (API, CACHE, KLIENS, SZUNET_MP, cimke, csomagokban, elemek_id,
-                             ev_a_claimekbol, lekeres, wikipedia_cikk)
+from common import http_json, building_key, write_facts
+from area_common import CITY_BOX, BuildingIndex, adaptive_geosearch
+from facts_wikidata import (API, CACHE, CLIENT, PAUSE_MP, label, in_batches, elements_id,
+                             year_a_from_claims, fetch, wikipedia_article)
 
-VAROS = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_wikidata_api.py varos  -> the whole city
-OSM = "data/varos/epuletek.geojson" if VAROS else "data/belvaros_epuletek.geojson"
-KIMENET = "data/tenyek/wikidata_terulet.csv"
-DOBOZ = VAROS_DOBOZ if VAROS else (47.490, 19.040, 47.513, 19.062)     # south, west, north, east
-KOZELI_METER = 10
-EPULET = "Q41176"       # building
-MAX_MELYSEG = 7
+CITY = len(sys.argv) > 1 and sys.argv[1] == "varos"      # py facts_wikidata_api.py varos  -> the whole city
+OSM = "data/varos/epuletek.geojson" if CITY else "data/belvaros_epuletek.geojson"
+OUTPUT = "data/tenyek/wikidata_terulet.csv"
+BOX = CITY_BOX if CITY else (47.490, 19.040, 47.513, 19.062)     # south, west, north, east
+NEARBY_METER = 10
+BUILDING = "Q41176"       # building
+MAX_DEPTH = 7
 
 
-def geokeres(d0, w0, d1, w1):
-    nev = "wdgeo_" + hashlib.sha1(f"{d0}{w0}{d1}{w1}".encode()).hexdigest()[:12] + ".json"
-    ut = CACHE / nev
-    if ut.exists():
-        return json.loads(ut.read_text(encoding="utf-8"))
+def geosearch(d0, w0, d1, w1):
+    name_ = "wdgeo_" + hashlib.sha1(f"{d0}{w0}{d1}{w1}".encode()).hexdigest()[:12] + ".json"
+    path_ = CACHE / name_
+    if path_.exists():
+        return json.loads(path_.read_text(encoding="utf-8"))
     url = API + "?" + urllib.parse.urlencode({
         "action": "query", "list": "geosearch", "gsbbox": f"{d1}|{w0}|{d0}|{w1}",
         "gslimit": 500, "format": "json"})
-    adat = http_json(url)
+    data_ = http_json(url)
     CACHE.mkdir(parents=True, exist_ok=True)
-    ut.write_text(json.dumps(adat, ensure_ascii=False), encoding="utf-8")
-    time.sleep(SZUNET_MP)
-    return adat
+    path_.write_text(json.dumps(data_, ensure_ascii=False), encoding="utf-8")
+    time.sleep(PAUSE_MP)
+    return data_
 
 
-def epulet_osztalyok(osztalyok):
+def building_classes(classes):
     """Which class reaches the 'building' class along the subclass chain (P279)."""
-    szulok, kesz = {}, set()
-    ma = set(osztalyok)
-    for _ in range(MAX_MELYSEG):
-        uj = [q for q in ma if q not in kesz]
-        if not uj:
+    parents_, done = {}, set()
+    ma = set(classes)
+    for _ in range(MAX_DEPTH):
+        new = [q for q in ma if q not in done]
+        if not new:
             break
-        for cs in csomagokban(sorted(uj), 50):
-            for q, e in lekeres(cs, "claims").get("entities", {}).items():
-                szulok[q] = elemek_id(e.get("claims", {}), "P279")
-                kesz.add(q)
-        ma = {p for q in uj for p in szulok.get(q, [])}
-    eredmeny = {}
+        for cs in in_batches(sorted(new), 50):
+            for q, e in fetch(cs, "claims").get("entities", {}).items():
+                parents_[q] = elements_id(e.get("claims", {}), "P279")
+                done.add(q)
+        ma = {p for q in new for p in parents_.get(q, [])}
+    result_ = {}
 
-    def eler(q, latott=()):
-        if q == EPULET:
+    def reach(q, seen=()):
+        if q == BUILDING:
             return True
-        if q in eredmeny:
-            return eredmeny[q]
-        if q in latott:
+        if q in result_:
+            return result_[q]
+        if q in seen:
             return False
-        ok = any(eler(p, latott + (q,)) for p in szulok.get(q, []))
-        eredmeny[q] = ok
+        ok = any(reach(p, seen + (q,)) for p in parents_.get(q, []))
+        result_[q] = ok
         return ok
-    return {q for q in osztalyok if eler(q)}
+    return {q for q in classes if reach(q)}
 
 
 def main():
     # 1) geographic search
-    def keres(d0, w0, d1, w1):
-        return geokeres(d0, w0, d1, w1).get("query", {}).get("geosearch", [])
+    def search_(d0, w0, d1, w1):
+        return geosearch(d0, w0, d1, w1).get("query", {}).get("geosearch", [])
 
-    talalatok = {}
-    for r in adaptiv_geokeres(keres, DOBOZ):
+    hits = {}
+    for r in adaptive_geosearch(search_, BOX):
         if str(r.get("title", "")).startswith("Q"):
-            talalatok[r["title"]] = (r["lon"], r["lat"])
-    print(f"Koordinátás Wikidata-elemek a területen: {len(talalatok)}")
+            hits[r["title"]] = (r["lon"], r["lat"])
+    print(f"Koordinátás Wikidata-elemek a területen: {len(hits)}")
 
     # 2) the data of the elements
-    entitasok = {}
-    for cs in csomagokban(sorted(talalatok), 50):
-        entitasok.update(lekeres(cs, "claims|labels|sitelinks").get("entities", {}))
+    entities = {}
+    for cs in in_batches(sorted(hits), 50):
+        entities.update(fetch(cs, "claims|labels|sitelinks").get("entities", {}))
 
     # 3) only buildings, with a year of construction
-    jeloltek = {}
-    for q, e in entitasok.items():
+    candidates = {}
+    for q, e in entities.items():
         cl = e.get("claims", {})
-        if ev_a_claimekbol(cl):
-            jeloltek[q] = e
-    osztalyok = {c for e in jeloltek.values() for c in elemek_id(e.get("claims", {}), "P31")}
-    epulet_cl = epulet_osztalyok(osztalyok)
-    epuletek = {q: e for q, e in jeloltek.items()
-                if any(c in epulet_cl for c in elemek_id(e.get("claims", {}), "P31"))}
-    print(f"Építési évvel: {len(jeloltek)}, ebből épület-jellegű: {len(epuletek)}")
+        if year_a_from_claims(cl):
+            candidates[q] = e
+    classes = {c for e in candidates.values() for c in elements_id(e.get("claims", {}), "P31")}
+    building_cl = building_classes(classes)
+    buildings = {q: e for q, e in candidates.items()
+                if any(c in building_cl for c in elements_id(e.get("claims", {}), "P31"))}
+    print(f"Építési évvel: {len(candidates)}, ebből épület-jellegű: {len(buildings)}")
 
-    masodlagos = set()
-    for e in epuletek.values():
-        masodlagos.update(elemek_id(e.get("claims", {}), "P84"))
-        masodlagos.update(elemek_id(e.get("claims", {}), "P149"))
-    nevek = {}
-    for cs in csomagokban(sorted(masodlagos), 50):
-        for q, e in lekeres(cs, "labels").get("entities", {}).items():
-            nevek[q] = cimke(e)
+    secondary = set()
+    for e in buildings.values():
+        secondary.update(elements_id(e.get("claims", {}), "P84"))
+        secondary.update(elements_id(e.get("claims", {}), "P149"))
+    names = {}
+    for cs in in_batches(sorted(secondary), 50):
+        for q, e in fetch(cs, "labels").get("entities", {}).items():
+            names[q] = label(e)
 
     # 4) matching
     with open(OSM, encoding="utf-8") as f:
         feats = [x for x in json.load(f)["features"] if x["properties"].get("tipus") != "roof"]
-    index = EpuletIndex(feats)
+    index = BuildingIndex(feats)
     del feats
-    legjobb, belul, kozeli, nincs = {}, 0, 0, 0
-    for q, e in epuletek.items():
-        x, y = talalatok[q]
-        talalat, mod = index.benne(x, y), "wikidata"
-        if talalat is None:
-            talalat = index.kozeli(x, y, KOZELI_METER)
-            mod = "wikidata_kozeli" if talalat else None
-        if talalat is None:
-            nincs += 1
+    best, inside_, nearby, none = {}, 0, 0, 0
+    for q, e in buildings.items():
+        x, y = hits[q]
+        hit, mode = index.in_(x, y), "wikidata"
+        if hit is None:
+            hit = index.nearby(x, y, NEARBY_METER)
+            mode = "wikidata_kozeli" if hit else None
+        if hit is None:
+            none += 1
             continue
-        belul += mod == "wikidata"
-        kozeli += mod == "wikidata_kozeli"
-        k = kulcs(talalat["properties"])
-        elozo = legjobb.get(k)
-        if elozo is None or (mod == "wikidata" and elozo[0] != "wikidata"):
-            legjobb[k] = (mod, q, e)
+        inside_ += mode == "wikidata"
+        nearby += mode == "wikidata_kozeli"
+        k = building_key(hit["properties"])
+        previous = best.get(k)
+        if previous is None or (mode == "wikidata" and previous[0] != "wikidata"):
+            best[k] = (mode, q, e)
 
-    sorok = []
-    for (t, i), (mod, q, e) in legjobb.items():
+    rows = []
+    for (t, i), (mode, q, e) in best.items():
         cl = e.get("claims", {})
-        sorok.append((t, i, "wikidata_id", q, mod, ""))
-        if cimke(e):
-            sorok.append((t, i, "wikidata_nev", cimke(e), mod, q))
-        if wikipedia_cikk(e):
-            sorok.append((t, i, "wikipedia", wikipedia_cikk(e), mod, q))
-        sorok.append((t, i, "ev", ev_a_claimekbol(cl), mod, f"{q}: P571"))
-        epitesz = [nevek.get(x) for x in elemek_id(cl, "P84") if nevek.get(x)]
-        if epitesz:
-            sorok.append((t, i, "tervezo", ", ".join(epitesz), mod, q))
-        stilus = [nevek.get(x) for x in elemek_id(cl, "P149") if nevek.get(x)]
-        if stilus:
-            sorok.append((t, i, "stilus", ", ".join(stilus), mod, q))
-    tenyek_irasa(KIMENET, sorok)
-    print(f"Épületbe esik: {belul}, közeli (≤{KOZELI_METER} m): {kozeli}, nem párosítható: {nincs}")
-    print(f"Épület, amelyhez adat került: {len(legjobb)}")
-    print(f"Mentve: {KIMENET}")
+        rows.append((t, i, "wikidata_id", q, mode, ""))
+        if label(e):
+            rows.append((t, i, "wikidata_nev", label(e), mode, q))
+        if wikipedia_article(e):
+            rows.append((t, i, "wikipedia", wikipedia_article(e), mode, q))
+        rows.append((t, i, "ev", year_a_from_claims(cl), mode, f"{q}: P571"))
+        architect = [names.get(x) for x in elements_id(cl, "P84") if names.get(x)]
+        if architect:
+            rows.append((t, i, "tervezo", ", ".join(architect), mode, q))
+        style = [names.get(x) for x in elements_id(cl, "P149") if names.get(x)]
+        if style:
+            rows.append((t, i, "stilus", ", ".join(style), mode, q))
+    write_facts(OUTPUT, rows)
+    print(f"Épületbe esik: {inside_}, közeli (≤{NEARBY_METER} m): {nearby}, nem párosítható: {none}")
+    print(f"Épület, amelyhez adat került: {len(best)}")
+    print(f"Mentve: {OUTPUT}")
 
 
 if __name__ == "__main__":
