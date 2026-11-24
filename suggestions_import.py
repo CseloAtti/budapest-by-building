@@ -62,9 +62,16 @@ def main():
                 if not years:
                     print(f"  kihagyva (nincs évszám): #{s['id']} ev={v!r}")
                     continue
-                if v.strip(" .") != years[-1]:
+                end = years[-1]
+                short = re.search(r"(\d{4})\s*[-–—/]\s*(\d{2})(?!\d)", v)          # a range with a shortened end year: 1978-84 -> 1984
+                if short:
+                    first = short.group(1)
+                    end = first[:2] + short.group(2)
+                    if int(end) < int(first):
+                        end = str(int(end) + 100)
+                if v.strip(" .") != end:
                     m += f"; a megadott érték: {v}"
-                v = years[-1]
+                v = end
             if (tip, oid, mezo, v) in have:
                 print(f"  már megvan: {tip} {oid} {mezo}={v}")
                 continue
