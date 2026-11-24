@@ -36,7 +36,7 @@ const SZOVEG = {
     kereso_ph: 'Keresés: név, cím, OSM-id', utak_gomb: 'Utak', utak_cim: 'Utak és utcanevek ki/be', utak_nincs: 'nincs utak.json', kereso_nincs: 'Nincs találat', ved_ph: 'Keresés: név, cím, törzsszám', lak_ph: 'Keresés a lakótelepek között', lak_db: '{n} lakótelep', lak_ker: 'ker.', mag_cim: 'Honnan származnak a magassági adatok?', mag_1: 'A legtöbb épület (kb. 95%) magasságát az EUBUCCO nyílt épületadatbázis becslése adja; ez gépi tanulással készült, kb. ±4 m pontosságú.', mag_2: 'Ahol az OpenStreetMapban szerepel a magasság (height) vagy a szintszám (building:levels, szintenként 3 m), azt használjuk (kb. 3 300 épület).', mag_3: 'Néhány épületnél a kerületi szintszám-térkép, a műemléki adat vagy kézi javítás ad pontosabb értéket.', mag_4: 'Ahol semmilyen adat nincs, 15 m az alapértelmezett magasság (kb. 10 000 épület).', mag_5: 'A szín a szintek számát mutatja; ha nincs szintszám, a magasságot 3,2 m-rel osztjuk. A Duna szintje a nulla szint (kb. 96 m).', ved_mind: 'Minden kerület', ved_db: '{n} védett épület', ved_tobb: 'Az első {k} találat látszik; szűkítsd a keresést.',
     epulet: 'épület', ma: 'Ma', betoltes: 'A város építése',
     howto: 'Húzd a forgatáshoz. Jobb gomb vagy Shift + húzás: mozgatás. Görgő: nagyítás.',
-    nevtelen: 'névtelen épület', tipus: 'Típus', resz: 'épületrész', zona_telep: 'telep', zona_haz: 'ház', zona_tervezo: 'Telep tervezője', tervezo: 'Tervező', iroda: 'Építész iroda', stilus: 'Stílus',
+    nevtelen: 'névtelen épület', tipus: 'Típus', resz: 'épületrész', zona_telep: 'telep', zona_haz: 'ház', zona_tervezo: 'Telep tervezője', tervezo: 'Tervező', iroda: 'Építész iroda', howto_2d: 'Húzd a mozgatáshoz. Görgő: nagyítás.', nav_eszak: 'Északra fordítás', nav_2d: 'Váltás 2D nézetre (felülnézet)', nav_3d: 'Váltás 3D nézetre', stilus: 'Stílus',
     vedettseg: 'Védettség', torzsszam: 'törzsszám', szintszam: 'Szintszám', magassag: 'Magasság',
     tobb_cim: 'és még {n} cím', gmaps: 'Google Térkép',
     rom_cimke: 'Rom, régészeti maradvány', becsult: 'Becsült korszak (nem adat)', valoszinuseg: 'valószínűség', bizonyossag: 'bizonyosság',
@@ -57,7 +57,7 @@ const SZOVEG = {
     kereso_ph: 'Search: name, address, OSM id', utak_gomb: 'Streets', utak_cim: 'Show/hide streets and street names', utak_nincs: 'utak.json missing', kereso_nincs: 'No results', ved_ph: 'Search: name, address, register no.', lak_ph: 'Search among the estates', lak_db: '{n} housing estates', lak_ker: 'district', mag_cim: 'Where do the height data come from?', mag_1: 'The height of most buildings (about 95%) is an estimate from the open EUBUCCO building database, produced by machine learning with roughly ±4 m accuracy.', mag_2: 'Where OpenStreetMap has a height or a number of levels (building:levels, 3 m per level), that is used (about 3,300 buildings).', mag_3: 'For some buildings a district floor-count map, heritage records or manual corrections give a more accurate value.', mag_4: 'Where no data exists, the default height is 15 m (about 10,000 buildings).', mag_5: 'The colour shows the number of storeys; without a storey count, the height is divided by 3.2 m. The Danube level is the zero level (about 96 m).', ved_mind: 'All districts', ved_db: '{n} protected buildings', ved_tobb: 'Showing the first {k} results; narrow your search.',
     epulet: 'buildings', ma: 'Today', betoltes: 'Building the city',
     howto: 'Drag to turn. Right-drag or Shift-drag to move. Scroll to zoom.',
-    nevtelen: 'unnamed building', tipus: 'Type', resz: 'building part', zona_telep: 'estate', zona_haz: 'buildings', zona_tervezo: 'Estate architect', tervezo: 'Architect', iroda: 'Architecture office', stilus: 'Style',
+    nevtelen: 'unnamed building', tipus: 'Type', resz: 'building part', zona_telep: 'estate', zona_haz: 'buildings', zona_tervezo: 'Estate architect', tervezo: 'Architect', iroda: 'Architecture office', howto_2d: 'Drag to move. Scroll to zoom.', nav_eszak: 'Turn to north', nav_2d: 'Switch to 2D view (top-down)', nav_3d: 'Switch to 3D view', stilus: 'Style',
     vedettseg: 'Protection', torzsszam: 'register no.', szintszam: 'Storeys', magassag: 'Height',
     tobb_cim: 'and {n} more', gmaps: 'Google Maps',
     rom_cimke: 'Ruins, archaeological remains', becsult: 'Estimated era (not data)', valoszinuseg: 'probability', bizonyossag: 'confidence',
@@ -127,6 +127,7 @@ controls.rotateSpeed = 0.6;
 controls.maxPolarAngle = Math.PI * 0.47;
 controls.minDistance = 60;
 controls.maxDistance = 30000;
+let mod2d = false;      // 2D view (the camera looks straight down): see the navigation buttons below
 
 // Default camera position for the whole city (after F5 and with the "home view" button): from the south, looking north, the Danube vertical, the Buda Hills on the left, Pest on the right (a value estimated from the user's reference image).
 // Fine-tuning: ?nezet=x,z,azimuth,elevation,span in the URL; in the browser console __dbg.nezet() prints the current view values.
@@ -158,6 +159,7 @@ function kezdoRepules() {
   const h = kezdoNezet(), az0 = THREE.MathUtils.degToRad(h.azimuth), el0 = THREE.MathUtils.degToRad(h.elevation), d = h.span * 0.9;
   const t1 = new THREE.Vector3(h.x, 0, h.z);
   const c1 = new THREE.Vector3(h.x + d * Math.cos(el0) * Math.sin(az0), d * Math.sin(el0), h.z + d * Math.cos(el0) * Math.cos(az0));
+  if (mod2d) c1.set(h.x, d, h.z);        // in 2D the home view is also seen from straight above
   const t0 = controls.target.clone(), c0 = camera.position.clone(), kezd = performance.now(), az = ++repulAz;
   const lep = now => {
     if (az !== repulAz) return;
@@ -167,6 +169,59 @@ function kezdoRepules() {
     if (u < 1) requestAnimationFrame(lep);
   };
   requestAnimationFrame(lep);
+}
+
+// ---------- Navigation buttons (bottom right): compass and 2D/3D switch ----------
+const PHI_2D = 0.001;        // 2D view: the camera looks straight down (a hair off the exact vertical, so that the camera's orientation stays defined)
+let polar3d = null;          // the camera tilt before the switch to 2D: 3D returns to it
+let iranytuAz = NaN;         // the azimuth the compass needle was last drawn at
+// Turns the camera around its target to the polar angle phi1 and the azimuth theta1 (the distance and the target stay); null = keep that angle.
+function nezetFordit(phi1, theta1, ms) {
+  const sp0 = new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target));
+  const phi2 = phi1 == null ? sp0.phi : phi1;
+  let dth = theta1 == null ? 0 : theta1 - sp0.theta;
+  dth = Math.atan2(Math.sin(dth), Math.cos(dth));      // the shorter way round
+  const kezd = performance.now(), az = ++repulAz;
+  const lep = now => {
+    if (az !== repulAz) return;
+    const u = Math.min(1, (now - kezd) / ms), e = u * u * (3 - 2 * u);
+    const sp = new THREE.Spherical(sp0.radius, sp0.phi + (phi2 - sp0.phi) * e, sp0.theta + dth * e);
+    camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(sp));
+    if (u < 1) requestAnimationFrame(lep);
+  };
+  requestAnimationFrame(lep);
+}
+function navSzoveg() {
+  const ir = document.getElementById('iranytu'), m = document.getElementById('mod2d'), how = document.querySelector('.howto');
+  if (how) how.textContent = t(mod2d ? 'howto_2d' : 'howto');      // in 2D the drag moves, it does not rotate
+  if (ir) { ir.title = t('nav_eszak'); ir.setAttribute('aria-label', t('nav_eszak')); }
+  if (m) { m.textContent = mod2d ? '3D' : '2D'; m.title = t(mod2d ? 'nav_3d' : 'nav_2d'); m.setAttribute('aria-label', m.title); m.classList.toggle('aktiv', mod2d); }
+}
+// 2D: the camera looks straight down and faces north; both mouse buttons (and one finger) move the map, there is no rotation. 3D: the previous tilt returns.
+function mod2dBeallit(be) {
+  if (be === mod2d) return;
+  mod2d = be;
+  if (be) {
+    polar3d = controls.getPolarAngle();
+    controls.enableRotate = false;
+    controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+    controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_PAN };
+    nezetFordit(PHI_2D, 0, 700);
+  } else {
+    controls.enableRotate = true;
+    controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+    controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
+    nezetFordit(Math.max(0.5, Math.min(controls.maxPolarAngle - 0.02, polar3d == null ? 1.0 : polar3d)), null, 700);
+  }
+  navSzoveg();
+}
+document.getElementById('iranytu').addEventListener('click', () => nezetFordit(null, 0, 600));
+document.getElementById('mod2d').addEventListener('click', () => mod2dBeallit(!mod2d));
+function iranytuFrissit() {        // in the animation loop: the needle follows the camera's azimuth (north is -z, the needle shows where north is on the screen)
+  const a = controls.getAzimuthalAngle();
+  if (a === iranytuAz) return;
+  iranytuAz = a;
+  document.getElementById('iranytu-tu').style.transform = `rotate(${(a * 180 / Math.PI).toFixed(1)}deg)`;
 }
 
 // Ground: terrain mesh (SRTM) with the water and park image (build_tiles.py). Flat ground if missing.
@@ -1481,6 +1536,7 @@ function archPopupHely() {
     document.body.appendChild(el);
     el.querySelector('button').addEventListener('click', () => {
       if (!document.getElementById('nez-epitesz').hidden) { if (epAktiv) epiteszValaszt(epAktiv); el.hidden = true; kezdoRepules(); return; }   // Architects tab: closing also clears the selection
+      if (!document.getElementById('nez-lakotelep').hidden) { el.hidden = true; return; }   // Housing estates tab: closing the article only hides it; the estate stays selected and the camera stays where it is
       archKivalaszt(null); kezdoRepules();
     });   // closing the data sheet also clears the filter, and the camera returns to the home view
     addEventListener('resize', () => archPopupIgazit(el));
@@ -1848,6 +1904,7 @@ function alkalmazSzoveg() {
   document.querySelectorAll('.nez button').forEach(b => { const x = b.querySelector('.tx'); if (x) { b.title = x.textContent; b.setAttribute('aria-label', x.textContent); } });
   document.querySelectorAll('#nyelv button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.nyelv === NYELV)));
   document.title = t('oldal_cim');
+  navSzoveg();
   keresoSzoveg();
   vedettInfoRender();
   vedNyelv();
@@ -2316,6 +2373,7 @@ renderer.setAnimationLoop(now => {
   if (lassuDb > 40 && !pixelKicsi && renderer.getPixelRatio() > 1) { pixelKicsi = true; renderer.setPixelRatio(1); resize(); }
   uniforms.uNow.value = now / 1000;
   controls.update();
+  iranytuFrissit();
   const dist = camera.position.distanceTo(controls.target);
   uniforms.uFog.value.set(dist * 1.6, dist * 4);
   if (playing) {
@@ -2385,7 +2443,8 @@ function kartyaUjra() {
 const JAVASLAT_SZOVEG = {
   hu: {
     gomb: 'Többet tudok', cim: 'Többet tudsz erről az épületről?',
-    bevezeto: 'Írd meg, amit tudsz. Csak azt töltsd ki, amit biztosan tudsz; a többit hagyd üresen.',
+    bevezeto: 'Írd meg, amit tudsz.',
+    utmutato: 'Csak azt töltsd ki, amit biztosan tudsz, a többit üresen hagyhatod.',
     nev: 'Az épület neve', ev: 'Építés éve', tervezo: 'Tervező', iroda: 'Építész iroda', leiras: 'Leírás', leiras_seg: 'legfeljebb 500 karakter', link: 'Forráslink (weboldal)',
     iroda_oldal: 'A link az iroda (vagy a tervező) saját oldala erről az épületről', iroda_oldal_seg: 'ellenőrzés után a „Tudj meg többet” részben jelenik meg',
     jog: 'A beküldött szöveget ellenőrzés után felhasználhatjuk. A beküldéssel hozzájárulsz, hogy CC0 (szabad felhasználású) licenc alatt közzétegyük. Nem kérünk és nem tárolunk személyes adatot (se e-mailt, se IP-címet).',
@@ -2398,7 +2457,8 @@ const JAVASLAT_SZOVEG = {
   },
   en: {
     gomb: 'I know more', cim: 'Do you know more about this building?',
-    bevezeto: 'Tell us what you know. Fill in only what you are sure about; leave the rest empty.',
+    bevezeto: 'Tell us what you know.',
+    utmutato: 'Fill in only what you are sure about; you can leave the rest empty.',
     nev: 'Name of the building', ev: 'Year built', tervezo: 'Architect', iroda: 'Architecture office', leiras: 'Description', leiras_seg: 'up to 500 characters', link: 'Source link (web page)',
     iroda_oldal: 'The link is the office\'s (or architect\'s) own page about this building', iroda_oldal_seg: 'after checking, it appears under "Learn more"',
     jog: 'We may use the submitted text after checking it. By submitting you agree that it is published under the CC0 (public domain) licence. We do not ask for or store any personal data (no e-mail, no IP address).',
@@ -2440,6 +2500,7 @@ function javaslatUrlap(gid) {
     <h3 id="jv-cim">${esc(jSz('cim'))}</h3>
     <p class="javaslat-epulet">${esc(p.nev || p.cim || '')}</p>
     <p>${esc(jSz('bevezeto'))}</p>
+    <p class="javaslat-utmutato">${esc(jSz('utmutato'))}</p>
     ${mezo('nev', jSz('nev'), '', 'text', 150)}${mezo('ev', jSz('ev'), '', 'text', 40)}${mezo('tervezo', jSz('tervezo'), '', 'text', 150)}${mezo('iroda', jSz('iroda'), '', 'text', 150)}
     ${mezo('leiras', jSz('leiras'), jSz('leiras_seg'), 'ta', 500)}${mezo('link', jSz('link'), '', 'url', 300)}
     <label class="javaslat-pipa"><input type="checkbox" id="jv-iroda_oldal"><span>${esc(jSz('iroda_oldal'))} <small>(${esc(jSz('iroda_oldal_seg'))})</small></span></label>

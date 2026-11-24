@@ -10,7 +10,12 @@ def main():
     check("var aktNezet" in js and "aktNezet !== n" in js and "archSzuro = null; archZonaAzon = new Set(); hazKiem = false; epAktiv = null" in js, "fülváltáskor nem törlődik az előző fül szűrése (halvány épületek)")
     check("if (!document.getElementById('nez-arch').hidden) archKivalaszt(archKiv)" in js, "az archRender után nincs őrfeltétel (régi szűrés visszatérhet)")
     check("if (document.getElementById('nez-epitesz').hidden) return;" in js, "az epiteszNezet várakozása után nincs őrfeltétel")
+    check("if (!document.getElementById('nez-lakotelep').hidden) { el.hidden = true; return; }" in js, "a lakótelep Wikipedia-popupjának bezárása visszaállítja a kamerát (a kijelölt lakótelepnél maradnia kell)")
     check("controls.dampingFactor = " in js and "setPixelRatio(1)" in js, "nincs időalapú kamera-csillapítás / lassú gépen a képpont-arány csökkentése")
+    html = (ROOT / "terkep3d" / "index.html").read_text(encoding="utf-8")
+    check('id="iranytu"' in html and 'id="mod2d"' in html and 'id="iranytu-tu"' in html, "az index.html-ből hiányzik az iránytű vagy a 2D/3D gomb")
+    check("function mod2dBeallit" in js and "controls.enableRotate = false" in js and "iranytuFrissit();" in js and "navSzoveg();" in js, "az app.js-ből hiányzik a 2D mód vagy az iránytű frissítése")
+    check("if (mod2d) c1.set(h.x, d, h.z);" in js, "2D módban a kezdőnézet nem felülnézet")
     return end_("test_feedback")
 
 
