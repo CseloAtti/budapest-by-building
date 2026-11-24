@@ -18,6 +18,8 @@ def main():
         try:
             result_[name_] = importlib.import_module(name_).main()
         except FileNotFoundError as e:
+            if not str(e.filename or "").startswith(str(test_common.ROOT)):
+                raise                      # a missing file outside the project (e.g. in the test's temporary folder) is a real error, not a missing input: it must not hide as "skipped"
             print(f"  kihagyva ({e.filename}): nincs meg a fájl")
             result_[name_] = None
         print()

@@ -23,15 +23,15 @@ def ep(i, **kw):
 def main():
     print("[explore] szöveges oldalak generátora")
     list_ = [
-        ep(1, name_="Jó Ház", address="Fő utca 1", year=1900, designer="Alpár Ignác", budapest100_url="https://budapest100.hu/x/"),
-        ep(2, name_='<script>alert(1)</script> & "idézet"', address="Kis utca 2", year=1850, designer="Alpár Ignác"),
-        ep(3, address="Nagy utca 3", designer="Alpár Ignác", oeny_azonosito="123|abc"),
-        ep(4, address="Nagy utca 4", designer="Alpár Ignác és Másik Mester"),
-        ep(5, address="Név nélkül", year=1900, part=1),                       # building part: gets no page
-        ep(6, year=1900),                                                  # neither name nor address: gets no page
-        ep(7, name_="Csak telepi wiki", address="X utca 7", wikipedia="hu:Valami", wikipedia_zone=True),   # no own data: gets no page
-        ep(8, name_="Saját wiki", address="Y utca 8", wikipedia="hu:Saját cikk|hu:Másik"),
-        ep(9, name_="Közönséges ház", address="Z utca 9"),                     # no extra data: gets no page
+        ep(1, nev="Jó Ház", cim="Fő utca 1", ev=1900, tervezo="Alpár Ignác", budapest100_url="https://budapest100.hu/x/"),
+        ep(2, nev='<script>alert(1)</script> & "idézet"', cim="Kis utca 2", ev=1850, tervezo="Alpár Ignác"),
+        ep(3, cim="Nagy utca 3", tervezo="Alpár Ignác", oeny_azonosito="123|abc"),
+        ep(4, cim="Nagy utca 4", tervezo="Alpár Ignác és Másik Mester"),
+        ep(5, cim="Név nélkül", ev=1900, resz=1),                       # building part: gets no page
+        ep(6, ev=1900),                                                  # neither name nor address: gets no page
+        ep(7, nev="Csak telepi wiki", cim="X utca 7", wikipedia="hu:Valami", wikipedia_zona=True),   # no own data: gets no page
+        ep(8, nev="Saját wiki", cim="Y utca 8", wikipedia="hu:Saját cikk|hu:Másik"),
+        ep(9, nev="Közönséges ház", cim="Z utca 9"),                     # no extra data: gets no page
     ]
     with tempfile.TemporaryDirectory() as t:
         out = Path(t)
