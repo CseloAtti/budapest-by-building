@@ -216,7 +216,9 @@ def check(data_):
     except (TypeError, ValueError):
         return None, "Hibás azonosító."
     field = data_.get("mezo")
-    if field in NUMBERED:
+    if field in NUMBERED and str(data_.get("ertek", "")).strip() == "-":
+        value = "-"                  # '-' = remove the number (assemble.py handles it as a deletion of the field)
+    elif field in NUMBERED:
         try:
             v = float(str(data_.get("ertek")).replace(",", "."))
         except ValueError:

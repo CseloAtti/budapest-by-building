@@ -831,6 +831,13 @@ function kartyaHtml(p, rogzitett) {
     try { host = new URL(p.iroda_link).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
     tobb.push(`<a href="${esc(p.iroda_link)}" target="_blank" rel="nofollow noopener noreferrer">${esc(p.iroda || host)} – ${NYELV === 'en' ? 'project page' : 'projektoldal'}</a>`);
   }
+  String(p.linkek || '').split('\n').forEach(sor => {      // the links typed by hand in the editor ("Label | https://...") also go under "Learn more"
+    const i = sor.lastIndexOf('|'), url = sor.slice(i + 1).trim(), felirat = i >= 0 ? sor.slice(0, i).trim() : '';
+    if (!/^https?:\/\/[^\s"'<>]+$/i.test(url)) return;
+    let host = url;
+    try { host = new URL(url).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
+    tobb.push(`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(felirat || host)}</a>`);
+  });
   html += `<section><dl>${sorok.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></section>`;
   if (tobb.length) html += `<section class="tobbet"><h4>${NYELV === 'en' ? 'Learn more' : 'Tudj meg többet'}</h4><div>${tobb.join('<br>')}</div></section>`;
   if (p.hid && p.hid_megj) html += `<section><small>${esc(p.hid_megj)}</small></section>`;
@@ -841,18 +848,11 @@ function kartyaHtml(p, rogzitett) {
     try { host = new URL(p.link_url).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
     html += `<section><a href="${esc(p.link_url)}" target="_blank" rel="noopener noreferrer">${esc(host)}</a></section>`;
   }
-  if (p.csoport_reszek) html += `<section><h4>${NYELV === 'en' ? 'Parts of the building' : 'Az épület részei'}</h4><div style="white-space:pre-line"><small>${esc(p.csoport_reszek)}</small></div></section>`;
+  if (szerkeszto && p.csoport_reszek) html +=`<section><h4>${NYELV === 'en' ? 'Parts of the building' : 'Az épület részei'}</h4><div style="white-space:pre-line"><small>${esc(p.csoport_reszek)}</small></div></section>`;
   if (wikiCikkek(p).length) html += `<section class="wikikivonat"><small>${t('wiki_betolt')}</small></section>`;
 
   const forrasok = [...wikipediaLinkek(p)];
   if (adatlap) (adatlap.forrasok || []).forEach(f => { if (biztonsagosUrl(f.url)) forrasok.push(`<a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer">${esc(f.nev || f.url)}</a>`); });
-  String(p.linkek || '').split('\n').forEach(sor => {
-    const i = sor.lastIndexOf('|'), url = sor.slice(i + 1).trim(), felirat = i >= 0 ? sor.slice(0, i).trim() : '';
-    if (!/^https?:\/\/[^\s"'<>]+$/i.test(url)) return;
-    let host = url;
-    try { host = new URL(url).hostname.replace(/^www\./, ''); } catch (e) { /* the full address stays */ }
-    forrasok.push(`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(felirat || host)}</a>`);
-  });
   if (/^Q\d+$/.test(p.wikidata_id || '')) forrasok.push(`<a href="https://www.wikidata.org/wiki/${p.wikidata_id}" target="_blank" rel="noopener">Wikidata: ${p.wikidata_id}</a>`);
   // the link of the OpenStreetMap id is hidden on the card
   if (p.lat !== undefined) forrasok.push(`<a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${p.sv_lat !== undefined ? p.sv_lat : p.lat},${p.sv_lon !== undefined ? p.sv_lon : p.lon}" target="_blank" rel="noopener">${t('utcakep')}</a>`);
@@ -2398,14 +2398,14 @@ renderer.setAnimationLoop(now => {
 let szerkeszto = false, szerkFuggo = 0;
 const SZERK_MEZOK = [
   { mezo: 'nev', cimke: 'Az épület neve (üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
-  { mezo: 'ev', cimke: 'Építési év', tipus: 'number' },
+  { mezo: 'ev', cimke: 'Építési év (üresen hagyva eltávolítja)', tipus: 'number', torlheto: true },
   { mezo: 'tervezo', cimke: 'Tervező (üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'iroda', cimke: 'Építész iroda (több esetén vesszővel elválasztva; üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'iroda_link', cimke: 'Az iroda oldala az épületről (webcím; a „Tudj meg többet” részben jelenik meg; üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'stilus', cimke: 'Stílus (több esetén vesszővel elválasztva, pl. neobarokk, art déco; üresen hagyva eltávolítja)', tipus: 'text', torlheto: true },
   { mezo: 'korszak', cimke: 'Korszak (ha az évet nem tudom; a becslést és a színt is befolyásolja)', tipus: 'select', torlheto: true, korszakValaszto: true },
-  { mezo: 'szintek', cimke: 'Szintszám', tipus: 'number' },
-  { mezo: 'magassag', cimke: 'Magasság (m)', tipus: 'number' },
+  { mezo: 'szintek', cimke: 'Szintszám (üresen hagyva eltávolítja)', tipus: 'number', torlheto: true },
+  { mezo: 'magassag', cimke: 'Magasság (m; üresen hagyva eltávolítja)', tipus: 'number', torlheto: true },
   { mezo: 'vedettseg', cimke: 'Védettség', tipus: 'select', torlheto: true,
     opciok: [['', '– nincs megadva / eltávolítás –'], ['M', 'M – műemlék'], ['HV', 'HV – helyi védelem'], ['MJ', 'MJ – műemlék jellegű'], ['VK', 'VK – városképi jelentőségű'], ['MK', 'MK – műemléki környezet'], ['MJT', 'MJT – műemléki jelentőségű terület']] },
   { mezo: 'muemlek_torzsszam', cimke: 'Műemléki törzsszám (üresen hagyva eltávolítja)', tipus: 'number', torlheto: true },
@@ -2585,6 +2585,17 @@ function szerkGomb(gid) {
     const uz = document.createElement('div'); uz.className = 'szerk-uzenet';
     eg.addEventListener('click', () => ertDontes(ertAktiv, `${p.osm_tipus || 'way'} ${p.id}`, 'ellenőrizve (térképen kijelölve)', eg, uz));
     sec.append(eg, uz);
+  }
+  if (p && p.id && p.id < 3e9) {      // the OSM id is shown only in edit mode (on the local editor server), never on the live site; manual works (id >= 3e9) are not OSM elements
+    const tip = p.osm_tipus || 'way';
+    const osm = document.createElement('small');
+    osm.style.cssText = 'display:block;margin-top:6px';
+    osm.append('OSM: ');
+    const a = document.createElement('a');
+    a.href = `https://www.openstreetmap.org/${tip}/${p.id}`; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.textContent = `${tip} ${p.id}`;
+    osm.appendChild(a);
+    sec.appendChild(osm);
   }
   kartya.appendChild(sec);
 }

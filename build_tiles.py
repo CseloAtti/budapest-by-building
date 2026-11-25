@@ -117,7 +117,7 @@ CARD_FIELDS = [
     "magassag",
     "ev", "ev_forras", "tervezo", "tervezo_forras", "iroda", "iroda_link", "stilus", "vedettseg", "vedettseg_helyi",
     "muemlek_torzsszam", "oeny_azonosito", "budapest100_url", "budapest100_kep", "budapest100_foto", "legenda_url", "legenda_kep", "epforum_url", "commons_kep", "kep_url", "link_url", "linkek", "kepek_linkek", "felosztott_ebbol", "about", "wikipedia", "wikipedia_zona", "zona_nev", "zona_tervezo", "zona_azon", "zona_tervezo_nev", "wikidata_id", "lechner_nev", "lechner_epult",
-    "lechner_tervezo", "lechner_illesztes", "nev_kozepulet", "rom", "cim", "cim_tobb",
+    "lechner_tervezo", "lechner_illesztes", "nev_kozepulet", "rom", "cim", "cim_tobb", "csoport", "csoport_reszek",
     "ev_kozelito_tol", "ev_kozelito_ig", "ev_kozelito_szoveg", "ev_kozelito_forras",
     "sv_lat", "sv_lon",
 ]
