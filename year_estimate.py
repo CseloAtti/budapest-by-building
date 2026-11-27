@@ -82,7 +82,7 @@ RING_NAMES = ["belváros (0–2 km)", "belső gyűrű (2–3 km)", "középső g
 FIT_KSH = True       # city mode: adjusts the final estimate to the district KSH proportions (data/KSH/budapest_ksh_keruleti_eloszlas.csv)
 ENCLAVE_WEIGHT = 0.1         # multiplier of the neighbourhood and street effect of "enclave" buildings (church, chapel, synagogue, monastery, ruin etc.):
                            # an old church does not make the houses around it older in its newer surroundings (0 = no effect, 1 = like any house)
-FIRST_ERA_MIN_P = 0.10  # the KSH quota may assign the "before 1867" era to a grey building only if the A model (neighbour, street, zone, shape)
+FIRST_ERA_MIN_P = 0.02  # the KSH quota may assign the "before 1867" era to a grey building only if the A model (neighbour, street, zone, shape)
                            # on its own gives it at least this probability; without evidence the quota does not "scatter" pre-1867 buildings (0 = off)
 FIRST_ERA_DISTRICT_MAX = 0.10   # ...but only in districts where, according to KSH, the proportion of pre-1867 buildings is smaller than this (in the Castle District/Víziváros, where there are many old houses, there is no limit)
 LOCAL_QUOTA = True         # the KSH quota is distributed within a district in patches of HELYI_CELLA_M (old houses stay where the model expects them)
@@ -95,6 +95,9 @@ OLD_ERAS = (1, 2)    # indices of the "old" eras (1867-1918, 1919-1944)
 MAIN_WEIGHT = 1.0            # outer ring, within the local quota: a house more than 300 m from the main road ranks about one era "younger" (a rule, not measured)
 ORDER_KAPPA = 2.0        # strength of the ordering in distributing the quota (0 = no ordering; larger = the ordering overrides weak evidence more)
 RING_KM = [2.0, 3.0, 6.0]
+STOREY_M_INNER = 4.0       # m: storey height used to turn a height into a storey count (dwelling weight of the KSH fit), rings 0..INNER_RING_MAX
+STOREY_M_OUTER = 3.0       # m: the same outside the inner ring
+INNER_RING_MAX = 1         # ring index: 0 = city core (0-2 km), 1 = inner ring (2-3 km)
 NEIGHBOR_WEIGHT = [1.0, 1.0, 0.5, 0.0, 1.0, 0.5]
 SHAPE_WEIGHT = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]      # multiplier of the shape evidence (F) per ring; F also learns from buildings of known year
 GLOBAL_MIXING = 0.1
@@ -287,15 +290,37 @@ def read_ksh():
 
 
 NOT_DWELLING = SIDE | PUBLIC_BUILDING | INDUSTRIAL | COMMERCIAL
+NOT_DWELLING_NAME = re.compile(r"(?i)aréna|arena|stadion|stadium|sportcsarnok|csarnok")
+HALL_MIN_M2 = 700.0           # m2: a "no residential type" building (building_type() == "nincs") at least this big, with at most 2 storeys or none known, is not counted as dwelling
+CLUSTER_RING_MIN = 2          # industrial clusters: only from this ring index (2 = 3-6 km, 3 = 6+ km); inside it the old logic stays
+CLUSTER_ERAS = (4, 5, 6)      # the only eras an industrial cluster may get (1957-1989, 1990-2010, 2011-): the halls of the outskirts date from the Kadar era on; known members of an older era do not count
+CLUSTER_GAP_M = 50.0          # m: two non-dwelling buildings (outside an industrial landuse) closer than this (edge to edge, roughly) are one cluster
+CLUSTER_GAP_AREA_M = 120.0    # m: the same, if both lie in the same OSM landuse=industrial polygon (data/varos/ipari_teruletek.json)
+CLUSTER_KNOWN_WEIGHT = 3.0    # the weight of the known-year buildings of the cluster against the average of the model's evidence
+INDUSTRIAL_AREAS = []         # [{"ring": [(x, y)...], "bbox": (...), "terulet": m2}]
+OUTER_NO_FIRST_ERA = True             # outer ring: an UNPROTECTED grey building never gets the "before 1867" era (nothing stood there yet, and an old house would be a listed monument)...
+OUTER_NO_FIRST_ERA_RING = 3           # ...in this ring (3 = 6+ km from Deak ter)
+OUTER_NO_FIRST_ERA_TYPES = None       # ...of any building type (None); a tuple of building_type() values would restrict it to those types
+PANEL_ERAS = (4,)                     # a "panel" type grey building (>= 4 storeys, >= 450 m2, detached, outside the core) is a Kadar-era block: only 1957-1989
+OUTER_FIRST_ERA_ZONE_MIN = 0.2        # ...unless a street zone or a drawn zone explicitly covers the "before 1867" era there (old village cores)
 
 
 def dwelling_weight(e):
     """Dwelling equivalent (KSH counts dwellings): footprint x number of storeys; outbuilding, public, industry, commerce: 0."""
     if e["tipus"] in NOT_DWELLING or e["terulet"] < 40.0:
         return 0.0
+    if NOT_DWELLING_NAME.search(e.get("nev") or ""):
+        return 0.0                  # stadium, arena, hall: not a dwelling, whatever its OSM type
+    if e.get("etipus") == "nincs" and e["terulet"] >= HALL_MIN_M2:
+        try:
+            storeys_ = float(e.get("szintek")) if e.get("szintek") not in (None, "") else None
+        except (TypeError, ValueError):
+            storeys_ = None
+        if storeys_ is None or storeys_ <= 2:
+            return 0.0              # big, low or storey-less building of no residential type (industrial hall, warehouse tagged only building=yes)
     sz = e.get("szintek")
     if not sz and e.get("magassag") and e.get("mforras") not in (None, "", "alapertelmezett"):
-        sz = float(e["magassag"]) / 3.3
+        sz = float(e["magassag"]) / (STOREY_M_INNER if e.get("gyuru", 9) <= INNER_RING_MAX else STOREY_M_OUTER)   # storey height: 4 m inside the inner ring (0-3 km), 3 m outside
     try:
         sz = max(1.0, min(float(sz), 40.0)) if sz else 2.0
     except (TypeError, ValueError):
@@ -1101,11 +1126,104 @@ def approximate_ranges(ep):
     return result
 
 
+def read_industrial_areas():
+    """data/varos/ipari_teruletek.json (industrial_areas.py) -> INDUSTRIAL_AREAS (metres). Without the file there are no polygons: the clustering still works by distance."""
+    INDUSTRIAL_AREAS.clear()
+    path_ = DATA / "ipari_teruletek.json"
+    if not CITY or not path_.exists():
+        return
+    for a in json.load(open(path_, encoding="utf-8")):
+        ring = [((x - 19.05) * math.cos(math.radians(47.5)) * 111320.0, (y - 47.5) * 110574.0) for x, y in a["gyuruk"][0]]
+        if len(ring) < 4:
+            continue
+        xs, ys = [q[0] for q in ring], [q[1] for q in ring]
+        a2 = sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(ring, ring[1:]))
+        INDUSTRIAL_AREAS.append({"ring": ring, "bbox": (min(xs), min(ys), max(xs), max(ys)), "terulet": abs(a2) / 2})
+
+
+def industrial_clusters(ep):
+    """City mode: groups the non-dwelling buildings of the outskirts (industrial halls, warehouses, commercial sheds) into clusters.
+    Members: dwelling_weight == 0, not a public building / enclave, ring >= CLUSTER_RING_MIN, and (inside a landuse=industrial polygon,
+    or an industrial/commercial type, or a big building of no residential type). Linked when the gap between them is small
+    (CLUSTER_GAP_AREA_M inside the same polygon, CLUSTER_GAP_M outside any; never across polygons). Returns: [[member indices], ...]."""
+    members = []
+    for i, e in enumerate(ep):
+        if e.get("gyuru", 0) < CLUSTER_RING_MIN or e.get("zarvany") or e.get("vedett") or e["tipus"] in PUBLIC_BUILDING or dwelling_weight(e) > 0:
+            continue                      # a protected (monument) building in an industrial area is an exception, it neither joins nor shapes the cluster
+        area_ = None
+        for ai, a in enumerate(INDUSTRIAL_AREAS):
+            x0, y0, x1, y1 = a["bbox"]
+            if x0 <= e["x"] <= x1 and y0 <= e["y"] <= y1 and point_in_ring_xy(e["x"], e["y"], a["ring"]):
+                if area_ is None or a["terulet"] < INDUSTRIAL_AREAS[area_]["terulet"]:
+                    area_ = ai
+        e["ipari_t"] = area_
+        if area_ is not None or e["tipus"] in INDUSTRIAL or e["tipus"] in COMMERCIAL or e.get("etipus") in ("ipari", "kereskedelmi", "nincs"):
+            members.append(i)
+    parent = {i: i for i in members}
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    CELL = 400.0
+    grid = defaultdict(list)
+    for i in members:
+        grid[(int(ep[i]["x"] // CELL), int(ep[i]["y"] // CELL))].append(i)
+    for i in members:
+        e = ep[i]
+        cx, cy = int(e["x"] // CELL), int(e["y"] // CELL)
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for j in grid.get((cx + dx, cy + dy), ()):
+                    if j <= i:
+                        continue
+                    f = ep[j]
+                    if e["ipari_t"] != f["ipari_t"]:
+                        continue                                  # never across polygons / between a polygon and the outside
+                    gap = CLUSTER_GAP_AREA_M if e["ipari_t"] is not None else CLUSTER_GAP_M
+                    if math.dist((e["x"], e["y"]), (f["x"], f["y"])) <= gap + 0.5 * (math.sqrt(e["terulet"]) + math.sqrt(f["terulet"])):
+                        parent[find(i)] = find(j)
+    groups = defaultdict(list)
+    for i in members:
+        groups[find(i)].append(i)
+    return list(groups.values())
+
+
+def cluster_estimate(ep, clusters, PP):
+    """One era per industrial cluster: the average of the grey members' own evidence (log probabilities, restricted to CLUSTER_ERAS and the eras
+    of the known members), plus the known-year members of the cluster (they count CLUSTER_KNOWN_WEIGHT). Returns {i: (top, distribution, info)}
+    for the grey members; info = (members, known members, whether the known ones agree)."""
+    result = {}
+    for members in clusters:
+        grey = [i for i in members if ep[i]["kor"] is None and i in PP]
+        if not grey:
+            continue
+        known = [ep[i]["kor"] for i in members if ep[i]["kor"] is not None and ep[i]["kor"] in CLUSTER_ERAS]      # an older known building is an exception, it does not date its surroundings
+        allowed = set(CLUSTER_ERAS)
+        score = [0.0] * K
+        for c in range(K):
+            score[c] = sum(math.log(max(PP[i][c], 1e-6)) for i in grey) / len(grey)
+            if known:
+                score[c] += CLUSTER_KNOWN_WEIGHT * math.log((known.count(c) + 0.25) / (len(known) + 0.25 * K))
+        score = [v if c in allowed else -1e9 for c, v in enumerate(score)]
+        mx = max(score)
+        ex = [math.exp(v - mx) if v > -1e8 else 0.0 for v in score]
+        t = sum(ex)
+        q = [v / t for v in ex]
+        top = max(range(K), key=lambda c: q[c])
+        info = (len(members), len(known), len(set(known)) <= 1)
+        for i in grey:
+            result[i] = (top, q, info)
+    return result
+
+
 def main():
     ep = read_buildings()
     print(f"Zárvány-épület (templom, kápolna, zsinagóga, rom stb.; a szomszédokra x{ENCLAVE_WEIGHT} súllyal hat): {sum(1 for e in ep if e.get('zarvany'))}")
     read_streets(ep)
     if CITY:
+        read_industrial_areas()
         read_polygon_zones()
         polygon_zones_assign(ep)
         print(f"Poligon-zónák: {len(PZ_LIST)} (mérőpróba: {sum(1 for z in PZ_LIST if z['mero'])}); "
@@ -1260,6 +1378,31 @@ def main():
             PP[i] = [x / s_ for x in v] if s_ > 0 else [1.0 / len(ok) if c in ok else 0.0 for c in range(K)]
             near_sign[i] = text_
     print(f"Közelítő (több korszakot átfogó) forrásadat szűkíti a becslést {len(near_sign)} szürke épületen")
+    outer_ban = 0
+    if CITY and OUTER_NO_FIRST_ERA:
+        for i in grey:                               # outer ring, family-house size: no "before 1867" (unless a zone says so)
+            e = ep[i]
+            if e.get("gyuru") != OUTER_NO_FIRST_ERA_RING or e.get("vedett") or (OUTER_NO_FIRST_ERA_TYPES and e.get("etipus") not in OUTER_NO_FIRST_ERA_TYPES):
+                continue
+            pz = PZ_LIST[e["pz"]] if e.get("pz") is not None else None
+            sz_ = zones.get(e["utca"]) if e.get("utca") else None
+            if (pz and pz["tol"] < ERAS[0][1] + 1) or (sz_ and sz_[1][0] >= OUTER_FIRST_ERA_ZONE_MIN):
+                continue
+            v = [0.0] + list(PP[i][1:])
+            t_ = sum(v)
+            if t_ > 0 and PP[i][0] > 0:
+                PP[i] = [x / t_ for x in v]
+                outer_ban += 1
+        print(f"Külső gyűrű, nem védett épület: az 1867 előtti korszak kizárva {outer_ban} szürke épületnél")
+    panel_count = 0
+    if CITY:
+        for i in grey:                               # panel type: only the Kadar era
+            if ep[i].get("etipus") == "panel":
+                v = [x if c in PANEL_ERAS else 0.0 for c, x in enumerate(PP[i])]
+                t_ = sum(v)
+                PP[i] = [x / t_ for x in v] if t_ > 0 else [1.0 / len(PANEL_ERAS) if c in PANEL_ERAS else 0.0 for c in range(K)]
+                panel_count += 1
+        print(f"Panel típus: csak a Kádár-korszak {panel_count} szürke épületnél")
     ksh_result, ksh_diag, ksh_text = {}, [], ""
     if CITY and FIT_KSH:
         ksh = read_ksh()
@@ -1273,6 +1416,12 @@ def main():
                   f"{max(d['elter_utana'] for d in ksh_diag if d['ker']):.1f} százalékpont")
         else:
             print("Figyelem: nincs data/KSH/budapest_ksh_keruleti_eloszlas.csv (vagy hibás) - KSH-illesztés nélkül fut.")
+    cluster_res, cluster_count, clusters = {}, 0, []
+    if CITY and ep and "gyuru" in ep[0]:
+        clusters = industrial_clusters(ep)
+        cluster_res = cluster_estimate(ep, clusters, PP)
+        cluster_count = sum(1 for c in clusters if any(ep[i]["kor"] is None for i in c))
+        print(f"Ipartelep-klaszter: {cluster_count} klaszter ({len(INDUSTRIAL_AREAS)} OSM ipari terület), {len(cluster_res)} szürke épületre egy közös korszak")
     for i in grey:
         p = PP[i]
         top = max(range(K), key=lambda q: p[q])
@@ -1280,6 +1429,11 @@ def main():
         if i in ksh_result:
             top, p, lam_top, atr = ksh_result[i]
             ksh_sign = f"; KSH-kerületi illesztés (szorzó x{lam_top:.2f})" + (", a kvóta szerint átrendezve" if atr else "")
+        cluster_sign = ""
+        if i in cluster_res:                      # an industrial cluster: one common era (these buildings are not in the KSH dwelling count)
+            top, p, (n_all, n_known, agree) = cluster_res[i]
+            ksh_sign = ""
+            cluster_sign = f"; ipartelep-klaszter ({n_all} épület, ebből {n_known} ismert évű)"
         neighbor_count = sum(1 for j, d, _ in neighbor[i] if d <= 60 and j in m.training)
         if k_high is not None and p[top] >= k_high:
             certainty = "magas"
@@ -1287,10 +1441,12 @@ def main():
             certainty = "kozepes"
         else:
             certainty = "alacsony"
+        if i in cluster_res:
+            certainty = "kozepes" if cluster_res[i][2][1] >= 2 and cluster_res[i][2][2] else "alacsony"      # only the known-year cluster mates make it more certain
         ent = -sum(v * math.log(v) for v in p if v > 0)
         repeat_neighbor_60 = neighbor_count
         all_neighbor_60 = sum(1 for j, d, _ in neighbor[i] if d <= 60)
-        reason = f"{repeat_neighbor_60} ismert korú szomszéd 60 m-en belül" + ksh_sign
+        reason = f"{repeat_neighbor_60} ismert korú szomszéd 60 m-en belül" + ksh_sign + cluster_sign
         if CITY and "gyuru" in ep[i]:
             reason += f"; típus: {ep[i]['etipus']}, {RING_NAMES[ep[i]['gyuru']]}"
         if CITY and ep[i].get("pz") is not None:
@@ -1442,6 +1598,25 @@ def main():
                 s.append(f"\nÖsszesen {total_n} szürke épület: átlagos becslési tömeg a megadott években **{pct(total_t / total_n)}**.\n")
     if ksh_text:
         s.append(ksh_text)
+    if cluster_res or cluster_count:
+        hit_c = hit_m = n_m = 0
+        for members in clusters:
+            kn = [i for i in members if ep[i]["kor"] in CLUSTER_ERAS]
+            if len(kn) < 2:
+                continue
+            for j in kn:
+                others = [ep[x]["kor"] for x in kn if x != j]
+                guess = max(sorted(set(others)), key=others.count)
+                n_m += 1
+                hit_c += guess == ep[j]["kor"]
+                pj = distribution(kp_loo[j], w_final)
+                hit_m += max(range(K), key=lambda q: pj[q]) == ep[j]["kor"]
+        s.append("## Ipartelep-klaszterek\n\n"
+                 f"{cluster_count} klaszter, {len(cluster_res)} szürke épület kap közös korszakot (csak a lakásnak nem számító épületek, a belvárosi két gyűrűn kívül). "
+                 f"A klaszter korszaka a {', '.join(ERAS[c][2] for c in CLUSTER_ERAS)} közül kerül ki, az ismert évű klasztertársak és a tagok átlagos bizonyítéka alapján.\n")
+        if n_m:
+            s.append(f"Mérés: {n_m} ismert évű klasztertag, akinek van legalább egy másik ismert évű társa. A társak korszaka alapján a találat **{pct(hit_c / n_m)}**; "
+                     f"a modell egyenként elrejtve ugyanezeken {pct(hit_m / n_m)}.\n")
     s.append("## Amit nem tud a modell\n\n"
              "- A tanítóadat torz: sok az 1867–1918-as és a védett épület, kevés az 1945 utáni.\n"
              "- A zónák csak az utcát nézik, a háborús pótlásokat és későbbi beépítéseket nem.\n"
